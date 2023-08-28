@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+        .code-editor {
+            border: 1px solid #d4d4d5;
+        }
+
+        #code {
+            /* height: 100%; */
+            width: 100%;
+            border: none; /* Remove border from both code and output textarea */
+        }
+
+        #output {
+            height: 150px;
+            width: 100%;
+            border: none; /* Remove border from both code and output textarea */
+        }
+        
+        .output-code {
+            /* Add any additional styling for the output segment here */
+        }
+
+
+
+        h4{
+            font-family: 'Raleway', sans-serif;
+        }
+
+        #code-column{
+            padding-top: 30px;
+        }
+
+        #chat-assistant-column{
+            padding-top: 30px;
+        }
+
+        .chat-container {
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .input-box {
+            /* flex-grow: 1; */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+
+
+    {% include 'home_navbar.html' %}
+
+
+    <div class="ui grid container">
+
+        <!-- Code Editor -->
+        <div class="nine wide column" id="code-column">
+
+            <h4>Code Editor</h4>
+            <div class="ui segment code-editor">
+                <textarea id="code"></textarea>
+            </div>
+            <button class="ui primary button" onclick="evaluatePython()">
+                <h5>Run</h5>
+            </button>
+
+            <h4>Output</h4>
+            <div class="ui segment output-code code-editor">
+                <textarea id="output" disabled></textarea>
+            </div>
+
+        </div>
+
+        <!-- Chat Assistant -->
+        <div class="seven wide column" id="chat-assistant-column">
+
+            <!-- <div class="ui header" style="font-weight: 500;">Chat</div> -->
+            
+            <h4>Chat</h4>
+
+            <!-- 
+                TODO:
+                    - finalize UI
+                    - add the assistant functionality <-- test and spend time here
+                        - ensure prompt and response are perfect with no cheating**
+                    - launch and let brother use from there (use myself too)
+             -->
+
+            <div class="chat-container" id="chat">
+                
+                <div class="message" >
+                    <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                    <br/><br/>
+                    I'm here to help you learn programming. If you are running into a problem or need help understanding a concepts, ask me and I will be more than happy to help.
+                    <br/><br/>
+                    #TODO:
+                </div>
+
+                <hr>
+
+            </div>
+              
+            <div class="input-container">
+
+                <!-- <div class="ui input">
+                    <input id="chatInput" class="input-box form-control" type="text" placeholder="Search...">
+                </div>
+                <button class="ui primary button send-button" id="sendButton">
+                    Save
+                </button> -->
+                
+                <!-- <div class="ui input" style="width: 100%;">
+                    <input type="text" id="chatInput" class="input-box form-control" placeholder="ask any question...">
+                </div> -->
+                <!-- <button id="sendButton" class="send-button">Send</button> -->
+
+                <div class="ui form" style="width: 100%;">
+                    <div class="field">
+                        <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                    </div>                    
+                </div>
+                &nbsp;
+                <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+            </div>
+
+            <span style="font-size: 12px; color: gray;">
+                Answer Response usually takes 15-30 seconds. (this will get better soon...)
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "python",
+                version: 3,
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            matchBrackets: true,
+            theme: "default",
+        });
+        
+        editor.setValue(`#Write your code below\n\n\n\n`);
+
+        async function main() {
+            let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+            // Pyodide ready
+            output.value += "Ready!\n";
+            return pyodide;
+        };
+
+        let pyodideReadyPromise = main();
+
+        function addToOutput(s) {
+            output.value += ">>> " + s + "\n";
+        }
+            
+        async function evaluatePython() {
+
+            let pyodide = await pyodideReadyPromise;
+            try {
+                console.log('PYODIDE OUTPUT:', editor.getValue())
+                let output = pyodide.runPython(editor.getValue());
+                console.log('OUTPUT TWO:', output);
+
+                addToOutput(output);
+            } catch (err) {
+                addToOutput(err);
+            }
+            
+        }
+
+    </script>
+
+
+{% endblock %}
+
+

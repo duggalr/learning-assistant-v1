@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>run python in browser!</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js" integrity="sha512-2M0GdbU5OxkGYMhakED69bw0c1pW3Nb0PeF3+9d+SnwN1ryPx3wiDdNqK3gSM7KAU/pEV+2tFJFbMKjKAahOkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    
+</head>
+
+<body>
+    
+	<div class="container-fluid bg-light">
+		<section class="header text-center p-5">
+			<h2 class="text-dark">python editor with <a href="https://codemirror.net/" target="_blank">CodeMirror</a>
+				and
+				<a href="https://pyodide.org/en/stable/index.html" target="_blank">pyodide</a>
+			</h2>
+		</section>
+		<div class="d-flex flex-column">
+			<section class="input">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">
+							<h4>Input</h4>
+						</a>
+					</li>
+				</ul>
+				<div><textarea id="code" name="code">
+				</textarea>
+				</div>
+			</section>
+            
+			<div class="align-self-center m-3">
+				<button type="button" class="btn btn-success" onclick="evaluatePython()">
+					<h5>Run</h5>
+				</button>
+			</div>
+			<section class="output">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page">
+							<h4>Output</h4>
+						</a>
+					</li>
+				</ul>
+				<div>
+					<textarea id="output" name="output" class="w-100" rows="15">
+					</textarea>
+				</div>
+			</section>
+		</div>
+
+	</div>
+	
+    
+
+    <script>
+
+        const output = document.getElementById("output");
+        
+        const editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "python",
+                version: 3,
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            matchBrackets: true
+        });
+            
+        editor.setValue(`sum([1, 2, 3, 4, 5])`);
+        output.value = "Initializing...\n";
+
+        async function main() {
+            let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+            // Pyodide ready
+            output.value += "Ready!\n";
+            return pyodide;
+        };
+            
+        let pyodideReadyPromise = main();
+            
+        function addToOutput(s) {
+            output.value += ">>>" + s + "\n";
+        }
+            
+        async function evaluatePython() {
+            let pyodide = await pyodideReadyPromise;
+            try {
+                console.log(editor.getValue())
+                let output = pyodide.runPython(editor.getValue());
+                addToOutput(output);
+            } catch (err) {
+                addToOutput(err);
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>
+
+
+<!-- TODO: understand and build out the frontend functionality of the code-editor; should be really good -->

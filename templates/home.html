@@ -10,8 +10,13 @@
             padding-left: 0px;
         }
 
+        #output-chat-assistant-column{
+            padding-top: 40px;
+        }
+
         .code-editor {
             border: 1px solid #d4d4d5;
+            width: 98%;
         }
 
         #code {
@@ -23,6 +28,7 @@
             height: 100%;
             /* height: 150%; */
             border: none; /* Remove border from both code and output textarea */
+            resize: none;
         }
         
         .output-code {
@@ -39,9 +45,6 @@
 
  
 
-        #chat-assistant-column{
-            padding-top: 30px;
-        }
 
         .chat-container {
             height: 400px;
@@ -83,10 +86,19 @@
 
             <div style="display: flex; align-items: center; /* Vertical align the elements to the center */">
 
-                <h4 style="margin: 0;">Code Editor</h4>
-                <button class="ui tiny primary button" onclick="evaluatePython()" style="margin-left: 3%;">
+                <h4 style="margin: 0;">
+                    <i class="code icon"></i>
+                    Code Editor
+                </h4>
+                <!-- <button class="ui tiny primary button" onclick="evaluatePython()" style="margin-left: 3%;">
                     <h5>Run</h5>
-                </button>
+                </button> -->
+                <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 3%;">
+                    <div class="visible content">Run</div>
+                    <div class="hidden content">
+                        <i class="play icon"></i>
+                    </div>
+                </div>
                     
             </div>
 
@@ -105,24 +117,35 @@
         </div>
 
         <!-- Chat Assistant -->
-        <div class="seven wide column" id="chat-assistant-column">
+        <div class="seven wide column" id="output-chat-assistant-column">
 
-            <h4>Output</h4>
+            <h4>
+                <i class="bug icon"></i>
+                Output
+            </h4>
             <div class="ui segment output-code ">
                 <textarea id="output" disabled></textarea>
             </div>
             
-
-            <!-- <h4>Chat</h4>
+            <h4>
+                <i class="comment icon"></i>
+                Programming Assistant
+            </h4>
 
             <div class="chat-container" id="chat">
                 
+                <!-- TODO: add icons and functionality -->
                 <div class="message" >
                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                    I'm here to help you learn Python. 
                     <br/><br/>
-                    I'm here to help you learn programming. If you are running into a problem or need help understanding a concepts, ask me and I will be more than happy to help.
+                    If you are running into a problem such as a bug in your code, or need help understanding a concept, ask me and I will be more than happy to help.
                     <br/><br/>
-                    #TODO:
+                    You can also use me to generate more practice questions for you, for speciifc concepts you want further review on.
+                    <br/><br/>
+                    I won't give you the answer, but will definitely point you in the right direction! &#128512;
+                    <!-- <br/><br/> -->
+                    <!-- <li>Remember, programming like anything else takes practice and concentration. Use me to help you understand concepts better</li> -->
                 </div>
 
                 <hr>
@@ -144,7 +167,7 @@
 
             <span style="font-size: 12px; color: gray;">
                 Answer Response usually takes 15-30 seconds. (this will get better soon...)
-            </span> -->
+            </span>
 
         </div>
 

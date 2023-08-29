@@ -211,19 +211,42 @@
             output.value += ">>> " + s + "\n";
         }
             
-        async function evaluatePython() {
+        // async function evaluatePython() {
 
+        //     let pyodide = await pyodideReadyPromise;
+        //     try {
+        //         console.log('PYODIDE OUTPUT:', editor.getValue())
+        //         let output = pyodide.runPython(editor.getValue());
+        //         console.log('OUTPUT TWO:', output);
+
+        //         addToOutput(output);
+        //     } catch (err) {
+        //         addToOutput(err);
+        //     }
+            
+        // }
+
+        async function evaluatePython() {
             let pyodide = await pyodideReadyPromise;
             try {
-                console.log('PYODIDE OUTPUT:', editor.getValue())
-                let output = pyodide.runPython(editor.getValue());
-                console.log('OUTPUT TWO:', output);
+                let captureOutputCode = `
+import sys
+from io import StringIO
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+
+${editor.getValue()}
+
+sys.stdout = old_stdout
+mystdout.getvalue()
+`;
+
+                let output = pyodide.runPython(captureOutputCode);
 
                 addToOutput(output);
             } catch (err) {
                 addToOutput(err);
             }
-            
         }
 
 

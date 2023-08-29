@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# TODO: start here
+# TODO: use .env
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

@@ -76,17 +76,17 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# TODO: use .env
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gpt_learning_assistant_db',
-        'USER': 'learning_assistant_user',
-        'PASSWORD': 'Umakant12!',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# # TODO: use .env
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'gpt_learning_assistant_db',
+#         'USER': 'learning_assistant_user',
+#         'PASSWORD': 'Umakant12!',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -5,9 +5,7 @@ from . import main_utils
 
 
 
-# TODO: 
-    # build actual site/functionality first 
-    # add user and all the other stuff after
+
 
 
 def home(request):

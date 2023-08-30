@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv, find_dotenv
+
+
+if 'PRODUCTION' not in os.environ:
+    dot_env_file = find_dotenv()
+    load_dotenv(dot_env_file)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,13 +26,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r8d(r2)5kr!sjx5$8yv0mmgz)7w&@$99*=k*3if@8io^$uf)+w'
+
+if 'PRODUCTION' in os.environ:
+    SECRET_KEY = os.environ['SECRET_KEY']
+else:
+    SECRET_KEY = 'django-insecure-r8d(r2)5kr!sjx5$8yv0mmgz)7w&@$99*=k*3if@8io^$uf)+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'PRODUCTION' in os.environ:
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+if 'PRODUCTION' in os.environ:
+    ALLOWED_HOSTS = ['gpt-learning-assistant-dev.ca-central-1.elasticbeanstalk.com']
+else:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,17 +91,34 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# # TODO: use .env
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'gpt_learning_assistant_db',
-#         'USER': 'learning_assistant_user',
-#         'PASSWORD': 'Umakant12!',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+if 'PRODUCTION' in os.environ:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_DB_USERNAME'],
+            'PASSWORD': os.environ['RDS_DB_PASSWORD'],
+            'HOST': os.environ['RDS_DB_HOST'],
+            'PORT': '5432',
+        }
+    }
+
+else:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['LOCAL_DB_NAME'],
+            'USER': os.environ['LOCAL_DB_HOST_USER'],
+            'PASSWORD': os.environ['LOCAL_DB_PASSWORD'],
+            'HOST': os.environ['LOCAL_DB_HOST'],
+            'PORT': '5432',
+        }
+    }
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -128,3 +160,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

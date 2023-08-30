@@ -1,0 +1,83 @@
+<!-- Top Navbar -->
+<div class="ui secondary menu">
+
+    <div class="ui container">
+
+        <div class="item navbar-logo">
+            <i class="sitemap icon" style="font-size: 22px;"></i>
+            &nbsp;
+            AI Tutor
+        </div>
+        
+        {% if user_session %}
+
+            <div class="right menu" >
+                <a class="item" href="{% url 'dashboard' %}">
+                    AI Tutor Playground
+                </a>
+                <a class="item" href="{% url 'about' %}">
+                    About
+                </a>
+                <a class="item" href="mailto:duggalr42@gmail.com">
+                    Contact
+                </a>
+            </div>
+
+
+            <div class="right menu">
+            
+                <div class="item" id="dashboard_email">
+                    {{ user_session.userinfo.email }}
+                </div>
+    
+                <div class="item">
+                    <a href="{% url 'logout' %}">
+                        Logout
+                    </a>
+                </div>
+                
+            </div>
+
+        {% else %}
+
+            <div class="right menu" >
+                <a class="item" href="{% url 'dashboard' %}">
+                    AI Tutor Playground
+                </a>
+                <a class="item" href="{% url 'about' %}">
+                    About
+                </a>
+                <a class="item" href="mailto:duggalr42@gmail.com">
+                    Contact
+                </a>
+            </div>
+
+            <div class="right menu">
+                
+                <div class="item">
+                    <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
+                </div>
+                
+                <div class="item" style="padding-left: 0px;">
+                    <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+                </div>
+                
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<script>
+
+    $('.navbar-logo').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+        window.location.replace(new_url);
+
+    })
+
+</script>

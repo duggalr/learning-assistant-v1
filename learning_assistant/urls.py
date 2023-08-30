@@ -4,7 +4,16 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.home, name="home"),
+
+    # Auth0
+    path("login", views.login, name="login"),
+    path("logout", views.logout, name="logout"),
+    path("callback", views.callback, name="callback"),
+
+    # Primary Views
+    path("", views.landing, name="landing"),
+    path("about", views.about, name="about"),
+    path("dashboard", views.dashboard, name="dashboard"),
     path("handle_user_message", views.handle_user_message, name="handle_user_message"),
 ]
 

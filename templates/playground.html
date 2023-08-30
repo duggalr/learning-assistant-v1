@@ -94,12 +94,12 @@
                     <h5>Run</h5>
                 </button> -->
        
-                <!-- <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 2%;">
+                <div class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
                     <div class="visible content">Save Code</div>
                     <div class="hidden content">
                         <i class="save icon"></i>
                     </div>
-                </div> -->
+                </div>
                 
                 <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 2%;">
                     <div class="visible content">Run</div>
@@ -108,13 +108,17 @@
                     </div>
                 </div>
 
-                <a href="" style="margin-left: 2%; font-size: 13px; padding-top: 5px;">See Quick Demo (TODO)</a>
+                <a href="" style="margin-left: 3%; font-size: 13px; padding-top: 5px;">See Quick Demo (TODO)</a>
                     
             </div>
 
             <div class="ui segment code-editor">
                 <textarea id="code"></textarea>
             </div>
+
+            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+            
+
             <!-- <button class="ui primary button" onclick="evaluatePython()">
                 <h5>Run</h5>
             </button> -->
@@ -254,11 +258,14 @@ mystdout.getvalue()
                 let output = pyodide.runPython(captureOutputCode);
 
                 addToOutput(output);
+                saveCode();
+
             } catch (err) {
                 addToOutput(err);
+                saveCode();
+
             }
         }
-
 
 
         // Chat Functionality
@@ -289,6 +296,7 @@ mystdout.getvalue()
             }
            
         });
+
 
         function sendMessage() {
 
@@ -384,9 +392,48 @@ mystdout.getvalue()
         }
 
 
+
+        function saveCode(){
+
+            console.log('cid:', $('#code_obj_id').val())
+
+            let cid = $('#code_obj_id').val();
+
+            let user_code = editor.getValue();
+            let d = {
+                'cid': cid,
+                'user_code': user_code,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'save_user_code' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    console.log('response:', response);
+
+                    if (response['success'] == true){
+
+                        let saved_cid = response['cid'];
+                        $('#code_obj_id').val(saved_cid);
+
+                    }
+
+                },
+                error: function (response) {}
+                
+            });
+
+        }
+
+
     </script>
 
 
 {% endblock %}
+
 
 

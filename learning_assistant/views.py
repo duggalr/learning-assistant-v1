@@ -128,8 +128,12 @@ def about(request):
 
 def playground(request):
     initial_user_session = request.session.get("user")
+
+    code_id = request.GET.get('cid', None)
+
     return render(request, 'playground.html', {
-        'user_session': initial_user_session
+        'user_session': initial_user_session,
+        'code_id': code_id
     })
 
 
@@ -137,13 +141,12 @@ def playground(request):
 def dashboard(request):
     initial_user_session = request.session.get("user")
     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-    user_conversations = UserConversation.objects.filter(
-        user_auth_obj = user_oauth_obj
-    )
-
+    # user_conversations = UserConversation.objects.filter(
+    #     user_auth_obj = user_oauth_obj
+    # )
     return render(request, 'dashboard.html',  {
         'user_session': initial_user_session,
-        'user_conversations': user_conversations
+        # 'user_conversations': user_conversations
     })
 
 
@@ -172,16 +175,61 @@ def handle_user_message(request):
 
         rnd_conversation_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(8)])
 
-        ur_obj = UserConversation.objects.create(
-            user_auth_obj = user_oauth_obj,
-            random_name = rnd_conversation_name,
-            question = model_response_dict['question'],
-            user_code = user_code,
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response'],
-        )
-        ur_obj.save()
+        # ur_obj = UserConversation.objects.create(
+        #     user_auth_obj = user_oauth_obj,
+        #     random_name = rnd_conversation_name,
+        #     question = model_response_dict['question'],
+        #     user_code = user_code,
+        #     question_prompt = model_response_dict['q_prompt'],
+        #     response = model_response_dict['response'],
+        # )
+        # ur_obj.save()
 
         return JsonResponse({'success': True, 'response': model_response_dict})
 
+
+
+def save_user_code(request):
+    
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+
+        print('form-data:', request.POST)
+
+        print('cid', request.POST['cid'], request.POST['cid'] == None, request.POST['cid'] == 'None')
+
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+
+
+        user_auth_obj = user_oauth_objects[0]
+        user_code = request.POST['user_code'].strip()
+        cid = request.POST['cid']
+        if cid == 'None':
+            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            uc_obj = UserCode.objects.create(
+                user_auth_obj = user_auth_obj,
+                code_unique_name = rnd_code_filename,
+                user_code = user_code
+            )
+            uc_obj.save()
+            return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+        else:
+            uc_obj = UserCode.objects.get(id = cid)
+            uc_obj.user_code = user_code
+            uc_obj.save()
+            return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+
+
+
+# TODO: 
+    # add new user-code save/update on "Save + Run"-Button Press
+        # test and ensure good
+            # add the cid in get-param for playground and logic around that as well to ensure good
+                # populate existing code in the codemirror editor 
+    # then, add it with the conversations
 

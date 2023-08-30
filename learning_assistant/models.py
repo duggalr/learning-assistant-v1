@@ -12,9 +12,11 @@ class UserOAuth(models.Model):
     updated_at = models.IntegerField()
 
 
-class UserResponse(models.Model):
+class UserConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    random_name = models.CharField(max_length=2000)
     question = models.CharField(max_length=3000)
+    user_code = models.TextField()
     question_prompt = models.TextField()
     response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

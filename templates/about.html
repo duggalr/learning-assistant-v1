@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+        p{
+            font-size: 15px;
+        }
+
+        li{
+            font-size: 15px;
+            margin: 2px 0;
+        }
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+    
+
+    <section>
+
+        <div class="ui two column centered grid">
+            
+            <div class="column" style=" width: 60%; margin-top: 1%;">
+
+                <h3 class="ui header">
+                    <i class="info icon" ></i>
+                    About:
+                </h3>
+
+                <div class="ui basic segment">
+
+                    <p>
+                        File AI enables you to have conversations with GPT-4, on your personal files. 
+                        <br/><br/>
+                        You also have the option of also generating a concise summary of your uploaded file, along with generating questions to help you get a deeper
+                        understanding of the information.
+                        <br/><br/>
+                        File AI also generates tags for each of your uploaded files, to help you organize and retrieve your information faster.
+                        <br/><br/>
+                        <strong>Potential use cases includes:</strong>
+                        <ul class="ui list" >
+                            <li>
+                                Ask specific questions about a content presented in the file, to help you consolidate & find information faster. 
+                            </li>
+                            <li>
+                                Ask GPT-4 to help implement the model a research paper proposed.
+                            </li>
+                            <li>
+                                Ask GPT-4 to test your understanding of the concepts presented in a file.
+                            </li>
+                            <li>
+                                Easier organization & retrieval of your files.
+                            </li>
+                        </ul>
+                    </p>
+
+                </div>
+
+                <h3 class="ui header">
+                    <i class="list icon"></i>
+                    Potential Features down the line:
+                </h3>
+
+                <div class="ui basic segment">
+                    <ul class="ui list">
+                        <li>
+                            Adding support for greater file types: Excel, Text, Audio, Video.
+                        </li>
+                        <li>
+                            Adding support for saving webpages.
+                        </li>
+                        <li>
+                            Providing search and easy retrieval of one's documents.
+                        </li>
+                        <li>
+                            Automatically developing a knowledge graph from unstructured data to enable more Q/A use cases.
+                        </li>
+                    </ul>
+                    <p>
+                        <a href="mailto:duggalr42@gmail.com">Reach out</a> if you have ideas, suggestions, questions, or want to help engineer File AI! 
+                    </p>
+                </div>
+
+                <h3 class="ui header">
+                    <!-- <i class="question icon"></i> -->
+                    Frequently Asked Questions:
+                    <span style="font-size: 14px; font-weight: 300;">
+                        <a href="mailto:duggalr42@gmail.com">Reach out</a> if you have any specific questions or concerns.
+                    </span>
+                </h3>
+
+                <div class="ui basic segment">
+
+                    <!-- <p> -->
+                        <!-- <a href="mailto:duggalr42@gmail.com">Reach out</a> if you have any specific questions or concern with your data privacy. We are completely transparent and here to help. -->
+            
+                    <ul class="ui list" >
+                        
+                        <li><strong style="font-size: 15.5px;">Is my data private?</strong>
+                            <ul>
+                            <li style="padding-top: 10px;">
+                                <strong>
+                                    Here's our rule of thumb:
+                                </strong>
+                                Don't upload a file that you aren't comfortable with OpenAI using or seeing.
+                                <br/><br/>
+                                We leverage OpenAI's API to enable the user to ask questions for their specific document.
+                                This obviously requires us to send parts of the file data to OpenAI's servers, where they will return the correct response.
+                                <br/><br/>
+                                Don't upload files you feel are confidential. 
+                                This is primarily meant to be a place for you to upload research papers, excel sheets, documents to enable you to get answers to your questions more quickly.
+                            </li>
+                            </ul>
+                        </li>
+
+                        <br/>
+
+                        <li><strong style="font-size: 15.5px;">Why am I only limited to 10 files?</strong>
+                            <ul>
+                                <li>
+                                    We will add more, this is just the beginning! <a href="mailto:duggalr42@gmail.com">Email us</a>, and we will increase your threshold.
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                    <!-- </p> -->
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </section>
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+
+{% endblock %}
+
+

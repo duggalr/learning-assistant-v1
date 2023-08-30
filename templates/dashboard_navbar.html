@@ -12,9 +12,13 @@
         {% if user_session %}
 
             <div class="right menu" >
-                <a class="item" href="{% url 'dashboard' %}">
-                    AI Tutor Playground
+                <a class="item" href="{% url 'playground' %}">
+                    AI Tutor
                 </a>
+                <a class="item" href="{% url 'dashboard' %}">
+                    Your Questions
+                </a>
+                
                 <a class="item" href="{% url 'about' %}">
                     About
                 </a>

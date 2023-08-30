@@ -14,6 +14,7 @@ urlpatterns = [
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
     path("dashboard", views.dashboard, name="dashboard"),
+    path("playground", views.playground, name="playground"),
     path("handle_user_message", views.handle_user_message, name="handle_user_message"),
 ]
 

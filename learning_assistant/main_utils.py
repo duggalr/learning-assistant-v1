@@ -18,7 +18,7 @@ def get_embedding(text, model="text-embedding-ada-002"):
     return openai.Embedding.create(input = [text], model=model)['data'][0]['embedding']
 
 
-def main_handle_question(question, student_code):
+def main_handle_question(question, student_code, previous_chat_history_st):
     
 #     q_prompt = """##Instructions:
 # You are a Python Programming Tutor / Teacher.
@@ -67,6 +67,9 @@ for idx in list_one:
 ##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
 You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
 
+##Previous Chat History with Student:
+{previous_chat_history_st}
+
 ##Student Question:
 {question}
 
@@ -81,6 +84,7 @@ You are on the right track. Pay close attention to the operation you are perform
     student_code = student_code.strip()
 
     q_prompt = q_prompt.format(
+        previous_chat_history_st = previous_chat_history_st,
         question = question,
         student_code = student_code
     )

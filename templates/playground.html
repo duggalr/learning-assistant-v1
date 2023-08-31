@@ -229,7 +229,7 @@
 
         
         if (user_cid != 'None'){
-            let user_code_st = `{{ uc_obj.user_code }}`;
+            let user_code_st = `{{ uc_obj.user_code|safe }}`;
             console.log('user-code-st:', user_code_st);
 
             editor.setValue(user_code_st);

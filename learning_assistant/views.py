@@ -166,15 +166,16 @@ def dashboard(request):
     
     final_rv = []
     for uc_obj in user_code_objects:
-        us_conv_objects = UserConversation.objects.filter(code_obj = uc_obj)
-        if len(us_conv_objects) > 0:
-            usr_conv_obj = us_conv_objects[0]
-        else:
-            usr_conv_obj = None
+        us_conv_objects_count = UserConversation.objects.filter(code_obj = uc_obj).count()
+
+        # if len(us_conv_objects) > 0:
+        #     usr_conv_obj = us_conv_objects[0]
+        # else:
+        #     usr_conv_obj = None
         
         final_rv.append({
             'code_obj': uc_obj,
-            'usr_conv_obj': usr_conv_obj
+            'user_conv_obj_count': us_conv_objects_count
         })
 
 
@@ -198,16 +199,37 @@ def handle_user_message(request):
         user_code = request.POST['user_code'].strip()
         user_cid = request.POST['cid']
 
-        model_response_dict = main_utils.main_handle_question(
-            question = user_question,
-            student_code = user_code
-        )
-        # print('model-response:', model_response_dict)
+        print('User-CID:', user_cid)
 
         user_oauth_obj = None
+        prev_conversation_history = []
         if initial_user_session is not None:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+            print('user-auth-obj:', user_oauth_obj)
+            prev_conversation_messages = UserConversation.objects.filter(
+                code_obj_id = user_cid,
+                user_auth_obj = user_oauth_obj
+            ).order_by('created_at')
 
+            if len(prev_conversation_messages) > 0:
+                for uc_obj in prev_conversation_messages[:5]:
+                    uc_question = uc_obj.question
+                    uc_response = uc_obj.response
+                    prev_conversation_history.append(f"Question: { uc_question }")
+                    prev_conversation_history.append(f"Response: { uc_response }")
+
+        prev_conversation_st = ''
+        if len(prev_conversation_history) > 0:
+            prev_conversation_st = '\n'.join(prev_conversation_history)
+        
+        # print('Previous Chat String:', prev_conversation_st)
+
+        model_response_dict = main_utils.main_handle_question(
+            question = user_question,
+            student_code = user_code,
+            previous_chat_history_st = prev_conversation_st
+        )
+        # print('model-response:', model_response_dict)
 
         if user_cid == 'None':
             rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
@@ -254,6 +276,7 @@ def handle_user_message(request):
         model_response_dict['cid'] = uc_obj.id
 
         return JsonResponse({'success': True, 'response': model_response_dict})
+
 
 
 def save_user_code(request):

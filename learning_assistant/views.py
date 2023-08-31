@@ -130,10 +130,18 @@ def playground(request):
     initial_user_session = request.session.get("user")
 
     code_id = request.GET.get('cid', None)
+    print('cid:', code_id)
+
+    uc_objects = UserCode.objects.filter(id = code_id)
+    if len(uc_objects) > 0:
+        uc_obj = uc_objects[0]
+    else:
+        uc_obj = None
 
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
-        'code_id': code_id
+        'code_id': code_id,
+        'uc_obj': uc_obj
     })
 
 
@@ -144,8 +152,14 @@ def dashboard(request):
     # user_conversations = UserConversation.objects.filter(
     #     user_auth_obj = user_oauth_obj
     # )
+
+    user_code_objects = UserCode.objects.filter(
+        user_auth_obj = user_oauth_obj
+    )
+
     return render(request, 'dashboard.html',  {
         'user_session': initial_user_session,
+        'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })
 
@@ -224,12 +238,4 @@ def save_user_code(request):
             return JsonResponse({'success': True, 'cid': uc_obj.id})
 
 
-
-
-# TODO: 
-    # add new user-code save/update on "Save + Run"-Button Press
-        # test and ensure good
-            # add the cid in get-param for playground and logic around that as well to ensure good
-                # populate existing code in the codemirror editor 
-    # then, add it with the conversations
 

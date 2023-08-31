@@ -34,7 +34,7 @@
 
         <div class="twelve wide column">
 
-            <div style="padding-top: 30px; display:flex; justify-content:space-between; align-items:baseline;">
+            <div style="padding-top: 26px; display:flex; justify-content:space-between; align-items:baseline;">
                 
                 <h3 class="ui header" >
                     <i class="comments icon" style="font-size: 24px;"></i>
@@ -43,38 +43,38 @@
 
             </div>
         
-            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 10px;">
         
 
-                {% if user_files|length > 0 %}
+                {% if user_code_objects|length > 0 %}
 
-                    {% for uf_obj in user_files %}
+                    {% for uc_obj in user_code_objects %}
 
                         <div class="item">
 
-                            <div class="content" style="padding-top: 7px; padding-bottom: 28px;">
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
                                 <div class="header" style="font-size: 15.5px;">
-                                    <a class="file_name_header" href="{% url 'file_view' uf_obj.fn_obj.id %}">
-                                        {{ uf_obj.fn_obj.file_name }}
+                                    <a class="file_name_header" href="{% url 'playground' %}?cid={{ uc_obj.id }}">
+                                        {{ uc_obj.code_unique_name }}
                                     </a>
                                 </div>
 
                                 <div style="padding-top: 14px;">
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ uf_obj.fn_obj.uploaded_at.date }}                                
+                                        Uploaded: {{ uc_obj.created_at }}                                
                                     </span>
                                     
-                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                    <!-- <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
                                     
                                     <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
                                         <i class="hashtag icon"></i>Messages: {{ uf_obj.conversation_count }}
-                                    </span>
+                                    </span> -->
         
-                                    <span style="float: right; font-size: 12px;">                            
-                                        <i class="trash icon trash_icon" value="{{ uf_obj.fn_obj.id }}"></i>
-                                    </span>
+                                    <!-- <span style="float: right; font-size: 12px;">                            
+                                        <i class="trash icon trash_icon"></i>
+                                    </span> -->
                                 </div>
 
                             </div>

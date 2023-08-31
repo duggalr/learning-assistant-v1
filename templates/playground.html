@@ -210,8 +210,20 @@
         });
         editor.setSize(500, 600);
         
-        editor.setValue(`# Write the question your working on below\n# Run the code by clicking button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n\n\n# Write your code below:\n\n`);
 
+        let user_cid = '{{ code_id }}';
+
+        if (user_cid != 'None'){
+            let user_code_st = `{{ uc_obj.user_code }}`;
+            console.log('user-code-st:', user_code_st);
+
+            editor.setValue(user_code_st);
+
+        } else {
+            editor.setValue(`# Write the question your working on below\n# Run the code by clicking button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n\n\n# Write your code below:\n\n`);
+        }
+
+        
         async function main() {
             let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
             // Pyodide ready

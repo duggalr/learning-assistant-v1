@@ -174,8 +174,7 @@ def handle_user_message(request):
 
         user_question = request.POST['message'].strip()
         user_code = request.POST['user_code'].strip()
-
-        # print('code:', user_code)
+        user_cid = request.POST['cid']
 
         model_response_dict = main_utils.main_handle_question(
             question = user_question,
@@ -187,7 +186,42 @@ def handle_user_message(request):
         if initial_user_session is not None:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
-        rnd_conversation_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(8)])
+
+        if user_cid == 'None':
+            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+
+            uc_obj = UserCode.objects.create(
+                user_auth_obj = user_oauth_obj,
+                code_unique_name = rnd_code_filename,
+                user_code = user_code
+            )
+            uc_obj.save()
+            
+            ur_obj = UserConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                code_obj = uc_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            ur_obj.save()
+
+        else:
+            uc_obj = UserCode.objects.get(id = user_cid)
+            uc_obj.user_code = user_code
+            uc_obj.save()
+
+            ur_obj = UserConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                code_obj = uc_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            ur_obj.save()
+
+
+        model_response_dict['cid'] = uc_obj.id
 
         # ur_obj = UserConversation.objects.create(
         #     user_auth_obj = user_oauth_obj,

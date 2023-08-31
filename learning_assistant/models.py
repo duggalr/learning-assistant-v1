@@ -19,10 +19,11 @@ class UserCode(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-# class UserConversation(models.Model):
-#     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-#     question = models.CharField(max_length=3000)
-#     question_prompt = models.TextField()
-#     response = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
+class UserConversation(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    code_obj = models.ForeignKey(UserCode, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 

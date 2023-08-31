@@ -338,9 +338,12 @@ mystdout.getvalue()
 
                 console.log('user-code:', user_code)
 
+                let cid = $('#code_obj_id').val();
+
                 let d = {
                     'message': messageText,
                     'user_code': user_code,
+                    'cid': cid,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 };
 
@@ -353,16 +356,17 @@ mystdout.getvalue()
 
                         // console.log('response:', response);
 
-                        var model_response_dict = response['response']
+                        
+                        var model_response_dict = response['response'];
                         // var model_response_message = model_response_dict['response']
 
                         console.log('Response Dict:', model_response_dict)
 
-                        var model_response_message = model_response_dict['response']
+                        var model_response_message = model_response_dict['response'];
 
                         console.log('Response:', model_response_message)
 
-                        var user_question = model_response_dict['question']
+                        var user_question = model_response_dict['question'];
 
                         const responseMessage = document.createElement("div");
                         responseMessage.className = "message";
@@ -375,6 +379,9 @@ mystdout.getvalue()
                         $('#sendButton').show();
                         $('#primary_loading_button').hide();
                         
+                        let saved_cid = model_response_dict['cid'];
+                        $('#code_obj_id').val(saved_cid);
+
                     },
                     error: function (response) {}
                     

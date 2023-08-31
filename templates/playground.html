@@ -148,7 +148,6 @@
 
             <div class="chat-container" id="chat">
                 
-                <!-- TODO: add icons and functionality -->
                 <div class="message" >
                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                     I'm here to help you learn Python. 
@@ -163,6 +162,14 @@
                 </div>
 
                 <hr>
+
+                <br/>
+                {% for ucs_obj in user_conversation_objects %}
+                
+                    <div class="message"><b>You: </b>{{ ucs_obj.question }}</div>
+                    <div class="message" style="white-space: pre-line"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                {% endfor %}
 
             </div>
               

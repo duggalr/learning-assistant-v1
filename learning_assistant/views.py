@@ -133,15 +133,21 @@ def playground(request):
     print('cid:', code_id)
 
     uc_objects = UserCode.objects.filter(id = code_id)
+    user_conversation_objects = []
     if len(uc_objects) > 0:
         uc_obj = uc_objects[0]
+        user_conversation_objects = UserConversation.objects.filter(code_obj = uc_obj)
+        # if len(us_conv_objects) > 0:
+        #     user_conversation_obj = us_conv_objects[0]
     else:
         uc_obj = None
+        
 
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
         'code_id': code_id,
-        'uc_obj': uc_obj
+        'uc_obj': uc_obj,
+        'user_conversation_objects': user_conversation_objects
     })
 
 
@@ -155,11 +161,27 @@ def dashboard(request):
 
     user_code_objects = UserCode.objects.filter(
         user_auth_obj = user_oauth_obj
-    )
+    ).order_by('-created_at')
+
+    
+    final_rv = []
+    for uc_obj in user_code_objects:
+        us_conv_objects = UserConversation.objects.filter(code_obj = uc_obj)
+        if len(us_conv_objects) > 0:
+            usr_conv_obj = us_conv_objects[0]
+        else:
+            usr_conv_obj = None
+        
+        final_rv.append({
+            'code_obj': uc_obj,
+            'usr_conv_obj': usr_conv_obj
+        })
+
 
     return render(request, 'dashboard.html',  {
         'user_session': initial_user_session,
-        'user_code_objects': user_code_objects
+        'user_code_list': final_rv
+        # 'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })
 
@@ -222,16 +244,6 @@ def handle_user_message(request):
 
 
         model_response_dict['cid'] = uc_obj.id
-
-        # ur_obj = UserConversation.objects.create(
-        #     user_auth_obj = user_oauth_obj,
-        #     random_name = rnd_conversation_name,
-        #     question = model_response_dict['question'],
-        #     user_code = user_code,
-        #     question_prompt = model_response_dict['q_prompt'],
-        #     response = model_response_dict['response'],
-        # )
-        # ur_obj.save()
 
         return JsonResponse({'success': True, 'response': model_response_dict})
 

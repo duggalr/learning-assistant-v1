@@ -94,12 +94,18 @@
                     <h5>Run</h5>
                 </button> -->
        
-                <div class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
-                    <div class="visible content">Save Code</div>
-                    <div class="hidden content">
-                        <i class="save icon"></i>
+                {% if user_session is not None %}
+                
+                    <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
+                        <div class="visible content">Save Code</div>
+                        <div class="hidden content">
+                            <i class="save icon"></i>
+                        </div>
                     </div>
-                </div>
+
+                {% endif %}
+
+                <span id="save_code_success_text" style="margin-left: 2%; color: green; display: none;">Code Saved!&nbsp;<i class="check icon"></i></span>
                 
                 <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 2%;">
                     <div class="visible content">Run</div>
@@ -219,7 +225,9 @@
         
 
         let user_cid = '{{ code_id }}';
+        let user_session = '{{ user_session }}'
 
+        
         if (user_cid != 'None'){
             let user_code_st = `{{ uc_obj.user_code }}`;
             console.log('user-code-st:', user_code_st);
@@ -277,11 +285,20 @@ mystdout.getvalue()
                 let output = pyodide.runPython(captureOutputCode);
 
                 addToOutput(output);
-                saveCode();
+
+                // console.log('user-sessions:', user_session)
+                if (user_session != 'None'){
+                    saveCode();
+                }
 
             } catch (err) {
+                
                 addToOutput(err);
-                saveCode();
+
+                // saveCode();
+                if (user_session != 'None'){
+                    saveCode();
+                }
 
             }
         }
@@ -445,6 +462,11 @@ mystdout.getvalue()
 
                         let saved_cid = response['cid'];
                         $('#code_obj_id').val(saved_cid);
+
+                        $('#save_code_button').hide();
+                        $('#save_code_success_text').show().delay(2000).fadeOut(500).queue(function(next) {
+                            $('#save_code_button').show();
+                        });
 
                     }
 

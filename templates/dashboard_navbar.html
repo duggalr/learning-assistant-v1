@@ -4,9 +4,11 @@
     <div class="ui container">
 
         <div class="item navbar-logo">
-            <i class="sitemap icon" style="font-size: 22px;"></i>
+            <!-- <i class="sitemap icon" style="font-size: 22px;"></i>
             &nbsp;
-            AI Tutor
+            AI Tutor -->
+            <i class="code branch icon"></i>
+            Code Companion
         </div>
         
         {% if user_session %}
@@ -45,8 +47,8 @@
         {% else %}
 
             <div class="right menu" >
-                <a class="item" href="{% url 'dashboard' %}">
-                    AI Tutor Playground
+                <a class="item" href="{% url 'playground' %}">
+                    AI Playground
                 </a>
                 <a class="item" href="{% url 'about' %}">
                     About

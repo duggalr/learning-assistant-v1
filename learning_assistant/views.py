@@ -229,7 +229,15 @@ def handle_user_message(request):
             ur_obj.save()
 
         else:
-            uc_obj = UserCode.objects.get(id = user_cid)
+            # uc_obj = UserCode.objects.get(id = user_cid)
+            # uc_obj.user_code = user_code
+            # uc_obj.save()
+
+            uc_objects = UserCode.objects.filter(id = user_cid, user_auth_obj = user_oauth_obj)
+            if len(uc_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'Object id not found.'})
+
+            uc_obj = uc_objects[0]
             uc_obj.user_code = user_code
             uc_obj.save()
 
@@ -248,7 +256,6 @@ def handle_user_message(request):
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-
 def save_user_code(request):
     
     initial_user_session = request.session.get("user")
@@ -259,10 +266,12 @@ def save_user_code(request):
 
         print('cid', request.POST['cid'], request.POST['cid'] == None, request.POST['cid'] == 'None')
 
-        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
-        if len(user_oauth_objects) == 0:
+        if initial_user_session is not None:
+            user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+            if len(user_oauth_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+        else:
             return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
-
 
         user_auth_obj = user_oauth_objects[0]
         user_code = request.POST['user_code'].strip()
@@ -278,7 +287,12 @@ def save_user_code(request):
             return JsonResponse({'success': True, 'cid': uc_obj.id})
 
         else:
-            uc_obj = UserCode.objects.get(id = cid)
+            # uc_obj = UserCode.objects.get(id = cid)
+            uc_objects = UserCode.objects.filter(id = cid, user_auth_obj = user_auth_obj)
+            if len(uc_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'Object id not found.'})
+            
+            uc_obj = uc_objects[0]
             uc_obj.user_code = user_code
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})

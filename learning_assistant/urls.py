@@ -18,5 +18,7 @@ urlpatterns = [
     path("handle_user_message", views.handle_user_message, name="handle_user_message"),
     path("save_user_code", views.save_user_code, name="save_user_code"),
 
+    path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
+
 ]
 

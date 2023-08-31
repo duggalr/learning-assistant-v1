@@ -285,9 +285,9 @@ def save_user_code(request):
 
     if request.method == 'POST':
 
-        print('form-data:', request.POST)
+        # print('form-data:', request.POST)
 
-        print('cid', request.POST['cid'], request.POST['cid'] == None, request.POST['cid'] == 'None')
+        # print('cid', request.POST['cid'], request.POST['cid'] == None, request.POST['cid'] == 'None')
 
         if initial_user_session is not None:
             user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
@@ -320,5 +320,30 @@ def save_user_code(request):
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
 
+
+
+def handle_file_name_change(request):
+    
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+        
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+        
+        user_auth_obj = user_oauth_objects[0]
+        new_file_name = request.POST['new_file_name'].strip()
+        cid = request.POST['cid']
+
+        uc_obj = UserCode.objects.get(
+            id = cid,
+            user_auth_obj = user_auth_obj
+        )
+
+        uc_obj.code_unique_name = new_file_name
+        uc_obj.save()
+
+        return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 
 

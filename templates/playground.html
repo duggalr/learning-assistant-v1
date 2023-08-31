@@ -17,6 +17,8 @@
         .code-editor {
             border: 1px solid #d4d4d5;
             width: 98%;
+            /* padding-top: 0px;
+            margin-top: 0px; */
         }
 
         #code {
@@ -73,6 +75,10 @@
             border-radius: 5px;
         }
 
+        #edit_filename_span:hover{
+            cursor: pointer;
+        }
+
     </style>
 
 
@@ -84,16 +90,28 @@
         <!-- Code Editor -->
         <div class="nine wide column" id="code-column">
 
-            <div style="display: flex; align-items: center; /* Vertical align the elements to the center */">
+            <div style="display: flex; align-items: center;">
 
                 <h4 style="margin: 0;">
-                    <i class="code icon"></i>
-                    Code Editor
+                    
+                    {% if code_id is not None %}
+
+                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}" style="display: none;">
+                        <button id="file_name_input_submit" style="display: none;">save</button>
+                        &nbsp;
+                        <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+
+                    {% else %}
+
+                        <i class="code icon"></i>Code Editor
+
+                    {% endif %}
+
                 </h4>
-                <!-- <button class="ui tiny primary button" onclick="evaluatePython()" style="margin-left: 3%;">
-                    <h5>Run</h5>
-                </button> -->
-       
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                 {% if user_session is not None %}
                 
                     <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
@@ -114,10 +132,19 @@
                     </div>
                 </div>
 
-                <a href="" style="margin-left: 3%; font-size: 13px; padding-top: 5px;">See Quick Demo (TODO)</a>
+                <a href="" style="margin-left: 1%; font-size: 13px; padding-top: 5px;">See Demo (TODO)</a>
                     
+                
             </div>
 
+            <!-- <div style="display:flex; align-items:baseline; padding-top: 30px; padding-bottom: 0px; margin-bottom: 0px;">
+                <h4>File: {{ uc_obj.code_unique_name }}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>
+                    edit name
+                </span>
+            </div> -->
+            
             <div class="ui segment code-editor">
                 <textarea id="code"></textarea>
             </div>
@@ -147,10 +174,16 @@
                 <textarea id="output" disabled></textarea>
             </div>
             
-            <h4>
-                <i class="comment icon"></i>
-                Programming Assistant
-            </h4>
+
+            <div style="  display: flex;
+            justify-content: space-between; padding-top: 10px;">
+                <h4>
+                    <i class="comment icon"></i> Programming Assistant
+                </h4>
+                &nbsp;&nbsp;
+                <span style="font-size: 13px;">Generate Feedback on Code</span>
+            </div>
+
 
             <div class="chat-container" id="chat">
                 
@@ -478,6 +511,58 @@ mystdout.getvalue()
         }
 
 
+
+        $('#edit_filename_span').click(function(){
+
+            $('#code_file_name_text').hide();
+            $('#edit_filename_span').hide();
+            
+            $('#file_name_input').show();
+            $('#file_name_input_submit').show();
+
+        });
+
+
+
+
+        $('#file_name_input_submit').click(function(){
+
+            let new_file_name = $('#file_name_input').val();
+            let cid = $('#code_obj_id').val();
+            let d = {
+                'cid': cid, 
+                'new_file_name': new_file_name,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_file_name_change' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    console.log('response:', response);
+
+                    $('#code_file_name_text').html("File: " + response['new_file_name']);
+                    $('#file_name_input').val(response['new_file_name']);
+
+                    $('#file_name_input').hide();
+                    $('#file_name_input_submit').hide();
+                    $('#code_file_name_text').show();
+                    $('#edit_filename_span').show();
+
+                },
+                error: function (response) {}
+                
+            });
+
+
+
+        })
+        
+        
+        
     </script>
 
 

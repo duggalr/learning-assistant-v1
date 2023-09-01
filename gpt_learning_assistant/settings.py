@@ -39,7 +39,7 @@ else:
     DEBUG = True
 
 if 'PRODUCTION' in os.environ:
-    ALLOWED_HOSTS = ['gpt-learning-assistant-dev.ca-central-1.elasticbeanstalk.com']
+    ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app']
 else:
     ALLOWED_HOSTS = ['*']
 
@@ -159,4 +159,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+if 'PRODUCTION' in os.environ:
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'Strict'
+    SESSION_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_SSL_REDIRECT = True
+    # X_FRAME_OPTIONS = 'DENY'
+    SECURE_HSTS_SECONDS = 604800  # set low, but when site is ready for deployment, set to at least 15768000 (6 months)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 

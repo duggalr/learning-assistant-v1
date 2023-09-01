@@ -79,6 +79,10 @@
             cursor: pointer;
         }
 
+        #generate_code_fb_button:hover{
+            cursor: pointer;
+        }
+
     </style>
 
 
@@ -175,14 +179,26 @@
             </div>
             
 
-            <div style="  display: flex;
-            justify-content: space-between; padding-top: 10px;">
+            <!-- <div style="display: flex; justify-content: space-between; padding-top: 10px;">
                 <h4>
                     <i class="comment icon"></i> Programming Assistant
                 </h4>
                 &nbsp;&nbsp;
                 <span style="font-size: 13px;">Generate Feedback on Code</span>
+            </div> -->
+            
+            <div style="display: flex; justify-content: space-between; padding-top: 10px;">
+                <h4>
+                    <i class="comment icon"></i> Programming Assistant
+                </h4>
+                
+                <p style="color: #1e70bf;" id="generate_code_fb_button">
+                    Generate Feedback on Code
+                </p>
+
             </div>
+            
+
 
 
             <div class="chat-container" id="chat">
@@ -367,6 +383,18 @@ mystdout.getvalue()
         });
 
 
+        
+        $("#generate_code_fb_button").click(function(){
+
+            $('#chatInput').val('Can you provide feedback on my code? Any advice or suggestions for improvement?');
+
+            $('#sendButton').click();
+            
+            $("#generate_code_fb_button").hide();
+
+        })
+
+
         function sendMessage() {
 
             const messageText = chatInput.value.trim();
@@ -493,13 +521,26 @@ mystdout.getvalue()
 
                     if (response['success'] == true){
 
-                        let saved_cid = response['cid'];
-                        $('#code_obj_id').val(saved_cid);
+                        if (cid == 'None'){
 
-                        $('#save_code_button').hide();
-                        $('#save_code_success_text').show().delay(2000).fadeOut(500).queue(function(next) {
-                            $('#save_code_button').show();
-                        });
+                            // window.location.reload();
+                            window.location.href = ''
+                            var url = new URL(window.location.href);
+
+                            url.searchParams.set('cid', response['cid']);
+                            window.location.href = url;
+
+                        } else {
+
+                            let saved_cid = response['cid'];
+                            $('#code_obj_id').val(saved_cid);
+
+                            $('#save_code_button').hide();
+                            $('#save_code_success_text').show().delay(2000).fadeOut(500).queue(function(next) {
+                                $('#save_code_button').show();
+                            });
+
+                        }
 
                     }
 

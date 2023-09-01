@@ -65,6 +65,7 @@ def callback(request):
     updated_date_ts = user_info['iat']
 
     user_auth_objects = UserOAuth.objects.filter(email = user_email)
+    print(f'Length of Auth Objects:', len(user_auth_objects))
     if len(user_auth_objects) > 0:
         user_auth_obj = user_auth_objects[0]
         user_auth_obj.email_verified = user_email_verified
@@ -72,6 +73,7 @@ def callback(request):
         user_auth_obj.name = user_name
         user_auth_obj.updated_at = updated_date_ts
         user_auth_obj.save()
+        print('Saved USER AUTH OBJECT...')
     else:
         current_unix_ts = int(time.time())
         user_auth_obj = UserOAuth.objects.create(
@@ -83,8 +85,12 @@ def callback(request):
             updated_at = updated_date_ts
         )
         user_auth_obj.save()
+        print('Saved USER AUTH OBJECT...')
 
+
+    print('DONE....')
     return redirect(request.build_absolute_uri(reverse("dashboard")))
+
 
 
 def login(request):
@@ -162,7 +168,6 @@ def dashboard(request):
     user_code_objects = UserCode.objects.filter(
         user_auth_obj = user_oauth_obj
     ).order_by('-created_at')
-
     
     final_rv = []
     for uc_obj in user_code_objects:
@@ -178,13 +183,13 @@ def dashboard(request):
             'user_conv_obj_count': us_conv_objects_count
         })
 
-
     return render(request, 'dashboard.html',  {
         'user_session': initial_user_session,
         'user_code_list': final_rv
         # 'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })
+
 
 
 def handle_user_message(request):
@@ -345,5 +350,6 @@ def handle_file_name_change(request):
         uc_obj.save()
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
+
 
 

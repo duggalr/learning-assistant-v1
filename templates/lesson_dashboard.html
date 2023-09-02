@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+        
+    </style>
+
+
+    {% include 'dashboard_navbar.html' %}
+
+
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" style="padding-top: 40px;">
+
+            <!-- <div style="padding-top: 26px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <i class="comments icon" style="font-size: 24px;"></i>
+                    Your Questions:
+                </h3>
+
+            </div> -->
+        
+            <!-- <div style="padding-top: 20px;">
+
+                <h3 id="lesson_header">
+                    <i class="book icon" style="font-size: 16px;"></i>Lesson: Variables, Data Types, String Manipulation
+                </h3>
+
+            </div> -->
+
+            <!-- <div class="ui basic segment">
+                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+            </div> -->
+
+            <h3 id="lesson_header" >
+                Syllabus:
+            </h3>
+
+            <div class="ui basic segment">
+                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+            </div>
+
+
+            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 10px;">
+                
+                {% for lobj in lesson_objects %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header" style="font-size: 15.5px;">
+                                <a class="file_name_header" href="{% url 'questions' lid=lobj.id %}">
+                                    {{ lobj.title }}
+                                </a>
+                            </div>
+
+                            <div style="padding-top: 14px; ">
+                                
+                                <span style="font-size: 12.5px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>
+                                    Uploaded: {{ lobj.created_at }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+                <!-- <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Lesson 2: Conditionals (If/Else)
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-09-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Lesson 3: For Loops
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-09-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Lesson 4: While Loops
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-09-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Lesson 5: Lists/Dictionaries
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-09-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Lesson 6: Side Projects
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-09-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> -->
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+
+{% endblock %}

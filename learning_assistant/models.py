@@ -27,3 +27,17 @@ class UserConversation(models.Model):
     response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+class Lesson(models.Model):
+    # TODO: add description
+    title = models.CharField(max_length=3000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class LessonQuestion(models.Model):
+    # TODO: add tags for each question 
+    question_name = models.CharField(max_length=3000)
+    question_text = models.TextField()
+    lesson_obj = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+

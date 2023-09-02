@@ -1,0 +1,6 @@
+Write a Python program to generate the first 20 numbers in the Fibonacci sequence using a for loop. 
+Create a program that prompts the user for an integer and determines whether it's a prime number or not. Use a while loop to continuously ask for input until a prime number is entered.
+Create a text-based version of the classic game "Rock, Paper, Scissors" against the computer. Use a while loop to allow the player to play multiple rounds until they choose to quit. Keep track of their wins, losses, and ties.
+Write a Python program that generates a multiplication table for a given number (e.g., 7) up to a specified range (e.g., 10). 
+Design a program that checks if a given word or phrase is a palindrome (reads the same forwards and backwards), ignoring spaces and punctuation. Use a for loop to iterate through the characters.
+

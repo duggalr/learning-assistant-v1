@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse
 from urllib.parse import quote_plus, urlencode
@@ -92,7 +92,6 @@ def callback(request):
     return redirect(request.build_absolute_uri(reverse("dashboard")))
 
 
-
 def login(request):
     return oauth.auth0.authorize_redirect(
         request, request.build_absolute_uri(reverse("callback"))
@@ -138,6 +137,12 @@ def playground(request):
     code_id = request.GET.get('cid', None)
     print('cid:', code_id)
 
+    qid = request.GET.get('qid', None)
+    print('qid:', qid)
+
+    if qid is not None:
+        ls_q_obj = get_object_or_404(LessonQuestion, id = qid)
+
     uc_objects = UserCode.objects.filter(id = code_id)
     user_conversation_objects = []
     if len(uc_objects) > 0:
@@ -147,14 +152,36 @@ def playground(request):
         #     user_conversation_obj = us_conv_objects[0]
     else:
         uc_obj = None
-        
-
+    
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
         'code_id': code_id,
         'uc_obj': uc_obj,
-        'user_conversation_objects': user_conversation_objects
+        'user_conversation_objects': user_conversation_objects,
+        'qid': qid,
+        'lesson_question_object': ls_q_obj
     })
+
+
+def lesson_dashboard(request):
+    lesson_objects = Lesson.objects.all()
+    return render(request, 'lesson_dashboard.html', {
+        'lesson_objects': lesson_objects
+    })
+
+
+def questions(request, lid):
+    
+    lesson_obj = get_object_or_404(Lesson, id = lid)
+    lesson_questions = LessonQuestion.objects.filter(
+        lesson_obj = lesson_obj
+    )
+
+    return render(request, 'questions.html', {
+        'lesson_object': lesson_obj,
+        'lesson_questions': lesson_questions
+    })
+
 
 
 @user_authentication_required

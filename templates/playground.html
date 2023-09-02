@@ -23,6 +23,8 @@
 
         #code {
             width: 100%;
+            /* height: auto; */
+            word-break: break-word;
         }
 
         #output {
@@ -106,6 +108,14 @@
                         &nbsp;
                         <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
 
+                    {% elif qid is not None  %}
+
+                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ lesson_question_object.question_name }}</span>
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ lesson_question_object.question_name }}" style="display: none;">
+                        <button id="file_name_input_submit" style="display: none;">save</button>
+                        &nbsp;
+                        <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+
                     {% else %}
 
                         <i class="code icon"></i>Code Editor
@@ -138,7 +148,6 @@
 
                 <a href="" style="margin-left: 1%; font-size: 13px; padding-top: 5px;">See Demo (TODO)</a>
                     
-                
             </div>
 
             <!-- <div style="display:flex; align-items:baseline; padding-top: 30px; padding-bottom: 0px; margin-bottom: 0px;">
@@ -154,8 +163,8 @@
             </div>
 
             <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+            <input id="lesson_question_obj_id" type="hidden" value="{{ qid }}" />
             
-
             <!-- <button class="ui primary button" onclick="evaluatePython()">
                 <h5>Run</h5>
             </button> -->
@@ -268,23 +277,32 @@
             indentUnit: 4,
             matchBrackets: true,
             theme: "default",
-            scrollbarStyle: "null"
+            scrollbarStyle: "null",
+            lineWrapping: true,
         });
         editor.setSize(500, 600);
         
 
         let user_cid = '{{ code_id }}';
-        let user_session = '{{ user_session }}'
-
+        let user_session = '{{ user_session }}';
+        let lesson_qid = '{{ qid }}'
         
         if (user_cid != 'None'){
+            
             let user_code_st = `{{ uc_obj.user_code|safe }}`;
             console.log('user-code-st:', user_code_st);
 
             editor.setValue(user_code_st);
 
+        } else if (lesson_qid != 'None'){
+
+            let lesson_question = '{{ lesson_question_object.question_text|safe }}'
+            editor.setValue(`# Write the question your working on below\n# Run the code by clicking button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + lesson_question + `\n\n\n# Write your code below:\n\n`);
+
         } else {
+
             editor.setValue(`# Write the question your working on below\n# Run the code by clicking button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n\n\n# Write your code below:\n\n`);
+
         }
 
         

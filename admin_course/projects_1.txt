@@ -1,0 +1,19 @@
+https://openweathermap.org/api
+https://api-ninjas.com/api/quotes
+
+Preliminary Individual Projects:
+- Weather API Project     
+- Quote Web Application with Time, Weather
+- Todo Web Application
+- Scrape Paul Graham Essays or NBA Page (learn data scraping and storing in DB, pickle)
+- Basic Data Analysis on NBA Statistics
+    - Graphs
+    - Linear Regression or basic forecasting model?
+
+Real Continuous Project for 1-2 months:
+- Online E-Commerce Store + Managing all Marketing / Ads
+- Problem or Project that student is interested in solving / building
+    - AI Project?
+        - Music / Rap / Beat Generation with AI?
+            - Exploring individually, then potentially releasing V1?
+

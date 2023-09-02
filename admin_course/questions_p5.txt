@@ -1,0 +1,6 @@
+Create an empty dictionary and add three random key-value pairs to it (ie. 'Apple', 3). Then, print the dictionary.
+Given a dictionary of student names and their corresponding ages {'Alice': 18, 'Bob': 20, 'Charlie': 19}, write a program that prints both Bob and Alice's name. What error do you get when you try to print John's weight?
+Write a program that iterates through a dictionary of countries and their capitals, printing each country-capital pair. countries = {'USA': 'Washington D.C.', 'France': 'Paris', 'Japan': 'Tokyo'}
+Create an empty dictionary. Using a for loop, map the numbers from 1 to 10, with their squares. Key should be number and value should be the square (ie. 2: 4)
+Given a dictionary of student names and their exam scores, write a program that prints the names of students who scored above 80. Print the student's name and grade. exam_scores = {'Alice': 85, 'Bob': 92, 'Charlie': 78, 'David': 95}
+Given a string, create a program that counts and displays the frequency of each character (letters, digits, and symbols) in the string. (use for loop with dictionary to keep track of the count)

@@ -3,7 +3,7 @@
 
     <div class="ui container">
 
-        <div class="item navbar-logo">
+        <div class="item navbar-logo" style="font-size: 22.5px;">
             <!-- <i class="sitemap icon" style="font-size: 22px;"></i>
             &nbsp;
             AI Tutor -->
@@ -36,9 +36,9 @@
 
             <div class="right menu">
 
-                <!-- <div class="item">
+                <div class="item">
                     |
-                </div> -->
+                </div>
 
                 <div class="item" id="dashboard_email">
                     {{ user_session.userinfo.email }}
@@ -90,11 +90,28 @@
 
 <script>
 
-    $('.navbar-logo').click(function(){
 
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
-        window.location.replace(new_url);
+    let user_session = '{{ user_session }}';
 
-    })
+    if (user_session != 'None'){
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
+            window.location.replace(new_url);
+
+        });
+
+    } else {
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+            window.location.replace(new_url);
+
+        });
+
+    }
 
 </script>
+

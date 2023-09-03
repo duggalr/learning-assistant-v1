@@ -10,8 +10,9 @@
         </div>
 
         <div class="right menu" style="margin-right: 6%;">
+
             <a class="item" href="{% url 'playground' %}">
-                AI Playground
+                AI Tutor Playground
             </a>
             <a class="item" href="{% url 'lesson_dashboard' %}">
                 Learn Python
@@ -22,6 +23,7 @@
             <a class="item" href="mailto:duggalr42@gmail.com">
                 Contact
             </a>
+
         </div>
     
 
@@ -66,11 +68,28 @@
 
 <script>
 
-    $('.navbar-logo').click(function(){
+    let user_session = '{{ user_session }}';
 
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
-        window.location.replace(new_url);
+    if (user_session != 'None'){
 
-    })
+        $('.navbar-logo').click(function(){
 
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
+            window.location.replace(new_url);
+
+        });
+
+    } else {
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+            window.location.replace(new_url);
+
+        });
+
+    }
+    
 </script>
+
+

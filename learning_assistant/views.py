@@ -137,11 +137,12 @@ def playground(request):
     code_id = request.GET.get('cid', None)
     print('cid:', code_id)
 
-    qid = request.GET.get('qid', None)
-    print('qid:', qid)
+    lqid = request.GET.get('lqid', None)
+    print('lqid:', lqid)
 
-    if qid is not None:
-        ls_q_obj = get_object_or_404(LessonQuestion, id = qid)
+    ls_q_obj = None
+    if lqid is not None:
+        ls_q_obj = get_object_or_404(LessonQuestion, id = lqid)
 
     uc_objects = UserCode.objects.filter(id = code_id)
     user_conversation_objects = []
@@ -158,29 +159,51 @@ def playground(request):
         'code_id': code_id,
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
-        'qid': qid,
+        'qid': lqid,
         'lesson_question_object': ls_q_obj
     })
 
 
 def lesson_dashboard(request):
+    initial_user_session = request.session.get("user")
     lesson_objects = Lesson.objects.all()
+
     return render(request, 'lesson_dashboard.html', {
+        'user_session': initial_user_session,
         'lesson_objects': lesson_objects
     })
 
 
 def questions(request, lid):
     
+    initial_user_session = request.session.get("user")
+
     lesson_obj = get_object_or_404(Lesson, id = lid)
     lesson_questions = LessonQuestion.objects.filter(
         lesson_obj = lesson_obj
     )
 
+    final_lesson_questions_rv = []
+    for ls_q_obj in lesson_questions:
+        uc_code_objects = UserCode.objects.filter(lesson_question_obj = ls_q_obj)
+        if len(uc_code_objects) > 0:
+            final_lesson_questions_rv.append({
+                'user_code': True,
+                'lesson_question_obj': ls_q_obj,
+            })
+        else:
+            final_lesson_questions_rv.append({
+                'user_code': False,
+                'lesson_question_obj': ls_q_obj
+            })
+
+
     return render(request, 'questions.html', {
+        'user_session': initial_user_session,
         'lesson_object': lesson_obj,
         'lesson_formatted_description': lesson_obj.description.replace('\n', '<br/><br/>').replace('|', '<br/>'),
-        'lesson_questions': lesson_questions
+        # 'lesson_questions': lesson_questions
+        'lesson_questions': final_lesson_questions_rv
     })
 
 
@@ -231,10 +254,18 @@ def handle_user_message(request):
         user_question = request.POST['message'].strip()
         user_code = request.POST['user_code'].strip()
         user_cid = request.POST['cid']
+        user_lqid = request.POST['lqid']
 
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
             return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+
+
+        lesson_ques_obj = None
+        lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
+        if len(lesson_question_objects) > 0:
+            lesson_ques_obj = lesson_question_objects[0]
+
 
         user_oauth_obj = None
         prev_conversation_history = []
@@ -252,6 +283,7 @@ def handle_user_message(request):
                     prev_conversation_history.append(f"Question: { uc_question }")
                     prev_conversation_history.append(f"Response: { uc_response }")
 
+
         prev_conversation_st = ''
         if len(prev_conversation_history) > 0:
             prev_conversation_st = '\n'.join(prev_conversation_history)
@@ -265,14 +297,14 @@ def handle_user_message(request):
         )
         # print('model-response:', model_response_dict)
 
-
         if user_cid == 'None':
             rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
 
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_oauth_obj,
                 code_unique_name = rnd_code_filename,
-                user_code = user_code
+                user_code = user_code,
+                lesson_question_obj = lesson_ques_obj
             )
             uc_obj.save()
             
@@ -295,6 +327,7 @@ def handle_user_message(request):
                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
 
             uc_obj = uc_objects[0]
+            uc_obj.lesson_question_obj = lesson_ques_obj
             uc_obj.user_code = user_code
             uc_obj.save()
 
@@ -333,12 +366,20 @@ def save_user_code(request):
         user_auth_obj = user_oauth_objects[0]
         user_code = request.POST['user_code'].strip()
         cid = request.POST['cid']
+        lq_id = request.POST['lqid']
+
+        lesson_ques_obj = None
+        lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
+        if len(lesson_question_objects) > 0:
+            lesson_ques_obj = lesson_question_objects[0]
+
         if cid == 'None':
             rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_auth_obj,
                 code_unique_name = rnd_code_filename,
-                user_code = user_code
+                user_code = user_code,
+                lesson_question_obj = lesson_ques_obj
             )
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
@@ -350,6 +391,7 @@ def save_user_code(request):
                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
             
             uc_obj = uc_objects[0]
+            uc_obj.lesson_question_obj = lesson_ques_obj
             uc_obj.user_code = user_code
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
@@ -379,6 +421,69 @@ def handle_file_name_change(request):
         uc_obj.save()
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
+
+
+
+
+
+# def handle_code_submit(request):
+
+#     initial_user_session = request.session.get("user")
+
+#     if request.method == 'POST':
+#         # TODO: 
+#             # first, update the code, etc.
+#             # then, pass to gpt with question as, 'this is my final solution, is it correct? can you provide feedback?'
+        
+#         initial_user_session = request.session.get("user")
+#         if initial_user_session is not None:
+#             user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+#             if len(user_oauth_objects) == 0:
+#                 return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+#         else:
+#             return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+
+#         user_auth_obj = user_oauth_objects[0]
+#         user_code = request.POST['user_code'].strip()
+#         cid = request.POST['cid']
+#         lq_id = request.POST['lqid']
+
+#         lesson_ques_obj = None
+#         lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
+#         if len(lesson_question_objects) > 0:
+#             lesson_ques_obj = lesson_question_objects[0]
+
+#         ## Saving/Updating User Code
+#         if cid == 'None':
+#             rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+#             uc_obj = UserCode.objects.create(
+#                 user_auth_obj = user_auth_obj,
+#                 code_unique_name = rnd_code_filename,
+#                 user_code = user_code,
+#                 lesson_question_obj = lesson_ques_obj
+#             )
+#             uc_obj.save()
+
+#         else:
+#             # uc_obj = UserCode.objects.get(id = cid)
+#             uc_objects = UserCode.objects.filter(id = cid, user_auth_obj = user_auth_obj)
+#             if len(uc_objects) == 0:
+#                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
+            
+#             uc_obj = uc_objects[0]
+#             uc_obj.lesson_question_obj = lesson_ques_obj
+#             uc_obj.user_code = user_code
+#             uc_obj.save()
+
+        
+#         ## Asking GPT to generate feedback
+
+#         model_response_dict = main_utils.main_handle_question(
+#             question = user_question,
+#             student_code = user_code,
+#             previous_chat_history_st = prev_conversation_st
+#         )
+
 
 
 

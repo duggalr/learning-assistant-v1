@@ -84,22 +84,30 @@
                             <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
                                 <div class="header" style="font-size: 15.5px;">
-                                    <a class="file_name_header" href="{% url 'playground' %}?qid={{ cobj.id }}">
-                                        {{ cobj.question_name }}
+                                    <a class="file_name_header" href="{% url 'playground' %}?qid={{ cobj.lesson_question_obj.id }}">
+                                        {{ cobj.lesson_question_obj.question_name }}
                                     </a>
                                 </div>
 
-                                <span style="float: right; display: inline;">
+                                {% if cobj.user_code %}
+
+                                    <span style="float: right; display: inline;">
+                                        <a class="ui green label">in progress</a>
+                                    </span>
+
+                                {% endif %}
+
+                                <!-- <span style="float: right; display: inline;"> -->
                                     <!-- <a class="ui blue label">types</a> -->
-                                    <a class="ui red label" style="font-size: 11px;">not completed</a>
+                                    <!-- <a class="ui red label" style="font-size: 11px;">not completed</a> -->
                                     <!-- <a class="ui green label">completed</a> -->
-                                </span>
+                                <!-- </span> -->
 
                                 <div style="padding-top: 14px; ">
                                     
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ cobj.created_at }}
+                                        Uploaded: {{ cobj.lesson_question_obj.created_at }}
                                     </span>
 
                                 </div>

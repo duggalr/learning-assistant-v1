@@ -25,5 +25,7 @@ urlpatterns = [
 
     path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
 
+    # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
+
 ]
 

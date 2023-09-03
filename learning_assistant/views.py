@@ -190,6 +190,7 @@ def questions(request, lid):
             final_lesson_questions_rv.append({
                 'user_code': True,
                 'lesson_question_obj': ls_q_obj,
+                'user_code_obj': uc_code_objects[0]
             })
         else:
             final_lesson_questions_rv.append({

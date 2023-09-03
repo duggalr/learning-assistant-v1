@@ -526,6 +526,8 @@ mystdout.getvalue()
                         let saved_cid = model_response_dict['cid'];
                         $('#code_obj_id').val(saved_cid);
 
+                        $('#solution_submit_button').removeClass("disabled");
+
                     },
                     error: function (response) {}
                     
@@ -596,31 +598,13 @@ mystdout.getvalue()
                             let saved_cid = response['cid'];
                             $('#code_obj_id').val(saved_cid);
                             
-                            // TODO: hide save button and go from there to testing and finalizing all functionality
-                            
-
-                                // $(obj).hide().promise().done(function (){ /* Your code goes here */ });
                             $('#save_code_button').hide().promise().done(function(){
 
                                 $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
                                     $('#save_code_button').show();
                                 });
 
-                                // $('#save_code_success_text').show().delay(2000).fadeOut(500).queue("save_code", function(next) {
-                                //     $('#save_code_button').show();
-                                //     next();
-                                // }).dequeue("save_code");
-
-                            })
-
-                            // $('#save_code_button').hide();
-
-                            // $('#save_code_success_text').show().delay(2000).fadeOut(500).queue("save_code", function(next) {
-                            //     // console.log('asldkjae')
-                            //     $('#save_code_button').show();
-                            //     // $('#save_code_button').show();
-                            //     next();
-                            // }).dequeue("save_code");
+                            });
 
                         }
 
@@ -635,6 +619,7 @@ mystdout.getvalue()
 
 
 
+
         $('#edit_filename_span').click(function(){
 
             $('#code_file_name_text').hide();
@@ -644,7 +629,6 @@ mystdout.getvalue()
             $('#file_name_input_submit').show();
 
         });
-
 
 
 
@@ -683,7 +667,6 @@ mystdout.getvalue()
         })
 
         
-
         function handleSolutionSubmit(){
 
             $('#chatInput').val('I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?');
@@ -692,12 +675,12 @@ mystdout.getvalue()
 
             // $("#generate_code_fb_button").hide();
 
-            setInterval(function() {
+            // setInterval(function() {
                 
-                // $('#solution_submit_button').addClass('disabled');
-                $('#solution_submit_button').toggleClass("disabled");
+            //     // $('#solution_submit_button').addClass('disabled');
+            //     $('#solution_submit_button').toggleClass("disabled");
 
-            }, 2000);
+            // }, 2000);
             
 
         }

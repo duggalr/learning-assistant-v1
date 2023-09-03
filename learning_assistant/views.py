@@ -267,10 +267,10 @@ def handle_user_message(request):
             lesson_ques_obj = lesson_question_objects[0]
 
 
-        user_oauth_obj = None
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         prev_conversation_history = []
-        if initial_user_session is not None:
-            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        if user_cid != 'None':
+
             prev_conversation_messages = UserConversation.objects.filter(
                 code_obj_id = user_cid,
                 user_auth_obj = user_oauth_obj
@@ -374,7 +374,12 @@ def save_user_code(request):
             lesson_ques_obj = lesson_question_objects[0]
 
         if cid == 'None':
-            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            
+            if lq_id == 'None':
+                rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            else:
+                rnd_code_filename = lesson_ques_obj.question_name
+
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_auth_obj,
                 code_unique_name = rnd_code_filename,

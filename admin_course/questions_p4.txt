@@ -1,6 +1,8 @@
-Write a program that calculates and prints the length of a user-input string without using the built-in len() function. (Define count variable and use for loop to count letters in string)
-Given a string, write a program to count and display the number of vowels (both lowercase and uppercase) in the string. (vowel is when character is: 'a, e, i, o, u')
-Write a program that counts and displays the number of words in a user-input sentence. (using split function)
-Create a program that capitalizes the first letter of each sentence.
-Design a program that validates whether an input string is a valid email address. (hint: first step is to think through what an email address contains, and what you need to check for. This will require split, in, if/else, for loop)
-
+Lesson 4: Lists
+Create an empty list. Use a for loop to add integers from 1 to 10 to the list. Then, use a while loop to remove even numbers from the list.
+Generate a list of 10 random numbers between 1 and 100. Calculate and display the sum and average of the numbers using loops.
+Write a Python program to reverse a given list without using list slicing or built-in functions. Use a new list, for loop, and append to achieve this. Print the new reversed list.
+Given a list of numbers, create a new list that contains only the odd numbers from the original list. Use a for loop and conditional statements.
+Write a program that takes a original list, and creates a new list, with each of the original number squared (ie. x ** 2). 
+Given a list of numbers, write a program that removes all occurrences of a specific number provided by the user.
+Given a list of numbers, write a program that finds and prints all unique elements in the list (no duplicates).

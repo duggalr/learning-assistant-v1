@@ -1,0 +1,6 @@
+Lesson 1: Variables, Data Types, String Manipulation
+Description:
+Welcome to Lesson 1 of your programming journey! In this lesson, you will dive into the foundational concepts of programming, focusing on variables, data types, and string manipulation in Python. These are essential building blocks that every programmer needs to master.
+Variables: https://www.w3schools.com/python/python_variables.asp
+Data Types: https://www.w3schools.com/python/python_datatypes.asp
+User Input: https://www.w3schools.com/python/python_user_input.asp

@@ -29,8 +29,8 @@ class UserConversation(models.Model):
 
 
 class Lesson(models.Model):
-    # TODO: add description
     title = models.CharField(max_length=3000)
+    description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

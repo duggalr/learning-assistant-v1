@@ -1,3 +1,4 @@
+Lesson 5: Dictionaries
 Create an empty dictionary and add three random key-value pairs to it (ie. 'Apple', 3). Then, print the dictionary.
 Given a dictionary of student names and their corresponding ages {'Alice': 18, 'Bob': 20, 'Charlie': 19}, write a program that prints both Bob and Alice's name. What error do you get when you try to print John's weight?
 Write a program that iterates through a dictionary of countries and their capitals, printing each country-capital pair. countries = {'USA': 'Washington D.C.', 'France': 'Paris', 'Japan': 'Tokyo'}

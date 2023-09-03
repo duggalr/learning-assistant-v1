@@ -1,6 +1,6 @@
 Data Type Detective: Write a program that determines the data type of a given input (e.g., integer, float, string, list). If integer, print "Integer". If string, print "String". If list, print "List". If float, print "Float".
 Temperature Converter: Create a program that converts temperatures between Celsius and Fahrenheit. Prompt the user for input and perform the conversion.
 User Input Statistics: Prompt the user to enter a list of numbers separated by spaces. Calculate and display the mean, median, and mode of the numbers.
-Reverse String: Write a program that takes a user input string and prints it in reverse order, character by character (Hint: ask gpt for help on how to reverse a list).
-String Manipulation: Given a string, reverse it without using the reverse() function or slicing. (Hint: For loop)
+Reverse String: Write a program that takes a user input string and prints it in reverse order, character by character. (You will need to use a for loop; Ask GPT for help if needed)
+String Manipulation: Given a string, reverse it without using the reverse() function or slicing. (Will need For loop)
 Name Initials: Ask the user for their full name (first name and last name). Write a program that extracts the initials from the name and displays them in uppercase.

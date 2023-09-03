@@ -33,23 +33,23 @@ for li in q_files_list:
 
     print(lesson_name, lesson_desc_text)
 
-    # l_obj = Lesson.objects.create(
-    #     title = lesson_name,
-    #     description = lesson_desc_text
-    # )
-    # l_obj.save()
+    l_obj = Lesson.objects.create(
+        title = lesson_name,
+        description = lesson_desc_text
+    )
+    l_obj.save()
 
-    # for lq in lesson_questions:
-    #     full_sentence = lq.strip()
-    #     tmp_li = full_sentence.split(': ')
-    #     print(tmp_li)
-    #     question_name = tmp_li[0].strip()
-    #     question_text = tmp_li[1].strip()
+    for lq in lesson_questions:
+        full_sentence = lq.strip()
+        tmp_li = full_sentence.split(': ')
+        print(tmp_li)
+        question_name = tmp_li[0].strip()
+        question_text = tmp_li[1].strip()
 
-    #     lq_obj = LessonQuestion.objects.create(
-    #         question_name = question_name,
-    #         question_text = question_text,
-    #         lesson_obj = l_obj
-    #     )
-    #     lq_obj.save()
+        lq_obj = LessonQuestion.objects.create(
+            question_name = question_name,
+            question_text = question_text,
+            lesson_obj = l_obj
+        )
+        lq_obj.save()
 

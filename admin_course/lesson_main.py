@@ -21,6 +21,7 @@ titles = [
     'Lesson 4: Lists',
     'Lesson 5: Dictionaries',
     'Lesson 6: Functions',
+    'Lesson 7: Classes',
     # 'Lesson 6: Side Projects'
 ]
 

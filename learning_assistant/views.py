@@ -179,6 +179,7 @@ def questions(request, lid):
 
     return render(request, 'questions.html', {
         'lesson_object': lesson_obj,
+        'lesson_formatted_description': lesson_obj.description.replace('\n', '<br/><br/>').replace('|', '<br/>'),
         'lesson_questions': lesson_questions
     })
 
@@ -231,13 +232,14 @@ def handle_user_message(request):
         user_code = request.POST['user_code'].strip()
         user_cid = request.POST['cid']
 
-        print('User-CID:', user_cid)
+        initial_user_session = request.session.get('user')
+        if initial_user_session is None:
+            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
 
         user_oauth_obj = None
         prev_conversation_history = []
         if initial_user_session is not None:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-            print('user-auth-obj:', user_oauth_obj)
             prev_conversation_messages = UserConversation.objects.filter(
                 code_obj_id = user_cid,
                 user_auth_obj = user_oauth_obj
@@ -262,6 +264,7 @@ def handle_user_message(request):
             previous_chat_history_st = prev_conversation_st
         )
         # print('model-response:', model_response_dict)
+
 
         if user_cid == 'None':
             rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
@@ -304,9 +307,8 @@ def handle_user_message(request):
             )
             ur_obj.save()
 
-
+    
         model_response_dict['cid'] = uc_obj.id
-
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 

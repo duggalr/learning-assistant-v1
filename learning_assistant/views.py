@@ -178,6 +178,11 @@ def questions(request, lid):
     
     initial_user_session = request.session.get("user")
 
+    user_auth_obj = None
+    if initial_user_session is not None:
+        user_auth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+
     lesson_obj = get_object_or_404(Lesson, id = lid)
     lesson_questions = LessonQuestion.objects.filter(
         lesson_obj = lesson_obj
@@ -185,7 +190,14 @@ def questions(request, lid):
 
     final_lesson_questions_rv = []
     for ls_q_obj in lesson_questions:
-        uc_code_objects = UserCode.objects.filter(lesson_question_obj = ls_q_obj)
+        
+        uc_code_objects = []
+        if user_auth_obj is not None:
+            uc_code_objects = UserCode.objects.filter(
+                lesson_question_obj = ls_q_obj,
+                user_auth_obj = user_auth_obj
+            )
+
         if len(uc_code_objects) > 0:
             final_lesson_questions_rv.append({
                 'user_code': True,

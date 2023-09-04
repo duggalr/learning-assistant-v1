@@ -154,12 +154,26 @@
                 
                 &nbsp;&nbsp;
 
-                <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
-                    <div class="visible content">Submit</div>
-                    <div class="hidden content">
-                        <i class="check icon"></i>
+                {% if user_session is not None %}
+
+                    <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
+                        <div class="visible content">Submit</div>
+                        <div class="hidden content">
+                            <i class="check icon"></i>
+                        </div>
                     </div>
-                </div>
+
+                {% else %}
+
+                    <div id="solution_submit_button" class="ui tiny animated positive disabled button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
+                        <div class="visible content">Submit</div>
+                        <div class="hidden content">
+                            <i class="check icon"></i>
+                        </div>
+                    </div>
+
+                {% endif %}
+
 
                 {% if user_session is None %}
                     <a href="" style="margin-left: 1%; font-size: 13px; padding-top: 5px;">See Demo (TODO)</a>

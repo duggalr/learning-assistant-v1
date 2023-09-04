@@ -8,6 +8,7 @@ import time
 import functools
 import secrets
 import string
+import datetime
 from dotenv import load_dotenv, find_dotenv
 from authlib.integrations.django_client import OAuth
 
@@ -445,6 +446,58 @@ def handle_file_name_change(request):
         uc_obj.save()
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
+
+
+
+# TODO: 
+    # lock down. How?
+    # easiest --> superuser and django-admin <-- create that locally first and then, use the admin-page to login and go from there
+def teacher_admin_dashboard(request):
+
+    all_users = UserOAuth.objects.all()
+    
+    final_all_users_rv = []
+    for uobj in all_users:
+        code_count = UserCode.objects.filter(
+            user_auth_obj = uobj
+        ).count()
+        conversation_count = UserConversation.objects.filter(
+            user_auth_obj = uobj
+        ).count()
+
+        final_all_users_rv.append({
+            'user_obj': uobj,
+            'code_count': code_count,
+            'conversation_count': conversation_count
+        })
+
+    return render(request, 'teacher_admin_dashboard.html', {
+        'all_students': final_all_users_rv
+    })
+
+
+
+def teacher_admin_student_page(request, uid):
+    
+    user_auth_obj = get_object_or_404(UserOAuth, id = uid)
+
+    final_user_rv = {}
+    final_user_rv['user_obj'] = user_auth_obj
+    final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
+    final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
+
+    user_code_objects = UserCode.objects.filter(
+        user_auth_obj = user_auth_obj
+    )
+
+    user_conversation_objects = UserConversation.objects.filter(
+        user_auth_obj = user_auth_obj
+    )
+
+    final_user_rv['user_code_objects'] = user_code_objects
+    final_user_rv['user_conversation_objects'] = user_conversation_objects
+
+    return render(request, 'teacher_admin_student_view.html', final_user_rv)
 
 
 

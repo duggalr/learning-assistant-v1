@@ -27,7 +27,9 @@ urlpatterns = [
 
     # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
 
-]
+    # Admin Views
+    path("admin-dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),
+    path("admin-student-profile/<int:uid>", views.teacher_admin_student_page, name="teacher_admin_student_page"),
 
-# TODO: test the new login and ensure good / go from there
+]
 

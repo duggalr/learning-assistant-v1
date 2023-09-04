@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+    </style>
+
+    {% include 'dashboard_navbar.html' %}
+
+    <div class="ui grid container">
+        
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column">
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="user icon"></i> -->
+                    Student Profile
+                </h3>
+
+            </div>
+
+            <ul>
+                <li>Email: {{ user_obj.email }}</li>
+                <li>Auth Type: {{ user_obj.auth_type }}</li>
+                <li>Created Date: {{ user_signup_date }}</li>
+                <li>Last Login Date: {{ user_last_login_date }}</li>
+                
+            </ul>
+
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    Questions Student has asked:
+                </h3>
+
+            </div>
+
+
+            <ul>
+
+                {% for qobj in user_conversation_objects %}
+                
+                    <li>
+                        <strong>Question: </strong>{{ qobj.question }} | <strong>ID: </strong>{{ qobj.id }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="user icon"></i> -->
+                    Code Student has written:
+                </h3>
+
+            </div>
+
+            <ul>
+
+                {% for cdobj in user_code_objects %}
+                
+                    <li>
+                        <strong>Question: </strong>{{ cdobj.code_unique_name }} | <strong>ID: </strong>{{ cdobj.id }}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+
+{% endblock %}
+
+
+

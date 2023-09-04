@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+    </style>
+
+    {% include 'dashboard_navbar.html' %}
+
+    <div class="ui grid container">
+        
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column">
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="code branch icon" style="font-size: 22px;"></i> -->
+                    <i class="user secret icon"></i>
+                    Admin Dashboard
+                </h3>
+
+            </div>
+        
+            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 10px;">
+      
+                {% for st_obj in all_students %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header" style="font-size: 15.5px;">
+                                <a class="file_name_header" href="{% url 'teacher_admin_student_page' uid=st_obj.user_obj.id %}">
+                                    {{ st_obj.user_obj.name }}
+                                </a>
+                            </div>
+            
+                            <div style="padding-top: 14px;">
+
+                                <span style="font-size: 12.5px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>
+                                    Created: {{ st_obj.user_obj.created_at }}
+                                </span>
+                                
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>Messages: {{ st_obj.conversation_count }}
+                                </span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>Code Files: {{ st_obj.code_count }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+
+{% endblock %}
+
+
+

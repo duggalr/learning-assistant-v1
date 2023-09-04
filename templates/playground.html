@@ -299,9 +299,22 @@
                     <!-- <button class="ui inverted blue medium button">
                         Create an account to start asking questions
                     </button> -->
-                    <button class="ui black basic button">
+                    <button class="ui black basic button" id="create_account_button">
                         Create an account to start asking questions
                     </button>
+                </div>
+
+                <div class="input-container" style="display: none;">
+    
+                    <div class="ui form" style="width: 100%;">
+                        <div class="field">
+                            <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                        </div>                    
+                    </div>
+                    &nbsp;
+                    <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                    <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
                 </div>
 
             {% endif %}
@@ -429,6 +442,7 @@ mystdout.getvalue()
         const chat = document.getElementById("chat");
         const chatInput = document.getElementById("chatInput");
         const sendButton = document.getElementById("sendButton");
+
 
         sendButton.addEventListener("click", sendMessage);
         chatInput.addEventListener("keydown", (event) => {
@@ -698,6 +712,15 @@ mystdout.getvalue()
             
 
         }
+
+
+        
+        $('#create_account_button').click(function(){
+            
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+            window.location.replace(new_url);
+
+        });
 
         
     </script>

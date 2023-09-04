@@ -17,7 +17,8 @@
 
         <div class="ui two column centered grid">
             
-            <div class="column" style="text-align: center; width: 75%; margin-top: 1.5%;">
+            <!-- <div class="column" style="text-align: center; width: 75%; margin-top: 1.5%;"> -->
+            <div class="column" style="text-align: center; width: 100%;  margin-top: 1.5%;">
 
                 <h1 class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
                     AI Programming Tutor
@@ -33,7 +34,7 @@
                     
                     {% if user_session %}
 
-                        <div class="ui animated medium black button" tabindex="0" id="dashboard_button">
+                        <div class="ui animated large black button" tabindex="0" id="dashboard_button">
                             <div class="visible content">
                                 Your Dashboard
                             </div>
@@ -42,7 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="ui animated medium black button" tabindex="0" id="playground_visit_button">
+                        <div class="ui animated large black button" tabindex="0" id="playground_visit_button">
                             <div class="visible content">
                                 Go to Playground.
                             </div>
@@ -53,7 +54,7 @@
 
                     {% else %}
 
-                        <div class="ui animated medium black button" tabindex="0" id="account_create_button">
+                        <div class="ui animated large black button" tabindex="0" id="account_create_button">
                             <div class="visible content">
                                 Create an Account. 100% Free.
                             </div>
@@ -62,7 +63,7 @@
                             </div>
                         </div>
 
-                        <div class="ui animated medium black button" tabindex="0" id="playground_visit_button_two">
+                        <div class="ui animated large black button" tabindex="0" id="playground_visit_button_two">
                             <div class="visible content">
                                 Try the AI in our Playground.
                             </div>
@@ -75,13 +76,13 @@
                     
                 </div>
 
-                <span style="color: gray; font-size: 12px;">
+                <!-- <span style="color: gray; font-size: 12px;">
                     By creating an account, you will be able to save all your previous conversations and code you entered...
-                </span>
+                </span> -->
     
                 <div style="margin-top: 20px;">
                     <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
-                    <video id="landing_demo_video" width="800"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
+                    <video id="landing_demo_video" width="1000"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
                         <source src="https://file-app-bucket.s3.ca-central-1.amazonaws.com/landing_demo.mov">
                     </video>
                 </div>
@@ -95,7 +96,6 @@
 
     <!-- Footer -->
     {% include 'landing_footer.html' %}
-
 
 
     <script>

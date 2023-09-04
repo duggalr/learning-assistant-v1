@@ -1,0 +1,5 @@
+Length of String: Write a program that calculates and prints the length of a user-input string without using the built-in len() function. (Define count variable and use for loop to count letters in string)
+Vowel Counter: Given a string, write a program to count and display the number of vowels (both lowercase and uppercase) in the string. (vowel is when character is: 'a, e, i, o, u')
+Number of Words: Write a program that counts and displays the number of words in a user-input sentence. (using split function)
+Letter Capitalizer: Create a program that capitalizes the first letter of each sentence.
+Email Address Validator: Design a program that validates whether an input string is a valid email address. (first step is to think through what an email address contains, and what you need to check for. This will require split, in, if/else, for loop)

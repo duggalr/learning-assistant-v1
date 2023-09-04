@@ -1,0 +1,4 @@
+Lesson 2: For/While Loops & Booleans & Conditionals (If/Else)
+Description:
+In this lesson, you will learn the fundamental building blocks of programming: loops, booleans, and conditionals. These concepts are the backbone of any programming language and play a crucial role in solving complex problems efficiently.
+If/Else: https://www.w3schools.com/python/gloss_python_else.asp | For Loops: https://www.w3schools.com/python/python_for_loops.asp | While Loops: https://www.w3schools.com/python/python_while_loops.asp

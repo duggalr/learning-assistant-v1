@@ -166,7 +166,7 @@ def playground(request):
 
 def lesson_dashboard(request):
     initial_user_session = request.session.get("user")
-    lesson_objects = Lesson.objects.all()
+    lesson_objects = Lesson.objects.all().order_by('created_at')
 
     return render(request, 'lesson_dashboard.html', {
         'user_session': initial_user_session,

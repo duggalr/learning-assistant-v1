@@ -352,10 +352,11 @@
 
         user_session = '{{ user_session }}';
         let user_cid = '{{ code_id }}';
-        let lesson_qid = '{{ qid }}'
+        let lesson_qid = '{{ qid }}';
+        let user_code_obj = '{{ uc_obj }}';
 
-        if (user_cid != 'None'){
-            
+        if (user_code_obj != 'None'){
+
             let user_code_st = `{{ uc_obj.user_code|safe }}`;
             console.log('user-code-st:', user_code_st);
 
@@ -647,7 +648,6 @@ mystdout.getvalue()
 
 
 
-
         $('#edit_filename_span').click(function(){
 
             $('#code_file_name_text').hide();
@@ -723,6 +723,7 @@ mystdout.getvalue()
         });
 
         
+
     </script>
 
 

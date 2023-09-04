@@ -15,6 +15,11 @@
 
         <div class="twelve wide column">
 
+            <a href="{% url 'teacher_admin_dashboard' %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a>
+
             <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
                 
                 <h3 class="ui header" >
@@ -24,43 +29,43 @@
 
             </div>
 
-            <ul>
-                <li>Email: {{ user_obj.email }}</li>
-                <li>Auth Type: {{ user_obj.auth_type }}</li>
-                <li>Created Date: {{ user_signup_date }}</li>
-                <li>Last Login Date: {{ user_last_login_date }}</li>
+            <ul style="line-height: 1.7em;">
+
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Email:
+                    </strong>
+                    {{ user_obj.email }}
+                </li>
+                
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Auth Type:
+                    </strong>
+                    {{ user_obj.auth_type }}
+                </li>
+                
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Created Date:
+                    </strong>
+                    {{ user_signup_date }}</li>
+                
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Last Login Date:
+                    </strong>
+                    {{ user_last_login_date }}
+                </li>
                 
             </ul>
-
-
-            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
-                
-                <h3 class="ui header" >
-                    Questions Student has asked:
-                </h3>
-
-            </div>
-
-
-            <ul>
-
-                {% for qobj in user_conversation_objects %}
-                
-                    <li>
-                        <strong>Question: </strong>{{ qobj.question }} | <strong>ID: </strong>{{ qobj.id }}
-                    </li>
-
-                {% endfor %}
-
-            </ul>
-
 
 
             <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
                 
                 <h3 class="ui header" >
                     <!-- <i class="user icon"></i> -->
-                    Code Student has written:
+                    Student Activity:
                 </h3>
 
             </div>
@@ -70,8 +75,35 @@
                 {% for cdobj in user_code_objects %}
                 
                     <li>
-                        <strong>Question: </strong>{{ cdobj.code_unique_name }} | <strong>ID: </strong>{{ cdobj.id }}
+                        
+                        {% if cdobj.0.lesson_question_obj.lesson_obj is None %}
+
+                            <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
+                                <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>None
+                            </a>
+                            
+                        {% else %}
+                            
+                            <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
+                                <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>{{ cdobj.0.lesson_question_obj.lesson_obj.title }}
+                            </a>
+                            
+                        {% endif %}
+                        
+                        <ul style="padding-top: 10px; line-height: 1.7em;">
+
+                            {% for code_convers in cdobj.1 %}
+
+                                <li>
+                                    <strong>Question: </strong>{{ code_convers.question }}
+                                </li>
+                                
+                            {% endfor %}
+
+                        </ul>
+                        
                     </li>
+                    <br/>
 
                 {% endfor %}
 

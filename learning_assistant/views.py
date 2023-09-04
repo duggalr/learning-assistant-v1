@@ -136,22 +136,40 @@ def playground(request):
     initial_user_session = request.session.get("user")
 
     code_id = request.GET.get('cid', None)
-    print('cid:', code_id)
-
     lqid = request.GET.get('lqid', None)
-    print('lqid:', lqid)
+
+    user_oauth_obj = None
+    if initial_user_session is not None:
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
     ls_q_obj = None
     if lqid is not None:
         ls_q_obj = get_object_or_404(LessonQuestion, id = lqid)
 
-    uc_objects = UserCode.objects.filter(id = code_id)
+    
+    user_is_admin = request.user.is_superuser
+    if user_is_admin:  # exempt from auth check; has visibility into all user's code
+        uc_objects = UserCode.objects.filter(
+            id = code_id
+        )
+    else:
+        uc_objects = UserCode.objects.filter(
+            id = code_id,
+            user_auth_obj = user_oauth_obj
+        )
+
     user_conversation_objects = []
     if len(uc_objects) > 0:
         uc_obj = uc_objects[0]
-        user_conversation_objects = UserConversation.objects.filter(code_obj = uc_obj)
-        # if len(us_conv_objects) > 0:
-        #     user_conversation_obj = us_conv_objects[0]
+        if user_is_admin:
+            user_conversation_objects = UserConversation.objects.filter(
+                code_obj = uc_obj
+            )
+        else:
+            user_conversation_objects = UserConversation.objects.filter(
+                code_obj = uc_obj,
+                user_auth_obj = user_oauth_obj
+            )
     else:
         uc_obj = None
     
@@ -165,6 +183,7 @@ def playground(request):
     })
 
 
+
 def lesson_dashboard(request):
     initial_user_session = request.session.get("user")
     lesson_objects = Lesson.objects.all().order_by('created_at')
@@ -173,6 +192,7 @@ def lesson_dashboard(request):
         'user_session': initial_user_session,
         'lesson_objects': lesson_objects
     })
+
 
 
 def questions(request, lid):
@@ -371,10 +391,6 @@ def save_user_code(request):
 
     if request.method == 'POST':
 
-        # print('form-data:', request.POST)
-
-        # print('cid', request.POST['cid'], request.POST['cid'] == None, request.POST['cid'] == 'None')
-
         if initial_user_session is not None:
             user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
             if len(user_oauth_objects) == 0:
@@ -449,10 +465,10 @@ def handle_file_name_change(request):
 
 
 
-# TODO: 
-    # lock down. How?
-    # easiest --> superuser and django-admin <-- create that locally first and then, use the admin-page to login and go from there
 def teacher_admin_dashboard(request):
+
+    if not request.user.is_superuser:
+        return redirect('landing')
 
     all_users = UserOAuth.objects.all()
     
@@ -479,6 +495,9 @@ def teacher_admin_dashboard(request):
 
 def teacher_admin_student_page(request, uid):
     
+    if not request.user.is_superuser:
+        return redirect('landing')
+
     user_auth_obj = get_object_or_404(UserOAuth, id = uid)
 
     final_user_rv = {}
@@ -486,16 +505,31 @@ def teacher_admin_student_page(request, uid):
     final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
     final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
 
+    
     user_code_objects = UserCode.objects.filter(
         user_auth_obj = user_auth_obj
     )
 
-    user_conversation_objects = UserConversation.objects.filter(
-        user_auth_obj = user_auth_obj
-    )
+    final_code_rv = []
+    for uc_obj in user_code_objects:
+        user_conversation_objects = UserConversation.objects.filter(
+            code_obj = uc_obj
+        )
+        # final_code_rv[uc_obj] = {
+        #     'conversations': user_conversation_objects
+        # }
+        final_code_rv.append([uc_obj, user_conversation_objects])
 
-    final_user_rv['user_code_objects'] = user_code_objects
-    final_user_rv['user_conversation_objects'] = user_conversation_objects
+        # final_code_rv.append({
+        #     'code_obj': uc_obj,
+        #     'conversations': user_conversation_objects
+        # })
+    
+
+    # final_user_rv['user_code_objects'] = user_code_objects
+    # final_user_rv['user_conversation_objects'] = user_conversation_objects
+
+    final_user_rv['user_code_objects'] = final_code_rv
 
     return render(request, 'teacher_admin_student_view.html', final_user_rv)
 

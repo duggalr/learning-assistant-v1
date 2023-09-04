@@ -23,6 +23,11 @@
             color: lightblue;
         }
 
+        .add_code_icon:hover{
+            cursor: pointer;
+            color: lightblue;
+        }
+
     </style>
 
 
@@ -39,9 +44,14 @@
                 
                 <h3 class="ui header" >
                     <!-- <i class="comments icon" style="font-size: 24px;"></i> -->
-                    <i class="code icon" style="font-size: 22px;"></i>
+                    <i class="code branch icon" style="font-size: 22px;"></i>
                     Saved Code:
                 </h3>
+
+                <span class="add_code_icon" style="font-size: 16px;">
+                    <i class="code icon"></i>
+                    Start Coding
+                </span>
 
             </div>
         
@@ -143,6 +153,15 @@
             window.location.replace(new_url);
 
         })
+
+
+        $('.add_code_icon').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+            window.location.replace(new_url);
+
+        })
+        
 
     </script>
 

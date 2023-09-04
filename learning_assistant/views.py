@@ -504,7 +504,6 @@ def teacher_admin_student_page(request, uid):
     final_user_rv['user_obj'] = user_auth_obj
     final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
     final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
-
     
     user_code_objects = UserCode.objects.filter(
         user_auth_obj = user_auth_obj
@@ -515,16 +514,7 @@ def teacher_admin_student_page(request, uid):
         user_conversation_objects = UserConversation.objects.filter(
             code_obj = uc_obj
         )
-        # final_code_rv[uc_obj] = {
-        #     'conversations': user_conversation_objects
-        # }
         final_code_rv.append([uc_obj, user_conversation_objects])
-
-        # final_code_rv.append({
-        #     'code_obj': uc_obj,
-        #     'conversations': user_conversation_objects
-        # })
-    
 
     # final_user_rv['user_code_objects'] = user_code_objects
     # final_user_rv['user_conversation_objects'] = user_conversation_objects
@@ -594,7 +584,4 @@ def teacher_admin_student_page(request, uid):
 #             student_code = user_code,
 #             previous_chat_history_st = prev_conversation_st
 #         )
-
-
-
 

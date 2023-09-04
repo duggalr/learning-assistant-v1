@@ -275,9 +275,10 @@ def handle_user_message(request):
 
 
         lesson_ques_obj = None
-        lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
-        if len(lesson_question_objects) > 0:
-            lesson_ques_obj = lesson_question_objects[0]
+        if user_lqid != 'None':
+            lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
+            if len(lesson_question_objects) > 0:
+                lesson_ques_obj = lesson_question_objects[0]
 
 
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
@@ -311,7 +312,11 @@ def handle_user_message(request):
         # print('model-response:', model_response_dict)
 
         if user_cid == 'None':
-            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            
+            if user_lqid == 'None':
+                rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            else:
+                rnd_code_filename = lesson_ques_obj.question_name
 
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_oauth_obj,
@@ -382,9 +387,10 @@ def save_user_code(request):
         lq_id = request.POST['lqid']
 
         lesson_ques_obj = None
-        lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
-        if len(lesson_question_objects) > 0:
-            lesson_ques_obj = lesson_question_objects[0]
+        if lq_id != 'None':
+            lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
+            if len(lesson_question_objects) > 0:
+                lesson_ques_obj = lesson_question_objects[0]
 
         if cid == 'None':
             

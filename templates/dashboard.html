@@ -101,15 +101,25 @@
                 {% else %}
 
                     <div class="ui placeholder segment">
-                        <div class="ui icon header">
+
+                        <div class="ui icon header" style="font-size: 17px; line-height: 1.3em;">
                             <!-- <i class="pdf file outline icon"></i> -->
                             No Previous Questions Asked.
                             <br/>
-                            Start asking questions now, by visiting the playground.
+                            Start asking questions now, by visiting the playground. 
+                            <br/>
+                            Or, start browsing through and completing the Python exercises on our site.
                         </div>
-                        <div class="ui primary button visit_playground_button">
-                            Visit Playground
+
+                        <div class="ui animated medium black button visit_playground_button" tabindex="0" >
+                            <div class="visible content">
+                                Visit Playground
+                            </div>
+                            <div class="hidden content">
+                            <i class="right arrow icon"></i>
+                            </div>
                         </div>
+
                     </div>
 
                 {% endif %}

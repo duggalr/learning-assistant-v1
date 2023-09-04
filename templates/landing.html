@@ -79,8 +79,11 @@
                     By creating an account, you will be able to save all your previous conversations and code you entered...
                 </span>
     
-                <div style="margin-top: 30px;">
-                    <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                <div style="margin-top: 20px;">
+                    <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
+                    <video id="landing_demo_video" width="800"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
+                        <source src="https://file-app-bucket.s3.ca-central-1.amazonaws.com/landing_demo.mov">
+                    </video>
                 </div>
 
             </div>
@@ -96,6 +99,10 @@
 
 
     <script>
+
+        var video = document.getElementById('landing_demo_video');
+        video.playbackRate = 4.0;
+
 
         $('#dashboard_button').click(function(){
 
@@ -122,7 +129,8 @@
             window.location.href = 'playground';
 
         });
-        
+ 
+
 
     </script>
 

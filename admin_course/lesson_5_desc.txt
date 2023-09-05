@@ -1,0 +1,4 @@
+Lesson 5: Dictionaries
+Description:
+In this lesson, you will learn the fundamental operations of dictionaries.
+Dictionaries: https://www.w3schools.com/python/python_dictionaries.asp

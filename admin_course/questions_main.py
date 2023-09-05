@@ -19,9 +19,11 @@ from learning_assistant.models import *
 # ]
 
 q_files_list = [
-    ['lesson_1_desc.txt', 'lesson_1_questions.txt'],
-    ['lesson_2_desc.txt', 'lesson_2_questions.txt'],
-    ['lesson_3_desc.txt', 'lesson_3_questions.txt']
+    # ['lesson_1_desc.txt', 'lesson_1_questions.txt'],
+    # ['lesson_2_desc.txt', 'lesson_2_questions.txt'],
+    # ['lesson_3_desc.txt', 'lesson_3_questions.txt']
+    # ['lesson_4_desc.txt', 'lesson_4_questions.txt'],
+    ['lesson_5_desc.txt', 'lesson_5_questions.txt'],
 ]
 
 for li in q_files_list:

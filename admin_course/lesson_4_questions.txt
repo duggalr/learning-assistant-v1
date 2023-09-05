@@ -1,0 +1,7 @@
+List-Append: Create an empty list. Use a for loop to add integers from 1 to 10 to the list.
+Sum-Average: Generate a list of 10 random numbers between 1 and 100. Calculate and display the sum and average of the numbers using loops.
+Reverse-List: Write a Python program to reverse a given list without using list slicing or built-in functions. (Use a new list, for loop, and append to achieve this. Print the new reversed list.)
+Odd-List: Given a list of numbers, create a new list that contains only the odd numbers from the original list. Use a for loop and conditional statements.
+Squared-List: Write a program that takes a original list, and creates a new list, with each of the original number squared (ie. x ** 2).
+Item-Removal: Given a list of numbers, write a program that removes all occurrences of a specific number provided by the user.
+Duplicate-Removal: Given a list of numbers, write a program that finds and prints all unique elements in the list (no duplicates).

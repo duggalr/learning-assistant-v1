@@ -372,6 +372,7 @@
         }
 
         
+
         async function main() {
             let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
             // Pyodide ready
@@ -385,20 +386,6 @@
             output.value += ">>> " + s + "\n";
         }
             
-        // async function evaluatePython() {
-
-        //     let pyodide = await pyodideReadyPromise;
-        //     try {
-        //         console.log('PYODIDE OUTPUT:', editor.getValue())
-        //         let output = pyodide.runPython(editor.getValue());
-        //         console.log('OUTPUT TWO:', output);
-
-        //         addToOutput(output);
-        //     } catch (err) {
-        //         addToOutput(err);
-        //     }
-            
-        // }
 
         async function evaluatePython() {
             let pyodide = await pyodideReadyPromise;
@@ -467,6 +454,19 @@ mystdout.getvalue()
             }
            
         });
+
+        // https://stackoverflow.com/questions/11502122/jquery-keypress-event-for-cmds-and-ctrls
+        $(document).keydown(function(event) {
+
+                if((event.ctrlKey || event.metaKey) && event.which == 83) {
+                    // Save Function
+                    event.preventDefault();
+                    saveCode();
+                    return false;
+                };
+            }
+
+        );
 
         
         $("#generate_code_fb_button").click(function(){
@@ -719,6 +719,7 @@ mystdout.getvalue()
             window.location.replace(new_url);
 
         });
+
 
         
 

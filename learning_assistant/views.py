@@ -10,6 +10,7 @@ import secrets
 import string
 import datetime
 from dotenv import load_dotenv, find_dotenv
+from operator import itemgetter
 from authlib.integrations.django_client import OAuth
 
 from .models import *
@@ -483,9 +484,14 @@ def teacher_admin_dashboard(request):
 
         final_all_users_rv.append({
             'user_obj': uobj,
+            'user_created_at': datetime.datetime.fromtimestamp(float(uobj.created_at)),
+            'user_last_login_in': datetime.datetime.fromtimestamp(float(uobj.updated_at)),
             'code_count': code_count,
             'conversation_count': conversation_count
         })
+
+    
+    final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
 
     return render(request, 'teacher_admin_dashboard.html', {
         'all_students': final_all_users_rv

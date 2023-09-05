@@ -49,6 +49,11 @@
 
             </div> -->
         
+            <a href="{% url 'lesson_dashboard' %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a>
+
             <div style="padding-top: 20px;">
 
                 <h3 id="lesson_header">
@@ -121,7 +126,7 @@
                                     
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ cobj.lesson_question_obj.created_at }}
+                                        Uploaded: {{ cobj.lesson_question_obj.created_at|date }}
                                     </span>
 
                                 </div>

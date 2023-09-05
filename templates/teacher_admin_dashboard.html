@@ -43,9 +43,16 @@
 
                                 <span style="font-size: 12.5px; color: gray; float: left;">
                                     <i class="clock outline icon"></i>
-                                    Created: {{ st_obj.user_obj.created_at }}
+                                    Created: {{ st_obj.user_created_at|date }}
                                 </span>
                                 
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="clock outline icon"></i>
+                                    Last Login: {{ st_obj.user_last_login_in }}
+                                </span>
+
                                 <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
                                 
                                 <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">

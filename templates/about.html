@@ -23,9 +23,15 @@
 
     <section>
 
+        <!--
+            TODO: 
+            - about articulating what the overall problem we are solving    
+            - change to current list of features rather than future list <-- nice concise view clearly articulating current state
+        -->
+
         <div class="ui two column centered grid">
             
-            <div class="column" style="width: 65%; margin-top: 1%;">
+            <div class="column" style="width: 65%; margin-top: 2%;">
 
                 <h3 class="ui header">
                     <i class="info icon" ></i>
@@ -34,9 +40,9 @@
 
                 <div class="ui basic segment">
 
-                    <p style="font-size: 16px; line-height: 1.5em;">
+                    <p style="font-size: 16px; line-height: 1.6em;">
                         Code Companion is a GPT-4 based assistant, that helps answer any programming questions or difficulties you run into.
-                        Simply write your code in our <a href="{% url 'playground' %}">online editor</a> (currently support Python), and ask any questions you have to our assistant. 
+                        Simply write your code in our <a href="{% url 'playground' %}">online editor</a> (currently supports Python), and ask any questions you have to our assistant. 
                         <br/><br/>
                         <strong>
                             Code Companion is not here to give you the answer. Instead, just like a great tutor, it will help guide you in the right direction by asking you questions.
@@ -48,10 +54,10 @@
                         It is a great tool for those who are starting to learn programming, and want some additional assistance or guidance along the way!
                         
                         <br/><br/>
-                        <strong>You can use Code Companion to:</strong>
+                        <strong>Currently, you can:</strong>
                         <ul class="ui list" >
                             <li style="font-size: 16px; line-height: 1.5em;">
-                                Ask Code Companion specific questions about your code or a bug you are facing.
+                                Utilize our In-Built Editor & Interpreter, where you can work on the question, and ask Code Companion for help at every step along the way.
                             </li>
                             <li style="font-size: 16px; line-height: 1.5em;">
                                 Ask Code Companion to generate thorough explanations and examples for specific concepts.
@@ -59,12 +65,16 @@
                             <li style="font-size: 16px; line-height: 1.5em;">
                                 Ask Code Companion to generate questions to help reinforce your understanding of specific concepts.
                             </li>
+                            <li style="font-size: 16px; line-height: 1.5em;">
+                                We have in-built <a href="{% url 'lesson_dashboard' %}">Python exercises</a>, for you to experience/use the AI, while gaining foundational programming knowledge.
+                            </li>
+                            
                         </ul>
                     </p>
 
                 </div>
 
-                <h3 class="ui header">
+                <!-- <h3 class="ui header">
                     <i class="list icon" ></i>
                     Potential Features down the line:
                 </h3>
@@ -85,7 +95,7 @@
                     <p>
                         <a href="mailto:duggalr42@gmail.com">Reach out</a> if you have ideas, suggestions, questions, or want to help engineer Code Companion!
                     </p>
-                </div>
+                </div> -->
 
 
                 <!-- <h3 class="ui header">

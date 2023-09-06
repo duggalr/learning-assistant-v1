@@ -6,6 +6,17 @@
 
     <style>
 
+
+        #landing_header:hover{
+            color: black;
+            transform: scale(1.1);
+            transition: all ease 500ms;
+        }
+
+        #demo_link:hover{
+            font-weight: bold;
+        }
+
     </style>
 
 
@@ -20,7 +31,7 @@
             <!-- <div class="column" style="text-align: center; width: 75%; margin-top: 1.5%;"> -->
             <div class="column" style="text-align: center; width: 100%;  margin-top: 1.5%;">
 
-                <h1 class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
+                <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
                     Code Companion
                 </h1>
     
@@ -32,12 +43,15 @@
                     <br/>
                     It won't solve your homework, but will definitely guide your thinking and help you develop a deeper understanding of the material.
                     <br/>
-                    <a href="{% url 'about' %}">
+                    <a id="demo_link" style="font-size: 18px;" href="https://www.youtube.com/watch?v=iju3yQSQNF4&t=91s" target="_blank" rel="noopener noreferrer">Watch the Demo.</a>
+
+                    <!-- <a href="{% url 'about' %}">
                         See a list of our Features
-                    </a>
+                    </a> -->
                 </p>
-                
-                <div id="main-button-row" style="padding-top: 20px; padding-bottom: 10px;">
+
+
+                <div id="main-button-row" style="padding-top: 8px; padding-bottom: 10px;">
                     
                     {% if user_session %}
 

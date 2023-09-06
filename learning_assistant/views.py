@@ -454,6 +454,8 @@ def handle_file_name_change(request):
         new_file_name = request.POST['new_file_name'].strip()
         cid = request.POST['cid']
 
+        print('data:', request.POST)
+
         uc_obj = UserCode.objects.get(
             id = cid,
             user_auth_obj = user_auth_obj

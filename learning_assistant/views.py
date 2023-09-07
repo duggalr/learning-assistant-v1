@@ -440,6 +440,9 @@ def save_user_code(request):
 
 
 
+# TODO: 
+    # at the moment, file-name-change will only work if code object exists (ie. cid is not None)
+        # fix this to save the code with the new file-name if the code obj doesn't exist
 def handle_file_name_change(request):
     
     initial_user_session = request.session.get("user")
@@ -454,7 +457,6 @@ def handle_file_name_change(request):
         new_file_name = request.POST['new_file_name'].strip()
         cid = request.POST['cid']
 
-        print('data:', request.POST)
 
         uc_obj = UserCode.objects.get(
             id = cid,

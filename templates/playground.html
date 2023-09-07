@@ -361,7 +361,8 @@
 
         } else if (lesson_qid != 'None'){
 
-            let lesson_question = '{{ lesson_question_object.question_text|safe }}'
+            let lesson_question = `{{ lesson_question_object.question_text|safe }}`
+            console.log('lesson-q:', lesson_question)
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + lesson_question + `\n\n# Write your code below:\n\n`);
 
         } else {

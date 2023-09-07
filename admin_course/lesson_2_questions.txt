@@ -1,32 +1,21 @@
-Multiplication Table: Write a Python program that generates a multiplication table from 1-12 for a given number (e.g., 7).
-# Example Input: 
-n = 3
-# Example Output:
-3
-6
-9
-12
-...
-36
+# Question: Multiplication Table
+# Description: Write a Python program that generates a multiplication table from 1-12 for a given number (e.g., 7).
+# Example Input: n = 3
+# Example Output: 3, 6, 9, 12, ..., 36
 
-Palindrome Checker: Design a program that checks if a given word or phrase is a palindrome (reads the same forwards and backwards; ie. radar is a palindrome word), ignoring spaces and punctuation.
-# Example Input: 
-s = "radar"
-# Example Output:
-"Yes"
-# Example Input: 
-s = "hello"
-# Example Output:
-"No"
+# Question: Palindrome Checker
+# Description: Design a program that checks if a given word or phrase is a palindrome (reads the same forwards and backwards; ie. radar is a palindrome word), ignoring spaces and punctuation.
+# Example Input: s = "radar"
+# Example Output: "Yes"
+# Example Input: s = "hello"
+# Example Output: "No"
 
-Prime Checker: Create a program that determines whether a number is a prime or not. 
-# Example Input: 
-n = 4
-# Example Output:
-"No"
-# Example Input: 
-s = 7
-# Example Output:
-"Yes"
+# Question: Prime Checker
+# Description: Create a program that determines whether a number is a prime or not.
+# Example Input: n = 4
+# Example Output: "No"
+# Example Input: s = 7
+# Example Output: "Yes"
 
-Rock, Paper, Scissors: Create a text-based version of the classic game "Rock, Paper, Scissors" against the computer. Use a while loop to allow the player to play multiple rounds until they choose to quit. Keep track of their wins, losses, and ties.
+# Question: Rock, Paper, Scissors
+# Description: Create a text-based version of the classic game "Rock, Paper, Scissors" against the computer. Use a while loop to allow the player to play multiple rounds until they choose to quit. Keep track of their wins, losses, and ties.

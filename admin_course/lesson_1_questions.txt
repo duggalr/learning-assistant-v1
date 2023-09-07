@@ -1,49 +1,35 @@
-Data Type Detective: Write a program that determines the data type of a given variable (e.g., integer, float, string, list). If integer, print "Integer". If string, print "String". If list, print "List". If float, print "Float".
-# Example Input: 
-x = 3
-# Example Output:
-"Integer"
-# Example Input: 
-x = "dog"
-# Example Output:
-"String"
+Question: Data Type Detective
+# Description: Write a program that determines the data type of a given variable (e.g., integer, float, string, list). If integer, print "Integer". If string, print "String". If list, print "List". If float, print "Float".
+# Example Input: x = 3
+# Example Output: "Integer"
+# Example Input: x = "dog"
+# Example Output: "String"
 
-Temperature Converter: Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to 2 digits.
-# Example Input: 
-temperature = 3
-convert_to = "F"
-# Example Output:
-37.40
-# Example Input: 
-temperature = 108
-convert_to = "C"
-# Example Output:
-37.78
+Question: Temperature Converter
+# Description: Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to 2 digits.
+# Example Input: temperature = 3, convert_to = "F"
+# Example Output: 37.40
+# Example Input: temperature = 108, convert_to = "C"
+# Example Output: 37.78
 
-User Input Statistics: Given a list of numbers, calculate and display the mean.
-# Example Input: 
-num_list = [2,3,5,5]
-# Example Output:
-3.75
+Question: User Input Statistics
+# Description: Given a list of numbers, calculate and display the mean.
+# Example Input: num_list = [2,3,5,5]
+# Example Output: 3.75
 
-Reverse String: Write a program that takes a user input string and prints it in reverse order, character by character.
-# Example Input:
-st = "hello"
-# Example Output:
-"olleh"
+Question: Reverse String
+# Description: Write a program that takes a user input string and prints it in reverse order, character by character.
+# Example Input: st = "hello"
+# Example Output: "olleh"
 
-String Manipulation: Given a string, reverse it without using the reverse() function or slicing. (Will need For loop)
-# Example Input:
-st = "hello"
-# Example Output:
-"olleh"
+Question: String Manipulation
+# Description: Given a string, reverse it without using the reverse() function or slicing. (Will need For loop)
+# Example Input: st = "hello"
+# Example Output: "olleh"
 
-Name Initials: Given a full name (separated by space), write a program that extracts the initials from the name and displays them in uppercase.
-# Example Input:
-full_name = "John Smith"
-# Example Output:
-J.S.
-# Example Input:
-full_name = "daniel johnson"
-# Example Output:
-D.J.
+Question: Name Initials
+# Description: Given a full name (separated by space), write a program that extracts the initials from the name and displays them in uppercase.
+# Example Input: full_name = "John Smith"
+# Example Output: J.S.
+# Example Input: full_name = "daniel johnson"
+# Example Output: D.J.

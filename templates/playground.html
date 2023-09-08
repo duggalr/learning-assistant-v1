@@ -305,8 +305,8 @@
                         <br/>
                         {% for ucs_obj in user_conversation_objects %}
                         
-                            <div class="message"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                            <div class="message" style="white-space: pre-line"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                            <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                            <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
     
                         {% endfor %}
     

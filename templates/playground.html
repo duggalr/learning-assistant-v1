@@ -217,38 +217,42 @@
             <div class="ui segment output-code ">
                 <textarea id="output" disabled></textarea>
             </div>
-            
 
             <!-- <div style="display: flex; justify-content: space-between; padding-top: 10px;">
                 <h4>
                     <i class="comment icon"></i> Programming Assistant
                 </h4>
-                &nbsp;&nbsp;
-                <span style="font-size: 13px;">Generate Feedback on Code</span>
             </div> -->
             
 
 
-            {% if lesson_question_object is not None %}
-
                 <div class="ui tabular menu tab-menu">
                     
-                    <a class="item">
+                    <a class="item active" id="programming_assistant_tab">
                         <i class="comment icon"></i> Programming Assistant
                     </a>
                     
-                    <a class="item active">
-                        <i class="bug icon"></i> Examples
-                    </a>
+                    {% if lesson_question_object is not None %}
+                    
+                        <a class="item" id="example_test_case_tab">
+                            <i class="bug icon"></i> Examples
+                        </a>
+
+                    {% else %}
+
+                        <a class="disabled item" id="example_test_case_tab">
+                            <i class="bug icon"></i> Examples
+                        </a>
+
+                    {% endif %}
 
                 </div>
 
-                <div>
 
-                    <!-- <span style="color: green;">All Test Cases Passed.</span>
-                    <span style="color: red;">One or more test cases failed.</span> -->
-                    <!-- <br/><br/> -->
+                <div id="example_test_case_div" style="display: none;">
                     
+                    <br/>
+
                     {% for lc_tc_obj in lesson_question_test_cases %}
                         
                         <div class="message">
@@ -262,99 +266,108 @@
                         </div>
 
                     {% endfor %}
+
+                    {% if lesson_question_test_cases|length == 0 %}
+
+                        <p style="color: gray;">
+                            Example Test Cases available for Lesson Questions only.
+                        </p>
+
+                    {% endif %}
                     
                 </div>
 
-
-            {% else %}
-
                 
-                <div style="display: flex; justify-content: space-between; padding-top: 10px;">
-                    <h4>
-                        <i class="comment icon"></i> Programming Assistant
-                    </h4>
-                </div>
-                
+                <div id="programming_assistant_div">
 
-                <div class="chat-container" id="chat">
+                    <!-- <div style="display: flex; justify-content: space-between; padding-top: 10px;">
+                        <h4>
+                            <i class="comment icon"></i> Programming Assistant
+                        </h4>
+                    </div> -->
                     
-                    <div class="message">
-                        <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                        I'm Code Companion, your personal programming tutor.
-                        <br/><br/>
-                        If you are running into a problem such as a bug in your code, or need help understanding a concept, ask me and I will be more than happy to help.
-                        <br/><br/>
-                        You can also use me to generate more practice questions for you, for speciifc concepts you want further review on.
-                        <br/><br/>
-                        I won't give you the answer, but will definitely point you in the right direction! &#128512;
-                        <!-- <br/><br/> -->
-                        <!-- <li>Remember, programming like anything else takes practice and concentration. Use me to help you understand concepts better</li> -->
-                    </div>
-
-                    <hr>
-
-                    <br/>
-                    {% for ucs_obj in user_conversation_objects %}
-                    
-                        <div class="message"><b>You: </b>{{ ucs_obj.question }}</div>
-                        <div class="message" style="white-space: pre-line"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
-
-                    {% endfor %}
-
-                </div>
-                
-
-                {% if user_session is not None %}
-
-                    <div class="input-container">
-        
-                        <div class="ui form" style="width: 100%;">
-                            <div class="field">
-                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
-                            </div>                    
+    
+                    <div class="chat-container" id="chat">
+                        
+                        <div class="message">
+                            <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                            I'm Code Companion, your personal programming tutor.
+                            <br/><br/>
+                            If you are running into a problem such as a bug in your code, or need help understanding a concept, ask me and I will be more than happy to help.
+                            <br/><br/>
+                            You can also use me to generate more practice questions for you, for speciifc concepts you want further review on.
+                            <br/><br/>
+                            I won't give you the answer, but will definitely point you in the right direction! &#128512;
+                            <!-- <br/><br/> -->
+                            <!-- <li>Remember, programming like anything else takes practice and concentration. Use me to help you understand concepts better</li> -->
                         </div>
-                        &nbsp;
-                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
-                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
-
+    
+                        <hr>
+    
+                        <br/>
+                        {% for ucs_obj in user_conversation_objects %}
+                        
+                            <div class="message"><b>You: </b>{{ ucs_obj.question }}</div>
+                            <div class="message" style="white-space: pre-line"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+    
+                        {% endfor %}
+    
                     </div>
-
-                    <span style="font-size: 12px; color: gray;">
-                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
-                    </span>
-
-                {% else %}
-
-                    <!-- <button class="ui secondary button" style="margin-top: 2%;">
-                        Create an account to start asking questions
-                    </button> -->
                     
-                    <div style="margin-top: 2%;">
-                        <!-- <button class="ui inverted blue medium button">
+    
+                    {% if user_session is not None %}
+    
+                        <div class="input-container">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div>
+    
+                        <span style="font-size: 12px; color: gray;">
+                            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                        </span>
+    
+                    {% else %}
+    
+                        <!-- <button class="ui secondary button" style="margin-top: 2%;">
                             Create an account to start asking questions
                         </button> -->
-                        <button class="ui black basic button" id="create_account_button">
-                            Create an account to start asking questions
-                        </button>
-                    </div>
-
-                    <div class="input-container" style="display: none;">
-        
-                        <div class="ui form" style="width: 100%;">
-                            <div class="field">
-                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
-                            </div>                    
+                        
+                        <div style="margin-top: 2%;">
+                            <!-- <button class="ui inverted blue medium button">
+                                Create an account to start asking questions
+                            </button> -->
+                            <button class="ui black basic button" id="create_account_button">
+                                Create an account to start asking questions
+                            </button>
                         </div>
-                        &nbsp;
-                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
-                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        <div class="input-container" style="display: none;">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div>
+    
+                    {% endif %}
 
-                    </div>
 
-                {% endif %}
+                </div>
 
 
-            {% endif %}
 
         </div>
 
@@ -373,6 +386,28 @@
 
         $('.tabular.menu .item').tab();
 
+        example_test_case_tab --> example_test_case_div
+        programming_assistant_tab --> programming_assistant_div
+
+        $('#example_test_case_tab').click(function(){
+
+            $('#example_test_case_tab').addClass('active');
+            $('#programming_assistant_tab').removeClass('active');
+
+            $('#example_test_case_div').show();
+            $('#programming_assistant_div').hide();
+
+        });
+
+        $('#programming_assistant_tab').click(function(){
+
+            $('#programming_assistant_tab').addClass('active');
+            $('#example_test_case_tab').removeClass('active');
+
+            $('#programming_assistant_div').show();
+            $('#example_test_case_div').hide();
+
+        });
 
 
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {

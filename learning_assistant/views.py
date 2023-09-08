@@ -144,8 +144,10 @@ def playground(request):
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
     ls_q_obj = None
+    ls_q_test_case_examples = []
     if lqid is not None:
         ls_q_obj = get_object_or_404(LessonQuestion, id = lqid)
+        ls_q_test_case_examples = LessonQuestionTestCase.objects.filter(lesson_question_obj = ls_q_obj)
 
     
     user_is_admin = request.user.is_superuser
@@ -180,7 +182,8 @@ def playground(request):
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
         'qid': lqid,
-        'lesson_question_object': ls_q_obj
+        'lesson_question_object': ls_q_obj,
+        'lesson_question_test_cases': ls_q_test_case_examples
     })
 
 

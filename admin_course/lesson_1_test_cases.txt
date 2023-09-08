@@ -1,1 +1,33 @@
+Question: Data Type Detective
+x = 3 --> "integer"
+x = "hello" --> "string"
+x = [] --> "list"
+x = 2.0 --> "float"
 
+Question: Temperature Converter
+temperature = 3 | convert_to = F --> 37.4
+temperature = 108 | convert_to = C --> 37.8
+temperature = -10 | convert_to = C --> 14
+temperature = 14 | convert_to = C --> -10
+
+Question: User Input Statistics
+num_list = [2,3,5,5] --> Average: 3.75, Mode: 5
+num_list = [1,10,12,20,10] --> Average: 26.6, Mode: 10
+num_list = [1] --> Average: 1, Mode: 1
+
+Question: Reverse String
+st = "hello" --> "olleh"
+st = "rad" --> "dar"
+st = "park" --> "krap"
+st = "radar" --> "radar"
+
+Question: String Manipulation
+st = "hello" --> "olleh"
+st = "rad" --> "dar"
+st = "park" --> "krap"
+st = "radar" --> "radar"
+
+Question: Name Initials
+full_name = "John Smith" --> "J.S."
+full_name = "kobe bryant" --> "K.B."
+full_name = "David Daniels" --> "D.D."

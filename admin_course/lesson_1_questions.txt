@@ -1,35 +1,47 @@
 Question: Data Type Detective
-# Description: Write a program that determines the data type of a given variable (e.g., integer, float, string, list). If integer, print "Integer". If string, print "String". If list, print "List". If float, print "Float".
+# Description: Write a program that determines the data type of a given variable (e.g., integer, float, string, list). If integer, return "integer". If string, return "string". If list, return "list". If float, return "float".
 # Example Input: x = 3
 # Example Output: "Integer"
 # Example Input: x = "dog"
 # Example Output: "String"
+def type_detective(x):
+    pass
 
 Question: Temperature Converter
-# Description: Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to 2 digits.
+# Description: Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to 1 digits. Return the converted temperature.
 # Example Input: temperature = 3, convert_to = "F"
-# Example Output: 37.40
+# Example Output: 37.4
 # Example Input: temperature = 108, convert_to = "C"
-# Example Output: 37.78
+# Example Output: 37.8
+def temperature_converter(temperature, convert_to):
+    pass
 
-Question: User Input Statistics
-# Description: Given a list of numbers, calculate and display the mean.
+Question: Mean of list
+# Description: Given a list of numbers, calculate and return the mean.
 # Example Input: num_list = [2,3,5,5]
 # Example Output: 3.75
+def list_mean(l):
+    pass
 
 Question: Reverse String
-# Description: Write a program that takes a user input string and prints it in reverse order, character by character.
+# Description: Write a program that takes a user input string and returns it in reverse order, character by character.
 # Example Input: st = "hello"
 # Example Output: "olleh"
+def reverse_string(s):
+    pass
 
 Question: String Manipulation
-# Description: Given a string, reverse it without using the reverse() function or slicing. (Will need For loop)
+# Description: Given a string, reverse it without using the reverse() function or slicing. Return the reversed string. (Will need For loop)
 # Example Input: st = "hello"
 # Example Output: "olleh"
+def reverse_string(s):
+    pass
 
 Question: Name Initials
-# Description: Given a full name (separated by space), write a program that extracts the initials from the name and displays them in uppercase.
+# Description: Given a full name (separated by space), write a program that extracts the initials from the name and returns them to the user.
 # Example Input: full_name = "John Smith"
 # Example Output: J.S.
 # Example Input: full_name = "daniel johnson"
 # Example Output: D.J.
+def get_initials(s):
+    pass

@@ -238,51 +238,32 @@
                     </a>
                     
                     <a class="item active">
-                        <i class="bug icon"></i> Test Cases
+                        <i class="bug icon"></i> Examples
                     </a>
 
                 </div>
 
-
                 <div>
 
-                    <span style="color: green;">All Test Cases Passed.</span>
-                    <span style="color: red;">One or more test cases failed.</span>
+                    <!-- <span style="color: green;">All Test Cases Passed.</span>
+                    <span style="color: red;">One or more test cases failed.</span> -->
+                    <!-- <br/><br/> -->
                     
-                    <br/><br/>
+                    {% for lc_tc_obj in lesson_question_test_cases %}
+                        
+                        <div class="message">
 
-                    <div class="message">
+                            <strong>
+                                Test Case:
+                            </strong>
+                            <li>Input: {{ lc_tc_obj.input_param }}</li>
+                            <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
 
-                        <strong>
-                            Test Case 1: <span style="color: green;">Passed</span>
-                        </strong>
-                        <li>Input: 3</li>
-                        <li>Output: Integer</li>
+                        </div>
 
-                    </div>
-
-                    <div class="message">
-
-                        <strong>
-                            Test Case 2: <span style="color: green;">Passed</span>
-                        </strong>
-                        <li>Input: 3</li>
-                        <li>Output: Integer</li>
-
-                    </div>
-
-                    <div class="message">
-
-                        <strong>
-                            Test Case 3: <span style="color: red;">Failed</span>
-                        </strong>
-                        <li>Input: 3</li>
-                        <li>Output: Integer</li>
-
-                    </div>
-
+                    {% endfor %}
+                    
                 </div>
-
 
 
             {% else %}
@@ -466,6 +447,8 @@ mystdout.getvalue()
 `;
 
                 let output = pyodide.runPython(captureOutputCode);
+
+                console.log('code output:', output);
 
                 addToOutput(output);
 

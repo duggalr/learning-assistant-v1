@@ -43,6 +43,12 @@ class UserConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class LessonQuestionTestCase(models.Model):
+    lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE)
+    input_param = models.CharField(max_length=5000)
+    correct_output = models.CharField(max_length=5000)
+
+
 # class LessonQuestionStatus(models.Model):
 #     lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
 #     status = models.CharField(max_length=3000)

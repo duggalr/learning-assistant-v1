@@ -1,0 +1,22 @@
+Question: Length of String
+s = "hello" --> 5
+s = "dog" --> 3
+
+Question: Vowel Counter
+s = "hello" --> 3
+s = "dog" --> 1
+
+Question: Number of Words
+s = "hello my friend" --> 3
+s = "john went to the park" --> 5
+
+Question: Letter Capitalizer
+s = "hello my friend" --> "Hello My Friend"
+s = "john went to the park" --> "John Went To The Park"
+
+Question: Email Address Validator
+s = "hello@gmail.com" --> "Valid"
+s = "hello@" --> "Not Valid"
+s = "hello" --> "Not Valid"
+s = "hello@gmail" --> "Not Valid"
+s = "test_two@gmail.com" --> "Valid"

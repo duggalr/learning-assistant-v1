@@ -1,0 +1,10 @@
+Question: Multiplication Table
+n = 3 --> 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36
+
+Question: Palindrome Checker
+s = "radar" --> "Yes"
+s = "hello" --> "No"
+
+# Question: Prime Checker
+n = 4 --> "No"
+n = 7 --> "Yes"

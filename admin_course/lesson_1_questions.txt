@@ -4,8 +4,6 @@ Question: Data Type Detective
 # Example Output: "Integer"
 # Example Input: x = "dog"
 # Example Output: "String"
-def type_detective(x):
-    pass
 
 Question: Temperature Converter
 # Description: Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to 1 digits. Return the converted temperature.
@@ -13,29 +11,21 @@ Question: Temperature Converter
 # Example Output: 37.4
 # Example Input: temperature = 108, convert_to = "C"
 # Example Output: 37.8
-def temperature_converter(temperature, convert_to):
-    pass
 
 Question: Mean of list
 # Description: Given a list of numbers, calculate and return the mean.
 # Example Input: num_list = [2,3,5,5]
 # Example Output: 3.75
-def list_mean(l):
-    pass
 
 Question: Reverse String
 # Description: Write a program that takes a user input string and returns it in reverse order, character by character.
 # Example Input: st = "hello"
 # Example Output: "olleh"
-def reverse_string(s):
-    pass
 
 Question: String Manipulation
 # Description: Given a string, reverse it without using the reverse() function or slicing. Return the reversed string. (Will need For loop)
 # Example Input: st = "hello"
 # Example Output: "olleh"
-def reverse_string(s):
-    pass
 
 Question: Name Initials
 # Description: Given a full name (separated by space), write a program that extracts the initials from the name and returns them to the user.
@@ -43,5 +33,3 @@ Question: Name Initials
 # Example Output: J.S.
 # Example Input: full_name = "daniel johnson"
 # Example Output: D.J.
-def get_initials(s):
-    pass

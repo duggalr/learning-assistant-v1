@@ -10,7 +10,11 @@ from learning_assistant.models import *
 
 
 test_case_files_list = [
-    'lesson_1_test_cases.txt'
+    'lesson_1_test_cases.txt',
+    'lesson_2_test_cases.txt',
+    'lesson_3_test_cases.txt',
+    'lesson_4_test_cases.txt',
+    'lesson_5_test_cases.txt',
 ]
 
 for tc_fp in test_case_files_list:

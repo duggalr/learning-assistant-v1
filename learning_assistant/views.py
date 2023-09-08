@@ -167,12 +167,12 @@ def playground(request):
         if user_is_admin:
             user_conversation_objects = UserConversation.objects.filter(
                 code_obj = uc_obj
-            )
+            ).order_by('created_at')
         else:
             user_conversation_objects = UserConversation.objects.filter(
                 code_obj = uc_obj,
                 user_auth_obj = user_oauth_obj
-            )
+            ).order_by('created_at')
     else:
         uc_obj = None
     

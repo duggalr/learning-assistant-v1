@@ -175,7 +175,14 @@ def playground(request):
             ).order_by('created_at')
     else:
         uc_obj = None
-    
+        if ls_q_obj is not None:
+            lesson_code_objects = UserCode.objects.filter(
+                lesson_question_obj = ls_q_obj,
+                user_auth_obj = user_oauth_obj
+            )
+            if len(lesson_code_objects) == 1:  # should always be 1
+                uc_obj = lesson_code_objects[0]
+
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
         'code_id': code_id,

@@ -17,6 +17,7 @@
         .code-editor {
             border: 1px solid #d4d4d5;
             width: 98%;
+            /* height: 100%; */
             /* padding-top: 0px;
             margin-top: 0px; */
         }
@@ -88,8 +89,14 @@
     {% include 'dashboard_navbar.html' %}
 
 
+    <!-- TODO: -->
+    <!-- <div id="loading_dimmer" class="ui active inverted dimmer" style="height: 130%;">
+        <div class="ui text loader">Loading</div>
+    </div>
+     -->
+
     <div class="ui grid container">
-        
+
         <!-- Code Editor -->
         <div class="nine wide column" id="code-column">
 
@@ -428,7 +435,7 @@
             scrollbarStyle: "null",
             lineWrapping: true,
         });
-        editor.setSize(500, 600);
+        editor.setSize(600, 700);
         
 
         user_session = '{{ user_session }}';
@@ -455,10 +462,14 @@
 
         }
 
-        
+
 
         async function main() {
             let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+            
+            // console.log('pyodide done.')
+            // $('#loading_dimmer').hide();
+
             // Pyodide ready
             output.value += "Ready!\n";
             return pyodide;
@@ -466,8 +477,25 @@
 
         let pyodideReadyPromise = main();
 
+
         function addToOutput(s) {
-            output.value += ">>> " + s + "\n";
+            
+            console.log('code-output:', s);
+
+            try {
+
+                let val_list = s.split("\n");
+                for (i=0; i <= val_list.length-2; i++){
+                    let otv = val_list[i];
+                    output.value += ">>> " + otv + "\n"; 
+                }
+
+            } catch(err) {
+
+                output.value += ">>> " + s + "\n";
+
+            }
+            
         }
             
 
@@ -487,8 +515,6 @@ mystdout.getvalue()
 `;
 
                 let output = pyodide.runPython(captureOutputCode);
-
-                console.log('code output:', output);
 
                 addToOutput(output);
 
@@ -700,12 +726,16 @@ mystdout.getvalue()
 
                         if (cid == 'None'){
 
-                            // window.location.reload();
-                            window.location.href = ''
-                            var url = new URL(window.location.href);
+                            // // window.location.reload();
+                            // window.location.href = ''
+                            // var url = new URL(window.location.href);
 
-                            url.searchParams.set('cid', response['cid']);
-                            window.location.href = url;
+                            // url.searchParams.set('cid', response['cid']);
+                            // window.location.href = url;
+                            
+                            console.log('cid:', response['cid']);
+                            let saved_cid = response['cid'];
+                            $("#code_obj_id").val(saved_cid);
 
                         } else {
 

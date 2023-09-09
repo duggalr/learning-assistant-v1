@@ -6,13 +6,18 @@
 
     <style>
 
-        p{
+        /* p{
             font-size: 15px;
+            line-height: 1.45em;
         }
 
         li{
-            font-size: 15px;
+            font-size: 14px;
             margin: 2px 0;
+        } */
+
+        section{
+            color: black;
         }
 
     </style>
@@ -25,20 +30,103 @@
 
         <div class="ui two column centered grid">
             
-            <div class="column" style="width: 65%; margin-top: 2%;">
+            <div class="column" style="width: 60%; margin-top: 0%;">
 
-                <h3 class="ui header">
+                <!-- <h3 class="ui header">
                     <i class="info icon" ></i>
                     About:                    
-                </h3>
+                </h3> -->
                 
                 <div class="ui basic segment">
 
+                    <h3>
+                        Problem
+                    </h3>
+
                     <p>
-                        <a href="https://www.youtube.com/watch?v=iju3yQSQNF4" target="_blank" rel="noopener noreferrer">Watch the Demo.</a>
+                        Students do not have access to a personalized, 1-to-1 educational system. 
+                        There is no scalable solution that exists, to allow a personalized 1-to-1 education for each student.
+                        
+                        <br/><br/>
+                        It should come as no surprise that offering a more personalized education approach
+                        is a more optimal medium for fostering student learning, compared to the generalized education system 
+                        we currently rely on.
+
+                        <br/><br/>
+                        
+                        <strong>For students, some of the advantages can include:</strong>
+                        <ul class="ui list" >
+                        <li>Develop a greater understanding of the material.</li>
+                        <li>Progress at their own pace, going on their own learning tangents.</li>
+                        <li>Develop greater intrinsic motivation for the material they are learning, and learning more generally.</li>
+                        <li>Develop greater confidence in themselves, feeling less pressured by external factors.</li>
+                        </ul>
+
+                        <br/>
+                        We are at a pivotal point in technology, where we now have a general AI system (GPT-4)
+                        which can be used to perform many different tasks, in a (mostly) reliable manner.
+                        <br/><br/>
+                        I believe Code Companion, which leverages GPT-4 (as described below), is the first step towards creating
+                        a more personalized educational system for students.
+                        <br/><br/>
+                        AI, nor software alone will enabled personalized education. Teachers will always play a pivotal role.
+                        <br/><br/>
+                        However, the current AI systems to enable a new paradigm of software, which can be leveraged in the classroom,
+                        to serve as a strong medium to help create a more personalized education environment for each student.
+                        <br/><br/>
+                        If you are interested in helping solve this problem, feel free to <a class="item" href="mailto:duggalr42@gmail.com">reach out.</a>
+
                     </p>
 
-                    <p style="font-size: 16px; line-height: 1.6em;">
+                    <h3>Our Approach</h3>
+                    
+                    <p>
+                        <a href="https://www.youtube.com/watch?v=iju3yQSQNF4" target="_blank" rel="noopener noreferrer">Watch the Demo.</a>
+                        <br/><br/>
+                        As an initial solution to the problem described above, I built Code Companion, a GPT-4 personalized tutor
+                        designed to help students with programming-specific questions or difficulties.
+                        <br/><br/>
+                        Like a good tutor, Code Companion will not give you the answer.
+                        Instead, just like a great tutor, it will help guide you in the right direction by asking you questions.
+                        <br/><br/>
+                        It will force you to think through the problem so you can figure out the solution on your own.
+                        <br/><br/>
+                        
+                        <strong>Currently with Code Companion, you can:</strong>
+
+                        <ul class="ui list" >
+                            <!-- <li style="font-size: 16px; line-height: 1.5em;"> -->
+                        <li>
+                            Utilize our In-Built Editor & Interpreter, where you can work on the question, and ask Code Companion for help at every step along the way.
+                        </li>
+                        <li>
+                            Ask Code Companion to generate thorough explanations and examples for specific concepts.
+                        </li>
+                        <li>
+                            Ask Code Companion to generate questions to help reinforce your understanding of specific concepts.
+                        </li>
+                        <li>
+                            We have in-built <a href="{% url 'lesson_dashboard' %}">Python exercises</a>, for you to experience/use the AI, while gaining foundational programming knowledge.
+                        </li>
+                            
+                        </ul>
+                        
+                    </p>
+
+                    <h3>Get Involved</h3>
+                    <p>
+                        TODO:
+                        See more of our content here. TODO: add link to all the content
+                        <br/>
+                        This solution is merely only the start, and will go through several iterations.
+                        <br/>
+                        If you are interested in the problem, want to help, and/or get involved, <a class="item" href="mailto:duggalr42@gmail.com">please reach out.</a>
+
+                    </p>
+
+                </div>
+
+                    <!-- <p style="font-size: 16px; line-height: 1.6em;">
                         Code Companion is a GPT-4 based assistant, that helps answer any programming questions or difficulties you run into.
                         Simply write your code in our <a href="{% url 'playground' %}">online editor</a> (currently supports Python), and ask any questions you have to our assistant. 
                         <br/><br/>
@@ -46,7 +134,6 @@
                             Code Companion is not here to give you the answer. Instead, just like a great tutor, it will help guide you in the right direction by asking you questions.
                             It will force you to think through the problem so you can figure out the solution on your own.
                         </strong>                       
-                        <!-- Code Companion won't simply give you the answer but instead, provide hints and force you to think through the problem and figure out the solution on your own. -->
                         
                         <br/><br/>
                         It is a great tool for those who are starting to learn programming, and want some additional assistance or guidance along the way!
@@ -68,9 +155,9 @@
                             </li>
                             
                         </ul>
-                    </p>
+                    </p> -->
 
-                </div>
+                
 
                 <!-- <h3 class="ui header">
                     <i class="list icon" ></i>

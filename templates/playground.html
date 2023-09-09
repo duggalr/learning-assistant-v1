@@ -65,7 +65,7 @@
 
         .input-container {
             display: flex;
-            margin-top: 20px;
+            margin-top: 20px;            
         }
 
         .input-box {
@@ -89,11 +89,20 @@
 
 
     <div class="ui grid container">
-
+        
         <!-- Code Editor -->
         <div class="nine wide column" id="code-column">
 
-            <div style="display: flex; align-items: center;">
+            {% if lesson_question_object is not None %}
+
+                <a href="{% url 'questions' lid=lesson_question_object.lesson_obj.id %}" >
+                    <i class="arrow alternate circle left outline icon"></i>
+                    Back to Exercises
+                </a>
+
+            {% endif %}
+            
+            <div style="display: flex; align-items: center; padding-top: 15px;">
 
                 <h4 style="margin: 0;">
                     
@@ -328,7 +337,7 @@
     
                         </div>
     
-                        <span style="font-size: 12px; color: gray;">
+                        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
                             Answer Response usually takes 15-30 seconds. (this will get better soon...)
                         </span>
     
@@ -371,10 +380,10 @@
 
     </div>
 
+    <!-- <br/>
     <br/>
     <br/>
-    <br/>
-    <br/>
+    <br/> -->
     <!-- <br/> -->
     <!-- <br/> -->
     <!-- <br/>

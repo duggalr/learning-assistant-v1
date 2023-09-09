@@ -29,7 +29,7 @@ Problem:
 - How to get initial traction to site?
 
 - "Initial Outreach:"
-    - create more videos on youtube, where app is used to: <-- upload below videos to youtube
+    - create more videos on youtube, where app is used to:
         - go through the 'in-house' python exercises and solve one in the video, with code-companion
         - go through leetcode question, and use code-companion to help solve it
 

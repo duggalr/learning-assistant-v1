@@ -6,12 +6,12 @@
     <style>
 
         #code-column{
-            padding-top: 30px;
+            padding-top: 20px;
             padding-left: 0px;
         }
 
         #output-chat-assistant-column{
-            padding-top: 40px;
+            padding-top: 30px;
         }
 
         .code-editor {
@@ -88,12 +88,6 @@
 
     {% include 'dashboard_navbar.html' %}
 
-
-    <!-- TODO: -->
-    <!-- <div id="loading_dimmer" class="ui active inverted dimmer" style="height: 130%;">
-        <div class="ui text loader">Loading</div>
-    </div>
-     -->
 
     <div class="ui grid container">
 
@@ -188,7 +182,7 @@
                 {% endif %}
 
                 {% if user_session is None %}
-                    <a href="https://www.youtube.com/watch?v=iju3yQSQNF4&t=91s" style="margin-left: 1%; font-size: 13px; padding-top: 5px;">See Demo</a>
+                    <a href="https://www.youtube.com/watch?v=iju3yQSQNF4" style="margin-left: 1%; font-size: 13px; padding-top: 5px;">See Demo</a>
                 {% endif %}
                     
             </div>
@@ -349,20 +343,15 @@
                         </span>
     
                     {% else %}
-    
-                        <!-- <button class="ui secondary button" style="margin-top: 2%;">
-                            Create an account to start asking questions
-                        </button> -->
-                        
-                        <div style="margin-top: 2%;">
-                            <!-- <button class="ui inverted blue medium button">
-                                Create an account to start asking questions
-                            </button> -->
+
+                        <div style="margin-top: 3%;">
                             <button class="ui black basic button" id="create_account_button">
                                 Create an account to start asking questions
                             </button>
                         </div>
     
+                        <br/>
+
                         <div class="input-container" style="display: none;">
             
                             <div class="ui form" style="width: 100%;">
@@ -480,7 +469,7 @@
 
         function addToOutput(s) {
             
-            console.log('code-output:', s);
+            // console.log('code-output:', s);
 
             try {
 
@@ -726,11 +715,11 @@ mystdout.getvalue()
 
                         if (cid == 'None'){
 
-                            // // window.location.reload();
+                            // window.location.reload();
                             // window.location.href = ''
-                            // var url = new URL(window.location.href);
-
-                            // url.searchParams.set('cid', response['cid']);
+                            var url = new URL(window.location.href);
+                            url.searchParams.set('cid', response['cid']);
+                            window.history.replaceState(null, null, url);
                             // window.location.href = url;
                             
                             console.log('cid:', response['cid']);
@@ -847,3 +836,4 @@ mystdout.getvalue()
 {% endblock %}
 
 
+/

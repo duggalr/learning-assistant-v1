@@ -15,6 +15,8 @@ urlpatterns = [
     path("about", views.about, name="about"),
     path("dashboard", views.dashboard, name="dashboard"),
     
+    path("practice-questions", views.practice_questions, name="practice_questions"),
+
     path("lesson-plan", views.lesson_dashboard, name="lesson_dashboard"),
     path("questions/<int:lid>", views.questions, name="questions"),
 

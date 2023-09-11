@@ -38,98 +38,78 @@
 
         <div class="two wide column"></div>
 
-        <div class="twelve wide column">
+        <div class="twelve wide column" style="padding-top: 20px;">
 
-            <div style="padding-top: 20px;">
+            <h3 id="lesson_header">
+                Description
+            </h3>
 
-                <h3 id="lesson_header">
-                    <i class="book icon" style="font-size: 16px;"></i>{{ lesson_object.title }}
-                </h3>
+            <div class="ui basic segment" >
 
-            </div>
+<!-- TODO: implement the click functionality where question leads to playground -->
 
-            <div class="ui basic segment" style="font-size: 15.5px;">
-                <p>
-                    {{ lesson_formatted_description|safe }}
-                </p>
-
-                <p style="line-height: 1.7em;">
+                <p style="font-size: 15px;">
                     <strong>
-                        To help understand the material, go through the exercises below. You will have access to Code Companion for each problem.
+                        Welcome! Below are several exercises, to help you learn the foundational concepts in Pyhton Programming.                        
                     </strong>
+                    <br/><br/>
+                    The exercises are ordered by level of difficulty, where they continue to get harder the further down you go.
+                    <br/><br/>
+                    The goal of these exercises are to:
+                    <br>
+                    - Provide you with a solid understanding of the foundational concepts in Python programming.
+                    <br>
+                    - Leverage Code Companion, whom you can ask questions to when you need help.
+                    <br/><br/>
+                    If you are new to Python or want to brush up on the basics, check out a few videos I made here (TODO:), where I explain some fundamental concepts while going through some of the exercises below.
+                    <!-- It aims to provide you with a high-level understanding of foundational concepts in Python programming.
+                    <br/><br/>
+                    <strong>
+                        This course is exercise heavy! It is primarily tailored for those who learn by doing.
+                        You'll also have access to Code Companion, a personalized Tutor (powered by GPT-4), whom you can ask questions to when you need help.
+                    </strong> While it won't provide answers, it will offer valuable hints and steer you in the right direction.
+                    <br/><br/>                    
+                    Each lesson offers valuable links to key concepts at the top. If you prefer a lecture-based course, you may consider starting with <a href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/video_galleries/lecture-videos/">this</a>. You can always return here later to complete the exercises.
+                    <br/><br/>
+                    I hope this course can serve as a starting point on your journey into the world of computer science. -->
                 </p>
-
+                
             </div>
 
             <h3 id="lesson_header">
-                <i class="pencil alternate icon" style="font-size: 15px;"></i>Exercises:
+                <i class="pencil alternate icon" style="font-size: 13px;"></i>Exercises:
             </h3>
 
             <div class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
-                
-                {% if lesson_questions|length > 0 %}
 
-                    {% for cobj in lesson_questions %}
+                {% for qobj in questions %}
 
-                        <div class="item">
+                    <div class="item">
 
-                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
-                                {% if cobj.user_code %}
-
-                                    <div class="header" style="font-size: 15.5px;">
-                                        <a class="file_name_header" href="{% url 'playground' %}?cid={{ cobj.user_code_obj.id }}&lqid={{ cobj.lesson_question_obj.id }}">
-                                            {{ cobj.lesson_question_obj.question_name }}
-                                        </a>
-                                    </div>
-
-                                {% else %}
-
-                                    <div class="header" style="font-size: 15.5px;">
-                                        <a class="file_name_header" href="{% url 'playground' %}?lqid={{ cobj.lesson_question_obj.id }}">
-                                            {{ cobj.lesson_question_obj.question_name }}
-                                        </a>
-                                    </div>
-
-                                {% endif %}
+                            <div class="header" style="font-size: 15.5px;">
+                                <a class="file_name_header" href="{% url 'playground' %}?lqid={{ cobj.lesson_question_obj.id }}">
+                                    {{ qobj.question_name }}
+                                </a>
+                            </div>
+                        
+                            <div style="padding-top: 14px; ">
                                 
-
-                                {% if cobj.user_code %}
-
-                                    <span style="float: right; display: inline;">
-                                        <a class="ui green label">working</a>
-                                    </span>
-
-                                {% endif %}
-
-                                <!-- <span style="float: right; display: inline;"> -->
-                                    <!-- <a class="ui blue label">types</a> -->
-                                    <!-- <a class="ui red label" style="font-size: 11px;">not completed</a> -->
-                                    <!-- <a class="ui green label">completed</a> -->
-                                <!-- </span> -->
-
-                                <div style="padding-top: 14px; ">
-                                    
-                                    <span style="font-size: 12.5px; color: gray; float: left;">
-                                        <i class="clock outline icon"></i>
-                                        Uploaded: {{ cobj.lesson_question_obj.created_at|date }}
-                                    </span>
-
-                                </div>
+                                <span style="font-size: 12.5px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>
+                                    Uploaded: {{ qobj.created_at|date }}
+                                </span>
 
                             </div>
 
                         </div>
 
-                    {% endfor %}
-
-                {% else %}
-
-                    <div class="ui basic segment">
-                        <p>Work in Progress...</p>
                     </div>
 
-                {% endif %}
+                {% endfor %}
+
+
 
             </div>
 

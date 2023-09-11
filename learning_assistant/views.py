@@ -253,6 +253,13 @@ def questions(request, lid):
 
 
 
+def practice_questions(request):
+    np_questions = NewPracticeQuestion.objects.all()
+    return render(request, 'lesson_dashboard_new.html', {
+        'questions': np_questions
+    })
+
+
 @user_authentication_required
 def dashboard(request):
     initial_user_session = request.session.get("user")

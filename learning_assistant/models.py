@@ -49,6 +49,20 @@ class LessonQuestionTestCase(models.Model):
     correct_output = models.CharField(max_length=5000)
 
 
+class NewPracticeQuestion(models.Model):
+    question_name = models.CharField(max_length=3000)
+    question_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class NewPracticeTestCase(models.Model):
+    question_obj = models.ForeignKey(NewPracticeQuestion, on_delete=models.CASCADE)
+    test_case_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    # input_param = models.CharField(max_length=5000)
+    # correct_output = models.CharField(max_length=5000)
+
+
 # class LessonQuestionStatus(models.Model):
 #     lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
 #     status = models.CharField(max_length=3000)

@@ -1,0 +1,104 @@
+```json
+[
+  {
+    "question_name": "Word Counter",
+    "question_text": "Create a program that asks the user for a sentence and uses a for loop to count and print the number of words in the sentence.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Sentence": "This is a test sentence."
+        },
+        "output": {
+          "Number of words": 5
+        }
+      },
+      {
+        "input": {
+          "Sentence": "Count me too!"
+        },
+        "output": {
+          "Number of words": 3
+        }
+      }
+    ]
+  },
+  {
+    "question_name": "Square List Generator",
+    "question_text": "Write a program that takes an original list and creates a new list, with each of the original numbers squared (i.e., x ** 2).",
+    "question_test_cases": [
+      {
+        "input": {
+          "Original List": [1, 2, 3, 4, 5]
+        },
+        "output": {
+          "Squared List": [1, 4, 9, 16, 25]
+        }
+      },
+      {
+        "input": {
+          "Original List": [0, -1, 2, -2]
+        },
+        "output": {
+          "Squared List": [0, 1, 4, 4]
+        }
+      }
+    ]
+  },
+  {
+    "question_name": "Sum of Numbers",
+    "question_text": "Write a program that calculates and prints the sum of all numbers from 1 to 100 using a for loop. Print the final sum.",
+    "question_test_cases": [
+      {
+        "input": "N/A",
+        "output": {
+          "Sum of numbers from 1 to 100": 5050
+        }
+      }
+    ]
+  },
+  {
+    "question_name": "Sum of List",
+    "question_text": "Given a list of numbers, write a program that calculates and prints the sum of all the numbers in the list using a for loop.",
+    "question_test_cases": [
+      {
+        "input": {
+          "List": [1, 2, 3, 4, 5]
+        },
+        "output": {
+          "Sum": 15
+        }
+      },
+      {
+        "input": {
+          "List": [-2, 5, 8, -1]
+        },
+        "output": {
+          "Sum": 10
+        }
+      }
+    ]
+  },
+  {
+    "question_name": "Unique Elements",
+    "question_text": "Given a list of numbers, write a program that finds and prints all unique elements in the list (no duplicates).",
+    "question_test_cases": [
+      {
+        "input": {
+          "List": [1, 2, 2, 3, 4, 4, 5]
+        },
+        "output": {
+          "Unique Elements": [1, 2, 3, 4, 5]
+        }
+      },
+      {
+        "input": {
+          "List": [-2, 5, 5, 8, -2]
+        },
+        "output": {
+          "Unique Elements": [-2, 5, 8]
+        }
+      }
+    ]
+  }
+]
+```

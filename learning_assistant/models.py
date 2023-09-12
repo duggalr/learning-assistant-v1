@@ -45,22 +45,24 @@ class UserConversation(models.Model):
 
 class LessonQuestionTestCase(models.Model):
     lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE)
-    input_param = models.CharField(max_length=5000)
-    correct_output = models.CharField(max_length=5000)
+    input_param = models.CharField(max_length=5000, blank=True, null=True)
+    correct_output = models.CharField(max_length=5000, blank=True, null=True)
+    test_case_full_text = models.TextField(blank=True, null=True)
 
 
-class NewPracticeQuestion(models.Model):
-    question_name = models.CharField(max_length=3000)
-    question_text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+# class NewPracticeQuestion(models.Model):
+#     question_name = models.CharField(max_length=3000)
+#     question_text = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class NewPracticeTestCase(models.Model):
-    question_obj = models.ForeignKey(NewPracticeQuestion, on_delete=models.CASCADE)
-    test_case_text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    # input_param = models.CharField(max_length=5000)
-    # correct_output = models.CharField(max_length=5000)
+# class NewPracticeTestCase(models.Model):
+#     question_obj = models.ForeignKey(NewPracticeQuestion, on_delete=models.CASCADE)
+#     test_case_text = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     # input_param = models.CharField(max_length=5000)
+#     # correct_output = models.CharField(max_length=5000)
+
 
 
 # class LessonQuestionStatus(models.Model):

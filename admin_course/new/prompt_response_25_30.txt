@@ -1,0 +1,92 @@
+[
+  {
+    "question_name": "Even Index Words",
+    "question_text": "Ask the user for a sentence. Print all the words that fall in the even index.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Sentence": "This is a test sentence."
+        },
+        "output": "Words at even index: is, test"
+      },
+      {
+        "input": {
+          "Sentence": "Python programming is fun!"
+        },
+        "output": "Words at even index: programming, fun!"
+      }
+    ]
+  },
+  {
+    "question_name": "Initials Extractor",
+    "question_text": "Given a full name (separated by space), write a program that extracts the initials from the name and returns them to the user.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Full Name": "John Doe"
+        },
+        "output": "Initials = JD"
+      },
+      {
+        "input": {
+          "Full Name": "Alice Johnson Smith"
+        },
+        "output": "Initials = AJS"
+      }
+    ]
+  },
+  {
+    "question_name": "Word Concatenator",
+    "question_text": "Given a list of words, use a for loop to concatenate all the words in the list into a single sentence, with no spaces. Print the resulting sentence.",
+    "question_test_cases": [
+      {
+        "input": {
+          "List of Words": ["Hello", "world", "in", "Python"]
+        },
+        "output": "Concatenated Sentence = HelloWorldinPython"
+      },
+      {
+        "input": {
+          "List of Words": ["This", "is", "a", "test."]
+        },
+        "output": "Concatenated Sentence = Thisisatest."
+      }
+    ]
+  },
+  {
+    "question_name": "Longest Word Finder",
+    "question_text": "Given a list of words, use a for loop to find and print the longest word in the list.",
+    "question_test_cases": [
+      {
+        "input": {
+          "List of Words": ["apple", "banana", "cherry", "blueberry"]
+        },
+        "output": "Longest Word = blueberry"
+      },
+      {
+        "input": {
+          "List of Words": ["programming", "is", "fun"]
+        },
+        "output": "Longest Word = programming"
+      }
+    ]
+  },
+  {
+    "question_name": "Prime Number Checker",
+    "question_text": "Create a program that determines whether a number is prime or not.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Number": 7
+        },
+        "output": "Prime"
+      },
+      {
+        "input": {
+          "Number": 4
+        },
+        "output": "Not Prime"
+      }
+    ]
+  }
+]

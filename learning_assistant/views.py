@@ -148,6 +148,9 @@ def playground(request):
     if lqid is not None:
         ls_q_obj = get_object_or_404(LessonQuestion, id = lqid)
         ls_q_test_case_examples = LessonQuestionTestCase.objects.filter(lesson_question_obj = ls_q_obj)
+        print(ls_q_test_case_examples)
+        # ls_q_obj = get_object_or_404(NewPracticeQuestion, id = lqid)
+        # ls_q_test_case_examples = NewPracticeTestCase.objects.filter(question_obj = ls_q_obj)
 
     
     user_is_admin = request.user.is_superuser
@@ -182,6 +185,7 @@ def playground(request):
             )
             if len(lesson_code_objects) == 1:  # should always be 1
                 uc_obj = lesson_code_objects[0]
+
 
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
@@ -254,7 +258,9 @@ def questions(request, lid):
 
 
 def practice_questions(request):
-    np_questions = NewPracticeQuestion.objects.all()
+    # np_questions = NewPracticeQuestion.objects.all()
+    lesson_obj = Lesson.objects.get(title = 'new_void')
+    np_questions = LessonQuestion.objects.filter(lesson_obj = lesson_obj).order_by('created_at')
     return render(request, 'lesson_dashboard_new.html', {
         'questions': np_questions
     })

@@ -1,0 +1,79 @@
+[
+  {
+    "question_name": "Student Age Printer",
+    "question_text": "Given a dictionary of student names and their corresponding ages {\"Alice\": 18, \"Bob\": 20, \"Charlie\": 19}, write a program that prints both Bob and Alice's age.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Dictionary": {
+            "Alice": 18,
+            "Bob": 20,
+            "Charlie": 19
+          }
+        },
+        "output": "Alice's Age: 18, Bob's Age: 20"
+      }
+    ]
+  },
+  {
+    "question_name": "Course Instructor Printer",
+    "question_text": "Given a dictionary of courses and their corresponding instructors, write a program that prints all the course names and their instructors.",
+    "question_test_cases": [
+      {
+        "input": {
+          "Dictionary": {
+            "Math": "Mr. Smith",
+            "Science": "Mrs. Johnson",
+            "History": "Mr. Brown"
+          }
+        },
+        "output": "Math - Mr. Smith, Science - Mrs. Johnson, History - Mr. Brown"
+      }
+    ]
+  },
+  {
+    "question_name": "Average Score Calculator",
+    "question_text": "Given a dictionary of student names and their corresponding scores, write a program that calculates and prints the average score of all the students. student_scores = {\"Alice\": 85, \"Bob\": 92, \"Charlie\": 78, \"David\": 95, \"Eve\": 88}",
+    "question_test_cases": [
+      {
+        "input": {
+          "Dictionary": {
+            "Alice": 85,
+            "Bob": 92,
+            "Charlie": 78,
+            "David": 95,
+            "Eve": 88
+          }
+        },
+        "output": "Average Score = 87.6"
+      }
+    ]
+  },
+  {
+    "question_name": "Number Square Mapper",
+    "question_text": "Create an empty dictionary. Using a for loop, map the numbers from 1 to 10 with their squares. Key should be the number and value should be the square (e.g., 2 -> 4). Return the new dictionary.",
+    "question_test_cases": [
+      {
+        "input": "N/A (no user input)",
+        "output": "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81, 10: 100}"
+      }
+    ]
+  },
+  {
+    "question_name": "High-Scoring Students",
+    "question_text": "Given a dictionary that maps student names to their exam scores, write a program that prints the names of students who scored above 80 along with their grades. exam_scores = {\"Alice\": 85, \"Bob\": 92, \"Charlie\": 78, \"David\": 95}",
+    "question_test_cases": [
+      {
+        "input": {
+          "Dictionary": {
+            "Alice": 85,
+            "Bob": 92,
+            "Charlie": 78,
+            "David": 95
+          }
+        },
+        "output": "Bob - A, Alice - A, David - A"
+      }
+    ]
+  }
+]

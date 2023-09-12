@@ -261,21 +261,31 @@
                     
                     <br/>
 
-                    <div class="message">
-                        Test Case 1: Input: Word/Phrase = "racecar" --> Output: Palindrome
-                    </div>
+                    {% for lc_tc_obj in lesson_question_test_cases %}
 
-                    <div class="message">
-                        Test Case 3: Input: Name = Sarah, Age = 18 --> Output: Hello, Sarah! You are 18 years old.
-                    </div>
+                        {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
 
-                    <div class="message">
-                        Test Case 2: Input: Sentence = "This is a test.", Character = "i" --> Output: Th+s +s a test.
-                    </div>
+                            <div class="message">
 
-                    <div class="message">
-                        Test Case 2: Input: Sentence = "This is a test.", Character = "i" --> Output: Th+s +s a test.
-                    </div>
+                                <strong>
+                                    Test Case:
+                                </strong>
+                                <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                            </div>
+                        
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if lesson_question_test_cases|length == 0 %}
+
+                        <p style="color: gray;">
+                            Example Test Cases available for Lesson Questions only.
+                        </p>
+
+                    {% endif %}
 
                     <!-- {% for lc_tc_obj in lesson_question_test_cases %}
                         

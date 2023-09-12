@@ -21,30 +21,37 @@ Foundational Exercises:
 - Write a program that prints the square of a number, entered by the user.
 - Create a program that asks the user for their age and then determines if they are a minor (under 18) or an adult.
 - Write a program that determines the data type of a given variable (e.g., integer, float, string, list). If integer, return "integer". If string, return "string". If list, return "list". If float, return "float".
-
 - Create a program that converts temperatures between Celsius (C) and Fahrenheit (F). Round to temperature value to 1 digit. Return the converted temperature.
 - Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position.
 - Write a program that prints the first 10 positive numbers using a for loop.
 - Write a Python program that generates a multiplication table from 1-12 for a given number (e.g., 7).
+
 - Write a program that asks the user to enter a word and then uses a for loop to count and print the number of characters in the word.
-- Ask the user for a sentence and a character. Use a for loop to replace all occurrences of that character in the sentence with "+". Print the modified sentence.
+
 - Ask the user for a string. Iterate through the string using the range and for loop function and print each character in the string.
+
+- Write a program that calculates and prints the sum of all numbers from 1 to 100 using a for loop. Print final sum.
+- Ask the user for a sentence. Print all the words that fall in the even index.
+- Given a list of words, use a for loop to find and print the longest word in the list.
+
+# Lesson 3:
 - Create a program that asks the user for a sentence and uses a for loop to count and print the number of words in the sentence.
 - Write a program that takes a original list, and creates a new list, with each of the original number squared (ie. x ** 2).
-- Write a program that calculates and prints the sum of all numbers from 1 to 100 using a for loop. Print final sum.
+TODO: 
+
+- Given a full name (separated by space), write a program that extracts the initials from the name and returns them to the user.
+- Given a list of numbers, write a program that finds and prints all unique elements in the list (no duplicates).
+- Given a list of words, use a for loop to concatenate all the words in the list into a single sentence, with no spaces. Print the resulting sentence.
+- Ask the user for a sentence and a character. Use a for loop to replace all occurrences of that character in the sentence with "+". Print the modified sentence.
 
 - Given a list of numbers, write a program that calculates and prints the sum of all the numbers in the list using a for loop.
-- Given a list of numbers, write a program that finds and prints all unique elements in the list (no duplicates).
+
 - Write a Python program to reverse a given list without using list slicing or built-in functions. Return a new list, which is in reverse order.
 - Design a program that checks if a given word or phrase is a palindrome (reads the same forwards and backwards; ie. radar is a palindrome word), ignoring spaces and punctuation.
 - Create a program that asks the user to enter a number and then counts and prints how many times that number appears in a list of numbers.
 - Given a list of numbers, write a program that finds and prints the maximum and minimum numbers in the list using a for loop.
 - Generate and print the first 20 numbers in the Fibonacci sequence using a for loop. The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones.
-- Ask the user for a sentence. Print all the words that fall in the even index.
-- Given a full name (separated by space), write a program that extracts the initials from the name and returns them to the user.
-- Given a list of words, use a for loop to concatenate all the words in the list into a single sentence, with no spaces. Print the resulting sentence.
 
-- Given a list of words, use a for loop to find and print the longest word in the list.
 - Create a program that determines whether a number is a prime or not.
 - Given a dictionary of student names and their corresponding ages {Alice -> 18, Bob -> 20, Charlie -> 19}, write a program that prints both Bob and Alices age.
 - Given a dictionary of courses and their corresponding instructors, write a program that prints all the course names and their instructors.

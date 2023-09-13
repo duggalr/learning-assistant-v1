@@ -261,8 +261,12 @@ def practice_questions(request):
     # np_questions = NewPracticeQuestion.objects.all()
     lesson_obj = Lesson.objects.get(title = 'new_void')
     np_questions = LessonQuestion.objects.filter(lesson_obj = lesson_obj).order_by('created_at')
+
+    initial_user_session = request.session.get("user")
+
     return render(request, 'lesson_dashboard_new.html', {
-        'questions': np_questions
+        'user_session': initial_user_session,
+        'questions': np_questions,
     })
 
 

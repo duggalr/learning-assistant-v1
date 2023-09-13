@@ -11,43 +11,45 @@ fp = 'preliminary_questions.txt'
 f = open(fp)
 lines = f.readlines()
 
-# lesson_obj_new = Lesson.objects.create(
-#     title = 'new_void'
-# )
-# lesson_obj_new.save()
+lesson_obj_new = Lesson.objects.create(
+    title = 'new_void'
+)
+lesson_obj_new.save()
 
 for ln in lines:
     ln = ln.strip()
     ln_list = ln.split(' | ')
-    question_name = ln_list[0]
-    question_text = ln_list[1]
+    question_name = ln_list[0].strip()
+    question_text = ln_list[1].strip()
     question_test_cases = ''
     if len(ln_list) > 2:
         question_test_cases = ln_list[2]
 
     print(f"Question Name: {question_name}")
     print(f"Question Text: {question_text}")
-    test_case_list = question_test_cases.split('Test Case')
-    new_test_case_list = []
-    for tc in test_case_list:
-        if tc != '':
-            new_tc = tc.strip()
-            if new_tc[-1] == ',':
-                new_tc = new_tc[:-1]
+    # test_case_list = question_test_cases.split('Test Case')
+    # new_test_case_list = []
+    # for tc in test_case_list:
+    #     if tc != '':
+    #         new_tc = tc.strip()
+    #         if new_tc[-1] == ',':
+    #             new_tc = new_tc[:-1]
             
-            print(f"Test Case {new_tc}")
-            print(f"Question: {question_name} | Question Text: {question_text} | Test Case {new_tc}")
-            new_test_case_list.append(new_tc)
+    #         print(f"Test Case {new_tc}")
+    #         print(f"Question: {question_name} | Question Text: {question_text} | Test Case {new_tc}")
+    #         new_test_case_list.append(new_tc)
 
     # for tc_txt in new_test_case_list:
     #     print(f"{tc_txt}")
 
-    # lq_obj = LessonQuestion.objects.create(
-    #     question_name = question_name, 
-    #     question_text = question_text,
-    #     lesson_obj = lesson_obj_new
-    # )
-    # lq_obj.save()
+    lq_obj = LessonQuestion.objects.create(
+        question_name = question_name, 
+        question_text = question_text,
+        lesson_obj = lesson_obj_new
+    )
+    lq_obj.save()
+
+    
 
     # for tc in new_test_case_list:
     #     lq_tc_obj = LessonQuestionTestCase.objects.create(
@@ -56,15 +58,6 @@ for ln in lines:
     #     )
     #     lq_tc_obj.save()
 
-
-# TODO: 
-    # brother lesson
-    # use gpt prompt to to get the input/output from the test-cases via API
-        # go from there to save and display everything to user
-        # test and ensure all good
-        # plan out next steps
-    # more for code-companion
-    # wealthsimple 
 
 
     # npc_q_obj = NewPracticeQuestion.objects.create(

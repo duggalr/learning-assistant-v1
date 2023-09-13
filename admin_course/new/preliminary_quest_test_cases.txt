@@ -1,5 +1,5 @@
 Variable Type Printer
-Personalized Greeting | [{'input': 'John', output: 'Hello John'}, {'input': 'Alice', output: 'Hello Alice'}, {'input': 'Bob', output: 'Hello Bob'}]
+Personalized Greeting | [{'input': 'John', "output": 'Hello John'}, {'input': 'Alice', "output": 'Hello Alice'}, {'input': 'Bob', "output": 'Hello Bob'}]
 Full Name Printer | [{'input': ['John', 'Doe'], 'output': 'John Doe'}, {'input': ['Alice', 'Smith'], 'output': 'Alice Smith'}, {'input': ['Bob', 'Johnson'], 'output': 'Bob Johnson'}]
 Greeting with Age | [{'input': ['Emily', 25], 'output': 'Hello, Emily! You are 25 years old.'}, {'input': ['David', 42], 'output': 'Hello, David! You are 42 years old.'}]
 Sum Calculator | [{'input': [5, 7], 'output': 12}, {'input': [-3, 10], 'output': 7}, {'input': [0, 0], 'output': 0}]
@@ -21,33 +21,23 @@ Unique Elements | [{'input': [1, 2, 2, 3, 4, 4, 5], 'output': [1, 2, 3, 4, 5]}, 
 List Reverser | [{'input': [1, 2, 3, 4, 5], 'output': [5, 4, 3, 2, 1]}, {'input': ["apple", "banana", "cherry"], 'output': ["cherry", "banana", "apple"]}]
 Palindrome Checker | [{'input': 'racecar', 'output': 'Palindrome'}, {'input': 'radar', 'output': 'Palindrome'}, {'input': 'hello', 'output': 'Not a Palindrome'}]
 Number Counter | [{'input': [3, [1, 2, 3, 4, 3, 5, 3]], 'output': 3}, {'input': [7, [7, 7, 7, 1, 2, 3]], 'output': 3}]
-Max and Min Finder | [{'input': [1, 5, -3, 8, 0], 'output': Maximum = 8, Minimum = -3}, {'input': [11, 7, 20, 15, 4], 'output': Maximum = 20, Minimum = 4}]
+Max and Min Finder | [{'input': [1, 5, -3, 8, 0], 'output': "Maximum = 8, Minimum = -3"}, {'input': [11, 7, 20, 15, 4], 'output': "Maximum = 20, Minimum = 4"}]
 Fibonacci Sequence
 Even Index Words | [{'input': 'This is a test sentence.', 'output': 'Words at even index: is, test'}, {'input': 'Python programming is fun!', 'output': 'Words at even index: programming, fun!'}]
 Initials Extractor | [{'input': 'John Doe', 'output': 'JD'}, {'input': 'Alice Johnson Smith', 'output': 'AJS'}]
 Word Concatenator | [{'input': ["Hello", "world", "in", "Python"], 'output': 'HelloWorldinPython'}, {'input': ["This", "is", "a", "test."], 'output': 'Thisisatest.'}]
 Longest Word Finder | [{'input': ["apple", "banana", "cherry", "blueberry"], 'output': 'blueberry'}, {'input': ["programming", "is", "fun"], 'output': 'programming'}]
 Prime Number Checker | [{'input': 7, 'output': 'Prime'}, {'input': 4, 'output': 'Not Prime'}]
-Student Age Printer | [{'input': {"Alice": 18, "Bob": 20, "Charlie": 19}, 'output': 'Alice's Age: 18, Bob's Age: 20'}]
+Student Age Printer | [{'input': {"Alice": 18, "Bob": 20, "Charlie": 19}, 'output': 'Alices Age: 18, Bobs Age: 20'}]
 Course Instructor Printer | [{'input': {"Math": "Mr. Smith", "Science": "Mrs. Johnson", "History": "Mr. Brown"}, 'output': 'Math - Mr. Smith, Science - Mrs. Johnson, History - Mr. Brown'}]
 Average Score Calculator | [{'input': {"Alice": 85, "Bob": 92, "Charlie": 78, "David": 95, "Eve": 88}, 'output': 'Average Score = 87.6'}]
 Number Square Mapper
 High-Scoring Students | [{'input': {"Alice": 85, "Bob": 92, "Charlie": 78, "David": 95}, 'output': 'Bob - A, Alice - A, David - A'}]
-Price Item Mapper | [{'input': {"apple": 0.5, "banana": 0.25, "orange": 0.75, "kiwi": 0.6, "mango": 1.0}, 'output': {0.5: ['apple'], 0.25: ['banana'], 0.75: ['orange'], 0.6: ['kiwi'], 1.0: ['mango']}}]
+Price Item Mapper | [{'input': {"apple": 0.5, "banana": 0.25, "orange": 0.75, "kiwi": 0.6, "mango": 1.0}, 'output': {"0.5": ['apple'], "0.25": ['banana'], "0.75": ['orange'], "0.6": ['kiwi'], "1.0": ['mango']}}]
 Word Frequency Counter | [{'input': 'This is a test sentence. This is a test!', 'output': {'this': 2, 'is': 2, 'a': 2, 'test': 2, 'sentence': 1}}, {'input': 'Python programming is fun. Python is cool!', 'output': {'python': 2, 'programming': 1, 'is': 2, 'fun': 1, 'cool': 1}}]
 Maximum Sum Finder | [{'input': [1, 2, 3, 4, 5], 'output': 9}, {'input': [-2, 5, 8, -1], 'output': 13}]
-Minimum Sum Finder | [{'input': [1, 2, 3, 4, 5], 'output': 3}, {'input': [-2, 5, 8, -1], 'output': Minimum Sum = -3}]
+Minimum Sum Finder | [{'input': [1, 2, 3, 4, 5], 'output': 3}, {'input': [-2, 5, 8, -1], 'output': "Minimum Sum = -3"}]
 Count Smaller Numbers | [{'input': [8, 1, 2, 2, 3], 'output': [4, 0, 1, 1, 3]}, {'input': [5, 5, 5, 5], 'output': [0, 0, 0, 0]}]
 Total Sum of 2D List | [{'input': [[1, 2, 3], [5, 10, 11], [20, 0, 9], [17, 9, 31, 5]], 'output': 154}]
 Total Sum of 2D List Row | [{'input': [[1, 2, 3], [5, 10, 11], [20, 0, 9], [17, 9, 31, 5]], 'output': 26}]
 Total Sum of 2D List Odd Index | [{'input': [[1, 2, 3], [5, 10, 11], [20, 0, 9], [17, 9, 31, 5]], 'output': 'Total Sum of Odd Index Numbers = 40'}]
-
-
-# TODO: 
-    # save all the testcases above in the DB (local)
-        # test and ensure all the neq questions work well
-    # fix all bugs and ensure good
-        # edit the about and push / finalize the prod for this feature
-    # prioritize the next eng from there:
-        # 'general tutor'
-    

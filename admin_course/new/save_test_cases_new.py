@@ -10,15 +10,6 @@ import ast
 import json
 
 
-
-# TODO: 
-    # save all the testcases above in the DB (local)
-        # test and ensure all the neq questions work well
-    # fix all bugs and ensure good
-        # edit the about and push / finalize the prod for this feature
-    # prioritize the next eng from there:
-        # 'general tutor'
-    
 lesson_obj_new = Lesson.objects.get(title = 'new_void')
 
 fn = 'preliminary_quest_test_cases.txt'
@@ -59,5 +50,4 @@ for ln in lines:
             #     correct_output = output_st
             # )
             # lq_tc_obj.save()
-
 

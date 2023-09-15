@@ -562,6 +562,23 @@ def teacher_admin_student_page(request, uid):
 
 
 
+def general_cs_tutor(request):
+    return render(request, 'general_cs_tutor.html')
+
+
+
+def handle_general_tutor_user_message(request):
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+        print('form-data:', request.POST)
+        
+
+
+
+
+
+
 
 
 # def handle_code_submit(request):

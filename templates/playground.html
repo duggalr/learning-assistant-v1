@@ -83,6 +83,18 @@
             cursor: pointer;
         }
 
+        #clear_output_link{
+            color: #1e70bf;
+            font-size: 14.5px; 
+            font-weight: 500; 
+            padding-left: 5px;
+        }
+
+        #clear_output_link:hover{
+            font-weight: bold;   
+            cursor: pointer;       
+        }
+
     </style>
 
 
@@ -220,6 +232,9 @@
             <h4>
                 <i class="bug icon"></i>
                 Output
+                <span id="clear_output_link">
+                    Clear Output
+                </span>
             </h4>
 
             <div class="ui segment output-code">
@@ -505,6 +520,9 @@
                     let otv = val_list[i];
                     output.value += ">>> " + otv + "\n"; 
                 }
+
+                var textarea = document.getElementById('output');
+                textarea.scrollTop = textarea.scrollHeight;
 
             } catch(err) {
 
@@ -854,7 +872,11 @@ mystdout.getvalue()
         });
 
 
+        $('#clear_output_link').click(function(){
 
+            $('#output').val('');
+
+        });
         
 
     </script>

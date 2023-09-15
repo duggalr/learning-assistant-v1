@@ -562,8 +562,29 @@ def teacher_admin_student_page(request, uid):
 
 
 
+
 def general_cs_tutor(request):
-    return render(request, 'general_cs_tutor.html')
+
+    # TODO: 
+        # add pid param
+        # test to ensure good
+        # add the saved conversations in the dashboard tab
+        # go from there
+
+    initial_user_session = request.session.get("user")        
+
+    user_oauth_obj = None
+    if initial_user_session is not None:
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+    utc_objects = UserGeneralTutorConversation.objects.filter(
+        user_auth_obj = user_oauth_obj
+    )
+
+    return render(request, 'general_cs_tutor.html', {
+        'user_session': initial_user_session,
+        'user_conversation_objects': utc_objects,
+    })
 
 
 
@@ -572,7 +593,73 @@ def handle_general_tutor_user_message(request):
 
     if request.method == 'POST':
         print('form-data:', request.POST)
+
+        initial_user_session = request.session.get('user')        
         
+        if initial_user_session is None:
+            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+        
+        user_question = request.POST['message'].strip()
+        uc_parent_obj_id = request.POST['uc_parent_obj_id']
+        # user_ct_obj_id = request.POST['user_ct_obj_id']
+
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        ugt_parent_obj = None
+        if uc_parent_obj_id is None:
+            ugt_parent_obj = UserGeneralTutorParent.objects.create(
+                user_auth_obj = user_oauth_obj
+            )
+            ugt_parent_obj.sav()
+
+        else:
+            ugt_parent_objects = UserGeneralTutorParent.objects.filter(
+                id = uc_parent_obj_id,
+                user_auth_obj = user_oauth_obj
+            )
+            if len(ugt_parent_objects) == 0:
+                return JsonResponse({'success': False, 'message': 'Conversation not found.'})                
+            else:
+                ugt_parent_obj = ugt_parent_objects[0]
+
+
+        prev_conversation_history = []
+        if uc_parent_obj_id != 'None':
+
+            prev_conversation_messages = UserGeneralTutorConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                gt_parent_obj = ugt_parent_obj
+            ).order_by('created_at')
+
+            if len(prev_conversation_messages) > 0:
+                for uc_obj in prev_conversation_messages[:5]:
+                    uc_question = uc_obj.question
+                    uc_response = uc_obj.response
+                    prev_conversation_history.append(f"Question: { uc_question }")
+                    prev_conversation_history.append(f"Response: { uc_response }")
+
+
+        prev_conversation_st = ''
+        if len(prev_conversation_history) > 0:
+            prev_conversation_st = '\n'.join(prev_conversation_history)
+        
+
+        model_response_dict = main_utils.general_tutor_handle_question(
+            question = user_question,
+            previous_chat_history_st = prev_conversation_st
+        )
+
+        uct_obj = UserGeneralTutorConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            question = model_response_dict['question'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response'],
+        )
+        uct_obj.save()
+
+        
+        model_response_dict['uct_parent_obj_id'] = ugt_parent_obj.id
+        return JsonResponse({'success': True, 'response': model_response_dict})
+
 
 
 

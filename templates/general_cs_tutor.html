@@ -81,11 +81,15 @@
     
                 <br/>
     
-                <!-- <div class="message" style="white-space: pre-line;"><b>You:</b> personalized tutor designed to help you learn programming</div>
-                <div class="message" style="white-space: pre-line;"><b>GPT-4:</b> personalized tutor designed to help you learn programming</div>
-                <div class="message" style="white-space: pre-line;"><b>You:</b> personalized tutor designed to help you learn programming</div>
-                <div class="message" style="white-space: pre-line;"><b>GPT-4:</b> personalized tutor designed to help you learn programming</div> -->
-    
+                {% for ucs_obj in user_conversation_objects %}
+                        
+                    <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                    <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                {% endfor %}
+
+                <input id="uc_parent_obj_id" type="hidden" value="{{ uct_parent_id }}" />
+
             </div>
 
             <div class="input-container">
@@ -134,6 +138,7 @@
 
         });
 
+
         $("#chatInput").on('keyup', function(event) {
             
             var currentString = $("#chatInput").val()
@@ -172,8 +177,13 @@
                 
                 chatInput.value = "";
 
+                let uc_parent_obj_id = $('#uc_parent_obj_id').val();
+                let user_conversation_obj_id = $('#user_conversation_obj_id').val();
+
                 let d = {
                     'message': messageText,
+                    'uc_parent_obj_id': uc_parent_obj_id,
+                    'user_ct_obj_id': user_conversation_obj_id,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 };
                 
@@ -184,35 +194,33 @@
                     data: d,
                     success: function (response) {
 
-                        // // console.log('response:', response);
+                        var model_response_dict = response['response'];
+                        console.log('Response Dict:', model_response_dict)
+
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replace('\n', '<br/><br/>');
+
+                        console.log('Response:', model_response_message)
+
+                        var user_question = model_response_dict['question'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
                         
-                        // var model_response_dict = response['response'];
-                        // // var model_response_message = model_response_dict['response']
+                        chat.scrollTop = chat.scrollHeight;
 
-                        // console.log('Response Dict:', model_response_dict)
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
-                        // var model_response_message = model_response_dict['response'];
-                        // model_response_message = model_response_message.replace('\n', '<br/><br/>');
+                        let saved_obj_id = model_response_dict['uct_parent_obj_id'];
+                        $('#uc_parent_obj_id').val(saved_obj_id);
 
-                        // console.log('Response:', model_response_message)
-
-                        // var user_question = model_response_dict['question'];
-
-                        // const responseMessage = document.createElement("div");
-                        // responseMessage.className = "message";
-                        // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                        // chat.appendChild(responseMessage);
-                        
-                        // chat.scrollTop = chat.scrollHeight;
-
-                        // $('#chatInput').prop('disabled', false);
-                        // $('#sendButton').show();
-                        // $('#primary_loading_button').hide();
-                        
-                        // let saved_cid = model_response_dict['cid'];
-                        // $('#code_obj_id').val(saved_cid);
-
-                        // $('#solution_submit_button').removeClass("disabled");
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('pid', saved_obj_id);
+                        window.history.replaceState(null, null, url);
 
                     },
                     error: function (response) {}

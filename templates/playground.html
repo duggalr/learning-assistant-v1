@@ -680,7 +680,8 @@ mystdout.getvalue()
                         console.log('Response Dict:', model_response_dict)
 
                         var model_response_message = model_response_dict['response'];
-                        model_response_message = model_response_message.replaceAll('\n', '<br/><br/>');
+                        // model_response_message = model_response_message.replaceAll('\n', '<br/><br/>');
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
                         console.log('Response:', model_response_message)
 
@@ -688,8 +689,8 @@ mystdout.getvalue()
 
                         const responseMessage = document.createElement("div");
                         responseMessage.className = "message";
-                        // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                        responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
                         chat.appendChild(responseMessage);
                         
                         chat.scrollTop = chat.scrollHeight;

@@ -112,23 +112,33 @@
 
                     <div class="ui placeholder segment">
 
-                        <div class="ui icon header" style="font-size: 17px; line-height: 1.3em;">
+                        <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
                             <!-- <i class="pdf file outline icon"></i> -->
-                            No Previous Questions Asked.
+                            No Code Files Saved.
+                            <br/><br/>
+                            <li>
+                                You can run your code while asking Code Companion for help in our <a href="{% url 'playground' %}">playground</a>.
+                            </li>
                             <br/>
-                            Start asking questions now, by visiting the playground. 
+                            <li>
+                                You can also have a conversation with your tutor <a href="{% url 'general_cs_tutor' %}">here</a>.
+                            </li>
                             <br/>
-                            Or, start browsing through and completing the <a href="{% url 'practice_questions' %}">Python exercises</a> on our site.
+                            <li>
+                                Feel free to also browse through and try some beginner  <a href="{% url 'practice_questions' %}">python exercises</a> on the site.
+                            </li>
+                            <!-- <br/>
+                            <br/> -->
                         </div>
 
-                        <div class="ui animated medium black button visit_playground_button" tabindex="0" >
+                        <!-- <div class="ui animated medium black button visit_playground_button" tabindex="0" >
                             <div class="visible content">
                                 Visit Playground
                             </div>
                             <div class="hidden content">
                             <i class="right arrow icon"></i>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
 

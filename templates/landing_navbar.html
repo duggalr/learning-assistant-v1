@@ -4,18 +4,21 @@
     <div class="ui container">
 
         <div class="item navbar-logo">
-            <!-- <i class="sitemap icon" style="font-size: 22px;"></i> -->
-            <i class="code branch icon"></i>
+            <!-- <i class="code branch icon"></i> -->
+            <i class="sitemap icon" ></i>
             Code Companion
         </div>
 
-        <div class="right menu" style="margin-right: 6%;">
+        <div class="right menu" style="margin-right: 8%;">
 
+            <a class="item" href="{% url 'general_cs_tutor' %}">
+                AI Tutor
+            </a>
             <a class="item" href="{% url 'playground' %}">
-                AI Tutor Playground
+                Code Editor Playground
             </a>
             <a class="item" href="{% url 'practice_questions' %}">
-                Learn Python with an AI Tutor
+                Python Exercises
             </a>
             <a class="item" href="{% url 'about' %}">
                 About

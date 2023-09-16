@@ -56,14 +56,13 @@
 
         <div class="twelve wide column" id="code-column">
         
-            <h4>
+            <h4 style="font-size: 18px;">
                 <i class="comments icon"></i>
-                Chat with your Personal Tutor
+                Chat with Code Companion
             </h4>
 
             <span style="font-size: 13px; color: gray;">
-                TODO: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend aliquam ipsum. 
-                Morbi commodo augue a orci congue, ac cursus ipsum porttitor. Phasellus euismod massa a sollicitudin tristique.
+                Feel free to also visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help from Code Companion, as needed.
             </span>
             
             <div class="chat-container" id="chat">
@@ -72,9 +71,11 @@
                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                     I'm Code Companion, your personal programming tutor.
                     <br/><br/>
-                    <strong>
-                        TODO: TODO: TODO:
-                    </strong>
+                    Feel free to ask me programming questions, whether it's providing an explanation
+                    on a specific CS concept, helping you debug code, or providing you with questions so 
+                    you can develop a deeper understanding of the material.
+                    <br/><br/>
+                    My goal is to help make it easier for you to learn programming.
                 </div>
     
                 <hr>
@@ -92,26 +93,38 @@
 
             </div>
 
-            <div class="input-container">
 
-                <div class="ui form" style="width: 100%;">
-                    <div class="field">
-                        <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
-                    </div>                    
+            {% if user_session is not None %}
+
+                <div class="input-container">
+
+                    <div class="ui form" style="width: 100%;">
+                        <div class="field">
+                            <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                        </div>                    
+                    </div>
+                    &nbsp;
+                    <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                    <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+        
                 </div>
-                &nbsp;
-                <button id="sendButton" class="ui primary button disabled send-button">Send</button>
-                <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
-    
-            </div>
-    
-            <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
-                Answer Response usually takes 15-30 seconds. (this will get better soon...)
-            </span>
+        
+                <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                    Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                </span>
+
+            {% else %}
+
+                <div style="margin-top: 3%; text-align: left;">
+                    <button class="ui black basic button" id="create_account_button">
+                        Create an account to start asking questions
+                    </button>
+                </div>
+
+            {% endif %}
 
 
         </div>
-
 
     </div>
 
@@ -122,6 +135,10 @@
 
 
     <script>
+        
+        // // Chat Scroll Height
+        // var textarea = document.getElementById('chat');
+        // textarea.scrollTop = textarea.scrollHeight;
 
         // Chat Functionality
         const chat = document.getElementById("chat");

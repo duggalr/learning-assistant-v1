@@ -88,7 +88,7 @@
 
                 {% endfor %}
 
-                <input id="uc_parent_obj_id" type="hidden" value="{{ uct_parent_id }}" />
+                <!-- <input id="uc_parent_obj_id" type="hidden" value="{{ uct_parent_id }}" /> -->
 
             </div>
 
@@ -215,12 +215,11 @@
                         $('#sendButton').show();
                         $('#primary_loading_button').hide();
 
-                        let saved_obj_id = model_response_dict['uct_parent_obj_id'];
-                        $('#uc_parent_obj_id').val(saved_obj_id);
-
-                        var url = new URL(window.location.href);
-                        url.searchParams.set('pid', saved_obj_id);
-                        window.history.replaceState(null, null, url);
+                        // let saved_obj_id = model_response_dict['uct_parent_obj_id'];
+                        // $('#uc_parent_obj_id').val(saved_obj_id);
+                        // var url = new URL(window.location.href);
+                        // url.searchParams.set('pid', saved_obj_id);
+                        // window.history.replaceState(null, null, url);
 
                     },
                     error: function (response) {}

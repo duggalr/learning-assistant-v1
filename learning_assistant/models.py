@@ -50,14 +50,14 @@ class LessonQuestionTestCase(models.Model):
     test_case_full_text = models.TextField(blank=True, null=True)
 
 
-class UserGeneralTutorParent(models.Model):
-    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+# class UserGeneralTutorParent(models.Model):
+#     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class UserGeneralTutorConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-    gt_parent_obj = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE)
+    # gt_parent_obj = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()

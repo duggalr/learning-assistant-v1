@@ -143,7 +143,6 @@ You are on the right track. Pay close attention to the operation you are perform
 ##Your Answer:
 """
     
-    previous_chat_history_st = ''
     question = question.strip()
 
     q_prompt = q_prompt.format(

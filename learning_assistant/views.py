@@ -780,7 +780,11 @@ def teacher_admin_dashboard(request):
     teacher_obj = request.session.get("teacher_object")
     print('teacher-sesion-obj:', teacher_obj)
 
-    return render(request, 'teacher_admin_dashboard.html')
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    return render(request, 'teacher_admin_dashboard.html', {
+        'teacher_obj': teacher_obj
+    })
 
 
 

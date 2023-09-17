@@ -4,11 +4,115 @@
 
 {% block content %}
 
+    <style>
+
+        #main_center_column{
+            padding-top: 40px;
+        }
+
+        #center_card_column{
+            padding-top: 5%;
+            padding-left: 10%;
+        }
+
+        .description{
+            font-size: 12.5px;
+        }
+
+    </style>    
+
+    {% include 'teacher_admin_navbar.html' %}
 
     <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" id="main_center_column">
+
+            <h3>Welcome, {{ teacher_obj.full_name }}!</h3>
+
+            <span style="color: gray;">
+                TODO:
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+            </span>
+
+            <div class="ui cards" id="center_card_column">
+
+                <div class="ui link black card">
+
+                    <div class="content">
+                        <div class="header">
+                            Your Students
+                        </div>
+                        <div class="meta"></div>
+                        <div class="description" style="color: gray;">
+                            Manage your students. Invite students in your class.
+                        </div>
+                    </div>
+
+                </div>
+
+                
+                &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;
+                
+
+                <div class="ui link black card">
     
-        <br/><br/><br/>
-        <h1>Teacher Dashboard</h1>
+                    <div class="content">
+                        <div class="header">
+                            Chat with your Assistant
+                        </div>
+                        <div class="meta"></div>
+                        <div class="description" style="color: gray;">
+                            Get help creating your lesson plans, generating assignments, 
+                            or examples on explaining a new concept to your class. 
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="ui link black card" style="margin-top: 20px;">
+    
+                    <div class="content">
+                        <div class="header">
+                            Create Questions
+                        </div>
+                        <div class="meta"></div>
+                        <div class="description" style="color: gray;">
+                            Create questions for your students to answer.
+                        </div>
+                    </div>
+
+                </div>
+
+
+                &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;
+
+                <div class="ui link black card" style="margin-top: 20px;">
+
+                    <div class="content">
+                        <div class="header">
+                            AI-Generated Insights
+                        </div>
+                        <div class="meta"></div>
+                        <div class="description" style="color: gray;">
+                            Get insights on what concepts your students understand, and what is difficult for them to grasp.
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+        
 
         <!-- <form class="ui form" method="POST">
 

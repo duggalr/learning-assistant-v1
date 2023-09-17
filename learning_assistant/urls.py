@@ -39,6 +39,8 @@ urlpatterns = [
     path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),
     path("teacher-admin/login", views.teacher_admin_login, name="teacher_admin_login"),
     path("teacher-admin/dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),
+    
+    path("teacher-admin/students", views.teacher_admin_student_management, name="teacher_admin_student_management"),
 
 ]
 

@@ -775,16 +775,30 @@ def teacher_admin_dashboard(request):
     if request.session.get("teacher_object", None) is None:
         # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
         return redirect('landing')
-    
 
     teacher_obj = request.session.get("teacher_object")
-    print('teacher-sesion-obj:', teacher_obj)
-
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
     return render(request, 'teacher_admin_dashboard.html', {
         'teacher_obj': teacher_obj
     })
+
+
+
+
+def teacher_admin_student_management(request):
+
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
+
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    return render(request, 'teacher_admin_student_management.html', {
+        'teacher_obj': teacher_obj
+    })
+
 
 
 

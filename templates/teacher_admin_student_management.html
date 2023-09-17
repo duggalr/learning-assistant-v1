@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+        #main_center_column{
+            padding-top: 30px;
+        }
+
+        #center_card_column{
+            padding-top: 5%;
+            padding-left: 10%;
+        }
+
+        .description{
+            font-size: 12.5px;
+        }
+
+        .add_student_icon:hover{
+            cursor: pointer;
+            color: lightblue;
+        }
+
+    </style>    
+
+
+    {% include 'teacher_admin_navbar.html' %}
+
+
+    <!-- Invite Student Modal -->
+    <div class="ui modal" id="invite_student_modal">
+
+        <div class="header">Invite Students</div>
+        <div class="content">
+            
+            <form class="ui form" method="POST">
+
+                <div class="field">
+                    <label>Student Email</label>
+                    <input type="text" name="first-name" placeholder="First Name">
+                </div>
+
+                <div class="field">
+                    <label>Last Name</label>
+                    <input type="text" name="last-name" placeholder="Last Name">
+                </div>
+
+                <button class="ui button" type="submit">Submit</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main -->
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" id="main_center_column">
+
+            <!-- <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" style="font-size: 19px;">
+                    <i class="users icon" style="font-size: 22px;"></i>
+                    Your Students
+                </h3>
+
+                <span class="add_student_icon" style="font-size: 15px;">
+                    <i class="plus icon" style="font-size: 14px;"></i>
+                    Invite your students
+                </span>
+
+            </div> -->
+        
+            <div class="ui tabular menu">
+
+                <a class="active item" id="students_tab">
+                    <i class="users icon" style="font-size: 16px;"></i>
+                    Your Students
+                </a>
+                
+                <a class="disabled item" id="performance_tab">
+                    <i class="chart line icon" style="font-size: 16px;"></i>
+                    Student Performance (coming soon..)
+                </a>
+                
+                <div style="float: right; padding-top: 12px; padding-left: 25%;">
+                    <span class="add_student_icon" style="font-size: 14px;">
+                        <i class="plus icon" style="font-size: 13px;"></i>
+                        Invite your students
+                    </span>
+                </div>
+
+            </div>
+            
+            <br/>
+            <span style="color: gray; font-size: 13px;">
+                TODO:
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+            </span>
+
+
+            <!-- Student Management Div -->
+            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px;">
+      
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="right floated content">
+                            <div class="negative ui tiny animated button" tabindex="0">
+                                <div class="visible content">Delete Student</div>
+                                <div class="hidden content">
+                                  <i class="trash icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Daniel Louise
+                            </a>
+                        </div>
+        
+                        <div style="padding-top: 14px;">
+
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Created: 2023-02-10
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Messages: 30
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Code Files: 21
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="right floated content">
+                            <div class="negative ui tiny button">Delete Student</div>
+                        </div>
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Daniel Louise
+                            </a>
+                        </div>
+        
+                        <div style="padding-top: 14px;">
+
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Created: 2023-02-10
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Messages: 30
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Code Files: 21
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="right floated content">
+                            <div class="negative ui tiny button">Delete Student</div>
+                        </div>
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Daniel Louise
+                            </a>
+                        </div>
+        
+                        <div style="padding-top: 14px;">
+
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Created: 2023-02-10
+                            </span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Messages: 30
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Code Files: 21
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Daniel Louise
+                            </a>
+                        </div>
+        
+                        <div style="padding-top: 14px;">
+
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Created: 2023-02-10
+                            </span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Messages: 30
+                            </span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <i class="hashtag icon"></i>Code Files: 21
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- Student Performance Div -->
+            <div id="student_performance_div" style="display: none;">
+            </div>
+
+
+        </div>
+
+        <div class="two wide column"></div>
+        
+        
+    </div>
+
+
+
+
+
+    <script>
+
+
+        $(document).ready(function(){
+
+            $('#add_student_icon').click(function(){
+
+                $('#invite_student_modal').modal('show');
+
+            });
+
+        });
+
+
+    </script>
+
+
+{% endblock %}
+
+

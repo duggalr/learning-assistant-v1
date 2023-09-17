@@ -39,7 +39,7 @@
 
             <div class="ui cards" id="center_card_column">
 
-                <div class="ui link black card">
+                <div class="ui link black card" id="student_management_card">
 
                     <div class="content">
                         <div class="header">
@@ -113,26 +113,22 @@
 
         <div class="two wide column"></div>
         
-
-        <!-- <form class="ui form" method="POST">
-
-            <div class="field">
-                <label>Student Email</label>
-                <input type="text" name="first-name" placeholder="First Name">
-            </div>
-
-            <div class="field">
-                <label>Last Name</label>
-                <input type="text" name="last-name" placeholder="Last Name">
-            </div>
-
-            <button class="ui button" type="submit">Submit</button>
-
-        </form>
-
-        <a href="">Invite Email</a> -->
-        
     </div>
+
+
+
+    <script>
+
+
+        $('#student_management_card').click(function(){
+
+            var main_url = "{% url 'teacher_admin_student_management' %}";
+            window.location.href = main_url;
+
+        })
+
+
+    </script>
 
 
 {% endblock %}

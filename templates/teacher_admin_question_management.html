@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+        #main_center_column{
+            padding-top: 30px;
+            padding-bottom: 25px;
+        }
+
+        #center_card_column{
+            padding-top: 5%;
+            padding-left: 10%;
+        }
+
+        .description{
+            font-size: 12.5px;
+        }
+
+        .add_student_icon:hover{
+            cursor: pointer;
+            color: lightblue;
+        }
+
+
+        /* Programming Assistant */
+
+        .chat-container {
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto;
+            padding: 12px;
+            /* margin-top: 20px; */
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 20px;            
+        }
+
+        .input-box {
+            /* flex-grow: 1; */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+
+
+    </style>    
+
+
+    {% include 'teacher_admin_navbar.html' %}
+
+
+    <!-- Main -->
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" id="main_center_column">
+
+            <div class="ui tabular menu">
+
+                <a class="active item" id="questions_tab">
+                    <!-- <i class="users icon" style="font-size: 16px;"></i> -->
+                    <i class="question icon" style="font-size: 13px;"></i>
+                    Your Questions
+                </a>
+                
+                <a class="item" id="add_question_tab">
+                    <i class="plus icon" style="font-size: 13px;"></i>
+                    Add a New Question
+                </a>
+
+            </div>
+
+            <br/>
+
+            
+            <span style="color: gray; font-size: 13px;">
+                TODO:
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+            </span>
+
+            <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Exercise One
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-03-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Exercise One
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-03-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="item">
+
+                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                        <div class="header" style="font-size: 15.5px;">
+                            <a class="file_name_header" href="">
+                                Exercise One
+                            </a>
+                        </div>
+
+                        <div style="padding-top: 14px; ">
+                            
+                            <span style="font-size: 12.5px; color: gray; float: left;">
+                                <i class="clock outline icon"></i>
+                                Uploaded: 2023-03-01
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            
+
+            <div id="add_question_div" style="display: none; padding-top: 20px;">
+
+                <div class="ui grid container">
+
+                    <div class="eight wide column" id="create_question_div">
+
+                        <form class="ui form">
+    
+                            <div class="field">
+                                <label>Question Name</label>
+                                <input type="text" name="question-name" placeholder="Question Name">
+                            </div>
+    
+                            <div class="field">
+                                <label>Question</label>
+                                <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position."></textarea>
+                            </div>
+    
+                            <div class="field">
+                                <label>Test Cases (enter in format below)</label>
+                                <!-- <input type="text" name="question-name" placeholder="Question Name"> -->
+                                <textarea rows="5" name="question-text" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
+                            </div>
+    
+                            <button class="small ui secondary button" type="submit">Submit</button>
+                            
+                        </form>
+    
+                    </div>
+
+
+                    <div class="eight wide column" style="padding-left: 35px;">
+
+                        <h5>Chat</h5>
+
+                        <div class="chat-container" id="chat">
+                            
+                            <div class="message">
+                                <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                                I'm Code Companion, your personal programming tutor.
+                                <br/><br/>
+                                TODO:
+                            </div>
+                            <hr>
+                            <div class="message" style="white-space: pre-line;"><b>You: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                            <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        
+                        </div>
+
+                        <div class="input-container">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui secondary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div>
+    
+                        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                            Answer Response usually takes 15-30 seconds.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        <div class="two wide column"></div>
+        
+    </div>
+
+
+
+    <script>
+
+
+        $('#questions_tab').click(function(){
+
+            $('#main_question_div').show();
+            $('#add_question_div').hide();
+
+            $('#questions_tab').addClass('active');
+            $('#add_question_tab').removeClass('active');
+
+        });
+
+
+        $('#add_question_tab').click(function(){
+
+            $('#add_question_div').show();
+            $('#main_question_div').hide();
+
+            $('#add_question_tab').addClass('active');
+            $('#questions_tab').removeClass('active');
+
+
+        });
+
+
+    </script>
+
+
+{% endblock %}
+
+

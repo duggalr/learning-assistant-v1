@@ -47,7 +47,7 @@
                         </div>
                         <div class="meta"></div>
                         <div class="description" style="color: gray;">
-                            Manage your students. Invite students in your class.
+                            Manage your students. Invite or remove students from your class.
                         </div>
                     </div>
 
@@ -74,15 +74,15 @@
                 </div>
 
 
-                <div class="ui link black card" style="margin-top: 20px;">
+                <div class="ui link black card" style="margin-top: 20px;" id="question_management_card">
     
                     <div class="content">
                         <div class="header">
-                            Create Questions
+                            Manage your Questions
                         </div>
                         <div class="meta"></div>
                         <div class="description" style="color: gray;">
-                            Create questions for your students to answer.
+                            Manage and create questions for your students, with the help of Code Companion.
                         </div>
                     </div>
 
@@ -123,6 +123,14 @@
         $('#student_management_card').click(function(){
 
             var main_url = "{% url 'teacher_admin_student_management' %}";
+            window.location.href = main_url;
+
+        })
+
+
+        $('#question_management_card').click(function(){
+
+            var main_url = "{% url 'teacher_admin_question_management' %}";
             window.location.href = main_url;
 
         })

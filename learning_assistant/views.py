@@ -692,6 +692,9 @@ def handle_general_tutor_user_message(request):
 
 def teacher_admin_signup(request):
 
+    if request.session.get("teacher_object", None) is not None:
+        return redirect('teacher_admin_dashboard')
+
     if request.method == 'POST':
         print('post-data:', request.POST)
 
@@ -727,12 +730,16 @@ def teacher_admin_signup(request):
 
         return redirect('teacher_admin_dashboard')
 
+
     return render(request, 'teacher_signup.html')
 
 
 
 def teacher_admin_login(request):
     
+    if request.session.get("teacher_object", None) is not None:
+        return redirect('teacher_admin_dashboard')
+
     if request.method == 'POST':
         print('post-data:', request.POST)
 
@@ -795,7 +802,30 @@ def teacher_admin_student_management(request):
     teacher_obj = request.session.get("teacher_object")
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
+
+    # asdkj@gmail.com, asdkjalk@gmail.com, asldkjalkd@gmail.com, aslkjalddalkj@gmail.com, aslkdja223@gmail.com, asldkjasdlkj@asdhoasod.com
+    if request.method == "POST":
+        print('post-data:', request.POST)
+        # student_emails = request.POST['student_emails'].strip()
+        # student_emails_list = student_emails.split(', ')
+        # for em in student_emails_list:
+        #     sd_em = em.strip()
+        #     # TODO:
+
     return render(request, 'teacher_admin_student_management.html', {
+        'teacher_obj': teacher_obj
+    })
+
+
+def teacher_admin_question_management(request):
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
+
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    return render(request, 'teacher_admin_question_management.html', {
         'teacher_obj': teacher_obj
     })
 

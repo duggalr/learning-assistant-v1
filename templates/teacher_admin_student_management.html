@@ -31,24 +31,19 @@
 
 
     <!-- Invite Student Modal -->
-    <div class="ui modal" id="invite_student_modal">
+    <div class="ui tiny modal" id="invite_student_modal">
 
         <div class="header">Invite Students</div>
         <div class="content">
             
-            <form class="ui form" method="POST">
+            <form class="ui form" method="POST">{% csrf_token %}
 
                 <div class="field">
-                    <label>Student Email</label>
-                    <input type="text" name="first-name" placeholder="First Name">
+                    <label>Student Email: <span style="color: gray; font-weight: 400;">(enter multiple emails with a comma next to each one; see format below)</span></label>
+                    <textarea name="student_emails" id="student_emails_input" rows="4" placeholder="ie. john@gmail.com, austin@gmail.com, joseph.smith@gmail.com"></textarea>
                 </div>
 
-                <div class="field">
-                    <label>Last Name</label>
-                    <input type="text" name="last-name" placeholder="Last Name">
-                </div>
-
-                <button class="ui button" type="submit">Submit</button>
+                <button class="ui button" type="submit" >Submit</button>
 
             </form>
 
@@ -292,7 +287,7 @@
 
         $(document).ready(function(){
 
-            $('#add_student_icon').click(function(){
+            $('.add_student_icon').click(function(){
 
                 $('#invite_student_modal').modal('show');
 

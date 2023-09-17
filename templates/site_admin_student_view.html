@@ -95,9 +95,14 @@
                             {% for code_convers in cdobj.1 %}
 
                                 <li>
-                                    <strong>Question: </strong>{{ code_convers.question }}
+                                    <strong>Question: </strong>{{ code_convers.question }}                                    
+                                </li>
+                                <li>
+                                    <strong>Response: </strong>{{ code_convers.response }}
                                 </li>
                                 
+                                <hr/>
+
                             {% endfor %}
 
                         </ul>

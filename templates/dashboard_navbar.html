@@ -79,17 +79,33 @@
             </div>
 
 
-            <div class="right menu">
-                
-                <div class="item">
-                    <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
+            {% if not request.user.is_superuser %}
+
+                <div class="right menu">
+                    
+                    <div class="item">
+                        <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
+                    </div>
+                    
+                    <div class="item" style="padding-left: 0px;">
+                        <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+                    </div>
+                    
                 </div>
-                
-                <div class="item" style="padding-left: 0px;">
-                    <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+
+            {% else %}
+
+                <div class="right menu">
+                    <div class="item">
+                        <a href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </div>
+                    
                 </div>
-                
-            </div>
+
+            {% endif %}
+
 
         {% endif %}
 

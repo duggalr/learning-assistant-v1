@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse
+from django import forms
+from django.contrib.auth.hashers import make_password, check_password
+from django.forms.models import model_to_dict
 from urllib.parse import quote_plus, urlencode
 
 import os
@@ -682,6 +685,102 @@ def handle_general_tutor_user_message(request):
 
 
 
+
+
+
+### Teacher-Student-Section ###
+
+def teacher_admin_signup(request):
+
+    if request.method == 'POST':
+        print('post-data:', request.POST)
+
+        full_name = request.POST['full-name']
+        email = request.POST['email']
+        password_one = request.POST['password-one']
+        password_two = request.POST['password-two']
+
+        f = forms.EmailField()
+        try:
+            email = f.clean(email)
+        except:
+            user_errors = {
+                'error_message': 'invalid email'
+            }
+            return render(request, 'teacher_signup.html', user_errors)
+
+        if password_one != password_two:
+            user_errors = {
+                'error_message': "passwords don't match"
+            }
+            return render(request, 'teacher_signup.html', user_errors)
+
+        hashed_pwd = make_password(password_one)
+        th_obj = Teacher.objects.create(
+            full_name = full_name.strip(),
+            email = email,
+            password = hashed_pwd
+        )
+        th_obj.save()
+
+        request.session["teacher_object"] =  model_to_dict( th_obj )
+
+        return redirect('teacher_admin_dashboard')
+
+    return render(request, 'teacher_signup.html')
+
+
+
+def teacher_admin_login(request):
+    
+    if request.method == 'POST':
+        print('post-data:', request.POST)
+
+        email = request.POST['email']
+        password = request.POST['password']
+
+        th_objects = Teacher.objects.filter(
+            email = email
+        )
+        if len(th_objects) == 0:
+            user_errors = {
+                'error_message': "email not found"
+            }
+            return render(request, 'teacher_login.html', user_errors)
+
+        th_obj = th_objects[0]
+        hashed_pwd = th_obj.password
+
+        valid_pw = check_password(password, hashed_pwd)
+        if valid_pw:
+            
+            # request.session["teacher_object"] = th_obj
+            request.session["teacher_object"] =  model_to_dict( th_obj )
+
+            return redirect('teacher_admin_dashboard')
+
+        else:
+            user_errors = {
+                'error_message': "invalid password"
+            }
+            return render(request, 'teacher_login.html', user_errors)
+
+
+    return render(request, 'teacher_login.html')
+
+
+
+def teacher_admin_dashboard(request):
+
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
+    
+
+    teacher_obj = request.session.get("teacher_object")
+    print('teacher-sesion-obj:', teacher_obj)
+
+    return render(request, 'teacher_admin_dashboard.html')
 
 
 

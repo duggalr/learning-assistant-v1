@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+        .content{
+            font-family: 'Raleway', sans-serif;
+        }
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+
+    <div class="ui grid">
+
+        <div class="five wide column"></div>
+
+        <div class="six wide column" style="text-align: center; margin-top: 4%;">
+            
+            <h2 class="ui header">
+                <div class="content">
+                    <i class="sign-in icon" style="font-size: 20px;"></i>
+                    Signup as a Teacher
+                </div>
+            </h2>
+
+            <form class="ui large form" method="POST">{% csrf_token %}
+
+                <div class="ui stacked segment">
+
+                    <div class="field">
+                        <label style="text-align: left;">Name:</label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="full-name" placeholder="John Doe">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label style="text-align: left;">Email:</label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label style="text-align: left;">Password:</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password-one" placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label style="text-align: left;">Password Confirmation:</label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password-two" placeholder="Confirm Password">
+                        </div>
+                    </div>
+
+                    <button class="ui fluid large black submit button">
+                        Sign Up
+                    </button>
+
+                </div>
+
+            </form>
+
+            
+            {% if error_message is not None %}
+
+                <div class="ui error message" style="color: red;">
+                    {{ error_message }}
+                </div>
+
+            {% endif %}
+
+
+            <div class="ui message">
+                Already have an account? <a href="{% url 'teacher_admin_login' %}">Login</a>
+            </div>
+
+        </div>
+
+        <div class="four wide column"></div>
+
+    </div>
+
+
+{% endblock %}
+
+

@@ -58,7 +58,7 @@
                 &nbsp;&nbsp;&nbsp;
                 
 
-                <div class="ui link black card">
+                <div class="ui link black card" id="assistant_chat_card">
     
                     <div class="content">
                         <div class="header">
@@ -125,7 +125,7 @@
             var main_url = "{% url 'teacher_admin_student_management' %}";
             window.location.href = main_url;
 
-        })
+        });
 
 
         $('#question_management_card').click(function(){
@@ -133,7 +133,15 @@
             var main_url = "{% url 'teacher_admin_question_management' %}";
             window.location.href = main_url;
 
-        })
+        });
+
+   
+        $('#assistant_chat_card').click(function(){
+
+            var main_url = "{% url 'teacher_admin_assistant_chat' %}";
+            window.location.href = main_url;
+
+        });
 
 
     </script>

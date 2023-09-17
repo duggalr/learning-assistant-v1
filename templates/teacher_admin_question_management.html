@@ -70,6 +70,13 @@
 
         <div class="twelve wide column" id="main_center_column">
 
+
+            <a href="{% url 'teacher_admin_dashboard' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a>
+
+
             <div class="ui tabular menu">
 
                 <a class="active item" id="questions_tab">
@@ -87,6 +94,8 @@
 
             <br/>
 
+
+            <!-- TODO: delete the chat, just have Create question; add delete on the quest-list; proceed to the chat-conv and finalize teacher-db-ui -->
             
             <span style="color: gray; font-size: 13px;">
                 TODO:
@@ -172,23 +181,22 @@
 
                 <div class="ui grid container">
 
-                    <div class="eight wide column" id="create_question_div">
+                    <div class="sixteen wide column" id="create_question_div">
 
-                        <form class="ui form">
+                        <form class="ui form" method="POST">{% csrf_token %}
     
-                            <div class="field">
+                            <div class="required field">
                                 <label>Question Name</label>
                                 <input type="text" name="question-name" placeholder="Question Name">
                             </div>
     
-                            <div class="field">
+                            <div class="required field">
                                 <label>Question</label>
                                 <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position."></textarea>
                             </div>
     
                             <div class="field">
-                                <label>Test Cases (enter in format below)</label>
-                                <!-- <input type="text" name="question-name" placeholder="Question Name"> -->
+                                <label>Test Cases (enter in exact format below; also, optional but we highly recommend it)</label>
                                 <textarea rows="5" name="question-text" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
                             </div>
     
@@ -199,7 +207,7 @@
                     </div>
 
 
-                    <div class="eight wide column" style="padding-left: 35px;">
+                    <!-- <div class="eight wide column" style="padding-left: 40px;">
 
                         <h5>Chat</h5>
 
@@ -234,11 +242,9 @@
                             Answer Response usually takes 15-30 seconds.
                         </span>
 
-                    </div>
-
+                    </div> -->
 
                 </div>
-
 
             </div>
 

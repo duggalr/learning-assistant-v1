@@ -830,6 +830,20 @@ def teacher_admin_question_management(request):
     })
 
 
+def teacher_admin_assistant_chat(request):
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
+
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    return render(request, 'teacher_admin_assistant_chat.html', {
+        'teacher_obj': teacher_obj
+    })
+
+
+
 
 
 

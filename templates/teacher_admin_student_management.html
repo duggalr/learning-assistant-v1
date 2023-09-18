@@ -43,7 +43,7 @@
                     <textarea name="student_emails" id="student_emails_input" rows="4" placeholder="ie. john@gmail.com, austin@gmail.com, joseph.smith@gmail.com"></textarea>
                 </div>
 
-                <button class="ui button" type="submit" >Submit</button>
+                <button class="ui button" type="submit">Submit</button>
 
             </form>
 
@@ -73,12 +73,20 @@
 
             </div> -->
 
+            
             <a href="{% url 'teacher_admin_dashboard' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
 
-        
+            <div class="ui success message" id="email_success_message" style="display: none;">
+                <i class="close icon"></i>
+                <div class="header">
+                  Emails sent successfully!
+                </div>
+                <p>Only a matter of time now...</p>
+            </div>
+
             <div class="ui tabular menu">
 
                 <a class="active item" id="students_tab">
@@ -301,6 +309,15 @@
 
         });
 
+        
+        let invite_student_success = '{{ invite_student_success }}';
+        if (invite_student_success == true){
+
+            setTimeout(function() {
+                $('#email_success_message').fadeOut('fast');
+            }, 1000); // <-- time in milliseconds
+
+        }
 
     </script>
 

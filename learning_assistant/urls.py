@@ -38,11 +38,13 @@ urlpatterns = [
     # Teacher-Student Views
     path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),
     path("teacher-admin/login", views.teacher_admin_login, name="teacher_admin_login"),
-    
+
     path("teacher-admin/dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),    
     path("teacher-admin/manage/students", views.teacher_admin_student_management, name="teacher_admin_student_management"),
     path("teacher-admin/manage/questions", views.teacher_admin_question_management, name="teacher_admin_question_management"),
     path("teacher-admin/assistant", views.teacher_admin_assistant_chat, name="teacher_admin_assistant_chat"),
+
+    path("student-admin/create/account", views.student_admin_account_create, name="student_admin_account_create"),
 
 ]
 

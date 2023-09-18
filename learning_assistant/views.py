@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse
 from django import forms
+from django.template.loader import render_to_string
 from django.contrib.auth.hashers import make_password, check_password
 from django.forms.models import model_to_dict
+from django.contrib.sites.shortcuts import get_current_site
+from django.conf import settings
 from urllib.parse import quote_plus, urlencode
 
 import os
@@ -18,6 +21,8 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
+
+from learning_assistant.tasks import send_student_account_create_email
 
 
 
@@ -802,19 +807,59 @@ def teacher_admin_student_management(request):
     teacher_obj = request.session.get("teacher_object")
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
-
     # asdkj@gmail.com, asdkjalk@gmail.com, asldkjalkd@gmail.com, aslkjalddalkj@gmail.com, aslkdja223@gmail.com, asldkjasdlkj@asdhoasod.com
     if request.method == "POST":
         print('post-data:', request.POST)
-        # student_emails = request.POST['student_emails'].strip()
-        # student_emails_list = student_emails.split(', ')
-        # for em in student_emails_list:
-        #     sd_em = em.strip()
-        #     # TODO:
+
+        # TODO: should add auth checks or safety check here on get()?
+        teacher_obj = request.session.get("teacher_object")
+        teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+        student_emails = request.POST.getlist('student_emails')
+        print('stud-emails:', student_emails)
+        students_emails_list = student_emails[0].split(', ')
+
+        emails_to_send_list = []
+        for em in students_emails_list:
+            sd_em = em.strip()
+
+            # quick validation on the student emails entered
+            f = forms.EmailField()
+            try:
+                email = f.clean(email)
+            except:
+                pass
+
+            tsi_obj = TeacherStudentInvite.objects.create(
+                student_email = sd_em,
+                teacher_obj = teacher_obj
+            )
+            tsi_obj.save()
+
+            emails_to_send_list.append(sd_em)
+
+        for eml in emails_to_send_list:
+
+            current_site = get_current_site(request)
+            message = render_to_string('email_template.html', {
+                'teacher_name': teacher_obj['full_name'],
+                'domain': current_site.domain,
+            })
+            send_student_account_create_email.delay(
+                message = message,
+                user_email = eml
+            )
+
+        return render(request, 'teacher_admin_student_management.html', {
+            'teacher_obj': teacher_obj,
+            'invite_student_success': True
+        })
+
 
     return render(request, 'teacher_admin_student_management.html', {
         'teacher_obj': teacher_obj
     })
+
 
 
 def teacher_admin_question_management(request):
@@ -843,6 +888,12 @@ def teacher_admin_assistant_chat(request):
     })
 
 
+
+def student_admin_account_create(request):
+    # TODO: 
+        # also add logic to ensure the student account isn't already registered
+        # if it is, redirecto to the studnt_admin_account_login
+    return render(request, 'student_admin_account_create.html')
 
 
 

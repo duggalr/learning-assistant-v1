@@ -160,6 +160,21 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# TODO: 
+    # change the email to the actual site email after made.
+    # pass to production and env as variables
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = 'duggalr42@gmail.com'  
+EMAIL_HOST_PASSWORD = 'ddidqcwojlcdzpjp'
+EMAIL_PORT = 587  
+
+
+## Celery
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
 if 'PRODUCTION' in os.environ:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'Strict'

@@ -830,6 +830,13 @@ def teacher_admin_student_management(request):
             except:
                 pass
 
+            # TODO: 
+                # to test this, create enterprise gmail account <-- current domain is fine
+                # setup the password on that and go from there to test this functionality...
+                # **For now: 
+                    # comment the send email and just add all the remaining functionality
+                    # student account create, questions create, student/teacher-view, etc.
+
             tsi_obj = TeacherStudentInvite.objects.create(
                 student_email = sd_em,
                 teacher_obj = teacher_obj
@@ -841,8 +848,8 @@ def teacher_admin_student_management(request):
         for eml in emails_to_send_list:
 
             current_site = get_current_site(request)
-            message = render_to_string('email_template.html', {
-                'teacher_name': teacher_obj['full_name'],
+            message = render_to_string('student_account_create_email.html', {
+                'teacher_name': teacher_obj.full_name,
                 'domain': current_site.domain,
             })
             send_student_account_create_email.delay(

@@ -791,6 +791,8 @@ def teacher_admin_dashboard(request):
     teacher_obj = request.session.get("teacher_object")
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
+
+
     return render(request, 'teacher_admin_dashboard.html', {
         'teacher_obj': teacher_obj
     })
@@ -830,12 +832,6 @@ def teacher_admin_student_management(request):
             except:
                 pass
 
-            # TODO: 
-                # to test this, create enterprise gmail account <-- current domain is fine
-                # setup the password on that and go from there to test this functionality...
-                # **For now: 
-                    # comment the send email and just add all the remaining functionality
-                    # student account create, questions create, student/teacher-view, etc.
 
             tsi_obj = TeacherStudentInvite.objects.create(
                 student_email = sd_em,
@@ -845,17 +841,20 @@ def teacher_admin_student_management(request):
 
             emails_to_send_list.append(sd_em)
 
-        for eml in emails_to_send_list:
+        # TODO:
+            # to test this, create enterprise gmail account <-- current domain is fine
+            # setup the password on that and go from there to test this functionality...
 
-            current_site = get_current_site(request)
-            message = render_to_string('student_account_create_email.html', {
-                'teacher_name': teacher_obj.full_name,
-                'domain': current_site.domain,
-            })
-            send_student_account_create_email.delay(
-                message = message,
-                user_email = eml
-            )
+        # for eml in emails_to_send_list:
+        #     current_site = get_current_site(request)
+        #     message = render_to_string('student_account_create_email.html', {
+        #         'teacher_name': teacher_obj.full_name,
+        #         'domain': current_site.domain,
+        #     })
+        #     send_student_account_create_email.delay(
+        #         message = message,
+        #         user_email = eml
+        #     )
 
         return render(request, 'teacher_admin_student_management.html', {
             'teacher_obj': teacher_obj,
@@ -900,7 +899,92 @@ def student_admin_account_create(request):
     # TODO: 
         # also add logic to ensure the student account isn't already registered
         # if it is, redirecto to the studnt_admin_account_login
+    
+    # student will be prompted to enter email
+        # then, if email valid, show the account create, else, show error message 
+
+    print('data:', request.POST)
+
+    if request.method == "POST":
+    
+        if 'form_type' in request.POST:
+
+            if request.POST['form_type']  == 'validate_user_email':
+                student_email = request.POST['student_email'].strip()
+                tsi_objects = TeacherStudentInvite.objects.filter(
+                    student_email = student_email
+                )
+                if len(tsi_objects) > 0:
+                    tsi_obj = tsi_objects[0]
+                    return JsonResponse({'success': True})
+                else:
+                    return JsonResponse({'success': False, 'message': 'Student not found.'})
+
+        else:
+            print('user-signup-data:', request.POST)
+
+            student_full_name = request.POST['full-name']
+            student_email = request.POST['email']
+            student_password = request.POST['password-one']
+            student_password_two = request.POST['password-two']
+
+            student_objects = Student.objects.filter(
+                email = student_email
+            )
+            if len(student_objects) > 0:
+                return JsonResponse({'success': False, 'message': 'Student Account already exists.'})
+
+            f = forms.EmailField()
+            try:
+                student_email = f.clean(student_email)
+            except:
+                user_errors = {
+                    'error_message': 'invalid email',
+                    'form_type': 'account_create_form'
+                }
+                return render(request, 'teacher_signup.html', user_errors)
+
+            if student_password != student_password_two:
+                user_errors = {
+                    'error_message': "passwords don't match",
+                    'form_type': 'account_create_form'
+                }
+                return render(request, 'teacher_signup.html', user_errors)
+
+
+            tsi_obj = TeacherStudentInvite.objects.get(student_email = student_email)
+            hashed_pwd = make_password(student_password)
+
+            sd_obj = Student.objects.create(
+                full_name = student_full_name,
+                teacher_obj = tsi_obj.teacher_obj,
+                email = student_email, 
+                password = hashed_pwd
+            )
+            sd_obj.save()
+
+            request.session["student_object"] = model_to_dict( sd_obj )
+            return redirect('student_admin_dashboard')
+
     return render(request, 'student_admin_account_create.html')
+
+
+
+def student_admin_login(request):
+    
+    if request.session.get("student_object", None) is not None:
+        return redirect('student_admin_dashboard')
+
+    return render(request, 'student_admin_login.html')
+
+
+
+def student_admin_dashboard(request):
+
+    if request.session.get("student_object", None) is None:
+        return redirect('student_admin_login')
+
+    return render(request, 'student_admin_dashboard.html')
 
 
 

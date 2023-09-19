@@ -45,6 +45,8 @@ urlpatterns = [
     path("teacher-admin/assistant", views.teacher_admin_assistant_chat, name="teacher_admin_assistant_chat"),
 
     path("student-admin/create/account", views.student_admin_account_create, name="student_admin_account_create"),
+    path("student-admin/account/login", views.student_admin_login, name="student_admin_login"),
+    path("student-admin/dashboard", views.student_admin_dashboard, name="student_admin_dashboard"),
 
 ]
 

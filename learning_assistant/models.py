@@ -82,12 +82,12 @@ class TeacherStudentInvite(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-# class Student(models.Model):
-#     full_name = models.CharField(max_length=1000)
-#     teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-#     email = models.EmailField(max_length=200)
-#     password = models.CharField(max_length=50)
-#     created_at = models.DateTimeField(auto_now_add=True)
+class Student(models.Model):
+    full_name = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=500)
+    password = models.CharField(max_length=1000)
+    teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 

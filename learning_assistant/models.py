@@ -1,6 +1,6 @@
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
 
 
 class UserOAuth(models.Model):
@@ -81,6 +81,7 @@ class TeacherStudentInvite(models.Model):
     teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     student_registered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(default=timezone.now)
 
 
 class Student(models.Model):
@@ -89,7 +90,7 @@ class Student(models.Model):
     password = models.CharField(max_length=1000)
     teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
 
 class TeacherQuestion(models.Model):
     question_name = models.TextField()

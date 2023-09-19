@@ -837,14 +837,20 @@ def teacher_admin_student_management(request):
             except:
                 pass
 
-
-            tsi_obj = TeacherStudentInvite.objects.create(
+            # want to prevent duplicates
+            tsi_existing_objects = TeacherStudentInvite.objects.filter(
                 student_email = sd_em,
                 teacher_obj = teacher_obj
             )
-            tsi_obj.save()
+            if len(tsi_existing_objects) == 0:
 
-            emails_to_send_list.append(sd_em)
+                tsi_obj = TeacherStudentInvite.objects.create(
+                    student_email = sd_em,
+                    teacher_obj = teacher_obj
+                )
+                tsi_obj.save()
+
+                emails_to_send_list.append(sd_em)
 
         # TODO:
             # to test this, create enterprise gmail account <-- current domain is fine
@@ -873,7 +879,7 @@ def teacher_admin_student_management(request):
     # registered_students = Student.objects.filter(teacher_obj = teacher_obj)
     # invited_students_not_registered = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj, student_registered = False)
 
-    all_invited_students = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj)
+    all_invited_students = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj).order_by('-modified_at')
 
     return render(request, 'teacher_admin_student_management.html', {
         'teacher_obj': teacher_obj,
@@ -1064,7 +1070,17 @@ def student_admin_dashboard(request):
     if request.session.get("student_object", None) is None:
         return redirect('student_admin_login')
 
-    return render(request, 'student_admin_dashboard.html')
+
+    student_obj_session = request.session['student_object']
+    student_obj = Student.objects.get(id = student_obj_session['id'])
+    student_questions = TeacherQuestion.objects.filter(
+        teacher_obj = student_obj.teacher_obj
+    )
+
+    return render(request, 'student_admin_dashboard.html', {
+        'student_obj': student_obj,
+        'student_questions': student_questions
+    })
 
 
 

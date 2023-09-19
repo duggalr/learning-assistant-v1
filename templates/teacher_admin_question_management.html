@@ -93,8 +93,6 @@
             <br/>
 
 
-            <!-- TODO: finalize UI and proceed to the chat-conv and finalize teacher-db-ui -->
-            
             <span style="color: gray; font-size: 13px;">
                 TODO:
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
@@ -102,95 +100,58 @@
 
             <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
 
-                <div class="item">
+                {% if teacher_questions|length == 0 %}
 
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                    <div class="ui placeholder segment">
 
-                        <div class="right floated content">
-                            <div class="negative ui mini animated button" tabindex="0">
-                                <div class="visible content">Delete Question</div>
-                                <div class="hidden content">
-                                  <i class="trash icon"></i>
+                        <div class="ui icon header" style="font-size: 16px;">
+                            <i class="question icon" style="font-size: 24px;"></i>
+                            You haven't made a question yet. Visit the 'Add A Question' tab to create your first question.
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    {% for tqobj in teacher_questions %}
+
+                        <div class="item">
+
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+        
+                                <div class="right floated content">
+                                    <div class="negative ui mini animated button" tabindex="0">
+                                        <div class="visible content">Delete Question</div>
+                                        <div class="hidden content">
+                                        <i class="trash icon"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Exercise One
-                            </a>
-                        </div>
-
-                        <div style="padding-top: 14px; ">
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Uploaded: 2023-03-01
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="item">
-
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                        <div class="right floated content">
-                            <div class="negative ui mini animated button" tabindex="0">
-                                <div class="visible content">Delete Question</div>
-                                <div class="hidden content">
-                                  <i class="trash icon"></i>
+        
+                                <div class="header" style="font-size: 15.5px;">
+                                    <a class="file_name_header" href="">
+                                        {{ tqobj.question_name }}
+                                    </a>
                                 </div>
+        
+                                <div style="padding-top: 14px; ">
+                                    
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Uploaded: {{ tqobj.created_at }}
+                                    </span>
+        
+                                </div>
+        
                             </div>
+        
                         </div>
 
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Exercise One
-                            </a>
-                        </div>
+                    {% endfor %}
 
-                        <div style="padding-top: 14px; ">
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Uploaded: 2023-03-01
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="item">
-
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Exercise One
-                            </a>
-                        </div>
-
-                        <div style="padding-top: 14px; ">
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Uploaded: 2023-03-01
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                {% endif %}
 
             </div>
-
             
 
             <div id="add_question_div" style="display: none; padding-top: 20px;">
@@ -213,7 +174,7 @@
     
                             <div class="field">
                                 <label>Test Cases (enter in exact format below; also, optional but we highly recommend it)</label>
-                                <textarea rows="5" name="question-text" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
+                                <textarea rows="5" name="question-test-case" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
                             </div>
     
                             <button class="small ui secondary button" type="submit">Submit</button>

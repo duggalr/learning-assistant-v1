@@ -118,163 +118,82 @@
 
             <!-- Student Management Div -->
             <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px;">
-      
-                <div class="item">
 
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                {% if student_objects|length == 0 %}
 
-                        <div class="right floated content">
-                            <div class="negative ui tiny animated button" tabindex="0">
-                                <div class="visible content">Delete Student</div>
-                                <div class="hidden content">
-                                  <i class="trash icon"></i>
+                    <div class="ui placeholder segment">
+
+                        <div class="ui icon header" style="font-size: 16px;">
+                            <i class="user outline icon" style="font-size: 24px;"></i>
+                            No students registered in your class. Invite your students by clicking the button above.
+                        </div>
+
+                    </div>
+
+
+                {% else %}
+
+                    {% for stobj in student_objects %}
+
+                        <div class="item">
+
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                                <div class="right floated content">
+                                    <div class="negative ui mini animated button" tabindex="0">
+                                        <div class="visible content">Delete Student</div>
+                                        <div class="hidden content">
+                                        <i class="trash icon"></i>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="header" style="font-size: 15.5px;">
+                                    <a class="file_name_header" href="">
+                                        {{ stobj.student_email }}
+                                    </a>
+
+                                    {% if stobj.student_registered %}
+                                        
+                                        <div class="ui green mini label" style="margin-left: 10px;">registered</div>
+
+                                    {% else %}
+
+                                        <div class="ui mini label" style="margin-left: 10px;">not registered</div>
+
+                                    {% endif %}
+                                    
+                                </div>
+                
+                                <div style="padding-top: 14px;">
+
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Invited: {{ stobj.created_at|date }}
+                                    </span>
+
+                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                    
+                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                        <i class="hashtag icon"></i>Messages: TODO
+                                    </span>
+
+                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                        <i class="hashtag icon"></i>Code Files: TODO
+                                    </span>
+
+                                </div>
+
                             </div>
-                        </div>
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Daniel Louise
-                            </a>
-                        </div>
-        
-                        <div style="padding-top: 14px;">
-
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Created: 2023-02-10
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Messages: 30
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Code Files: 21
-                            </span>
 
                         </div>
+                    
+                    {% endfor %}
 
-                    </div>
 
-                </div>
-
-                <div class="item">
-
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                        <div class="right floated content">
-                            <div class="negative ui tiny button">Delete Student</div>
-                        </div>
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Daniel Louise
-                            </a>
-                        </div>
-        
-                        <div style="padding-top: 14px;">
-
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Created: 2023-02-10
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Messages: 30
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Code Files: 21
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="item">
-
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                        <div class="right floated content">
-                            <div class="negative ui tiny button">Delete Student</div>
-                        </div>
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Daniel Louise
-                            </a>
-                        </div>
-        
-                        <div style="padding-top: 14px;">
-
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Created: 2023-02-10
-                            </span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Messages: 30
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Code Files: 21
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="item">
-
-                    <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                        <div class="header" style="font-size: 15.5px;">
-                            <a class="file_name_header" href="">
-                                Daniel Louise
-                            </a>
-                        </div>
-        
-                        <div style="padding-top: 14px;">
-
-                            <span style="font-size: 12.5px; color: gray; float: left;">
-                                <i class="clock outline icon"></i>
-                                Created: 2023-02-10
-                            </span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-                            
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Messages: 30
-                            </span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
-
-                            <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                <i class="hashtag icon"></i>Code Files: 21
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                {% endif %}
 
 
             </div>
@@ -311,13 +230,21 @@
 
         
         let invite_student_success = '{{ invite_student_success }}';
-        if (invite_student_success == true){
+        console.log('invite-stud-message:', invite_student_success)
+        if (invite_student_success == 'True'){
 
-            setTimeout(function() {
-                $('#email_success_message').fadeOut('fast');
-            }, 1000); // <-- time in milliseconds
+            console.log('asldkjad')
+            $('#email_success_message').show();
 
-        }
+            // setTimeout(function() {
+            //     $('#email_success_message').show()
+            // }, 3000); // <-- time in milliseconds
+
+        };
+
+        $(".close.icon").click(function(){
+            $(this).parent().hide();
+        });
 
     </script>
 

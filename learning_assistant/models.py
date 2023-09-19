@@ -79,6 +79,7 @@ class Teacher(models.Model):
 class TeacherStudentInvite(models.Model):
     student_email = models.EmailField(max_length=500)
     teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    student_registered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -90,7 +91,18 @@ class Student(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class TeacherQuestion(models.Model):
+    question_name = models.TextField()
+    question_text = models.TextField()
+    teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+
+class TeacherQuestionTestCase(models.Model):
+    teacher_question_obj = models.ForeignKey(TeacherQuestion, on_delete=models.CASCADE)
+    input_param = models.CharField(max_length=5000, blank=True, null=True)
+    correct_output = models.CharField(max_length=5000, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 

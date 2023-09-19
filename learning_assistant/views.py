@@ -782,6 +782,12 @@ def teacher_admin_login(request):
 
 
 
+# TODO: 
+    # start by showing the registered and invited (but not registerd) students
+    # go from there to finalize / test the stud-mgmt view
+    # then, complete the q-mgmt view
+
+
 def teacher_admin_dashboard(request):
 
     if request.session.get("teacher_object", None) is None:
@@ -792,9 +798,8 @@ def teacher_admin_dashboard(request):
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
 
-
     return render(request, 'teacher_admin_dashboard.html', {
-        'teacher_obj': teacher_obj
+        'teacher_obj': teacher_obj,
     })
 
 
@@ -862,8 +867,17 @@ def teacher_admin_student_management(request):
         })
 
 
+    # associated_student_objects = Student.objects.filter(
+    #     teacher_obj = teacher_obj
+    # )
+    # registered_students = Student.objects.filter(teacher_obj = teacher_obj)
+    # invited_students_not_registered = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj, student_registered = False)
+
+    all_invited_students = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj)
+
     return render(request, 'teacher_admin_student_management.html', {
-        'teacher_obj': teacher_obj
+        'teacher_obj': teacher_obj,
+        'student_objects': all_invited_students
     })
 
 
@@ -876,8 +890,42 @@ def teacher_admin_question_management(request):
     teacher_obj = request.session.get("teacher_object")
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
+    if request.method == 'POST':
+        print(request.POST)
+
+        question_name = request.POST['question-name'].strip()
+        question_text = request.POST['question-text'].strip()
+        question_test_cases = request.POST['question-test-case']
+        question_tc_list = question_test_cases.split('\n')
+
+        tc_question_obj = TeacherQuestion.objects.create(
+            question_name = question_name, 
+            question_text = question_text,
+            teacher_obj = teacher_obj
+        )
+        tc_question_obj.save()
+
+        for qtc in question_tc_list:
+            qtc_list = qtc.split(' ;; ')
+            qtc_input = qtc_list[0].strip()
+            qtc_output = qtc_list[1].strip()
+            tq_tc_obj = TeacherQuestionTestCase.objects.create(
+                teacher_question_obj = tc_question_obj,
+                input_param = qtc_input,
+                correct_output = qtc_output
+            )
+            tq_tc_obj.save()
+        
+        return redirect('teacher_admin_question_management')
+
+    
+    tq_objects = TeacherQuestion.objects.filter(
+        teacher_obj = teacher_obj
+    )
+
     return render(request, 'teacher_admin_question_management.html', {
-        'teacher_obj': teacher_obj
+        'teacher_obj': teacher_obj,
+        'teacher_questions': tq_objects
     })
 
 
@@ -962,6 +1010,10 @@ def student_admin_account_create(request):
                 password = hashed_pwd
             )
             sd_obj.save()
+
+            # indicate that the student is registered
+            tsi_obj.student_registered = True
+            tsi_obj.save()
 
             request.session["student_object"] = model_to_dict( sd_obj )
             return redirect('student_admin_dashboard')

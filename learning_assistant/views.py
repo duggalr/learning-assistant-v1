@@ -975,6 +975,34 @@ def student_admin_login(request):
     if request.session.get("student_object", None) is not None:
         return redirect('student_admin_dashboard')
 
+    if request.method == 'POST':
+
+        email = request.POST['email']
+        password = request.POST['password']
+
+        std_objects = Student.objects.filter(
+            email = email
+        )
+        if len(std_objects) == 0:
+            user_errors = {
+                'error_message': "email not found."
+            }
+            return render(request, 'student_admin_login.html', user_errors)
+
+        std_obj = std_objects[0]
+        hashed_pwd = std_obj.password
+
+        valid_pw = check_password(password, hashed_pwd)
+        if valid_pw:
+            request.session["student_object"] = model_to_dict( std_obj )
+            return redirect('student_admin_dashboard')
+        else:
+            user_errors = {
+                'error_message': "invalid password"
+            }
+            return render(request, 'student_admin_login.html', user_errors)
+
+
     return render(request, 'student_admin_login.html')
 
 

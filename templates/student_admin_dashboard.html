@@ -148,24 +148,48 @@
 
             <div id="student_tutor_div" style="display: none; padding-top: 20px;">
 
-                <!-- TODO: 
-                    implement below and then, finalize all the remaining functionality for teachers/students: 
-                        - student / teacher chat
-                            - think about where the conversations will be saved and ensure good
-                        - student playground
-                        - teacher student dashboard
-                            - should show # of messages each student sent
-                            - on student click, all of student's conversations
-                        - teacher question dashboard
-                            - on question click, should show number of students who attempted / worked on question
-                            - soon, will show statistics and potential ai-generated insights
-                        - delete functionality
-                        - fix all bugs, ensure navbar/user-experience for everything is good 
-                        - landing page and about update
-                            - update the 'public-facing playground as well'
-                -->
-                <h3>Student Tutor</h3>
-                
+                <div class="twelve wide column" id="code-column">
+        
+                    <h4 style="font-size: 17px;">
+                        <i class="comments icon"></i>
+                        Chat with your Tutor
+                    </h4>
+        
+                    <div class="chat-container" id="chat">
+                                
+                        <div class="message">
+                            <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                            <br/><br/>
+                            TODO:
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+                            <br/><br/>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+                        </div>
+            
+                        <hr>
+        
+                    </div>
+        
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui black button disabled send-button">Send</button>
+                        <button class="ui black disabled loading button" id="primary_loading_button" style="display: none;">Loading</button>
+            
+                    </div>
+            
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+        
+                </div>
+
+
             </div>
 
 
@@ -199,6 +223,104 @@
             $('#questions_tab').removeClass('active');
 
         });
+
+
+
+        // Chat Functionality
+        const chat = document.getElementById("chat");
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+
+        sendButton.addEventListener("click", sendMessage);
+        chatInput.addEventListener("keydown", (event) => {
+        
+            if (event.keyCode == 13 && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+
+        });
+
+        $("#chatInput").on('keyup', function(event) {
+            
+            var currentString = $("#chatInput").val()
+
+            if (currentString.length > 0){
+
+                $('#sendButton').removeClass('disabled');
+                
+            } else {
+                $('#sendButton').addClass('disabled');
+            }
+           
+        });
+
+
+        function sendMessage() {
+
+            const messageText = chatInput.value.trim();
+
+            if (messageText !== "") {
+
+                console.log('message-text:', messageText)
+
+                $('#chatInput').prop('disabled', true);
+
+                $('#sendButton').hide();
+                $('#primary_loading_button').show();
+
+                const message = document.createElement("div");
+                message.className = "message";
+                message.innerHTML = "<b>You:</b> " + messageText;
+                message.style.whiteSpace = 'pre-wrap'
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+                
+                chatInput.value = "";
+
+                let d = {
+                    'message': messageText,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'student_tutor_handle_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+
+                        var model_response_dict = response['response'];
+                        console.log('Response Dict:', model_response_dict)
+
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
+                        console.log('Response:', model_response_message)
+
+                        var user_question = model_response_dict['question'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+                        
+                        chat.scrollTop = chat.scrollHeight;
+
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+            }
+
+        };
+
 
     </script>
 

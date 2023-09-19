@@ -190,56 +190,45 @@
                 chat.scrollTop = chat.scrollHeight;
                 
                 chatInput.value = "";
-
-                // let uc_parent_obj_id = $('#uc_parent_obj_id').val();
-                // let user_conversation_obj_id = $('#user_conversation_obj_id').val();
-
-                // let d = {
-                //     'message': messageText,
-                //     'uc_parent_obj_id': uc_parent_obj_id,
-                //     'user_ct_obj_id': user_conversation_obj_id,
-                //     csrfmiddlewaretoken: '{{ csrf_token }}'
-                // };
+            
+                let d = {
+                    'message': messageText,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
                 
-                // $.ajax({
-                //     type: 'POST',
-                //     url: "{% url 'handle_general_tutor_user_message' %}",
-                //     dataType: "json",
-                //     data: d,
-                //     success: function (response) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'teacher_assistant_handle_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
 
-                //         var model_response_dict = response['response'];
-                //         console.log('Response Dict:', model_response_dict)
+                        var model_response_dict = response['response'];
+                        console.log('Response Dict:', model_response_dict)
 
-                //         var model_response_message = model_response_dict['response'];
-                //         model_response_message = model_response_message.replaceAll('\n', '<br/>');
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
-                //         console.log('Response:', model_response_message)
+                        console.log('Response:', model_response_message)
 
-                //         var user_question = model_response_dict['question'];
+                        var user_question = model_response_dict['question'];
 
-                //         const responseMessage = document.createElement("div");
-                //         responseMessage.className = "message";
-                //         responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                //         // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
-                //         chat.appendChild(responseMessage);
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
                         
-                //         chat.scrollTop = chat.scrollHeight;
+                        chat.scrollTop = chat.scrollHeight;
 
-                //         $('#chatInput').prop('disabled', false);
-                //         $('#sendButton').show();
-                //         $('#primary_loading_button').hide();
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
-                //         // let saved_obj_id = model_response_dict['uct_parent_obj_id'];
-                //         // $('#uc_parent_obj_id').val(saved_obj_id);
-                //         // var url = new URL(window.location.href);
-                //         // url.searchParams.set('pid', saved_obj_id);
-                //         // window.history.replaceState(null, null, url);
-
-                //     },
-                //     error: function (response) {}
+                    },
+                    error: function (response) {}
                     
-                // });
+                });
 
             }
 

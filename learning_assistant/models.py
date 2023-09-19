@@ -64,10 +64,6 @@ class UserGeneralTutorConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-# TODO:
-    # need to add school
-    # custom user model as abstract base class for teacher student would be ideal
-
 ## Teacher-Student Models
 class Teacher(models.Model):
     full_name = models.CharField(max_length=1000)
@@ -104,6 +100,23 @@ class TeacherQuestionTestCase(models.Model):
     input_param = models.CharField(max_length=5000, blank=True, null=True)
     correct_output = models.CharField(max_length=5000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class StudentConversation(models.Model):
+    student_obj = models.ForeignKey(Student, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+# TODO:
+class TeacherConversation(models.Model):
+    teacher_obj = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 

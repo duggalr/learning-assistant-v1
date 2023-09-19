@@ -166,3 +166,46 @@ You are on the right track. Pay close attention to the operation you are perform
     }
     return final_dict_rv 
 
+
+
+# TODO:
+def teacher_question_response(question, previous_chat_history_st):
+    t_prompt = """##Instructions:
+You are assisting a teacher, who is currently teaching an introductory programming class their students.
+Your primary goal is to help the teacher maximize the understanding for each of their students.
+The teacher will have conversations with you, asking for help in generating lesson plans, questions, new ways of explaining concepts, or for administrative help.
+Please provide all the help needed, along with additional suggestions you feel could be valuable for the teacher, so they can help their students learn in an optimal manner.
+
+##Previous Chat History with Student:
+{previous_chat_history_st}
+
+##Student Question:
+{question}
+
+##Your Answer:
+"""
+
+    question = question.strip()
+
+    t_prompt = t_prompt.format(
+        previous_chat_history_st = previous_chat_history_st,
+        question = question,
+    )
+    print(t_prompt)
+
+    di = {"role": "user", "content": t_prompt}
+    messages_list = [di]
+    response = openai.ChatCompletion.create(
+        model = "gpt-4",
+        messages = messages_list,
+    )
+    response_message = response["choices"][0]["message"]['content']
+
+    final_dict_rv = {
+        'question': question,
+        'q_prompt': t_prompt,
+        'response': response_message,
+    }
+    return final_dict_rv 
+
+

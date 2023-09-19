@@ -48,5 +48,8 @@ urlpatterns = [
     path("student-admin/account/login", views.student_admin_login, name="student_admin_login"),
     path("student-admin/dashboard", views.student_admin_dashboard, name="student_admin_dashboard"),
 
+    path("student-admin/handle-tutor-message", views.student_tutor_handle_message, name="student_tutor_handle_message"),
+    path("teacher-admin/handle-tutor-message", views.teacher_assistant_handle_message, name="teacher_assistant_handle_message"),
+
 ]
 

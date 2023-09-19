@@ -1084,6 +1084,104 @@ def student_admin_dashboard(request):
 
 
 
+def student_tutor_handle_message(request):
+
+    if request.session.get("student_object", None) is None:
+        return redirect('student_admin_login')
+
+    if request.method == 'POST':
+        
+        if request.session.get("student_object", None) is None:
+            return JsonResponse({'success': False, 'message': 'No Authorized.'})
+
+        student_obj_session = request.session['student_object']
+        student_obj = Student.objects.get(id = student_obj_session['id'])
+        
+        user_question = request.POST['message'].strip()
+        std_conversation_objects = StudentConversation.objects.filter(
+            student_obj = student_obj
+        ).order_by('-created_at')
+
+        prev_conversation_st = ''
+        if len(std_conversation_objects) > 0:
+            prev_conversation_history = []
+            for uc_tut_obj in std_conversation_objects[:3]:
+                uc_question = uc_tut_obj.question
+                uc_response = uc_tut_obj.response
+                prev_conversation_history.append(f"Question: { uc_question }")
+                prev_conversation_history.append(f"Response: { uc_response }")
+
+            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+        
+
+        model_response_dict = main_utils.general_tutor_handle_question(
+            question = user_question,
+            previous_chat_history_st = prev_conversation_st
+        )
+
+        std_t_obj = StudentConversation.objects.create(
+            student_obj = student_obj,
+            question = model_response_dict['question'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response'],
+        )
+        std_t_obj.save()
+        
+        return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+def teacher_assistant_handle_message(request):
+     
+    if request.session.get("teacher_object", None) is None:
+        return redirect('teacher_admin_login')
+
+    if request.method == 'POST':
+        
+        if request.session.get("teacher_object", None) is None:
+            return JsonResponse({'success': False, 'message': 'No Authorized.'})
+
+        teacher_obj = request.session.get("teacher_object")
+        teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+        user_question = request.POST['message'].strip()
+        thr_conversation_objects = TeacherConversation.objects.filter(
+            teacher_obj = teacher_obj
+        ).order_by('-created_at')
+
+        prev_conversation_st = ''
+        if len(thr_conversation_objects) > 0:
+            prev_conversation_history = []
+            for uc_tut_obj in thr_conversation_objects[:3]:
+                uc_question = uc_tut_obj.question
+                uc_response = uc_tut_obj.response
+                prev_conversation_history.append(f"Question: { uc_question }")
+                prev_conversation_history.append(f"Response: { uc_response }")
+
+            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+        
+
+        model_response_dict = main_utils.teacher_question_response(
+            question = user_question,
+            previous_chat_history_st = prev_conversation_st
+        )
+
+        tct_obj = TeacherConversation.objects.create(
+            teacher_obj = teacher_obj,
+            question = model_response_dict['question'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response'],   
+        )
+        tct_obj.save()
+
+        return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+
+
+
+
 
 
 

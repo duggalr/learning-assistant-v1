@@ -141,6 +141,7 @@ def about(request):
     })
 
 
+# TODO: add the student-assign-qus logic here and go from thre
 def playground(request):
     initial_user_session = request.session.get("user")
 
@@ -160,12 +161,27 @@ def playground(request):
         # ls_q_obj = get_object_or_404(NewPracticeQuestion, id = lqid)
         # ls_q_test_case_examples = NewPracticeTestCase.objects.filter(question_obj = ls_q_obj)
 
+
+    student_assigned_qid = request.GET.get('stdqid', None)
+    tq_obj = None
+    tq_obj_test_case_examples = []
+    if student_assigned_qid is not None:
+        tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
+        tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+
     
+    if request.session.get("student_object", None) is None:
+        return JsonResponse({'success': False, 'message': 'No Authorized.'})
+
+    student_obj_session = request.session['student_object']
+    student_obj = Student.objects.get(id = student_obj_session['id'])
+        
     user_is_admin = request.user.is_superuser
     if user_is_admin:  # exempt from auth check; has visibility into all user's code
         uc_objects = UserCode.objects.filter(
             id = code_id
         )
+
     else:
         uc_objects = UserCode.objects.filter(
             id = code_id,
@@ -184,6 +200,7 @@ def playground(request):
                 code_obj = uc_obj,
                 user_auth_obj = user_oauth_obj
             ).order_by('created_at')
+    
     else:
         uc_obj = None
         if ls_q_obj is not None:
@@ -202,7 +219,11 @@ def playground(request):
         'user_conversation_objects': user_conversation_objects,
         'qid': lqid,
         'lesson_question_object': ls_q_obj,
-        'lesson_question_test_cases': ls_q_test_case_examples
+        'lesson_question_test_cases': ls_q_test_case_examples,
+        'stdqid': student_assigned_qid,
+        'teacher_question_object': tq_obj,
+        'teacher_question_test_cases': tq_obj_test_case_examples,
+        'student_obj': student_obj
     })
 
 
@@ -1175,6 +1196,163 @@ def teacher_assistant_handle_message(request):
         tct_obj.save()
 
         return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+def student_admin_playground(request):
+
+    if request.session.get("student_object", None) is None:
+        return redirect('student_admin_login')
+
+
+    student_obj_session = request.session['student_object']
+    student_obj = Student.objects.get(id = student_obj_session['id'])
+
+    student_assigned_qid = request.GET.get('stdqid', None)
+    tq_obj = None
+    tq_obj_test_case_examples = []
+    if student_assigned_qid is not None:
+        tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
+        tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+
+
+    return render(request, 'student_playground_environment.html', {
+        'student_obj': student_obj,
+        'stdqid': student_assigned_qid,
+        'teacher_question_object': tq_obj,
+        'teacher_question_test_cases': tq_obj_test_case_examples,
+    })
+
+
+
+def handle_student_playground_message(request):
+    
+    if request.method == 'POST':
+
+        # print('form-data:', request.POST)
+
+        user_code = request.POST['user_code']
+        user_question = request.POST['message'].strip()
+        user_stdqid = request.POST['stdqid']
+        student_code_id_value = request.POST['student_code_id_value']
+
+        initial_student_object = request.session.get("student_object", None)
+        if initial_student_object is None:
+            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+
+        student_obj = Student.objects.get(id = initial_student_object['id'])
+
+        # TODO: add filter condition here
+        st_question_obj = TeacherQuestion.objects.get(id = user_stdqid)
+
+        spc_obj = None
+        if student_code_id_value == 'None':  # code is not saved
+            spc_obj = StudentPlaygroundCode.objects.create(
+                student_obj = student_obj,
+                teacher_question_obj = st_question_obj,
+                user_code = user_code
+            )
+            spc_obj.save()
+
+        else:
+            spc_obj = StudentPlaygroundCode.objects.get(id = student_code_id_value, student_obj = student_obj)
+        
+
+        prev_conversation_history = []
+        prev_conversation_messages = StudentPlaygroundConversation.objects.filter(
+            student_obj = student_obj,
+            code_obj = spc_obj
+        ).order_by('created_at')
+
+        if len(prev_conversation_messages) > 0:
+            for uc_obj in prev_conversation_messages[:3]:
+                uc_question = uc_obj.question
+                uc_response = uc_obj.response
+                prev_conversation_history.append(f"Question: { uc_question }")
+                prev_conversation_history.append(f"Response: { uc_response }")
+
+
+        prev_conversation_st = ''
+        if len(prev_conversation_history) > 0:
+            prev_conversation_st = '\n'.join(prev_conversation_history)
+        
+        # print('Previous Chat String:', prev_conversation_st)
+
+        model_response_dict = main_utils.main_handle_question(
+            question = user_question,
+            student_code = user_code,
+            previous_chat_history_st = prev_conversation_st
+        )
+        print('model-response:', model_response_dict)
+
+        
+        if student_code_id_value == 'None':
+
+            st_pg_conv_obj = StudentPlaygroundConversation.objects.create(
+                student_obj = student_obj,
+                code_obj = spc_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            st_pg_conv_obj.save()
+
+        else:
+
+            spc_obj.user_code = user_code
+            spc_obj.save()
+
+            st_pg_conv_obj = StudentPlaygroundConversation.objects.create(
+                student_obj = student_obj,
+                code_obj = spc_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            st_pg_conv_obj.save()
+
+    
+        model_response_dict['cid'] = uc_obj.id
+        return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+
+def save_student_playground_code(request):
+    
+    if request.method == 'POST':
+
+        initial_student_object = request.session.get("student_object", None)
+        if initial_student_object is None:
+            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+
+        student_obj = Student.objects.get(id = initial_student_object['id'])
+
+        user_code = request.POST['user_code'].strip()
+        stdqid = request.POST['stdqid']
+        student_code_id_value = request.POST['student_code_id_value']
+
+        # TODO: add filter condition here
+        st_question_obj = TeacherQuestion.objects.get(id = stdqid)
+
+        spc_obj = None
+        if student_code_id_value == 'None':  # code is not saved
+            spc_obj = StudentPlaygroundCode.objects.create(
+                student_obj = student_obj,
+                teacher_question_obj = st_question_obj,
+                user_code = user_code
+            )
+            spc_obj.save()
+            
+            return JsonResponse({'success': True, 'cid': spc_obj.id})
+
+        else:
+            spc_obj = StudentPlaygroundCode.objects.get(id = student_code_id_value, student_obj = student_obj)
+            spc_obj.user_code = user_code
+            spc_obj.save()
+    
+            return JsonResponse({'success': True, 'cid': spc_obj.id})
+
 
 
 

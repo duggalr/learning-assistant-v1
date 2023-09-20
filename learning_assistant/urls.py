@@ -47,9 +47,13 @@ urlpatterns = [
     path("student-admin/create/account", views.student_admin_account_create, name="student_admin_account_create"),
     path("student-admin/account/login", views.student_admin_login, name="student_admin_login"),
     path("student-admin/dashboard", views.student_admin_dashboard, name="student_admin_dashboard"),
+    path("student-admin/playground", views.student_admin_playground, name="student_admin_playground"),
 
     path("student-admin/handle-tutor-message", views.student_tutor_handle_message, name="student_tutor_handle_message"),
     path("teacher-admin/handle-tutor-message", views.teacher_assistant_handle_message, name="teacher_assistant_handle_message"),
+
+    path("student-admin/handle-playground-message", views.handle_student_playground_message, name="handle_student_playground_message"),
+    path("student-admin/save-playground-code", views.save_student_playground_code, name="save_student_playground_code"),
 
 ]
 

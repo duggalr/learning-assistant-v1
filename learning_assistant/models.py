@@ -118,6 +118,21 @@ class TeacherConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class StudentPlaygroundCode(models.Model):
+    student_obj = models.ForeignKey(Student, on_delete=models.CASCADE)
+    teacher_question_obj = models.ForeignKey(TeacherQuestion, on_delete=models.CASCADE)
+    user_code = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class StudentPlaygroundConversation(models.Model):
+    student_obj = models.ForeignKey(Student, on_delete=models.CASCADE)
+    code_obj = models.ForeignKey(StudentPlaygroundCode, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 

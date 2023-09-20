@@ -98,7 +98,15 @@
     </style>
 
 
-    {% include 'dashboard_navbar.html' %}
+    {% if student_obj %}
+
+        {% include 'student_admin_navbar.html' %}
+    
+    {% else %}
+        
+        {% include 'dashboard_navbar.html' %}
+
+    {% endif %}
 
 
     <div class="ui grid container">
@@ -149,7 +157,7 @@
 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                {% if user_session is not None %}
+                {% if user_session is not None or student_obj is not None %}
                 
                     <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
                         <div class="visible content">Save Code</div>
@@ -173,7 +181,7 @@
                 
                 &nbsp;&nbsp;
 
-                {% if user_session is not None %}
+                {% if user_session is not None or student_obj is not None %}
 
                     <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
                         <div class="visible content">Submit</div>
@@ -193,7 +201,7 @@
 
                 {% endif %}
 
-                {% if user_session is None %}
+                {% if user_session is None or student_obj is not None %}
                     <a href="https://www.youtube.com/watch?v=iju3yQSQNF4" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
                 {% endif %}
                     
@@ -248,14 +256,13 @@
             </div> -->
             
 
-
                 <div class="ui tabular menu tab-menu">
                     
                     <a class="item active" id="programming_assistant_tab">
                         <i class="comment icon"></i> Programming Assistant
                     </a>
                     
-                    {% if lesson_question_object is not None %}
+                    {% if lesson_question_object is not None or teacher_question_object is not None %}
                     
                         <a class="item" id="example_test_case_tab">
                             <i class="bug icon"></i> Test Cases
@@ -276,23 +283,49 @@
                     
                     <br/>
 
-                    {% for lc_tc_obj in lesson_question_test_cases %}
+                    {% if teacher_question_test_cases|length > 0 %}
 
-                        {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
+                        {% for lc_tc_obj in teacher_question_test_cases %}
 
-                            <div class="message">
+                            {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
 
-                                <strong>
-                                    Test Case:
-                                </strong>
-                                <li>Input: {{ lc_tc_obj.input_param }}</li>
-                                <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+                                <div class="message">
 
-                            </div>
-                        
-                        {% endif %}
+                                    <strong>
+                                        Test Case:
+                                    </strong>
+                                    <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                    <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
 
-                    {% endfor %}
+                                </div>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+                    
+
+                    {% else %}
+
+                        {% for lc_tc_obj in lesson_question_test_cases %}
+
+                            {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
+
+                                <div class="message">
+
+                                    <strong>
+                                        Test Case:
+                                    </strong>
+                                    <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                    <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                                </div>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+
+                    {% endif %}
+
 
                     {% if lesson_question_test_cases|length == 0 %}
 
@@ -473,12 +506,14 @@
         let user_cid = '{{ code_id }}';
         let lesson_qid = '{{ qid }}';
         let user_code_obj = '{{ uc_obj }}';
+        let stdqid = '{{ stdqid }}';
+        let teacher_question_object = '{{ teacher_question_object }}';
 
+    
         if (user_code_obj != 'None'){
 
             let user_code_st = `{{ uc_obj.user_code|safe }}`;
             // console.log('user-code-st:', user_code_st);
-
             editor.setValue(user_code_st);
 
         } else if (lesson_qid != 'None'){
@@ -486,6 +521,11 @@
             let lesson_question = `{{ lesson_question_object.question_text|safe }}`
             console.log('lesson-q:', lesson_question)
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + lesson_question + `\n\n# Write your code below:\n\n`);
+
+        } else if (stdqid != 'None'){
+
+            let std_question = `{{ teacher_question_object.question_text|safe }}`
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
 
         } else {
 

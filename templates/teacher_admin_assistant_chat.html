@@ -106,6 +106,14 @@
                 </div>
     
                 <hr>
+                <br/>
+                
+                {% for ucs_obj in teacher_assistant_conversations %}
+                        
+                    <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                    <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                {% endfor %}
 
             </div>
 
@@ -151,6 +159,8 @@
 
         });
 
+
+        chat.scrollTop = chat.scrollHeight;
 
         $("#chatInput").on('keyup', function(event) {
             

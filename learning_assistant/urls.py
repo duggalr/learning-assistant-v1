@@ -55,5 +55,8 @@ urlpatterns = [
     path("student-admin/handle-playground-message", views.handle_student_playground_message, name="handle_student_playground_message"),
     path("student-admin/save-playground-code", views.save_student_playground_code, name="save_student_playground_code"),
 
+
+    path("teacher-admin/student-profile/<int:uid>", views.teacher_admin_student_view, name="teacher_admin_student_view"),
+
 ]
 

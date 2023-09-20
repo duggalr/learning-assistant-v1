@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+    </style>
+
+    {% include 'dashboard_navbar.html' %}
+
+    <div class="ui grid container">
+        
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column">
+
+            <a href="{% url 'teacher_admin_dashboard' %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a>
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="user icon"></i> -->
+                    Student Profile
+                </h3>
+
+            </div>
+
+            <ul style="line-height: 1.85em;">
+
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Name:
+                    </strong>
+                    {{ student_obj.full_name }}
+                </li>
+                
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Email:
+                    </strong>
+                    {{ student_obj.email }}
+                </li>
+
+                <li style="font-size: 14.5px;">
+                    <strong>
+                        Created Date:
+                    </strong>
+                    {{ student_obj.created_at }}
+                </li>
+                
+            </ul>
+
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="user icon"></i> -->
+                    Student Activity:
+                </h3>
+
+            </div>
+
+            <ul>
+
+                {% for cdobj in student_code_objects %}
+                
+                    <li>
+                        
+                        <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
+                            <strong>File: </strong>{{ cdobj.0.teacher_question_obj.question_name }}
+                        </a>
+                        
+                        <ul style="padding-top: 10px; line-height: 1.7em;">
+
+                            {% for code_convers in cdobj.1 %}
+
+                                <li>
+                                    <strong>Question: </strong>{{ code_convers.question }}                                    
+                                </li>
+                                <li>
+                                    <strong>Response: </strong>{{ code_convers.response }}
+                                </li>
+                                
+                                <hr/>
+
+                            {% endfor %}
+
+                        </ul>
+                        
+                    </li>
+                    <br/>
+
+                {% endfor %}
+
+            </ul>
+
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+
+{% endblock %}
+
+

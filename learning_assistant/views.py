@@ -900,11 +900,32 @@ def teacher_admin_student_management(request):
     # registered_students = Student.objects.filter(teacher_obj = teacher_obj)
     # invited_students_not_registered = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj, student_registered = False)
 
-    all_invited_students = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj).order_by('-modified_at')
+    all_invited_students = TeacherStudentInvite.objects.filter(teacher_obj = teacher_obj).order_by('-modified_at').order_by('-student_registered')
+    all_registered_students = Student.objects.filter(teacher_obj = teacher_obj)
+
+    final_student_rv = []
+    for sd_obj in all_invited_students:
+        if sd_obj.student_registered:
+            reg_student_obj = Student.objects.get(email = sd_obj.student_email)
+            
+            num_code_files = StudentPlaygroundCode.objects.filter(student_obj = reg_student_obj).count()
+            num_messages = 0
+            num_messages += StudentPlaygroundConversation.objects.filter(student_obj = reg_student_obj).count()
+            num_messages += StudentConversation.objects.filter(student_obj = reg_student_obj).count()
+
+            final_student_rv.append([
+                sd_obj, reg_student_obj, num_messages, num_code_files
+            ])
+        else:
+            final_student_rv.append([
+                sd_obj
+            ])
 
     return render(request, 'teacher_admin_student_management.html', {
         'teacher_obj': teacher_obj,
-        'student_objects': all_invited_students
+        # 'student_objects': all_invited_students,
+        # 'all_registered_students': all_registered_students
+        'student_objects': final_student_rv
     })
 
 
@@ -956,6 +977,7 @@ def teacher_admin_question_management(request):
     })
 
 
+
 def teacher_admin_assistant_chat(request):
     if request.session.get("teacher_object", None) is None:
         # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
@@ -964,8 +986,47 @@ def teacher_admin_assistant_chat(request):
     teacher_obj = request.session.get("teacher_object")
     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
+    general_teacher_assistant_cv_objects = TeacherConversation.objects.filter(
+        teacher_obj = teacher_obj
+    )
+
     return render(request, 'teacher_admin_assistant_chat.html', {
-        'teacher_obj': teacher_obj
+        'teacher_obj': teacher_obj,
+        'teacher_assistant_conversations': general_teacher_assistant_cv_objects
+    })
+
+
+
+def teacher_admin_student_view(request, uid):
+    
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
+
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    print('student-id:', uid)
+    student_obj = get_object_or_404(Student, id = uid)
+
+    student_code_objects = StudentPlaygroundCode.objects.filter(
+        student_obj = student_obj
+    )
+
+    final_student_code_rv = []
+    for cd_obj in student_code_objects:
+        code_conversation_objects = StudentPlaygroundConversation.objects.filter(
+            code_obj = cd_obj
+        )
+        
+        final_student_code_rv.append([
+            cd_obj, code_conversation_objects
+        ])
+
+    return render(request, 'teacher_admin_student_view.html', {
+        'teacher_obj': teacher_obj,
+        'student_obj': student_obj,
+        'student_code_objects': final_student_code_rv
     })
 
 
@@ -1098,9 +1159,29 @@ def student_admin_dashboard(request):
         teacher_obj = student_obj.teacher_obj
     )
 
+    final_question_rv = []
+    for std_q in student_questions:
+        std_q_code_objects = StudentPlaygroundCode.objects.filter(
+            teacher_question_obj = std_q
+        )
+        if len(std_q_code_objects) > 0:
+            final_question_rv.append([
+                std_q, std_q_code_objects[0]
+            ])
+        else:
+            final_question_rv.append([
+                std_q
+            ])
+
+    
+    stud_general_tutor_conversations = StudentConversation.objects.filter(
+        student_obj = student_obj
+    )
+
     return render(request, 'student_admin_dashboard.html', {
         'student_obj': student_obj,
-        'student_questions': student_questions
+        'student_questions': final_question_rv,
+        'stud_general_tutor_conversations': stud_general_tutor_conversations
     })
 
 
@@ -1209,18 +1290,33 @@ def student_admin_playground(request):
     student_obj = Student.objects.get(id = student_obj_session['id'])
 
     student_assigned_qid = request.GET.get('stdqid', None)
+    student_playground_code_id = request.GET.get('stcid', None)
+
     tq_obj = None
     tq_obj_test_case_examples = []
     if student_assigned_qid is not None:
         tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
         tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
 
+    std_code_obj = None
+    if student_playground_code_id is not None:
+        std_code_obj = get_object_or_404(StudentPlaygroundCode, id = student_playground_code_id)
 
+
+    student_code_conversations = []
+    if std_code_obj is not None:
+        student_code_conversations = StudentPlaygroundConversation.objects.filter(
+            code_obj = std_code_obj
+        )
+    
     return render(request, 'student_playground_environment.html', {
         'student_obj': student_obj,
+        'student_playground_code_id': student_playground_code_id,
+        'std_code_obj': std_code_obj,
         'stdqid': student_assigned_qid,
         'teacher_question_object': tq_obj,
         'teacher_question_test_cases': tq_obj_test_case_examples,
+        'student_code_conversations': student_code_conversations
     })
 
 
@@ -1312,7 +1408,7 @@ def handle_student_playground_message(request):
             st_pg_conv_obj.save()
 
     
-        model_response_dict['cid'] = uc_obj.id
+        model_response_dict['cid'] = spc_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 
@@ -1328,11 +1424,14 @@ def save_student_playground_code(request):
 
         student_obj = Student.objects.get(id = initial_student_object['id'])
 
+
+        print('POST-DATA:', request.POST)
+
         user_code = request.POST['user_code'].strip()
         stdqid = request.POST['stdqid']
         student_code_id_value = request.POST['student_code_id_value']
 
-        # TODO: add filter condition here
+        # TODO: add filter condition here just in case stdqid object doesns't exist
         st_question_obj = TeacherQuestion.objects.get(id = stdqid)
 
         spc_obj = None

@@ -149,11 +149,22 @@
                                 </div>
 
                                 <div class="header" style="font-size: 15.5px;">
-                                    <a class="file_name_header" href="">
-                                        {{ stobj.student_email }}
-                                    </a>
 
-                                    {% if stobj.student_registered %}
+                                    {% if stobj.0.student_registered %}
+
+                                        <a class="file_name_header" href="{% url 'teacher_admin_student_view' uid=stobj.1.id %}">
+                                            {{ stobj.0.student_email }}
+                                        </a>
+
+                                    {% else %}
+
+                                        <a class="file_name_header" href="">
+                                            {{ stobj.0.student_email }}
+                                        </a>
+
+                                    {% endif %}
+
+                                    {% if stobj.0.student_registered %}
                                         
                                         <div class="ui green mini label" style="margin-left: 10px;">registered</div>
 
@@ -169,20 +180,31 @@
 
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Invited: {{ stobj.created_at|date }}
+                                        Invited: {{ stobj.0.created_at|date }}
                                     </span>
 
-                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                    <!-- <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Date Joined: {{ stobj.0.modified_at|date }}
+                                    </span> -->
                                     
-                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                        <i class="hashtag icon"></i>Messages: TODO
-                                    </span>
+                                    {% if stobj.0.student_registered %}
 
-                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                        <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
 
-                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
-                                        <i class="hashtag icon"></i>Code Files: TODO
-                                    </span>
+                                        <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                            <i class="hashtag icon"></i>Messages: {{ stobj.2 }}
+                                        </span>
+
+                                        <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                        <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                            <i class="hashtag icon"></i>Code Files: {{ stobj.3 }}
+                                        </span>
+
+                                    {% endif %}
 
                                 </div>
 

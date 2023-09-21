@@ -17,26 +17,78 @@
             font-weight: bold;
         }
 
+
+        #second_section_main_div, #third_section_main_div{
+            padding-left: 8em;
+            padding-right: 8em;
+            padding-top: 6em;
+            padding-bottom: 4em;
+        }
+
+        #primary_lp_section_divider{
+            padding-top: 4em;
+        }
+
+
+        #lp_section_divider_header_div{
+            background-color: black;
+            width: 110%;
+        }
+
+        #lp_section_divider_header_div > h2{
+            font-family: 'Raleway', sans-serif;
+            text-align: center;
+            font-size: 38px;
+        }
+
+        #lp_section_divider_header_div > h2:hover{
+            color: #6f1ee1;
+        }
+
+        /* #lp_section_divider_header_div > h2:hover{
+            color: #6f1ee1;
+        } */
+
+        /* #main_first_column{
+            margin-bottom: 0%
+        } */
+
+
+        #vertical_section_list > .item{    
+            margin: 5px 0;    
+            /* font-weight: 700; */
+        }
+
+        #vertical_section_list > .item .content .description{    
+            font-size: 15px;
+            line-height: 1.4em; 
+            letter-spacing: 0.1px;
+            color: rgba(0, 0, 0, 0.87);
+            /* font-weight: 700;  */
+            /* color: #181818; */
+            /* color: #4c4c4c; */
+        }
+
     </style>
 
 
     {% include 'landing_navbar.html' %}
 
+
     <!-- Section 1: Landing -->
-    
-    <!-- TODO: -->
+
     <section>
 
         <div class="ui two column centered grid">
 
-            <div class="column" style="text-align: center; width: 100%;  margin-top: 1.5%;">
+            <div class="column" style="text-align: center; width: 100%;  margin-top: 2%;">
 
                 <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
                     Code Companion
                 </h1>
 
                 <span style="font-size: 15px; color: gray;">
-                    Fostering a more Personalized Educational Experience. 
+                    Fostering a more Personalized Educational Experience. Powered by GPT-4. 
                     &nbsp;
                     <a id="demo_link" href="https://www.youtube.com/watch?v=iju3yQSQNF4" target="_blank" rel="noopener noreferrer">
                         Watch the Demo.
@@ -69,7 +121,7 @@
 
                 </div>
 
-                <div style="margin-top: 20px;">
+                <div style="margin-top: 30px;">
                     <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
                     <video id="landing_demo_video" width="1000"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
                         <source src="https://file-app-bucket.s3.ca-central-1.amazonaws.com/landing_demo.mov">
@@ -83,5 +135,187 @@
     </section>
 
 
+    <!-- Divider -->
+    <div class="ui vertical stripe segment" style="margin-top: 2.5%;">
+    </div>
+
+    
+    <!-- Section 2: Teacher Section -->
+
+    <div class="ui vertical stripe segment" id="second_section_main_div">
+    
+        <div class="ui middle aligned stackable grid container">
+    
+            <div class="row" id="third_section_row">
+
+                <div class="eight wide column" id="main_first_column">
+    
+                    <h2 class="ui header" id="vertical_section_header">
+    
+                        <!-- <i class="plug icon" style="font-size: 26px;"></i> -->
+                        <i class="users icon" style="font-size: 20px;"></i>
+                        <div class="content" style="font-family: 'Raleway', sans-serif;">
+                            For Teachers
+                        </div>
+    
+                    </h2>
+    
+                    <div class="ui basic segment">
+    
+                        <div class="ui animated list" id="vertical_section_list">
+                            
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        Leverage your personal assistant to help create lesson plans for you,
+                                        generate questions, or new ways of explaining difficult concepts.
+                                    </div>
+                                </div>
+                            </a>
+    
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">                                
+                                        Add questions for your students to work on, directly on our site.
+                                        Get direct visibility into student progress.
+                                    </div>
+                                </div>
+                            </a>
+    
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        Manage your students and get personalized recommendations on how
+                                        each of your students are understanding the concepts.
+                                    </div>
+                                </div>
+                            </a>
+    
+                        </div>
+    
+                    </div>
+
+
+                    <div class="ui animated medium black button" tabindex="0">
+                        <div class="visible content">
+                            Interested to trying it out in your class? Speak with our Founder!
+                        </div>
+                        <div class="hidden content">
+                            <i class="right arrow icon"></i>
+                        </div>
+                    </div>
+    
+                </div>
+
+                <div class="seven wide right floated column">
+    
+                    <iframe width="420" height="315"
+                        src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                    </iframe>
+    
+                </div>
+
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+
+    <!-- Third Section: Student Section -->
+
+    <div class="ui vertical stripe segment" id="third_section_main_div">
+
+        <div class="ui middle aligned stackable grid container">
+    
+            <div class="row" id="third_section_row">
+
+                <div class="eight wide column" id="main_first_column">
+    
+                    <h2 class="ui header" id="vertical_section_header">
+    
+                        <!-- <i class="plug icon" style="font-size: 26px;"></i> -->
+                        <i class="child icon" style="font-size: 20px;"></i>
+                        <div class="content" style="font-family: 'Raleway', sans-serif;">
+                            For Students
+                        </div>
+    
+                    </h2>
+    
+                    <div class="ui basic segment">
+    
+                        <div class="ui animated list" id="vertical_section_list">
+                            
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        A personalized tutor, available to provide help and enhance your thinking,
+                                        to you help you develop a deeper understanding of the material.
+                                    </div>
+                                </div>
+                            </a>
+    
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">                                
+                                        Code Editor directly available in the site, making it easier
+                                        for you to start programming.
+                                    </div>
+                                </div>
+                            </a>
+    
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        Ability to get personalized explanations, questions or quizzes,
+                                        from the AI.
+                                    </div>
+                                </div>
+                            </a>
+    
+                        </div>
+    
+                    </div>
+
+                    <div class="ui animated medium black button" tabindex="0" >
+                        <div class="visible content">
+                            Try the Tutor for free in our Playground
+                        </div>
+                        <div class="hidden content">
+                            <i class="code icon"></i>
+                        </div>
+                    </div>
+    
+                </div>
+
+
+                <div class="seven wide right floated column">
+    
+                    <iframe width="420" height="315"
+                        src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                    </iframe>
+    
+                </div>
+
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+
 {% endblock %}
+
 

@@ -98,15 +98,8 @@
     </style>
 
 
-    {% if student_obj %}
-
-        {% include 'student_admin_navbar.html' %}
     
-    {% else %}
-        
-        {% include 'dashboard_navbar.html' %}
-
-    {% endif %}
+    {% include 'dashboard_navbar.html' %}
 
 
     <div class="ui grid container">
@@ -157,7 +150,7 @@
 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                {% if user_session is not None or student_obj is not None %}
+                {% if user_session is not None %}
                 
                     <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
                         <div class="visible content">Save Code</div>
@@ -181,7 +174,7 @@
                 
                 &nbsp;&nbsp;
 
-                {% if user_session is not None or student_obj is not None %}
+                {% if user_session is not None %}
 
                     <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
                         <div class="visible content">Submit</div>
@@ -201,7 +194,7 @@
 
                 {% endif %}
 
-                {% if user_session is None or student_obj is not None %}
+                {% if user_session is None %}
                     <a href="https://www.youtube.com/watch?v=iju3yQSQNF4" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
                 {% endif %}
                     

@@ -137,7 +137,7 @@ def landing(request):
 
 def about(request):
     initial_user_session = request.session.get("user")
-    return render(request, 'about.html', {
+    return render(request, 'new_about.html', {
         'user_session': initial_user_session
     })
 
@@ -162,7 +162,6 @@ def playground(request):
         # ls_q_obj = get_object_or_404(NewPracticeQuestion, id = lqid)
         # ls_q_test_case_examples = NewPracticeTestCase.objects.filter(question_obj = ls_q_obj)
 
-
     student_assigned_qid = request.GET.get('stdqid', None)
     tq_obj = None
     tq_obj_test_case_examples = []
@@ -171,11 +170,10 @@ def playground(request):
         tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
 
     
-    if request.session.get("student_object", None) is None:
-        return JsonResponse({'success': False, 'message': 'No Authorized.'})
-
-    student_obj_session = request.session['student_object']
-    student_obj = Student.objects.get(id = student_obj_session['id'])
+    # if request.session.get("student_object", None) is None:
+    #     return JsonResponse({'success': False, 'message': 'Not Authorized.'})
+    # student_obj_session = request.session['student_object']
+    # student_obj = Student.objects.get(id = student_obj_session['id'])
         
     user_is_admin = request.user.is_superuser
     if user_is_admin:  # exempt from auth check; has visibility into all user's code
@@ -224,7 +222,7 @@ def playground(request):
         'stdqid': student_assigned_qid,
         'teacher_question_object': tq_obj,
         'teacher_question_test_cases': tq_obj_test_case_examples,
-        'student_obj': student_obj
+        # 'student_obj': student_obj
     })
 
 

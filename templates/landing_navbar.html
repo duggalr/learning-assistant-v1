@@ -9,7 +9,7 @@
             Code Companion
         </div>
 
-        <div class="right menu" style="margin-right: 19%;">
+        <div class="right menu" style="margin-right: 5%;">
 
             <a class="item" href="{% url 'general_cs_tutor' %}">
                 AI Tutor
@@ -35,7 +35,7 @@
         </div>
     
 
-        <!-- {% if user_session %}
+        {% if user_session %}
 
             <div class="right menu">
                     
@@ -64,8 +64,12 @@
                     </div>
                     
                     <div class="item" style="padding-left: 0px;">
-                        <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+                        <a href="{% url 'login' %}" style="color: #1e70bf;">Log in</a>
                     </div>
+
+                    <!-- <div class="item" style="padding-left: 0px;">
+                        <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+                    </div> -->
                     
                 </div>
 
@@ -82,7 +86,7 @@
 
             {% endif %}
 
-        {% endif %} -->
+        {% endif %}
 
     </div>
 

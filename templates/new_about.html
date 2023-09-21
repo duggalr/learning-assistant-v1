@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+        /* p{
+            font-size: 15px;
+            line-height: 1.45em;
+        }
+
+        li{
+            font-size: 14px;
+            margin: 2px 0;
+        } */
+
+        section{
+            color: black;
+        }
+
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+    
+
+    <section>
+
+        <div class="ui two column centered grid">
+            
+            <div class="column" style="width: 60%; margin-top: 0%;">
+
+                <div class="ui basic segment">
+                    
+                    <h3 class="ui header">
+                        About
+                    </h3>
+
+                    <p>
+                        <!-- We are trying to experiment with potential ways Generative AI Models can be utilized in the classroom, to help foster a more optimal
+                        educational experience for both students and teachers. -->
+                        We are exploring how Generative AI Models can be effectively utilized in the classroom to enhance and optimize the educational experience for both students and teachers.
+                        <br/><br/>
+                        <strong>
+                            For Students:
+                        </strong>
+                        <br/><br/>
+                        At the moment, we have built Code Companion, a tool that offers students a playground code editor, where
+                        they can work on their problems, while being able to ask any questions they have to an AI-powered tutor.
+                        <br/><br/>
+                        The goal here is really to try to create learning a more personalized experience for each student, 
+                        where they are able to understand the material at their own pace.
+                        <br/><br/>
+                        <strong>
+                            For Teachers:
+                        </strong>
+                        <br/><br/>
+                        Code Companion also helps teachers, eliminating a lot of the administrative headache that is part of
+                        the teaching profession. 
+                        <br/><br/>
+                        With Code Companion, teachers will get help with creating their lesson plans, generating questions/quizzes, 
+                        and get assistance with marking and providing student feedback.
+                    </p>
+
+                    <h3>Get Involved</h3>
+                    <p>
+                        This solution is merely only the start, and will go through several iterations.
+                        <br/><br/>
+                        If you are interested in the problem, want to help, and/or get involved, <a class="item" href="mailto:duggalr42@gmail.com">please reach out.</a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </section>
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+{% endblock %}
+

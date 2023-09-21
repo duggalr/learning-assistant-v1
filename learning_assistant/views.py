@@ -1023,6 +1023,7 @@ def teacher_admin_student_view(request, uid):
             cd_obj, code_conversation_objects
         ])
 
+
     return render(request, 'teacher_admin_student_view.html', {
         'teacher_obj': teacher_obj,
         'student_obj': student_obj,
@@ -1282,15 +1283,57 @@ def teacher_assistant_handle_message(request):
 
 def student_admin_playground(request):
 
+    student_assigned_qid = request.GET.get('stdqid', None)
+    student_playground_code_id = request.GET.get('stcid', None)
+
     if request.session.get("student_object", None) is None:
         return redirect('student_admin_login')
 
+    # student_obj = None
+    # teacher_obj = None
+    # if request.session.get("teacher_object", None) is not None:
+    #     teacher_obj = request.session.get("teacher_object")
+    #     teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    # elif request.session.get("student_object", None) is None:
+    #     return redirect('student_admin_login')
+
+    # if teacher_obj is not None and student_playground_code_id is not None:
+    #     std_code_obj = get_object_or_404(StudentPlaygroundCode, id = student_playground_code_id)
+    #     student_code_conversations = []
+    #     student_code_conversations = StudentPlaygroundConversation.objects.filter(
+    #         code_obj = std_code_obj
+    #     )
+
+    #     tq_obj = None
+    #     tq_obj_test_case_examples = []
+    #     if student_assigned_qid is not None:
+    #         tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
+    #         tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+
+    # else:
+    #     student_obj_session = request.session['student_object']
+    #     student_obj = Student.objects.get(id = student_obj_session['id'])
+
+    #     tq_obj = None
+    #     tq_obj_test_case_examples = []
+    #     if student_assigned_qid is not None:
+    #         tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
+    #         tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+
+    #     std_code_obj = None
+    #     if student_playground_code_id is not None:
+    #         std_code_obj = get_object_or_404(StudentPlaygroundCode, id = student_playground_code_id)
+
+    #     student_code_conversations = []
+    #     if std_code_obj is not None:
+    #         student_code_conversations = StudentPlaygroundConversation.objects.filter(
+    #             code_obj = std_code_obj
+    #         )
+    
 
     student_obj_session = request.session['student_object']
     student_obj = Student.objects.get(id = student_obj_session['id'])
-
-    student_assigned_qid = request.GET.get('stdqid', None)
-    student_playground_code_id = request.GET.get('stcid', None)
 
     tq_obj = None
     tq_obj_test_case_examples = []
@@ -1302,13 +1345,12 @@ def student_admin_playground(request):
     if student_playground_code_id is not None:
         std_code_obj = get_object_or_404(StudentPlaygroundCode, id = student_playground_code_id)
 
-
     student_code_conversations = []
     if std_code_obj is not None:
         student_code_conversations = StudentPlaygroundConversation.objects.filter(
             code_obj = std_code_obj
         )
-    
+
     return render(request, 'student_playground_environment.html', {
         'student_obj': student_obj,
         'student_playground_code_id': student_playground_code_id,

@@ -15,7 +15,7 @@
 
         <div class="twelve wide column">
 
-            <a href="{% url 'teacher_admin_dashboard' %}">
+            <a href="{% url 'teacher_admin_student_management' %}">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
@@ -66,35 +66,51 @@
 
             <ul>
 
-                {% for cdobj in student_code_objects %}
-                
-                    <li>
-                        
-                        <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
-                            <strong>File: </strong>{{ cdobj.0.teacher_question_obj.question_name }}
-                        </a>
-                        
-                        <ul style="padding-top: 10px; line-height: 1.7em;">
+                {% if student_code_objects|length == 0 %}
 
-                            {% for code_convers in cdobj.1 %}
+                <!-- TODO: Add code files and student conversations, say with the general-tutor; teacher should see everything -->
 
-                                <li>
-                                    <strong>Question: </strong>{{ code_convers.question }}                                    
-                                </li>
-                                <li>
-                                    <strong>Response: </strong>{{ code_convers.response }}
-                                </li>
-                                
-                                <hr/>
+                    <p>
+                        The student hasn't seemed to create any code files yet.
+                    </p>
 
-                            {% endfor %}
+                {% else %}
 
-                        </ul>
-                        
-                    </li>
-                    <br/>
+                    {% for cdobj in student_code_objects %}
+                    
+                        <li>
+                            
+                            <!-- <a href="{% url 'student_admin_playground' %}?stcid={{ cdobj.0.id }}"> -->
+                            <a href="">
+                                <strong>File: </strong>{{ cdobj.0.teacher_question_obj.question_name }}
+                            </a>
+                            
+                            <ul style="padding-top: 10px; line-height: 1.7em;">
 
-                {% endfor %}
+                                {% for code_convers in cdobj.1 %}
+
+                                    <li>
+                                        <strong>Question: </strong>{{ code_convers.question }}                                    
+                                    </li>
+                                    <li>
+                                        <strong>Response: </strong>{{ code_convers.response }}
+                                    </li>
+                                    
+                                    <hr/>
+
+                                {% endfor %}
+
+                            </ul>
+                            
+                        </li>
+                        <br/>
+
+                    {% endfor %}
+
+
+                {% endif %}
+
+
 
             </ul>
 

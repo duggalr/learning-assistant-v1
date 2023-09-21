@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+
+        #landing_header:hover{
+            color: black;
+            transform: scale(1.1);
+            transition: all ease 500ms;
+        }
+
+        #demo_link:hover{
+            font-weight: bold;
+        }
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+
+    <!-- Section 1: Landing -->
+    
+    <!-- TODO: -->
+    <section>
+
+        <div class="ui two column centered grid">
+
+            <div class="column" style="text-align: center; width: 100%;  margin-top: 1.5%;">
+
+                <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
+                    Code Companion
+                </h1>
+
+                <span style="font-size: 15px; color: gray;">
+                    Fostering a more Personalized Educational Experience. 
+                    &nbsp;
+                    <a id="demo_link" href="https://www.youtube.com/watch?v=iju3yQSQNF4" target="_blank" rel="noopener noreferrer">
+                        Watch the Demo.
+                    </a>
+                </span>
+
+                <p style="font-weight: 500; font-size: 17.5px; font-family: 'Raleway', sans-serif; padding-top: 12px; line-height: 1.9em;">
+                    AI-Powered Personal Tutor for Students. &nbsp; AI-Powered Personal Assistant for Teachers.
+                </p>
+
+                <div id="main-button-row" style="padding-top: 0px; padding-bottom: 10px;">
+               
+                    <div class="ui animated medium black button" tabindex="0">
+                        <div class="visible content">
+                            Interested? Speak with the Founder
+                        </div>
+                        <div class="hidden content">
+                            <i class="right arrow icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="ui animated medium black button" tabindex="0" >
+                        <div class="visible content">
+                            Try the Tutor for free in our Playground
+                        </div>
+                        <div class="hidden content">
+                            <i class="code icon"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
+                    <video id="landing_demo_video" width="1000"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
+                        <source src="https://file-app-bucket.s3.ca-central-1.amazonaws.com/landing_demo.mov">
+                    </video>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+{% endblock %}
+

@@ -890,10 +890,10 @@ def teacher_admin_student_management(request):
         #         user_email = eml
         #     )
 
-        return render(request, 'teacher_admin_student_management.html', {
-            'teacher_obj': teacher_obj,
-            'invite_student_success': True
-        })
+        # return render(request, 'teacher_admin_student_management.html', {
+        #     'teacher_obj': teacher_obj,
+        #     'invite_student_success': True
+        # })
 
 
     # associated_student_objects = Student.objects.filter(

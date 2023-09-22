@@ -58,5 +58,7 @@ urlpatterns = [
 
     path("teacher-admin/student-profile/<int:uid>", views.teacher_admin_student_view, name="teacher_admin_student_view"),
 
+    path("teacher-admin/question/delete", views.teacher_question_delete, name="teacher_question_delete"),
+
 ]
 

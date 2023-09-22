@@ -737,6 +737,15 @@ def teacher_admin_signup(request):
             }
             return render(request, 'teacher_signup.html', user_errors)
 
+        # duplicate email check
+        existing_teacher_objects = Teacher.objects.filter(email = email).count()
+        if existing_teacher_objects > 0:
+            user_errors = {
+                'error_message': "Email already registered. Try to login instead."
+            }
+            return render(request, 'teacher_signup.html', user_errors)
+
+
         if password_one != password_two:
             user_errors = {
                 'error_message': "passwords don't match"
@@ -800,12 +809,6 @@ def teacher_admin_login(request):
 
     return render(request, 'teacher_login.html')
 
-
-
-# TODO: 
-    # start by showing the registered and invited (but not registerd) students
-    # go from there to finalize / test the stud-mgmt view
-    # then, complete the q-mgmt view
 
 
 def teacher_admin_dashboard(request):
@@ -943,7 +946,10 @@ def teacher_admin_question_management(request):
         question_name = request.POST['question-name'].strip()
         question_text = request.POST['question-text'].strip()
         question_test_cases = request.POST['question-test-case']
-        question_tc_list = question_test_cases.split('\n')
+        if question_test_cases != '':
+            question_tc_list = question_test_cases.split('\n')
+        else:
+            question_tc_list = []
 
         tc_question_obj = TeacherQuestion.objects.create(
             question_name = question_name, 
@@ -968,12 +974,20 @@ def teacher_admin_question_management(request):
     
     tq_objects = TeacherQuestion.objects.filter(
         teacher_obj = teacher_obj
-    )
+    ).order_by('-created_at')
 
     return render(request, 'teacher_admin_question_management.html', {
         'teacher_obj': teacher_obj,
         'teacher_questions': tq_objects
     })
+
+
+
+def teacher_question_delete(request):
+    if request.method == "POST":
+        data = request.POST
+        TeacherQuestion.objects.filter(id = data['qid']).delete()
+        return JsonResponse({'success': True})
 
 
 
@@ -1064,6 +1078,7 @@ def student_admin_account_create(request):
             student_password = request.POST['password-one']
             student_password_two = request.POST['password-two']
 
+            # duplicate student email check
             student_objects = Student.objects.filter(
                 email = student_email
             )
@@ -1080,6 +1095,7 @@ def student_admin_account_create(request):
                 }
                 return render(request, 'teacher_signup.html', user_errors)
 
+            
             if student_password != student_password_two:
                 user_errors = {
                     'error_message': "passwords don't match",

@@ -68,12 +68,10 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-
             <a href="{% url 'teacher_admin_dashboard' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
-
 
             <div class="ui tabular menu">
 
@@ -92,10 +90,8 @@
 
             <br/>
 
-
             <span style="color: gray; font-size: 13px;">
-                TODO:
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam faucibus enim a justo auctor, et molestie purus semper.
+                Here, you can see a list of your questions, which students have answered them, along with creating new questions.
             </span>
 
             <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
@@ -120,13 +116,15 @@
                             <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
         
                                 <div class="right floated content">
-                                    <div class="negative ui mini animated button" tabindex="0">
+                                    <div class="negative ui mini animated button delete_question_button" tabindex="0">
                                         <div class="visible content">Delete Question</div>
                                         <div class="hidden content">
                                         <i class="trash icon"></i>
                                         </div>
                                     </div>
                                 </div>
+
+                                <input class="t_question_id" type="hidden" value="{{ tqobj.id }}" />
         
                                 <div class="header" style="font-size: 15.5px;">
                                     <a class="file_name_header" href="">
@@ -256,8 +254,65 @@
             $('#add_question_tab').addClass('active');
             $('#questions_tab').removeClass('active');
 
-
         });
+
+
+        $('.delete_question_button').click(function(){
+
+            let text = 'Are you sure you want to delete your question?'
+
+            let confirm_value = confirm(text)
+            if (confirm_value == true){
+                
+                let qValue = $(this).parent().parent().find('.t_question_id').val()
+                let d = {
+                    'qid': qValue,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'teacher_question_delete' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+
+                        window.location.reload();
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+            }
+
+            // let cid = $('#code_obj_id').val();
+            // let lqid = $('#lesson_question_obj_id').val();
+
+            // let d = {
+            //     'message': messageText,
+            //     'user_code': user_code,
+            //     'cid': cid,
+            //     'lqid': lqid,
+            //     csrfmiddlewaretoken: '{{ csrf_token }}'
+            // };
+            
+            // $.ajax({
+            //     type: 'POST',
+            //     url: "{% url 'handle_user_message' %}",
+            //     dataType: "json",
+            //     data: d,
+            //     success: function (response) {
+
+            //         // console.log('response:', response);
+
+            //     },
+            //     error: function (response) {}
+                
+            // });
+
+        })
+        
 
 
     </script>

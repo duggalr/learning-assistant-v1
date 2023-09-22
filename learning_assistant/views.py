@@ -22,7 +22,7 @@ from authlib.integrations.django_client import OAuth
 from .models import *
 from . import main_utils
 
-from learning_assistant.tasks import send_student_account_create_email
+# from learning_assistant.tasks import send_student_account_create_email
 
 
 

@@ -7,3 +7,4 @@ todo.txt
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .env
+gpt_project_env

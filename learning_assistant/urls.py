@@ -61,4 +61,3 @@ urlpatterns = [
     path("teacher-admin/question/delete", views.teacher_question_delete, name="teacher_question_delete"),
 
 ]
-

@@ -1046,12 +1046,6 @@ def teacher_admin_student_view(request, uid):
 
 
 def student_admin_account_create(request):
-    # TODO: 
-        # also add logic to ensure the student account isn't already registered
-        # if it is, redirecto to the studnt_admin_account_login
-    
-    # student will be prompted to enter email
-        # then, if email valid, show the account create, else, show error message 
 
     print('data:', request.POST)
 
@@ -1083,7 +1077,12 @@ def student_admin_account_create(request):
                 email = student_email
             )
             if len(student_objects) > 0:
-                return JsonResponse({'success': False, 'message': 'Student Account already exists.'})
+                # return JsonResponse({'success': False, 'message': 'Student Account already exists.'})
+                user_errors = {
+                    'error_message': 'Student Account already exists.',
+                    'form_type': 'account_create_form'
+                }
+                return render(request, 'student_admin_account_create.html', user_errors)
 
             f = forms.EmailField()
             try:
@@ -1093,7 +1092,7 @@ def student_admin_account_create(request):
                     'error_message': 'invalid email',
                     'form_type': 'account_create_form'
                 }
-                return render(request, 'teacher_signup.html', user_errors)
+                return render(request, 'student_admin_account_create.html', user_errors)
 
             
             if student_password != student_password_two:
@@ -1101,7 +1100,7 @@ def student_admin_account_create(request):
                     'error_message': "passwords don't match",
                     'form_type': 'account_create_form'
                 }
-                return render(request, 'teacher_signup.html', user_errors)
+                return render(request, 'student_admin_account_create.html', user_errors)
 
 
             tsi_obj = TeacherStudentInvite.objects.get(student_email = student_email)

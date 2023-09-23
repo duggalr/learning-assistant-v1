@@ -1,9 +1,9 @@
 <!-- Top Navbar -->
-<div class="ui secondary menu">
+<div class="ui secondary menu" style="margin-top: 1.5%;">
 
     <div class="ui container">
 
-        <div class="item navbar-logo" style="font-size: 22.5px;">
+        <div class="item navbar-logo" >
             <!-- <i class="code branch icon"></i> -->
             <i class="sitemap icon" ></i>
             Code Companion
@@ -11,7 +11,7 @@
         
         {% if user_session %}
 
-            <div class="right menu" >
+            <div class="right menu" style="margin-right: 5%;">
                 
                 <a class="item" href="{% url 'dashboard' %}">
                     Your Code
@@ -53,7 +53,7 @@
 
         {% else %}
 
-            <div class="right menu" style="margin-right: 8%;">
+            <div class="right menu" style="margin-right: 5%;">
 
                 <a class="item" href="{% url 'general_cs_tutor' %}">
                     AI Tutor

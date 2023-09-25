@@ -196,7 +196,9 @@ Please provide all the help needed, along with additional suggestions you feel c
     di = {"role": "user", "content": t_prompt}
     messages_list = [di]
     response = openai.ChatCompletion.create(
-        model = "gpt-4",
+        # model = "gpt-4",        
+        model = "gpt-3.5-turbo-16k",
+        # model = "gpt-4-0613",
         messages = messages_list,
     )
     response_message = response["choices"][0]["message"]['content']

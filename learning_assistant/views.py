@@ -1016,7 +1016,6 @@ def teacher_student_delete(request):
 
 
 
-
 def teacher_admin_assistant_chat(request):
     if request.session.get("teacher_object", None) is None:
         # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality

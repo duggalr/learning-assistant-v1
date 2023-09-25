@@ -138,13 +138,15 @@
                             <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
                                 <div class="right floated content">
-                                    <div class="negative ui mini animated button" tabindex="0">
+                                    <div class="negative ui mini animated button delete_student_button" tabindex="0">
                                         <div class="visible content">Delete Student</div>
                                         <div class="hidden content">
                                         <i class="trash icon"></i>
                                         </div>
                                     </div>
                                 </div>
+
+                                <input class="t_student_id" type="hidden" value="{{ stobj.0.id }}" />
 
                                 <div class="header" style="font-size: 15.5px;">
 
@@ -266,6 +268,46 @@
         $(".close.icon").click(function(){
             $(this).parent().hide();
         });
+
+
+        // TODO: 
+            // spend entire evening/night/tmw-am on eng
+
+        $('.delete_student_button').click(function(){
+
+            let text = 'Are you sure you want to delete your question?'
+
+            let confirm_value = confirm(text)
+            if (confirm_value == true){
+                
+
+                console.log('this value:', $(this), $(this).parent().parent())
+                let qValue = $(this).parent().parent().find('.t_student_id').val();
+                console.log('qvalue:', qValue)
+
+                let d = {
+                    'qid': qValue,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'teacher_student_delete' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+
+                        window.location.reload();
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+            }
+
+        });
+
 
     </script>
 

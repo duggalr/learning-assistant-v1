@@ -983,11 +983,32 @@ def teacher_admin_question_management(request):
 
 
 
+# TODO: authorize the functions below
+
+
 def teacher_question_delete(request):
     if request.method == "POST":
         data = request.POST
         TeacherQuestion.objects.filter(id = data['qid']).delete()
         return JsonResponse({'success': True})
+
+def teacher_student_delete(request):
+    if request.method == "POST":
+        data = request.POST
+        print('post_data:', data)
+        tsi_objects = TeacherStudentInvite.objects.filter(id = data['qid'])
+        if len(tsi_objects) == 0:
+            return JsonResponse({'success': False, 'message': 'Student not found.'})
+        else:
+            tsi_obj = tsi_objects[0]
+            if tsi_obj.student_registered:
+                TeacherStudentInvite.objects.filter(id = data['qid']).delete()
+                Student.objects.filter(email = tsi_obj.student_email).delete()
+            else:
+                TeacherStudentInvite.objects.filter(id = data['qid']).delete()
+
+        return JsonResponse({'success': True})
+
 
 
 

@@ -988,14 +988,19 @@ def teacher_admin_question_management(request):
 
 def teacher_question_delete(request):
     if request.method == "POST":
+        if request.session.get("teacher_object", None) is None:
+            return JsonResponse({'success': False, 'message': 'User not authorized.'})
+
         data = request.POST
         TeacherQuestion.objects.filter(id = data['qid']).delete()
         return JsonResponse({'success': True})
 
 def teacher_student_delete(request):
     if request.method == "POST":
+        if request.session.get("teacher_object", None) is None:
+            return JsonResponse({'success': False, 'message': 'User not authorized.'})
+        
         data = request.POST
-        print('post_data:', data)
         tsi_objects = TeacherStudentInvite.objects.filter(id = data['qid'])
         if len(tsi_objects) == 0:
             return JsonResponse({'success': False, 'message': 'Student not found.'})

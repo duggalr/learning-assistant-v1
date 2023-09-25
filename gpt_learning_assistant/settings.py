@@ -39,7 +39,7 @@ else:
     DEBUG = True
 
 if 'PRODUCTION' in os.environ:
-    ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app']
+    ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app', 'gpt-learning-assistant-dev.ca-central-1.elasticbeanstalk.com']
 else:
     ALLOWED_HOSTS = ['*']
 

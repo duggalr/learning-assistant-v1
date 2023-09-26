@@ -35,7 +35,7 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 # TODO: change this to false
 if 'PRODUCTION' in os.environ:
-    DEBUG = True
+    DEBUG = False
 else:
     DEBUG = True
 

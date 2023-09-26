@@ -33,8 +33,9 @@ else:
     SECRET_KEY = 'django-insecure-r8d(r2)5kr!sjx5$8yv0mmgz)7w&@$99*=k*3if@8io^$uf)+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# TODO: change this to false
 if 'PRODUCTION' in os.environ:
-    DEBUG = True
+    DEBUG = False
 else:
     DEBUG = True
 
@@ -161,18 +162,24 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# # TODO: 
-#     # change the email to the actual site email after made.
-#     # pass to production and env as variables
-# EMAIL_USE_TLS = True  
-# EMAIL_HOST = 'smtp.gmail.com'  
-# EMAIL_HOST_USER = 'duggalr42@gmail.com'  
-# EMAIL_HOST_PASSWORD = 'ddidqcwojlcdzpjp'
-# EMAIL_PORT = 587  
+
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST_USER = os.environ['SMTP_EMAIL']
+EMAIL_HOST_PASSWORD = os.environ['SMTP_PASSWORD']
+EMAIL_PORT = 587  
 
 # ## Celery
-# CELERY_BROKER_URL = "redis://localhost:6379"
-# CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# if 'PRODUCTION' in os.environ:
+#     CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+#     CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+# else:
+#     CELERY_BROKER_URL = "redis://localhost:6379"
+#     CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+
 
 if 'PRODUCTION' in os.environ:
     CSRF_COOKIE_SECURE = True

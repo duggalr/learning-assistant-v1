@@ -22,7 +22,7 @@ from authlib.integrations.django_client import OAuth
 from .models import *
 from . import main_utils
 
-# from learning_assistant.tasks import send_student_account_create_email
+from learning_assistant.tasks import send_student_account_create_email
 
 
 
@@ -879,16 +879,16 @@ def teacher_admin_student_management(request):
             # to test this, create enterprise gmail account <-- current domain is fine
             # setup the password on that and go from there to test this functionality...
 
-        # for eml in emails_to_send_list:
-        #     current_site = get_current_site(request)
-        #     message = render_to_string('student_account_create_email.html', {
-        #         'teacher_name': teacher_obj.full_name,
-        #         'domain': current_site.domain,
-        #     })
-        #     send_student_account_create_email.delay(
-        #         message = message,
-        #         user_email = eml
-        #     )
+        for eml in emails_to_send_list:
+            current_site = get_current_site(request)
+            message = render_to_string('student_account_create_email.html', {
+                'teacher_name': teacher_obj.full_name,
+                'domain': current_site.domain,
+            })
+            send_student_account_create_email.delay(
+                message = message,
+                user_email = eml
+            )
 
         # return render(request, 'teacher_admin_student_management.html', {
         #     'teacher_obj': teacher_obj,

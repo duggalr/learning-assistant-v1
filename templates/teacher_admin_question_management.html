@@ -124,19 +124,26 @@
                                     </div>
                                 </div>
 
-                                <input class="t_question_id" type="hidden" value="{{ tqobj.id }}" />
+                                <input class="t_question_id" type="hidden" value="{{ tqobj.0.id }}" />
         
                                 <div class="header" style="font-size: 15.5px;">
-                                    <a class="file_name_header" href="{% url 'teacher_specific_question_view' qid=tqobj.id %}">
-                                        {{ tqobj.question_name }}
+                                    <a class="file_name_header" href="{% url 'teacher_specific_question_view' qid=tqobj.0.id %}">
+                                        {{ tqobj.0.question_name }}
                                     </a>
                                 </div>
         
                                 <div style="padding-top: 14px; ">
+
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="code branch icon"></i>
+                                        Number of Code Files: {{ tqobj.1 }}
+                                    </span>
                                     
+                                    <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px; padding-right: 8px;">|</span>
+
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ tqobj.created_at }}
+                                        Uploaded: {{ tqobj.0.created_at }}
                                     </span>
         
                                 </div>
@@ -162,17 +169,52 @@
     
                             <div class="required field">
                                 <label>Question Name</label>
-                                <input type="text" name="question-name" placeholder="Question Name">
+                                <input type="text" name="question-name" placeholder="Question Name" required>
                             </div>
     
                             <div class="required field">
                                 <label>Question</label>
-                                <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position."></textarea>
+                                <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required></textarea>
                             </div>
     
-                            <div class="field">
+                            <!-- <div class="field">
                                 <label>Test Cases (enter each testcase in a new line, in this exact format: input=[1,2,3,4,5] ;; output=15)</label>
                                 <textarea rows="5" name="question-test-case" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
+                            </div> -->
+
+                            <h5>Add Test Cases: <span style="font-size: 13px; color: gray; font-weight: 400;">(optional)</span></h5>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-one" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-one" placeholder="output = True" type="text">
+                                </div>
+                            </div>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-two" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-two" placeholder="output = True" type="text">
+                                </div>
+                            </div>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-three" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-three" placeholder="output = True" type="text">
+                                </div>
                             </div>
     
                             <button class="small ui secondary button" type="submit">Submit</button>
@@ -223,6 +265,8 @@
 
             </div>
 
+            <br/>
+            <br/>
 
         </div>
 

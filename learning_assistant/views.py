@@ -949,11 +949,16 @@ def teacher_admin_question_management(request):
 
         question_name = request.POST['question-name'].strip()
         question_text = request.POST['question-text'].strip()
-        question_test_cases = request.POST['question-test-case']
-        if question_test_cases != '':
-            question_tc_list = question_test_cases.split('\n')
-        else:
-            question_tc_list = []
+
+        tc_input_one, tc_output_one = request.POST['test-input-one'].strip(), request.POST['test-output-one'].strip()
+        tc_input_two, tc_output_two = request.POST['test-input-two'].strip(), request.POST['test-output-two'].strip()
+        tc_input_three, tc_output_three = request.POST['test-input-three'].strip(), request.POST['test-output-three'].strip()
+
+        # question_test_cases = request.POST['question-test-case']
+        # if question_test_cases != '':
+        #     question_tc_list = question_test_cases.split('\n')
+        # else:
+        #     question_tc_list = []
 
         tc_question_obj = TeacherQuestion.objects.create(
             question_name = question_name, 
@@ -962,16 +967,40 @@ def teacher_admin_question_management(request):
         )
         tc_question_obj.save()
 
-        for qtc in question_tc_list:
-            qtc_list = qtc.split(' ;; ')
-            qtc_input = qtc_list[0].strip()
-            qtc_output = qtc_list[1].strip()
+        if tc_input_one != '':
             tq_tc_obj = TeacherQuestionTestCase.objects.create(
                 teacher_question_obj = tc_question_obj,
-                input_param = qtc_input,
-                correct_output = qtc_output
+                input_param = tc_input_one,
+                correct_output = tc_output_one
             )
             tq_tc_obj.save()
+        
+        if tc_input_two != '':
+            tq_tc_obj = TeacherQuestionTestCase.objects.create(
+                teacher_question_obj = tc_question_obj,
+                input_param = tc_input_two,
+                correct_output = tc_output_two
+            )
+            tq_tc_obj.save()
+
+        if tc_input_three != '':
+            tq_tc_obj = TeacherQuestionTestCase.objects.create(
+                teacher_question_obj = tc_question_obj,
+                input_param = tc_input_three,
+                correct_output = tc_output_three
+            )
+            tq_tc_obj.save()
+        
+        # for qtc in question_tc_list:
+        #     qtc_list = qtc.split(' ;; ')
+        #     qtc_input = qtc_list[0].strip()
+        #     qtc_output = qtc_list[1].strip()
+        #     tq_tc_obj = TeacherQuestionTestCase.objects.create(
+        #         teacher_question_obj = tc_question_obj,
+        #         input_param = qtc_input,
+        #         correct_output = qtc_output
+        #     )
+        #     tq_tc_obj.save()
         
         return redirect('teacher_admin_question_management')
 
@@ -980,9 +1009,19 @@ def teacher_admin_question_management(request):
         teacher_obj = teacher_obj
     ).order_by('-created_at')
 
+    # TODO: get num_code_files for each question
+    full_questions_list = []
+    for tq_obj in tq_objects:
+        num_pg_code_files = StudentPlaygroundCode.objects.filter(
+            teacher_question_obj = tq_obj
+        ).count()
+        full_questions_list.append([
+            tq_obj, num_pg_code_files
+        ])
+
     return render(request, 'teacher_admin_question_management.html', {
         'teacher_obj': teacher_obj,
-        'teacher_questions': tq_objects
+        'teacher_questions': full_questions_list
     })
 
 
@@ -1203,7 +1242,7 @@ def student_admin_dashboard(request):
     student_obj = Student.objects.get(id = student_obj_session['id'])
     student_questions = TeacherQuestion.objects.filter(
         teacher_obj = student_obj.teacher_obj
-    )
+    ).order_by('-created_at')
 
     final_question_rv = []
     for std_q in student_questions:

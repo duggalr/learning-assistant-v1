@@ -357,8 +357,15 @@
             editor.setValue(user_code_st);
 
         } else {
-
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+            
+            // TODO: newline --> add comments
+            // for (i = 0; i <= std_question.)
+            let qst_array = std_question.split("\n");
+            // console.log('q-array:', qst_array);
+            // console.log('t:', '\n# '+ qst_array.join('\n# '))
+            // let newline_questions = '\n# '+ qst_array.join('\n# ');
+            let newline_questions = qst_array.join('\n# ');
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + newline_questions + `\n\n# Write your code below:\n\n`);
 
         }
 

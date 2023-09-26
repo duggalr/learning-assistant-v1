@@ -64,7 +64,7 @@
 
             </div>
 
-            <ul>
+            <ul style="padding-top: 10px;">
 
                 {% if student_code_objects|length == 0 %}
 
@@ -87,18 +87,26 @@
                             
                             <ul style="padding-top: 10px; line-height: 1.7em;">
 
-                                {% for code_convers in cdobj.1 %}
+                                {% if cdobj.1|length == 0 %}
 
-                                    <li>
-                                        <strong>Question: </strong>{{ code_convers.question }}                                    
-                                    </li>
-                                    <li>
-                                        <strong>Response: </strong>{{ code_convers.response }}
-                                    </li>
-                                    
-                                    <hr/>
+                                    <p>- No questions asked by student.</p>
 
-                                {% endfor %}
+                                {% else %}
+
+                                    {% for code_convers in cdobj.1 %}
+
+                                        <li>
+                                            <strong>Question: </strong>{{ code_convers.question }}                                    
+                                        </li>
+                                        <li>
+                                            <strong>Response: </strong>{{ code_convers.response }}
+                                        </li>
+                                        
+                                        <hr/>
+
+                                    {% endfor %}
+
+                                {% endif %}
 
                             </ul>
                             
@@ -110,10 +118,7 @@
 
                 {% endif %}
 
-
-
             </ul>
-
 
         </div>
 

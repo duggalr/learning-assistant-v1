@@ -1429,11 +1429,6 @@ def student_admin_playground(request):
     #     student_obj_session = request.session['student_object']
     #     student_obj = Student.objects.get(id = student_obj_session['id'])
 
-    tq_obj = None
-    tq_obj_test_case_examples = []
-    if student_assigned_qid is not None:
-        tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
-        tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
 
     student_obj = None
     std_code_obj = None
@@ -1452,6 +1447,7 @@ def student_admin_playground(request):
         else:
             student_obj_session = request.session['student_object']
             student_obj = Student.objects.get(id = student_obj_session['id'])
+            
             std_code_objects = StudentPlaygroundCode.objects.filter(
                 id = student_playground_code_id,
                 student_obj = student_obj
@@ -1461,6 +1457,40 @@ def student_admin_playground(request):
             else:
                 return redirect('student_admin_dashboard')
 
+    else:  # still can be valid student but didn't initialize the code yet
+        student_obj_session = request.session['student_object']
+        student_obj = Student.objects.get(id = student_obj_session['id'])
+
+    tq_obj = None
+    tq_obj_test_case_examples = []
+    if student_assigned_qid is not None:
+
+        tq_objects = TeacherQuestion.objects.filter(
+            id = student_assigned_qid,
+        )
+        if len(tq_objects) == 0:
+            if teacher_obj is not None:
+                return redirect('teacher_admin_dashboard')
+            else:
+                return redirect('student_admin_dashboard')
+        else:
+            if teacher_obj is not None:
+                tq_obj = tq_objects[0]
+                tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+            else:
+                if student_obj is None:
+                    return redirect('student_admin_dashboard')
+                else:                    
+                    tq_obj = tq_objects[0]
+                    teacher_obj_for_question = tq_obj.teacher_obj
+                    if student_obj.teacher_obj != teacher_obj_for_question:
+                        return redirect('student_admin_dashboard')
+
+    
+    if std_code_obj is not None and tq_obj is not None:
+        if std_code_obj.teacher_question_obj != tq_obj:
+            return redirect('student_admin_dashboard')
+  
     student_code_conversations = []
     if std_code_obj is not None:
         student_code_conversations = StudentPlaygroundConversation.objects.filter(

@@ -35,12 +35,12 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 # TODO: change this to false
 if 'PRODUCTION' in os.environ:
-    DEBUG = False
+    DEBUG = True
 else:
     DEBUG = True
 
 if 'PRODUCTION' in os.environ:
-    ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app', 'gpt-learning-assistant-dev.ca-central-1.elasticbeanstalk.com']
+    ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app']
 else:
     ALLOWED_HOSTS = ['*']
 

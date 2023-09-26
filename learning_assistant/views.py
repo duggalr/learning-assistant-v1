@@ -875,15 +875,19 @@ def teacher_admin_student_management(request):
 
                 emails_to_send_list.append(sd_em)
 
-        # TODO:
-            # to test this, create enterprise gmail account <-- current domain is fine
-            # setup the password on that and go from there to test this functionality...
 
         for eml in emails_to_send_list:
             current_site = get_current_site(request)
+
+            if 'code' in current_site.domain:
+                hp_protocol = 'https'
+            else:
+                hp_protocol = 'http'
+
             message = render_to_string('student_account_create_email.html', {
                 'teacher_name': teacher_obj.full_name,
                 'domain': current_site.domain,
+                'hp_protocol': hp_protocol
             })
             send_student_account_create_email.delay(
                 message = message,
@@ -994,6 +998,8 @@ def teacher_question_delete(request):
         data = request.POST
         TeacherQuestion.objects.filter(id = data['qid']).delete()
         return JsonResponse({'success': True})
+
+
 
 def teacher_student_delete(request):
     if request.method == "POST":
@@ -1202,7 +1208,8 @@ def student_admin_dashboard(request):
     final_question_rv = []
     for std_q in student_questions:
         std_q_code_objects = StudentPlaygroundCode.objects.filter(
-            teacher_question_obj = std_q
+            teacher_question_obj = std_q,
+            student_obj = student_obj
         )
         if len(std_q_code_objects) > 0:
             final_question_rv.append([
@@ -1325,7 +1332,12 @@ def student_admin_playground(request):
     student_assigned_qid = request.GET.get('stdqid', None)
     student_playground_code_id = request.GET.get('stcid', None)
 
-    if request.session.get("student_object", None) is None:
+    teacher_obj = None
+    if request.session.get("teacher_object", None) is not None:
+        teacher_obj = request.session.get("teacher_object")
+        teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    elif request.session.get("student_object", None) is None:
         return redirect('student_admin_login')
 
     # student_obj = None
@@ -1371,8 +1383,12 @@ def student_admin_playground(request):
     #         )
     
 
-    student_obj_session = request.session['student_object']
-    student_obj = Student.objects.get(id = student_obj_session['id'])
+    # student_obj = None
+    # if teacher_obj is not None:
+    #     student_obj = std_code_obj.student_obj
+    # else:
+    #     student_obj_session = request.session['student_object']
+    #     student_obj = Student.objects.get(id = student_obj_session['id'])
 
     tq_obj = None
     tq_obj_test_case_examples = []
@@ -1380,9 +1396,31 @@ def student_admin_playground(request):
         tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
         tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
 
+    student_obj = None
     std_code_obj = None
     if student_playground_code_id is not None:
-        std_code_obj = get_object_or_404(StudentPlaygroundCode, id = student_playground_code_id)
+
+        if teacher_obj is not None:
+            std_code_objects = StudentPlaygroundCode.objects.filter(
+                id = student_playground_code_id
+            )
+            if len(std_code_objects) > 0:
+                std_code_obj = std_code_objects[0]
+                student_obj = std_code_obj.student_obj
+            else:
+                return redirect('teacher_admin_dashboard')
+        
+        else:
+            student_obj_session = request.session['student_object']
+            student_obj = Student.objects.get(id = student_obj_session['id'])
+            std_code_objects = StudentPlaygroundCode.objects.filter(
+                id = student_playground_code_id,
+                student_obj = student_obj
+            )
+            if len(std_code_objects) > 0:
+                std_code_obj = std_code_objects[0]
+            else:
+                return redirect('student_admin_dashboard')
 
     student_code_conversations = []
     if std_code_obj is not None:
@@ -1391,6 +1429,7 @@ def student_admin_playground(request):
         )
 
     return render(request, 'student_playground_environment.html', {
+        'teacher_obj': teacher_obj,
         'student_obj': student_obj,
         'student_playground_code_id': student_playground_code_id,
         'std_code_obj': std_code_obj,
@@ -1494,7 +1533,6 @@ def handle_student_playground_message(request):
 
 
 
-
 def save_student_playground_code(request):
     
     if request.method == 'POST':
@@ -1535,6 +1573,32 @@ def save_student_playground_code(request):
 
 
 
+def teacher_specific_question_view(request, qid):
+
+    if request.session.get("teacher_object", None) is None:
+        return redirect('landing')
+
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+
+    tq_objects = TeacherQuestion.objects.filter(
+        id = qid,
+        teacher_obj = teacher_obj
+    )
+    if len(tq_objects) == 0:
+        return JsonResponse({'success': False, 'mesage': 'Question not found.'})
+
+    tq_obj = tq_objects[0]
+
+    student_code_files = StudentPlaygroundCode.objects.filter(
+        teacher_question_obj = tq_obj
+    )
+
+    return render(request, 'teacher_specific_question_view.html', {
+        'teacher_obj': teacher_obj,
+        'question_obj': tq_obj,
+        'student_code_files': student_code_files
+    })
 
 
 

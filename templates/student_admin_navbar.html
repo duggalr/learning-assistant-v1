@@ -12,6 +12,10 @@
 
         <div class="right menu" >
 
+            {% if teacher_obj %}
+
+            {% else %}
+
             <a class="item" href="{% url 'student_admin_dashboard' %}">
                 Your Dashboard
             </a>
@@ -19,6 +23,8 @@
             <a class="item" href="mailto:rahul@codecompanion.app">
                 Contact
             </a>
+
+            {% endif %}
 
         </div>
 

@@ -107,10 +107,22 @@
         <!-- Code Editor -->
         <div class="nine wide column" id="code-column">
 
-            <a href="{% url 'student_admin_dashboard' %}" >
-                <i class="arrow alternate circle left outline icon"></i>
-                Back to Exercises
-            </a>
+            {% if teacher_obj %}
+
+                <a href="{% url 'teacher_admin_dashboard' %}" >
+                    <i class="arrow alternate circle left outline icon"></i>
+                    Back to Teacher Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'student_admin_dashboard' %}" >
+                    <i class="arrow alternate circle left outline icon"></i>
+                    Back to Exercises
+                </a>
+
+            {% endif %}
+            
 
             <div style="display: flex; align-items: center; padding-top: 15px;">
 

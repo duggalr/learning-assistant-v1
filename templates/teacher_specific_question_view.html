@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+        #main_center_column{
+            padding-top: 30px;
+        }
+
+        #center_card_column{
+            padding-top: 5%;
+            padding-left: 10%;
+        }
+
+        .description{
+            font-size: 12.5px;
+        }
+
+        .add_student_icon:hover{
+            cursor: pointer;
+            color: lightblue;
+        }
+
+    </style>
+
+    
+    {% include 'teacher_admin_navbar.html' %}
+
+
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" id="main_center_column">
+
+            <a href="{% url 'teacher_admin_question_management' %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a>
+
+            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+                
+                <h3 class="ui header" >
+                    <!-- <i class="user icon"></i> -->
+                    <!-- <i class="question icon" style="font-size: 24px;"></i> -->
+                    Question: {{ question_obj.question_name }}
+                </h3>
+
+            </div>
+
+            
+            <div class="ui tabular menu" style="padding-top: 15px;">
+
+                <a class="active item" id="students_tab">
+                    <i class="users icon" style="font-size: 16px;"></i>
+                    Student Code Files
+                </a>
+                
+                <a class="disabled item" id="performance_tab">
+                    <i class="chart line icon" style="font-size: 16px;"></i>
+                    Question Performance (coming soon...)
+                </a>
+     
+            </div>
+            
+            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px;">
+                
+                {% if student_code_files|length == 0 %}
+
+                    <div class="ui placeholder segment">
+
+                        <div class="ui icon header" style="font-size: 16px;">
+                            <i class="thumbs down icon" style="font-size: 24px;"></i>
+                            None of your students have made any code files, associated with this question yet.
+                        </div>
+
+                    </div>
+
+                
+                {% else %}
+
+
+                    {% for stobj in student_code_files %}
+
+                        <div class="item">
+
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                                <input class="sd_code_id" type="hidden" value="{{ stobj.id }}" />
+
+                                <div class="header" style="font-size: 15.5px;">
+
+                                    <a class="file_name_header" href="{% url 'student_admin_playground' %}?stcid={{ stobj.id }}">
+                                        {{ question_obj.question_name }}
+                                    </a>
+
+                                </div>
+                
+                                <div style="padding-top: 14px;">
+
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        <a href="{% url 'teacher_admin_student_view' uid=stobj.student_obj.id %}">
+                                            Created By: {{ stobj.student_obj.full_name }}
+                                        </a>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    
+                    {% endfor %}
+                
+                
+                {% endif %}
+
+            
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+

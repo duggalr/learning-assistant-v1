@@ -33,7 +33,6 @@ else:
     SECRET_KEY = 'django-insecure-r8d(r2)5kr!sjx5$8yv0mmgz)7w&@$99*=k*3if@8io^$uf)+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# TODO: change this to false
 if 'PRODUCTION' in os.environ:
     DEBUG = False
 else:

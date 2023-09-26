@@ -61,4 +61,7 @@ urlpatterns = [
     path("teacher-admin/question/delete", views.teacher_question_delete, name="teacher_question_delete"),
     path("teacher-admin/student/delete", views.teacher_student_delete, name="teacher_student_delete"),
 
+
+    path("teacher-admin/question/<int:qid>", views.teacher_specific_question_view, name="teacher_specific_question_view"),
+
 ]

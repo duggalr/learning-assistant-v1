@@ -162,23 +162,19 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 EMAIL_USE_TLS = True  
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_HOST_USER = os.environ['SMTP_EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['SMTP_PASSWORD']
 EMAIL_PORT = 587  
 
-# ## Celery
-# if 'PRODUCTION' in os.environ:
-#     CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
-#     CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
-# else:
-#     CELERY_BROKER_URL = "redis://localhost:6379"
-#     CELERY_RESULT_BACKEND = "redis://localhost:6379"
-
-CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
-CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+## Celery
+if 'PRODUCTION' in os.environ:
+    CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+    CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+else:
+    CELERY_BROKER_URL = "redis://localhost:6379"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 
 if 'PRODUCTION' in os.environ:

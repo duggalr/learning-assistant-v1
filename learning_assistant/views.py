@@ -1486,6 +1486,8 @@ def student_admin_playground(request):
                     if student_obj.teacher_obj != teacher_obj_for_question:
                         return redirect('student_admin_dashboard')
 
+                    tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
+    
     
     if std_code_obj is not None and tq_obj is not None:
         if std_code_obj.teacher_question_obj != tq_obj:

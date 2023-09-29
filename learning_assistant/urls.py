@@ -64,4 +64,9 @@ urlpatterns = [
 
     path("teacher-admin/question/<int:qid>", views.teacher_specific_question_view, name="teacher_specific_question_view"),
 
+
+    # # General New Views
+    # path("new_landing", views.new_landing_main, name="new_landing_main"),
+
 ]
+

@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+
+        #landing_header:hover{
+            color: black;
+            transform: scale(1.1);
+            transition: all ease 500ms;
+        }
+
+        #demo_link:hover{
+            font-weight: bold;
+        }
+
+
+        #second_section_main_div, #third_section_main_div{
+            padding-left: 8em;
+            padding-right: 8em;
+            padding-top: 4em;
+            padding-bottom: 4em;
+        }
+
+        #primary_lp_section_divider{
+            padding-top: 4em;
+        }
+
+
+        #lp_section_divider_header_div{
+            background-color: black;
+            width: 110%;
+        }
+
+        #lp_section_divider_header_div > h2{
+            font-family: 'Raleway', sans-serif;
+            text-align: center;
+            font-size: 38px;
+        }
+
+        #lp_section_divider_header_div > h2:hover{
+            color: #6f1ee1;
+        }
+
+        /* #lp_section_divider_header_div > h2:hover{
+            color: #6f1ee1;
+        } */
+
+        /* #main_first_column{
+            margin-bottom: 0%
+        } */
+
+
+        #vertical_section_list > .item{    
+            margin: 5px 0;    
+            /* font-weight: 700; */
+        }
+
+        #vertical_section_list > .item .content .description{    
+            font-size: 15px;
+            line-height: 1.4em; 
+            letter-spacing: 0.1px;
+            color: rgba(0, 0, 0, 0.87);
+            /* font-weight: 700;  */
+            /* color: #181818; */
+            /* color: #4c4c4c; */
+        }
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+
+
+    <!-- Section 1: Landing -->
+
+    <section>
+
+        <div class="ui two column centered grid">
+
+            <div class="column" style="text-align: center; width: 100%;  margin-top: 2.5%;">
+
+                <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
+                    Learning Companion
+                </h1>
+
+                <span style="font-size: 14.5px;">
+                    <a style="color: gray;"  id="demo_link" href="">
+                        Learn More.
+                    </a>
+                    &nbsp;
+                    <a style="color: gray;" id="demo_link" href="https://www.youtube.com/watch?v=hYPCzFBtVFE" target="_blank" rel="noopener noreferrer">
+                        Watch the Full Demo.
+                    </a>
+                </span> 
+
+                <p style="font-weight: 500; font-size: 17.5px; font-family: 'Raleway', sans-serif; padding-top: 12px; line-height: 1.9em;">
+                    A GPT-4 based learning assistant, empowering your personalized educational journey, guiding you every step of the way.
+                </p>
+
+                <!-- <span style="font-size: 14.5px; color: gray; ">
+                    <a id="demo_link" href="https://www.youtube.com/watch?v=hYPCzFBtVFE" target="_blank" rel="noopener noreferrer">
+                        Learn More.
+                    </a>
+                    &nbsp;
+                    <a id="demo_link" href="https://www.youtube.com/watch?v=hYPCzFBtVFE" target="_blank" rel="noopener noreferrer">
+                        Watch the Full Demo.
+                    </a>
+                </span>  -->
+
+                <div id="main-button-row" style="padding-top: 0px; padding-bottom: 10px;">
+               
+                    <div class="ui animated large black button playground_button" tabindex="0" >
+                        <div class="visible content">
+                            Start getting help now. 100% Free.
+                        </div>
+                        <div class="hidden content">
+                            <i class="code icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- <div class="ui animated large black button playground_button" tabindex="0" >
+                        <div class="visible content">
+                            Are you a Teacher looking to set this up in your class?
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right icon"></i>
+                        </div>
+                    </div> -->
+
+                </div>
+
+                <div style="padding-top: 5px;">
+                    <a style="font-size: 15px;" href="">Are you a Teacher, looking to introduce this to your classroom?</a>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Divider -->
+    <div class="ui vertical stripe segment" style="margin-top: 2.5%;"></div>
+    
+
+    <!-- Section 2: Teacher Section -->
+
+    <div class="ui vertical stripe segment" id="second_section_main_div">
+    
+        <div class="ui middle aligned stackable grid container">
+    
+            <div class="ui centered row" id="third_section_row">
+
+                <h2 class="ui header" id="vertical_section_header">
+    
+                    <!-- <i class="pencil alternate icon" style="font-size: 15px;"></i> -->
+                    <div class="content" style="font-family: 'Raleway', sans-serif;">
+                        About:
+                    </div>
+
+                </h2>
+    
+                <div class="ui basic segment" style="padding-top: 0px;">
+                    <p style="max-width: 105ch; line-height: 1.75em; font-size: 16px;">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor in risus ut laoreet. Morbi eget bibendum turpis, eu mattis erat. Ut eu est velit. Sed fermentum pellentesque neque vitae facilisis. Pellentesque euismod sapien eu justo congue suscipit. Mauris auctor, velit et aliquet tempus, quam purus sodales tortor, nec efficitur mi eros a diam. Nam dignissim libero nec cursus tristique. Curabitur accumsan efficitur sodales. Vestibulum eu purus dignissim, convallis odio vitae, tristique lacus. Curabitur ut augue elementum, hendrerit erat et, varius leo.
+                    </p>
+
+                    <!-- <p style="font-size: 18px;">
+                        Features:
+                    </p> -->
+
+                    <!-- <h3 class="ui header" id="vertical_section_header">
+    
+                        <div class="content" style="font-family: 'Raleway', sans-serif;">
+                            Features:
+                        </div>
+    
+                    </h3>
+
+                    <ul class="ui list" style="padding-top: 10px;">
+                        <li>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </li>
+                        <li>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </li>
+                        <li>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </li>
+                    </ul> -->
+
+                </div>
+                
+            </div>
+    
+        </div>
+    
+    </div>
+
+
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+
+    <script>
+
+    </script>
+
+
+{% endblock %}
+
+

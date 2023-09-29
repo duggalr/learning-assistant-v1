@@ -3,10 +3,14 @@
 
     <div class="ui container">
 
-        <div class="item navbar-logo" >
-            <!-- <i class="code branch icon"></i> -->
+        <!-- <div class="item navbar-logo" >
             <i class="sitemap icon" ></i>
             Code Companion
+        </div> -->
+        
+        <div class="item navbar-logo">
+            <i class="magic icon" style="font-size: 20px;"></i>
+            Learning Companion
         </div>
         
         {% if user_session %}
@@ -17,7 +21,7 @@
                     Your Code
                 </a>
                 <a class="item" href="{% url 'general_cs_tutor' %}">
-                    AI Tutor
+                    Assistant
                 </a>
                 <a class="item" href="{% url 'playground' %}">
                     Code Editor
@@ -56,7 +60,7 @@
             <div class="right menu" style="margin-right: 5%;">
 
                 <a class="item" href="{% url 'general_cs_tutor' %}">
-                    AI Tutor
+                    Assistant
                 </a>
                 <a class="item" href="{% url 'playground' %}">
                     Code Editor

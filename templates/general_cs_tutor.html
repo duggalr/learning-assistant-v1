@@ -20,7 +20,7 @@
         }
 
         .chat-container {
-            height: 400px;
+            height: 450px;
             border: 1px solid #ccc;
             border-radius: 10px;
             overflow-y: auto;
@@ -58,24 +58,53 @@
         
             <h4 style="font-size: 18px;">
                 <i class="comments icon"></i>
-                Chat with Code Companion
+                <!-- Chat with Code Companion -->
+                Chat
             </h4>
 
             <span style="font-size: 13px; color: gray;">
-                Feel free to also visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help from Code Companion, as needed.
+                My goal is to help you, on your personal lifelong learning journey.
+                <br/>
+                For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed.
             </span>
             
             <div class="chat-container" id="chat">
                         
                 <div class="message">
                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                    I'm Code Companion, your personal programming tutor.
+                    I'm your personal learning assistant. 
                     <br/><br/>
+                    Feel free to ask me for help, on whatever you would like to learn or are currently struggling with.
+                    <br/><br/>
+                    <strong>
+                        Here are some things people ask me:
+                    </strong>
+                    <li>
+                        What's the implementation of calculating __len__ in python, say for a string object?
+                    </li>
+                    <li>
+                        How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work??
+                    </li>
+                    <li>
+                        I need to write an essay on Raskolnikov, in Crime and Punishment, specifically going through his mental state before and after he committed his crime. I need some guidance
+                    </li>
+                    <li>
+                        I'm having trouble understanding the concept of tangent lines? Can linear functions have tangent lines?
+                    </li>
+                    <li>
+                        What if I have a function where if I graph it, it form's an upside down triangle (with no base). So essentially, it's just the 2 straight lines or the sides of the triangle, without the base. Would this be considered linear (since it is straight lines and not curves) or would it be non-linear?
+                    </li>
+
+                    <!-- <br/>
+                    My goal is to help you, on your personal, lifelong learning journey. -->
+
+                    <!-- I'm Code Companion, your personal programming tutor. -->
+                    <!-- <br/><br/>
                     Feel free to ask me programming questions, whether it's providing an explanation
                     on a specific CS concept, helping you debug code, or providing you with questions so 
                     you can develop a deeper understanding of the material.
                     <br/><br/>
-                    My goal is to help make it easier for you to learn programming.
+                    My goal is to help make it easier for you to learn programming. -->
                 </div>
     
                 <hr>
@@ -117,7 +146,7 @@
 
                 <div style="margin-top: 3%; text-align: left;">
                     <button class="ui black basic button" id="create_account_button">
-                        Create an account to start asking questions
+                        Sign Up to start asking questions
                     </button>
                 </div>
 
@@ -145,7 +174,7 @@
 
     <br/>
     <br/>
-    <br/>
+    <!-- <br/> -->
 
 
 

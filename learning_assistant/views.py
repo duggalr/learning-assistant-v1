@@ -125,12 +125,25 @@ def logout(request):
 
 
 
+
+## Primary General View Functions ##
+
+# def new_landing_main(request):
+#     initial_user_session = request.session.get("user")
+#     # return render(request, 'landing.html',  {
+#     return render(request, 'new_landing_main_one.html',  {        
+#         'user_session': initial_user_session
+#     })
+
+
+
+
 ## Primary View Functions ##
 
 def landing(request):
     initial_user_session = request.session.get("user")
     # return render(request, 'landing.html',  {
-    return render(request, 'new_landing.html',  {        
+    return render(request, 'new_landing_main_one.html',  {        
         'user_session': initial_user_session
     })
 
@@ -1488,7 +1501,7 @@ def student_admin_playground(request):
 
                     tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
     
-    
+
     if std_code_obj is not None and tq_obj is not None:
         if std_code_obj.teacher_question_obj != tq_obj:
             return redirect('student_admin_dashboard')
@@ -1670,6 +1683,11 @@ def teacher_specific_question_view(request, qid):
         'question_obj': tq_obj,
         'student_code_files': student_code_files
     })
+
+
+
+
+
 
 
 

@@ -639,15 +639,10 @@ def general_cs_tutor(request):
 def handle_general_tutor_user_message(request):
     initial_user_session = request.session.get("user")
 
-    if request.method == 'POST':
-        print('form-data:', request.POST)
-
-        initial_user_session = request.session.get('user')        
-        
-        if initial_user_session is None:
-            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
-        
-        user_question = request.POST['message'].strip()
+    if request.method == 'POST':        
+        # if initial_user_session is None:
+        #     return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+                
         # uc_parent_obj_id = request.POST['uc_parent_obj_id']
         # # user_ct_obj_id = request.POST['user_ct_obj_id']
 
@@ -686,21 +681,35 @@ def handle_general_tutor_user_message(request):
         #             prev_conversation_history.append(f"Response: { uc_response }")
 
 
-        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-        ug_tut_cv_objects = UserGeneralTutorConversation.objects.filter(
-            user_auth_obj = user_oauth_obj,
-        ).order_by('-created_at')
+        print('form-data:', request.POST)
+
+        user_question = request.POST['message'].strip()
+        initial_user_session = request.session.get('user')
 
         prev_conversation_st = ''
-        if len(ug_tut_cv_objects) > 0:
-            prev_conversation_history = []
-            for uc_tut_obj in ug_tut_cv_objects[:3]:
-                uc_question = uc_tut_obj.question
-                uc_response = uc_tut_obj.response
-                prev_conversation_history.append(f"Question: { uc_question }")
-                prev_conversation_history.append(f"Response: { uc_response }")
+        user_oauth_obj = None
+        if initial_user_session is None:
+            user_oauth_obj = None
+            # TODO: start here; get the landing page general-assistant complete; go from there to edit the assistant page
+                # prioritize next eng steps from there (**super important)
+            prev_conversation_st = request.POST['prev_conversation_history_st']
 
-            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+        else:                
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+            ug_tut_cv_objects = UserGeneralTutorConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+            ).order_by('-created_at')
+
+            if len(ug_tut_cv_objects) > 0:
+                prev_conversation_history = []
+                for uc_tut_obj in ug_tut_cv_objects[:3]:
+                    uc_question = uc_tut_obj.question
+                    uc_response = uc_tut_obj.response
+                    prev_conversation_history.append(f"Question: { uc_question }")
+                    prev_conversation_history.append(f"Response: { uc_response }")
+
+                prev_conversation_st = '\n'.join(prev_conversation_history).strip()
         
 
         print('PREVIOUS CONV:', prev_conversation_st)

@@ -20,7 +20,7 @@
         }
 
         .chat-container {
-            height: 450px;
+            height: 480px;
             border: 1px solid #ccc;
             border-radius: 10px;
             overflow-y: auto;
@@ -40,7 +40,6 @@
             border-radius: 5px;
         }
 
-        /* TODO: finalize the ui and backend functionality for this */
         .container{
             overflow-y: hidden;
             overflow-x: hidden;            
@@ -71,7 +70,42 @@
             <div class="chat-container" id="chat">
                         
                 <div class="message">
-                    <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+
+                    <strong>
+                        Welcome! &nbsp; &#128588&nbsp;
+                        I'm your personal learning assistant. 
+                    </strong>
+                    <br/><br/>
+                    My goal is really to help you on your learning journey, whether you need help with homework or want to explore a new field.
+                    <br/><br/>
+                    When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
+                    guide you, to help you come up with the answer on your own.
+                    <br/><br/>
+                    If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
+                    learning plan, along with any sort of questions and quizzes.
+                    <br/><br/>
+                    <strong>
+                        Here are some things people ask me:
+                    </strong>
+                    <li>
+                        I need to write an essay on Raskolnikov, in Crime and Punishment, specifically going through his mental state before and after he committed his crime. I need some guidance
+                    </li>
+                    <li>
+                        What's the implementation of calculating __len__ in python, say for a string object? I need to create my own __len__ implementation, and it should be in O(1) time.
+                    </li>
+                    <li>
+                        How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work? I need to write my own list class object for my project...
+                    </li>
+                    <li>
+                        I have the following homework question: 
+                        "I have a function where if I graph it, it form's an upside down triangle (with no base). So essentially, it's just the 2 straight lines or the sides of the triangle, without the base. Would this be considered linear (since it is straight lines and not curves) or would it be non-linear?"
+                    </li>
+                    <li>
+                        I want to study the history of computers. Can you help develop a syllabus?
+                    </li>
+
+
+                    <!-- <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                     I'm your personal learning assistant. 
                     <br/><br/>
                     Feel free to ask me for help, on whatever you would like to learn or are currently struggling with.
@@ -93,7 +127,7 @@
                     </li>
                     <li>
                         What if I have a function where if I graph it, it form's an upside down triangle (with no base). So essentially, it's just the 2 straight lines or the sides of the triangle, without the base. Would this be considered linear (since it is straight lines and not curves) or would it be non-linear?
-                    </li>
+                    </li> -->
 
                     <!-- <br/>
                     My goal is to help you, on your personal, lifelong learning journey. -->
@@ -146,7 +180,7 @@
 
                 <div style="margin-top: 3%; text-align: left;">
                     <button class="ui black basic button" id="create_account_button">
-                        Sign Up to start asking questions
+                        Sign Up
                     </button>
                 </div>
 
@@ -167,13 +201,12 @@
 
             {% endif %}
 
-
         </div>
 
     </div>
 
     <br/>
-    <br/>
+    <!-- <br/> -->
     <!-- <br/> -->
 
 

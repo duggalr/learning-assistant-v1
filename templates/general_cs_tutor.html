@@ -56,69 +56,46 @@
 
         <div class="four wide column" style="padding-top: 50px; padding-left: 0px; padding-left: 0px;">
 
-            <h4 style="font-weight: 900;">
-                By signing up (100% Free): 
-            </h4>
+            {% if user_session %}
 
-            <span style="color: gray; font-size: 13px;">
+                <!-- <h4 style="font-weight: 900;">
+                    Ask questions on your personal lectures notes or homework questions:
+                </h4> -->
 
-                <li>
-                    You could save your conversations as separate tabs
-                </li>
-                <li>
-                    Upload your own files and ask questions on those
-                </li>
-                <li>
-                    Write code and take to the assistant, in our code editor
-                </li>
+                <div style="padding-top: 0px;">
+                    <p style="color: gray; font-size: 13px;">
+                        Ask questions on your personal lectures notes or homework questions
+                    </p>
+                    <button class="ui small black button" id="user_file_upload_button">
+                        Upload Your File
+                    </button>
+                </div>
+                
+            {% else %}
 
-                <button class="ui small secondary button" style="margin-top: 20px;" id="chat_signup_button">
-                    Sign Up
-                </button>
+                <h4 style="font-weight: 900;">
+                    By signing up (100% Free): 
+                </h4>
 
-                <!-- <p>
-                    You could leverage your assistant for pretty much anything on your mind. Below are just a few examples:
-                </p>
-                <ul class="ui list" >
-                    <li>
-                        generate an email to your students or staff member                      
-                    </li>
-                    <li>
-                        generate a lesson plan or exercises to walk through, for a specific concept
-                    </li>
-                    <li>
-                        generate quizzes / assignments on specific concepts
-                    </li>
-                    <li>
-                        get ideas for lessons
-                    </li>
-                    <li>
-                        ask for different ways to present or introducte specific concepts                        
-                    </li>
-                    <li>
-                        design a syllabus for a course you are teaching
-                    </li>
-                    <li>
-                        generate open-ended discussion topics
-                    </li>
-                    <li>
-                        generate debate topics
-                    </li>
-                    <li>
-                        generate a newsletter for the families, summarizing highlights from your students
-                    </li>
-                    <li>
-                        generate an email providing updates to the community
-                    </li>
-                    <li>
-                        field trip ideas
-                    </li>
-                    <li>
-                        and so on...
-                    </li>
-                </ul> -->
+                <span style="color: gray; font-size: 13px;">
 
-            </span>
+                    <li>
+                        You could save your conversations as separate tabs
+                    </li>
+                    <li>
+                        Upload your own files and ask questions on those
+                    </li>
+                    <li>
+                        Write code and take to the assistant, in our code editor
+                    </li>
+
+                    <button class="ui small secondary button" style="margin-top: 20px;" id="chat_signup_button">
+                        Sign Up
+                    </button>
+
+                </span>
+
+            {% endif %}
 
         </div>
 
@@ -301,6 +278,47 @@
     <br/>
     <br/>
     <!-- <br/> -->
+
+
+    <div class="ui tiny modal" id="file_upload_modal">
+        
+        <div class="ui active inverted dimmer" id="loading_modal_div" style="display: none;">
+            <div class="ui text loader">Loading... this will take 30-45 seconds...</div>
+        </div>
+
+        <div class="header">
+            Upload your File
+        </div>
+        
+        <div class="content">
+
+            <form class="ui form" method="post" enctype="multipart/form-data">{% csrf_token %}
+                
+                <div class="required field">
+                    <label>File Name</label>
+                    <input type="text" name="file-name" placeholder="file name" id="user_file_name" required>
+                    <span id="file_name_error_message" style="float: right; color: red; font-size: 13.5px; display: none;"></span>
+                </div>
+                
+                <div class="required field">
+                    <label>Choose File</label>
+                    <input type="file" id="user_file" name="user_file" accept="application/pdf" required>
+                    <span id="file_error_message" style="float: right; color: red; font-size: 13.5px; display: none;"></span>
+                </div>
+                
+                <!-- <br/><br/> -->
+                <!-- <button class="ui black button" type="submit" name="user_file_upload">Submit</button> -->
+
+            </form>
+
+        </div>
+
+        <div class="actions">
+            <div class="ui cancel button">Cancel</div>
+            <div id="file_upload_button" class="ui approve secondary button" type="submit">Upload</div>
+        </div>
+
+    </div>
 
 
 
@@ -613,9 +631,118 @@
         });
 
 
+
+        $('#user_file_upload_button').click(function(){
+            
+            $('#file_upload_modal').modal('show');
+
+        });
+        
+
+
+
+        const MAX_UPLOAD_SIZE = 5000000;
+
+        $('#file_upload_button').click(function(){
+
+            // $('ui.tiny.modal').modal({closable: false}).modal('show');
+            $('#file_upload_modal').modal({closable: false}).modal('show');
+
+            let fileName = $('#user_file_name').val().trim();
+
+            let form_data = new FormData();
+            let file_data = document.getElementById('user_file').files;
+            
+            if (fileName.length > 0){
+
+                if (file_data.length > 0){
+
+                    $('#loading_modal_div').show();
+
+                    console.log('file-data:', file_data)
+                    let userFile =  file_data[0];
+
+                    if (fileName.length > 0){
+                        
+                        if (userFile.type == 'application/pdf'){
+                                
+                            let csrf_token_val = $('input[name="csrfmiddlewaretoken"]').val();
+                            console.log('csrf-token:', csrf_token_val)
+                            form_data.append("user_file", userFile);
+                            form_data.append("user_file_name", fileName);
+
+                            if (userFile.size <= MAX_UPLOAD_SIZE){
+
+                                var headers = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest', 'X-CSRFToken': csrf_token_val};
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "{% url 'handle_user_file_upload' %}",
+                                    dataType: "json",
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    headers: headers,
+                                    data: form_data,
+                                    success: function (response) { // display success response
+                                        
+                                        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/file_view/' + response['fid'];
+                                        window.location.replace(new_url);
+
+                                    },
+                                    error: function (response) {
+                                        console.log("NOPEEEEEE")
+                                    }
+                                });
+                                
+                            } else {
+                                
+                                $('#file_error_message').text('');
+                                $('#file_error_message').text('File Size greater than 10MB!');
+                                $('#file_error_message').show();
+                                $('#loading_modal_div').hide();
+
+                            }
+                            
+                        }
+
+                    } else {
+
+                        $('#file_error_message').text('');
+                        $('#file_name_error_message').text('Must have a filename');
+                        $('#file_name_error_message').show();
+                        $('#loading_modal_div').hide();
+
+                    }
+
+                } else {
+
+                    $('#file_error_message').text('');
+                    $('#file_error_message').text('Must upload a file!');
+                    $('#file_error_message').show();
+                    $('#loading_modal_div').hide();
+
+                }
+
+            } else {
+              
+                $('#file_error_message').text('');
+                $('#file_name_error_message').text('Must have a filename');
+                $('#file_name_error_message').show();
+                $('#loading_modal_div').hide();
+
+            }
+
+
+            return false;
+
+        });
+
+
     </script>
 
 
 {% endblock %}
+
 
 

@@ -10,6 +10,7 @@ from django.conf import settings
 from urllib.parse import quote_plus, urlencode
 
 import os
+import uuid
 import time
 import functools
 import secrets
@@ -18,6 +19,7 @@ import datetime
 from dotenv import load_dotenv, find_dotenv
 from operator import itemgetter
 from authlib.integrations.django_client import OAuth
+import pinecone
 
 from .models import *
 from . import main_utils
@@ -606,12 +608,6 @@ def teacher_admin_student_page(request, uid):
 
 def general_cs_tutor(request):
 
-    # TODO: 
-        # add pid param
-        # test to ensure good
-        # add the saved conversations in the dashboard tab
-        # go from there
-
     initial_user_session = request.session.get("user")        
 
     # general_conv_parent_id = request.GET.get('pid', None)
@@ -635,6 +631,108 @@ def general_cs_tutor(request):
         'user_session': initial_user_session,
         'user_conversation_objects': utc_objects,
     })
+
+
+from gpt_learning_assistant.settings import MAX_FILE_SIZE
+
+def handle_user_file_upload(request):
+    # File Upload
+    if request.method == 'POST':
+
+        print('file-post:', request.POST, request.FILES)
+
+        initial_user_session = request.session.get("user")
+        if initial_user_session is None:
+            return JsonResponse({'success': False, 'message': 'User must be authenticated.'})
+        
+        user_oauth_obj = None
+        if initial_user_session is not None:
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+        user_fn = request.POST['user_file_name'].strip()
+        user_file_obj = request.FILES['user_file']
+
+        if len(user_fn) == 0:
+            return JsonResponse({'success': False, 'message': 'File Name must be greater than 0.'})
+
+        if user_file_obj.size > MAX_FILE_SIZE:
+            return JsonResponse({'success': False, 'message': 'Upload file too large.'})
+
+
+        extracted_text_list = main_utils.extract_text_from_pdf(user_file_obj)
+        print(f"Length of text list: {len(extracted_text_list)}")
+
+        uf_obj = UserFiles.objects.create(
+            user_auth_obj = user_oauth_obj,
+            file_name = user_fn,
+            file_path = user_file_obj
+        )
+        uf_obj.save()
+
+
+        print(f"Computing embeddings for the extracted text...")
+        main_txt_embd_list = []        
+        for page_num in range(0, len(extracted_text_list)):
+
+            txt = extracted_text_list[page_num]
+            txt_num_tokens = len(txt)
+            if txt_num_tokens > 8191:
+                txt_max_bs = 8191
+                for txt_idx in range(0, txt_num_tokens, txt_max_bs):
+                    bt_txt = txt[txt_idx:txt_idx+txt_max_bs]
+                    bt_txt_embd = main_utils.get_embedding(bt_txt)
+
+                    main_txt_embd_list.append({
+                        'page_number': page_num,
+                        'text': bt_txt,
+                        'embd': bt_txt_embd
+                    })
+            else:
+                txt_embd = main_utils.get_embedding(txt)
+                main_txt_embd_list.append({
+                    'page_number': page_num,
+                    'text': txt,
+                    'embd': txt_embd
+                })
+
+
+        print(f"Preparing/Inserting to the pinecone index...")
+        new_pinecone_list = []
+        for idx in range(len(main_txt_embd_list)):
+            t_embd_dict = main_txt_embd_list[idx]
+            st_id = uuid.uuid4().hex
+            new_pinecone_list.append({
+                "id": st_id,
+                "values": t_embd_dict['embd'],
+                "metadata": {
+                    "page_number": t_embd_dict['page_number'],
+                    "page_text": t_embd_dict['text']
+                }
+            })
+
+
+        rnd_namespace_name = uuid.uuid4().hex
+        pinecone.init(
+	        api_key = os.environ['PINECONE_API_KEY'],
+	        environment = os.environ['PINECONE_ENVIRONMENT_NAME']
+        )
+        index = pinecone.Index('companion-app-main')
+        pc_insert_response = index.upsert(
+            new_pinecone_list,
+            namespace = rnd_namespace_name
+        )
+        print('pinecone-insert-response:', pc_insert_response)
+
+        fpc_obj = FilePineCone.objects.create(
+            user_auth_obj = user_oauth_obj,
+            file_obj = uf_obj,
+            file_namespace = rnd_namespace_name
+        )
+        fpc_obj.save()
+
+        return JsonResponse({'success': True, 'fid': uf_obj.id})
+
+
 
 
 

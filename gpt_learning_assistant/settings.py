@@ -188,3 +188,8 @@ if 'PRODUCTION' in os.environ:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
+
+
+## File
+MAX_FILE_SIZE = 5000000
+

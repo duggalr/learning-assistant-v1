@@ -134,6 +134,21 @@ class StudentPlaygroundConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+# TODO:
+class UserFiles(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    file_name = models.CharField(max_length=2000)
+    file_path = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class FilePineCone(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    file_obj = models.ForeignKey(UserFiles, on_delete=models.CASCADE)
+    file_namespace = models.CharField(max_length=3000)
+
+
+
 
 
 # class NewPracticeQuestion(models.Model):

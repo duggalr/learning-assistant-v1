@@ -3,6 +3,7 @@ import uuid
 import json
 import pickle
 import datetime
+from pypdf import PdfReader
 import numpy as np
 import openai
 
@@ -334,5 +335,20 @@ Please provide all the help needed, along with additional suggestions you feel c
         'response': response_message,
     }
     return final_dict_rv 
+
+
+
+
+def extract_text_from_pdf(pdf_fp):
+    reader = PdfReader(pdf_fp)
+    number_of_pages = len(reader.pages)
+    print(f"Number Pages Found: {number_of_pages}")
+
+    rv = []
+    for pg in reader.pages:
+        txt = pg.extract_text().strip()
+        rv.append(txt)
+    return rv
+
 
 

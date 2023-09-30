@@ -299,7 +299,7 @@
     </div>
 
     <br/>
-    <!-- <br/> -->
+    <br/>
     <!-- <br/> -->
 
 
@@ -326,7 +326,7 @@
         });
 
 
-        const initial_user_session = '{{ initial_user_session }}';
+        const initial_user_session = '{{ user_session }}';
 
         let anon_user_messages = [];
         if (initial_user_session == ''){
@@ -582,12 +582,17 @@
 
                         // var final_question_st = "Question: " + messageText
                         // var final_response_st = "Response: " + model_response_message
-                        var final_question_st = messageText
-                        var final_response_st = model_response_message
-                        anon_user_messages.push(final_question_st)
-                        anon_user_messages.push(final_response_st)
 
-                        localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+                        if (initial_user_session == ''){
+
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            anon_user_messages.push(final_question_st)
+                            anon_user_messages.push(final_response_st)
+
+                            localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+
+                        }
 
                     },
                     error: function (response) {}

@@ -622,12 +622,14 @@ def general_cs_tutor(request):
     #         ug_tut_parent_obj = ug_tut_parent_objects[0]
 
     user_oauth_obj = None
+    utc_objects = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
-    utc_objects = UserGeneralTutorConversation.objects.filter(
-        user_auth_obj = user_oauth_obj
-    ).order_by('created_at')
+        utc_objects = UserGeneralTutorConversation.objects.filter(
+            user_auth_obj = user_oauth_obj
+        ).order_by('created_at')
+
 
     return render(request, 'general_cs_tutor.html', {
         'user_session': initial_user_session,
@@ -719,14 +721,15 @@ def handle_general_tutor_user_message(request):
             previous_chat_history_st = prev_conversation_st
         )
 
-        uct_obj = UserGeneralTutorConversation.objects.create(
-            user_auth_obj = user_oauth_obj,
-            question = model_response_dict['question'],
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response'],
-        )
-        uct_obj.save()
-        
+        if user_oauth_obj is not None:
+            uct_obj = UserGeneralTutorConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            uct_obj.save()
+            
         # model_response_dict['uct_parent_obj_id'] = ugt_parent_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
 

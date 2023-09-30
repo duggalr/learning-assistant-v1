@@ -53,6 +53,76 @@
 
     <div class="ui centered grid container">
 
+
+        <div class="four wide column" style="padding-top: 50px; padding-left: 0px; padding-left: 0px;">
+
+            <h4 style="font-weight: 900;">
+                By signing up (100% Free): 
+            </h4>
+
+            <span style="color: gray; font-size: 13px;">
+
+                <li>
+                    You could save your conversations as separate tabs
+                </li>
+                <li>
+                    Upload your own files and ask questions on those
+                </li>
+                <li>
+                    Write code and take to the assistant, in our code editor
+                </li>
+
+                <button class="ui small secondary button" style="margin-top: 20px;" id="chat_signup_button">
+                    Sign Up
+                </button>
+
+                <!-- <p>
+                    You could leverage your assistant for pretty much anything on your mind. Below are just a few examples:
+                </p>
+                <ul class="ui list" >
+                    <li>
+                        generate an email to your students or staff member                      
+                    </li>
+                    <li>
+                        generate a lesson plan or exercises to walk through, for a specific concept
+                    </li>
+                    <li>
+                        generate quizzes / assignments on specific concepts
+                    </li>
+                    <li>
+                        get ideas for lessons
+                    </li>
+                    <li>
+                        ask for different ways to present or introducte specific concepts                        
+                    </li>
+                    <li>
+                        design a syllabus for a course you are teaching
+                    </li>
+                    <li>
+                        generate open-ended discussion topics
+                    </li>
+                    <li>
+                        generate debate topics
+                    </li>
+                    <li>
+                        generate a newsletter for the families, summarizing highlights from your students
+                    </li>
+                    <li>
+                        generate an email providing updates to the community
+                    </li>
+                    <li>
+                        field trip ideas
+                    </li>
+                    <li>
+                        and so on...
+                    </li>
+                </ul> -->
+
+            </span>
+
+        </div>
+
+
         <div class="twelve wide column" id="code-column">
         
             <h4 style="font-size: 18px;">
@@ -67,6 +137,7 @@
                 For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed.
             </span>
             
+
             <div class="chat-container" id="chat">
                         
                 <div class="message">
@@ -157,7 +228,7 @@
             </div>
 
 
-            {% if user_session is not None %}
+            <!-- {% if user_session is not None %}
 
                 <div class="input-container">
 
@@ -199,7 +270,29 @@
 
                 </div>
 
-            {% endif %}
+            {% endif %} -->
+
+            <div class="input-container">
+
+                <div class="ui form" style="width: 100%;">
+                    <div class="field">
+                        <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
+                    </div>                    
+                </div>
+                &nbsp;
+                <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+            </div>
+    
+            <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                Answer Response usually takes 15-30 seconds. (this will get better soon...)
+            </span>
+            <br/>
+            <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our code editor environment.
+            </span>
+
 
         </div>
 
@@ -233,6 +326,56 @@
         });
 
 
+        const initial_user_session = '{{ initial_user_session }}';
+
+        let anon_user_messages = [];
+        if (initial_user_session == ''){
+
+            let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
+
+            console.log('tmp-user-messages:', tmp_usr_messages)
+
+            if (tmp_usr_messages != null){
+                anon_user_messages = tmp_usr_messages
+
+                if (anon_user_messages.length > 0){
+
+                    for (idx = 0; idx <= anon_user_messages.length-2; idx++){
+
+                        // let messageText = anon_user_messages[idx].split('Question: ')[1];
+                        // let model_response_message = anon_user_messages[idx+1].split('Response: ')[1];
+
+                        // console.log(idx, idx+1)
+                        // console.log(messageText)
+                        // console.log(model_response_message)
+
+                        let messageText = anon_user_messages[idx]
+                        let model_response_message = anon_user_messages[idx+1]
+
+                        const message = document.createElement("div");
+                        message.className = "message";
+                        message.innerHTML = "<b>You:</b> " + messageText;
+                        message.style.whiteSpace = 'pre-wrap'
+                        chat.appendChild(message);
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+
+                        // chat.scrollTop = chat.scrollHeight;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+
         $("#chatInput").on('keyup', function(event) {
             
             var currentString = $("#chatInput").val()
@@ -246,6 +389,84 @@
             }
            
         });
+
+
+        // function sendMessage() {
+
+        //     const messageText = chatInput.value.trim();
+
+        //     if (messageText !== "") {
+
+        //         console.log('message-text:', messageText)
+
+        //         $('#chatInput').prop('disabled', true);
+
+        //         $('#sendButton').hide();
+        //         $('#primary_loading_button').show();
+
+        //         const message = document.createElement("div");
+        //         message.className = "message";
+        //         message.innerHTML = "<b>You:</b> " + messageText;
+        //         message.style.whiteSpace = 'pre-wrap'
+        //         chat.appendChild(message);
+
+        //         chat.scrollTop = chat.scrollHeight;
+                
+        //         chatInput.value = "";
+
+        //         let uc_parent_obj_id = $('#uc_parent_obj_id').val();
+        //         let user_conversation_obj_id = $('#user_conversation_obj_id').val();
+
+        //         let d = {
+        //             'message': messageText,
+        //             'uc_parent_obj_id': uc_parent_obj_id,
+        //             'user_ct_obj_id': user_conversation_obj_id,
+        //             csrfmiddlewaretoken: '{{ csrf_token }}'
+        //         };
+                
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: "{% url 'handle_general_tutor_user_message' %}",
+        //             dataType: "json",
+        //             data: d,
+        //             success: function (response) {
+
+        //                 var model_response_dict = response['response'];
+        //                 console.log('Response Dict:', model_response_dict)
+
+        //                 var model_response_message = model_response_dict['response'];
+        //                 model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+        //                 console.log('Response:', model_response_message)
+
+        //                 var user_question = model_response_dict['question'];
+
+        //                 const responseMessage = document.createElement("div");
+        //                 responseMessage.className = "message";
+        //                 responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+        //                 // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+        //                 chat.appendChild(responseMessage);
+                        
+        //                 chat.scrollTop = chat.scrollHeight;
+
+        //                 $('#chatInput').prop('disabled', false);
+        //                 $('#sendButton').show();
+        //                 $('#primary_loading_button').hide();
+
+        //                 // let saved_obj_id = model_response_dict['uct_parent_obj_id'];
+        //                 // $('#uc_parent_obj_id').val(saved_obj_id);
+        //                 // var url = new URL(window.location.href);
+        //                 // url.searchParams.set('pid', saved_obj_id);
+        //                 // window.history.replaceState(null, null, url);
+
+        //             },
+        //             error: function (response) {}
+                    
+        //         });
+
+        //     }
+
+        // };
 
 
         function sendMessage() {
@@ -274,8 +495,56 @@
                 let uc_parent_obj_id = $('#uc_parent_obj_id').val();
                 let user_conversation_obj_id = $('#user_conversation_obj_id').val();
 
+                let prev_conversation_history = []
+                if (initial_user_session == ''){
+                    // anon user, fetch messages from localstorage
+                    if (anon_user_messages.length > 0){
+
+                        prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+
+                        // TODO: this is only gettign the first 6! 
+                        // prev_conversation_history = anon_user_messages.slice(0, 6)
+
+                        // if (anon_user_messages.length > 6){
+
+                        //     for (tidx = 1; tidx <= 6; tidx += 1){
+                                
+                        //         var tmp_value = anon_user_messages.length - tidx;
+                        //         var tmp_st = anon_user_messages[tmp_value]
+                        //         prev_conversation_history.push(tmp_st)
+
+                        //     }
+
+                        // } 
+                        // else {
+
+                        //     for (tidx = 1; tidx <= anon_user_messages.length; tidx += 1){
+                                
+                        //         var tmp_value = anon_user_messages.length - tidx;
+                        //         var tmp_st = anon_user_messages[tmp_value]
+                        //         prev_conversation_history.push(tmp_st)
+
+                        //     }
+                        
+                        // }
+
+                    }
+
+                }
+
+                let prev_conversation_history_st = ''
+                if (prev_conversation_history.length > 0){
+                    
+                    prev_conversation_history_st = prev_conversation_history.join('\n');
+                    
+                }
+                
+
+                console.log('Previous Conversation History:', prev_conversation_history_st)
+
                 let d = {
                     'message': messageText,
+                    'prev_conversation_history_st': prev_conversation_history_st,
                     'uc_parent_obj_id': uc_parent_obj_id,
                     'user_ct_obj_id': user_conversation_obj_id,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -310,11 +579,15 @@
                         $('#sendButton').show();
                         $('#primary_loading_button').hide();
 
-                        // let saved_obj_id = model_response_dict['uct_parent_obj_id'];
-                        // $('#uc_parent_obj_id').val(saved_obj_id);
-                        // var url = new URL(window.location.href);
-                        // url.searchParams.set('pid', saved_obj_id);
-                        // window.history.replaceState(null, null, url);
+
+                        // var final_question_st = "Question: " + messageText
+                        // var final_response_st = "Response: " + model_response_message
+                        var final_question_st = messageText
+                        var final_response_st = model_response_message
+                        anon_user_messages.push(final_question_st)
+                        anon_user_messages.push(final_response_st)
+
+                        localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
 
                     },
                     error: function (response) {}
@@ -327,7 +600,7 @@
 
 
 
-        $('#create_account_button').click(function(){
+        $('#chat_signup_button').click(function(){
             
             let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
             window.location.replace(new_url);

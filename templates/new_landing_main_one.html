@@ -135,7 +135,7 @@
             <div class="column" style="text-align: center; width: 100%;  margin-top: 2.5%;">
 
                 <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
-                    Learning Companion
+                    Companion
                 </h1>
 
                 <span style="font-size: 14.5px;">
@@ -314,13 +314,13 @@
                     </h2>
     
                     <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;">
-                        Learning Companion is a GPT-4 based tutor, whose goal is to help develop your thinking, 
+                        Companion is a GPT-4 based tutor, whose goal is to help develop your thinking, 
                         as you learn through new concepets. 
                         <br/><br/>
-                        Try going through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Learning Companion there to help you, if needed.
+                        Try going through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, if needed.
                         <br/><br/>
                         <strong>
-                            You can leverage Learning Companion to: 
+                            You can leverage Companion to: 
                         </strong>
                         <ul class="ui list" id="features_list">
                             <li>
@@ -417,8 +417,8 @@
 
                         // console.log(idx, idx+1)
 
-                        let messageText = anon_user_messages[idx].split(': ')[1];
-                        let model_response_message = anon_user_messages[idx+1].split(': ')[1];
+                        let messageText = anon_user_messages[idx]
+                        let model_response_message = anon_user_messages[idx+1]
 
                         const message = document.createElement("div");
                         message.className = "message";

@@ -67,7 +67,8 @@ urlpatterns = [
 
     ## Files
     path("handle_user_file_upload", views.handle_user_file_upload, name="handle_user_file_upload"),
-    
+    path("file_view/<int:file_id>", views.user_file_viewer, name="user_file_view"),
+    path("handle_user_file_question", views.handle_user_file_question, name="handle_user_file_question"),
 
     # # General New Views
     # path("new_landing", views.new_landing_main, name="new_landing_main"),

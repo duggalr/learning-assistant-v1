@@ -148,6 +148,16 @@ class FilePineCone(models.Model):
     file_namespace = models.CharField(max_length=3000)
 
 
+class UserFileConversation(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    file_obj = models.ForeignKey(UserFiles, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    retrieved_numbers_list = models.CharField(max_length=3000, blank=True, null=True)
+    response = models.TextField()
+    response_with_citations = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 

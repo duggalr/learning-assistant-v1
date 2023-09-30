@@ -6,6 +6,7 @@ import datetime
 from pypdf import PdfReader
 import numpy as np
 import openai
+import pinecone
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -350,5 +351,125 @@ def extract_text_from_pdf(pdf_fp):
         rv.append(txt)
     return rv
 
+
+
+
+
+
+## Pinecone Functions ##
+
+def pinecone_handle_question(question, previous_chat_history_st, pc_namespace, k=3):
+    
+    q_prompt = """#Instructions:
+You will be a personal tutor primarily for students or individuals who are learning new concepts and fields.
+Be as resourceful to them as possible and provide them with as much guidance and help. 
+Help the individual develop their own syllabus, lesson plan, questions, quizzes, so they can get a deep understanding of their material.
+
+No Direct Answers: Do not provide direct solutions to the students' questions or challenges. Instead, focus on providing hints, explanations, and guidance that help them understand and solve the problems on their own. For questions students ask, don't simply provide the answer. Instead, provide a hint and try to ask the student a follow-up question/suggestion. Under no circumstance should you provide the student a direct answer to their problem/question.
+Encourage Problem Solving: Always encourage the students to think through the problems themselves. Ask leading questions that guide them toward a solution, and provide feedback on their thought processes.
+
+##Example Student Question:
+list_one = [2,23,523,1231,32,9]
+total_product = 0
+for idx in list_one:
+    total_product = idx * idx
+
+I'm confused here. I am multiplying idx and setting it to total_product but getting the wrong answer. What is wrong?
+
+##Example Bad Answer (Avoid this type of answer):
+You are correct in iterating through the list with the for loop but at the moment, your total_product is incorrectly setup. Try this instead:
+list_one = [2,23,523,1231,32,9]
+total_product = 1
+for idx in list_one:
+    total_product = total_product * idx
+
+##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
+You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
+
+Based on the conversation, try to always ask follow-up questions to the individual. 
+This is a great way to foster a more engaging conversation, and help the individual gain a more deeper understanding of the material they are trying to learn.
+
+Below, you will receive the students question, any relevant text that can be used to help answer the question, along with previous chat history with the student.
+
+##Previous Chat History with Student:
+{previous_chat_history_st}
+
+#Retrieved Passages:
+{passages}
+
+##Student Question:
+{question}
+
+##Your Answer:
+"""
+
+    question = question.strip()
+    q_embd = list(get_embedding(question))
+
+
+    pinecone.init(
+        api_key = os.environ['PINECONE_API_KEY'],
+        environment = os.environ['PINECONE_ENVIRONMENT_NAME']
+    )
+    index = pinecone.Index('companion-app-main')
+    xc = index.query(
+        q_embd, 
+        top_k = k, 
+        include_metadata = True,
+        namespace = pc_namespace
+    )
+
+    full_result_list = []
+    for result in xc['matches']:
+        # print('result:', result)
+        result_score = result['score']
+        result_metadata = result['metadata']
+        result_page_number = result_metadata['page_number']
+        result_page_text = result_metadata['page_text']
+        
+        full_result_list.append({
+            'result_score': result_score,
+            'page_number': result_page_number,
+            'page_text': result_page_text
+        })
+
+    
+    full_psg_str =  '\n'.join([rdi['page_text'].strip() for rdi in full_result_list])
+    q_prompt = q_prompt.format(
+        previous_chat_history_st = previous_chat_history_st,
+        question = question,        
+        passages = full_psg_str
+    )
+    print(q_prompt)
+
+    di = {"role": "user", "content": q_prompt}
+    messages_list = [di]
+    response = openai.ChatCompletion.create(
+        # model = "gpt-4",
+        model = "gpt-3.5-turbo-16k-0613",
+        messages = messages_list,
+    )
+    response_message = response["choices"][0]["message"]['content']
+
+    reference_list = []
+    for rdi in full_result_list:
+        psg_text = rdi['page_text'].strip()
+        reference_list.append({
+            'result_score': rdi['result_score'],
+            'page_number': rdi['page_number'],
+            'page_text': str(psg_text[:250] + '...').replace('\n', ' ')
+        })
+
+    reference_list_st = '- ' + '<br/>- '.join([f"Retrieval Score: {round(dt['result_score'], 2)} | Page Number: {int(dt['page_number'])} | {dt['page_text']}" for dt in reference_list])
+    final_text = f"""{response_message}<br/><br/><b>References:</b><br/> {reference_list_st}"""
+
+    final_dict_rv = {
+        'question': question,
+        'q_prompt': q_prompt,
+        'response': response_message,
+        'reference_list': reference_list,
+        'final_text_response': final_text
+    }
+    return final_dict_rv 
 
 

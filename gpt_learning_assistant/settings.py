@@ -153,7 +153,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -176,6 +175,34 @@ else:
     CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__name__))
+STATIC_URL = 'static/'
+## Files
+if 'PRODUCTION' in os.environ:
+    ## AWS Static Files
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+    # Tell django-storages the domain to use to refer to static files.
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+    # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when you run `collectstatic`).
+    STATICFILES_LOCATION = 'static'
+    MEDIAFILES_LOCATION = 'media'
+
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+
+else:
+    # User Uploaded Media Files
+    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
+    MEDIA_URL = '/media/'
+
+
+
+
 if 'PRODUCTION' in os.environ:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'Strict'
@@ -191,5 +218,6 @@ if 'PRODUCTION' in os.environ:
 
 
 ## File
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
 

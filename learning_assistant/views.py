@@ -633,7 +633,10 @@ def general_cs_tutor(request):
     })
 
 
+
 from gpt_learning_assistant.settings import MAX_FILE_SIZE
+
+
 
 def handle_user_file_upload(request):
     # File Upload
@@ -731,6 +734,101 @@ def handle_user_file_upload(request):
         fpc_obj.save()
 
         return JsonResponse({'success': True, 'fid': uf_obj.id})
+
+
+
+def user_file_viewer(request, file_id):
+    
+    initial_user_session = request.session.get("user")
+    if initial_user_session is None:
+        return redirect('landing')
+
+
+    user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+    fn_objects = UserFiles.objects.filter(id = file_id, user_auth_obj = user_oauth_obj)
+    if len(fn_objects) == 0:
+        return redirect('dashboard')
+
+    fn_obj = fn_objects[0]
+
+    user_file_conversations = UserFileConversation.objects.filter(
+        user_auth_obj = user_oauth_obj,
+        file_obj = fn_obj
+    )
+
+    return render(request, 'user_file_view.html', {
+        'user_session': initial_user_session,
+        'fn_obj': fn_obj,
+        'user_file_conversations': user_file_conversations
+    })
+
+
+
+def handle_user_file_question(request):
+        
+    if request.method == 'POST':
+        print('user-message:', request.POST)
+
+        initial_user_session = request.session.get("user")
+        if initial_user_session is None:
+            return JsonResponse({'success': False, 'message': 'User must be authenticated.'})
+        
+        user_oauth_obj = None
+        if initial_user_session is not None:
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+
+        fid = request.POST['fid']
+        user_message = request.POST['message'].strip()
+
+        initial_user_session = request.session.get("user")
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        fn_objects = UserFiles.objects.filter(id = fid, user_auth_obj = user_oauth_obj)
+        if len(fn_objects) == 0:
+            return JsonResponse({'success': False, 'message': 'File not found.'})
+        
+
+        fn_obj = fn_objects[0]
+        fn_pc_obj = FilePineCone.objects.get(file_obj = fn_obj)
+
+
+        user_file_conversations = UserFileConversation.objects.filter(
+            user_auth_obj = user_oauth_obj,
+            file_obj = fn_obj
+        ).order_by('-created_at')
+
+        prev_conversation_st = ''
+        if len(user_file_conversations) > 0:
+            prev_conversation_history = []
+            for uc_tut_obj in user_file_conversations[:1]:
+                uc_question = uc_tut_obj.question
+                uc_response = uc_tut_obj.response
+                prev_conversation_history.append(f"Question: { uc_question }")
+                prev_conversation_history.append(f"Response: { uc_response }")
+
+            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+        user_q_res_dict = main_utils.pinecone_handle_question(
+            question = user_message,
+            previous_chat_history_st = prev_conversation_st,
+            pc_namespace = fn_pc_obj.file_namespace,
+            k = 3
+        )
+        retrieved_page_number_list = [tmpd['page_number'] for tmpd in user_q_res_dict['reference_list']]
+
+        ur_obj = UserFileConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            file_obj = fn_obj,
+            question = user_q_res_dict['question'],
+            question_prompt = user_q_res_dict['q_prompt'],
+            retrieved_numbers_list = retrieved_page_number_list,
+            response = user_q_res_dict['response'],
+            response_with_citations = user_q_res_dict['final_text_response']
+        )
+        ur_obj.save()
+
+        return JsonResponse({'success': True, 'response': user_q_res_dict})
+
 
 
 

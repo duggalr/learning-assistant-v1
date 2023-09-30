@@ -339,9 +339,16 @@ def dashboard(request):
             'user_conv_obj_count': us_conv_objects_count
         })
 
+    
+    user_file_objects = UserFiles.objects.filter(
+        user_auth_obj = user_oauth_obj
+    ).order_by('-uploaded_at')
+    print(user_file_objects)
+
     return render(request, 'dashboard.html',  {
         'user_session': initial_user_session,
-        'user_code_list': final_rv
+        'user_code_list': final_rv,
+        'user_file_objects': user_file_objects
         # 'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })

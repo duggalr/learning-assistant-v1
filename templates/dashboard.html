@@ -40,10 +40,9 @@
 
         <div class="twelve wide column">
 
-            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+            <!-- <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
                 
                 <h3 class="ui header" >
-                    <!-- <i class="comments icon" style="font-size: 24px;"></i> -->
                     <i class="code branch icon" style="font-size: 22px;"></i>
                     Saved Code:
                 </h3>
@@ -53,9 +52,32 @@
                     Start Coding
                 </span>
 
+            </div> -->
+
+
+            <div style="padding-top: 15px;">
+                <h3 class="ui header">
+                    Dashboard
+                </h3>
             </div>
-        
-            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+
+            <div class="ui tabular menu" style="padding-top: 12px;">
+
+                <a class="active item" id="questions_tab">
+                    <i class="question icon" style="font-size: 13px;"></i>
+                    Saved Code
+                </a>
+
+                <a class="item" id="files_tab">
+                    <i class="question icon" style="font-size: 13px;"></i>
+                    Saved Files
+                </a>
+
+            </div>
+
+            
+            <!-- Main Code Div -->
+            <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
 
                 {% if user_code_list|length > 0 %}
 
@@ -146,6 +168,60 @@
 
             </div>
 
+
+            <!-- Main File Div -->
+                    
+            <div id="main_file_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; display: none;">
+
+                {% if user_file_objects|length > 0 %}
+
+                    {% for uf_obj in user_file_objects %}
+
+                        <div class="item">
+
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                                <div class="header" style="font-size: 15.5px;">
+                                    <a class="file_name_header" href="{% url 'user_file_view' file_id=uf_obj.id %}">
+                                        {{ uf_obj.file_name }}
+                                    </a>
+                                </div>
+
+                                <div style="padding-top: 14px;">
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Uploaded: {{ uf_obj.uploaded_at|date }}                                
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="ui placeholder segment">
+
+                        <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
+                            <i class="pdf file outline icon"></i>
+                            No Files saved.
+                            <br/><br/>
+                            <li>
+                                Upload and talk to your files, by going to the <a href="{% url 'general_cs_tutor' %}">assistant page</a>.
+                            </li>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+
         </div>
 
         <div class="two wide column"></div>
@@ -171,6 +247,29 @@
             window.location.replace(new_url);
 
         })
+
+
+
+        $('#questions_tab').click(function(){
+
+            $('#main_code_div').show();
+            $('#main_file_div').hide();
+
+            $('#questions_tab').addClass('active');
+            $('#files_tab').removeClass('active');
+
+        });
+
+
+        $('#files_tab').click(function(){
+
+            $('#main_code_div').hide();
+            $('#main_file_div').show();
+
+            $('#questions_tab').removeClass('active');
+            $('#files_tab').addClass('active');
+
+        });
         
 
     </script>

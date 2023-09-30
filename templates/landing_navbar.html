@@ -8,7 +8,7 @@
             Companion
         </div>
 
-        <div class="right menu" style="margin-right: 5%;">
+        <div class="right menu" style="margin-right: 0%;">
 
             <a class="item" href="{% url 'general_cs_tutor' %}" >
                 Assistant
@@ -26,9 +26,9 @@
                 Contact
             </a>
             {% if request.user.is_superuser %}
-            <a class="item" href="{% url 'teacher_admin_dashboard' %}">
-                Admin
-            </a>
+                <a class="item" href="{% url 'teacher_admin_dashboard' %}">
+                    Admin
+                </a>
             {% endif %}
 
         </div>

@@ -54,6 +54,7 @@
 
             </div> -->
 
+            <!-- TODO: adjust navbar and go from there -->
 
             <div style="padding-top: 15px;">
                 <h3 class="ui header">
@@ -64,7 +65,7 @@
             <div class="ui tabular menu" style="padding-top: 12px;">
 
                 <a class="active item" id="questions_tab">
-                    <i class="question icon" style="font-size: 13px;"></i>
+                    <i class="file code icon" style="font-size: 13px;"></i>
                     Saved Code
                 </a>
 
@@ -135,7 +136,19 @@
                     <div class="ui placeholder segment">
 
                         <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
-                            <!-- <i class="pdf file outline icon"></i> -->
+                            <i class="code branch icon"></i>
+                            No Code Files Saved.
+                            <br/><br/>
+                            <li>
+                                You can run your code while asking Code Companion for help in our <a href="{% url 'playground' %}">playground</a>.
+                            </li>
+                            <br/>
+                            <li>
+                                Feel free to also browse through and try some beginner  <a href="{% url 'practice_questions' %}">python exercises</a> on the site.
+                            </li>
+                        </div>
+
+                        <!-- <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
                             No Code Files Saved.
                             <br/><br/>
                             <li>
@@ -149,17 +162,6 @@
                             <li>
                                 Feel free to also browse through and try some beginner  <a href="{% url 'practice_questions' %}">python exercises</a> on the site.
                             </li>
-                            <!-- <br/>
-                            <br/> -->
-                        </div>
-
-                        <!-- <div class="ui animated medium black button visit_playground_button" tabindex="0" >
-                            <div class="visible content">
-                                Visit Playground
-                            </div>
-                            <div class="hidden content">
-                            <i class="right arrow icon"></i>
-                            </div>
                         </div> -->
 
                     </div>
@@ -210,7 +212,7 @@
                             No Files saved.
                             <br/><br/>
                             <li>
-                                Upload and talk to your files, by going to the <a href="{% url 'general_cs_tutor' %}">assistant page</a>.
+                                Upload and talk to your files, by going to your <a href="{% url 'general_cs_tutor' %}">assistant page</a>.
                             </li>
                         </div>
 

@@ -15,10 +15,10 @@
         
         {% if user_session %}
 
-            <div class="right menu" style="margin-right: 5%;">
+            <div class="right menu" style="margin-right: 0%;">
                 
                 <a class="item" href="{% url 'dashboard' %}">
-                    Your Code
+                    Dashboard
                 </a>
                 <a class="item" href="{% url 'general_cs_tutor' %}">
                     Assistant
@@ -57,7 +57,7 @@
 
         {% else %}
 
-            <div class="right menu" style="margin-right: 5%;">
+            <div class="right menu" style="margin-right: 0%;">
 
                 <a class="item" href="{% url 'general_cs_tutor' %}">
                     Assistant
@@ -92,7 +92,7 @@
                     </div>
                     
                     <div class="item" style="padding-left: 0px;">
-                        <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
+                        <a href="{% url 'login' %}" style="color: #1e70bf;">Log in</a>
                     </div>
                     
                 </div>

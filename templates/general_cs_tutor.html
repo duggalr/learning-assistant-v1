@@ -54,13 +54,9 @@
     <div class="ui centered grid container">
 
 
-        <div class="four wide column" style="padding-top: 50px; padding-left: 0px; padding-left: 0px;">
+        <!-- <div class="four wide column" style="padding-top: 50px; padding-left: 0px; padding-left: 0px;">
 
             {% if user_session %}
-
-                <!-- <h4 style="font-weight: 900;">
-                    Ask questions on your personal lectures notes or homework questions:
-                </h4> -->
 
                 <div style="padding-top: 0px;">
                     <p style="color: gray; font-size: 13px;">
@@ -97,10 +93,10 @@
 
             {% endif %}
 
-        </div>
+        </div> -->
 
 
-        <div class="twelve wide column" id="code-column">
+        <div class="fourteen wide column" id="code-column">
         
             <h4 style="font-size: 18px;">
                 <i class="comments icon"></i>
@@ -113,6 +109,21 @@
                 <br/>
                 For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed.
             </span>
+
+
+            {% if user_session %}
+
+                <button class="ui small black button" id="user_file_upload_button" style="float: right;">
+                    Ask questions on your specific files
+                </button>
+
+            {% else %}
+
+                <button class="ui small black disabled button" id="user_file_upload_button" style="float: right;">
+                    Ask questions on your specific files
+                </button>
+            
+            {% endif %}
             
 
             <div class="chat-container" id="chat">

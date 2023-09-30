@@ -114,10 +114,11 @@
         }
         
 
-
-
-
-
+        #features_list li{
+            line-height: 1.75em;
+            height: auto;
+            font-size: 15px;
+        }
 
     </style>
 
@@ -195,9 +196,10 @@
             </div>
 
             
-            <div class="column" style="width: 75%; padding-top: 5px;">
+            <!-- Chat Section -->
+            <div class="column" style="width: 75%; padding-top: 10px;">
 
-                <h4>Ask Questions Below</h4>
+                <h4>Try it, by asking questions below.</h4>
 
                 <div class="chat-container" id="chat">
                         
@@ -275,6 +277,7 @@
 
             </div>
 
+
         </div>
 
     </section>
@@ -284,7 +287,7 @@
     <div class="ui vertical stripe segment" style="margin-top: 2.5%;"></div>
     
 
-    <!-- Section 2: Teacher Section -->
+    <!-- Section 2: General About Section -->
 
     <div class="ui vertical stripe segment" id="second_section_main_div">
     
@@ -292,18 +295,52 @@
     
             <div class="ui centered row" id="third_section_row">
 
-                <h2 class="ui header" id="vertical_section_header">
+                <!-- <h2 class="ui header" id="vertical_section_header">
     
-                    <!-- <i class="pencil alternate icon" style="font-size: 15px;"></i> -->
                     <div class="content" style="font-family: 'Raleway', sans-serif;">
-                        About
+                        What is this?
                     </div>
 
-                </h2>
+                </h2> -->
     
-                <div class="ui basic segment" style="padding-top: 0px;">
-                    <p style="max-width: 105ch; line-height: 1.75em; font-size: 16px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor in risus ut laoreet. Morbi eget bibendum turpis, eu mattis erat. Ut eu est velit. Sed fermentum pellentesque neque vitae facilisis. Pellentesque euismod sapien eu justo congue suscipit. Mauris auctor, velit et aliquet tempus, quam purus sodales tortor, nec efficitur mi eros a diam. Nam dignissim libero nec cursus tristique. Curabitur accumsan efficitur sodales. Vestibulum eu purus dignissim, convallis odio vitae, tristique lacus. Curabitur ut augue elementum, hendrerit erat et, varius leo.
+                <div class="ui basic segment" style="padding-top: 0px; margin-top: 0px;">
+
+                    <h2 class="ui header" id="vertical_section_header">
+    
+                        <div class="content" style="font-family: 'Raleway', sans-serif;">
+                            What's this about?
+                        </div>
+    
+                    </h2>
+    
+                    <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;">
+                        Learning Companion is a GPT-4 based tutor, whose goal is to help develop your thinking, 
+                        as you learn through new concepets. 
+                        <br/><br/>
+                        Try going through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Learning Companion there to help you, if needed.
+                        <br/><br/>
+                        <strong>
+                            You can leverage Learning Companion to: 
+                        </strong>
+                        <ul class="ui list" id="features_list">
+                            <li>
+                                Develop a study plan for a new field you are trying to learn
+                            </li>
+                            <li>
+                                Get help thinking through a specific homework question
+                            </li>
+                            <li>
+                                Get constant feedback on your essay, and find areas for improvement
+                            </li>
+                            <li>
+                                Learn Programming in our <a href="{% url 'playground' %}">Online Editor</a>, with the assistant there to help
+                                write and evaluate your code
+                            </li>
+                            <li>
+                                Ask questions on your own files, say your lecture notes or problem sets!
+                            </li>
+                        </ul>
+
                     </p>
 
                     <!-- <p style="font-size: 18px;">

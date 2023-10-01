@@ -18,7 +18,7 @@
         }
 
 
-        #second_section_main_div, #third_section_main_div{
+        #about-section, #teacher-section, #third_section_main_div{
             padding-left: 8em;
             padding-right: 8em;
             padding-top: 4em;
@@ -143,7 +143,7 @@
                 </h1>
 
                 <span style="font-size: 14.5px;">
-                    <a style="color: gray;"  id="demo_link" href="">
+                    <a style="color: gray;"  id="demo_link" href="#about-section">
                         Learn More.
                     </a>
                     &nbsp;&nbsp;&nbsp;
@@ -190,7 +190,7 @@
                 </div> -->
 
                 <div >
-                    <a style="font-size: 14.5px;" href="">Are you a Teacher, looking to introduce a personalized tutor for your students, in your classroom?</a>
+                    <a style="font-size: 14.5px;" href="#teacher-section">Are you a Teacher, looking to introduce a personalized tutor for your students, in your classroom?</a>
                 </div>
 
                 <!-- <div style="margin-top: 30px;">
@@ -213,19 +213,21 @@
                             I'm your personal learning assistant. 
                         </strong>
                         <br/><br/>
-                        My goal is really to help you on your learning journey, whether you need help with homework or want to explore a new field.
+                        My goal is to help you on your learning journey, whether you need help with homework or want to explore a new field.
                         <br/><br/>
-                        When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
-                        guide you, to help you come up with the answer on your own.
+                        When it comes to asking me homework questions, I will never provide you with the answer. 
+                        Instead, my approach is to guide you like a great tutor, fostering your critical thinking and empowering you to arrive at the answers independently.
+                        <!-- When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
+                        guide you, to help you come up with the answer on your own. -->
                         <br/><br/>
                         If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
-                        learning plan, along with any sort of questions and quizzes.
+                        learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
                         <br/><br/>
                         <strong>
-                            Here are some things people ask me:
+                            Here are some of the things people ask me:
                         </strong>
                         <li>
-                            I need to write an essay on Raskolnikov, in Crime and Punishment, specifically going through his mental state before and after he committed his crime. I need some guidance
+                            I need to write an essay on Raskolnikov, in Crime and Punishment, specifically about his mental state before and after he committed his crime. I need some guidance
                         </li>
                         <li>
                             What's the implementation of calculating __len__ in python, say for a string object? I need to create my own __len__ implementation, and it should be in O(1) time.
@@ -240,7 +242,9 @@
                         <li>
                             I want to study the history of computers. Can you help develop a syllabus?
                         </li>
-
+                        <li>
+                            I want to learn Python, specifically for building my own web applications. Can you help me construct a plan on where to start?
+                        </li>
                     </div>
         
                     <hr>
@@ -277,7 +281,7 @@
                     </span>
                     <br/>
                     <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
-                        <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our code editor environment.
+                        <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our online code editor environment.
                     </span>
 
                 {% else %}
@@ -303,7 +307,7 @@
 
     <!-- Section 2: General About Section -->
 
-    <div class="ui vertical stripe segment" id="second_section_main_div">
+    <div class="ui vertical stripe segment" id="about-section">
     
         <div class="ui middle aligned stackable grid container">
     
@@ -332,7 +336,7 @@
                         as you learn through new concepets. 
                         <br/><br/>
                         Want to learn Python? 
-                        Try learning it, through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, if needed.
+                        Try learning it, through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, as needed.
                         <br/><br/>
                         <strong>
                             You can leverage Companion to: 
@@ -340,17 +344,17 @@
                         
                         <ul class="ui list" id="features_list">
                             <li>
-                                Develop a study plan for a new field you are trying to learn
+                                Develop your own, personalized learning plan for a new field you are trying to learn
                             </li>
                             <li>
                                 Get help thinking through a specific homework question
                             </li>
                             <li>
-                                Get constant feedback on your essay, and find areas for improvement
-                            </li>
-                            <li>
                                 Learn Programming in our <a href="{% url 'playground' %}">Online Editor</a>, with the assistant there to help
                                 write and evaluate your code
+                            </li>
+                            <li>
+                                Get constant feedback on your essay, and find areas for improvement
                             </li>
                             <li>
                                 Upload your lecture notes or problems, and ask questions on those files.
@@ -427,7 +431,7 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        "Honestly, I'm struggling with learning how indexing works, when using a for loop..
+                                        "Honestly, I'm struggling with learning how indexing works when using a for loop..
                                         here's the question I have ... can you help me here?"
                                     </div>
                                 </div>
@@ -438,7 +442,7 @@
                                 <div class="content">
                                     <div class="description">                                
                                         "I'm trying to get better at writing.. I've been writing for a few days now.. here's my
-                                        draft, how can I improve it?"
+                                        draft, how can I improve it? how can I become a better fiction writer?"
                                     </div>
                                 </div>
                             </a>
@@ -449,6 +453,15 @@
                                     <div class="description">
                                         "Can you generate an outline for the following essay I have to write: 'explain 
                                         the influence Turing had on cryptography'"
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a class="item" href="{% url 'playground' %}">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description" style="color: #1e70bf;">
+                                        Visit our Online Code Editor
                                     </div>
                                 </div>
                             </a>
@@ -466,14 +479,14 @@
     
                     </div>
 
-                    <div class="ui animated medium black button playground_button" tabindex="0" >
+                    <!-- <div class="ui animated medium black button playground_button" tabindex="0" >
                         <div class="visible content">
                             Try the Tutor for free in our Playground
                         </div>
                         <div class="hidden content">
                             <i class="code icon"></i>
                         </div>
-                    </div>
+                    </div> -->
     
                 </div>
 
@@ -498,7 +511,7 @@
 
     <!-- Section 4: For Teachers -->
 
-    <div class="ui vertical stripe segment" id="second_section_main_div">
+    <div class="ui vertical stripe segment" id="teacher-section">
     
         <div class="ui middle aligned stackable grid container">
     
@@ -538,7 +551,7 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">     
-                                        Easily create questions and exercises directly on our platform.
+                                        Easily create and assign questions / exercises to students, directly on our platform.
                                         <!-- Easily integrate custom questions and exercises directly onto our platform to encourage student participation and active learning. -->
                                     </div>
                                 </div>
@@ -548,7 +561,8 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        Gain insights into student progress, to enable a deeper understanding of individual student needs.
+                                        Gain AI-generated insights into student progress, along with recommendations
+                                        on what concepts they are struggling with and where they need improvement.
                                         <!-- Gain real-time insights into student progress, enabling timely interventions and a deeper understanding of individual student needs. -->
                                     </div>
                                 </div>
@@ -577,7 +591,7 @@
                     </div>
 
 
-                    <h4>Interested and want to learn more?</h4>
+                    <h4>Want to utilize this in your classroom?</h4>
                     <div class="ui action input" style="width: 100%;">
                         <input type="email" placeholder="enter your email and I will reach out...">
                         <button class="ui button">Submit</button>

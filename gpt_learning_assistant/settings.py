@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'learning_assistant'
+    'learning_assistant',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -118,7 +119,6 @@ else:
     }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -175,8 +175,15 @@ else:
     CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 
+# PROJECT_ROOT = os.path.abspath(os.path.dirname(__name__))
+# STATIC_URL = 'static/'
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__name__))
-STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+)
 ## Files
 if 'PRODUCTION' in os.environ:
     ## AWS Static Files
@@ -201,8 +208,6 @@ else:
     MEDIA_URL = '/media/'
 
 
-
-
 if 'PRODUCTION' in os.environ:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'Strict'
@@ -216,8 +221,8 @@ if 'PRODUCTION' in os.environ:
     SECURE_HSTS_PRELOAD = True
 
 
-
-## File
+## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
+
 

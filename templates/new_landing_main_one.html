@@ -415,7 +415,11 @@
     
                     </h2>
     
-                    <div class="ui basic segment">
+                    <span style="color: gray; padding-bottom: 0px;">
+                        Leverage your personalized tutor. See some common questions other students ask below...
+                    </span>
+
+                    <div class="ui basic segment" style="padding-top: 0px;">
     
                         <div class="ui list" id="vertical_section_list">
            
@@ -423,8 +427,8 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        A personalized tutor, available to provide help and enhance your thinking,
-                                        enabling you to develop a deeper understanding of the material.
+                                        "Honestly, I'm struggling with learning how indexing works, when using a for loop..
+                                        here's the question I have ... can you help me here?"
                                     </div>
                                 </div>
                             </a>
@@ -433,8 +437,8 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">                                
-                                        Leverage our in-built code editor, with instant feedback and support available
-                                        from your AI Tutor.
+                                        "I'm trying to get better at writing.. I've been writing for a few days now.. here's my
+                                        draft, how can I improve it?"
                                     </div>
                                 </div>
                             </a>
@@ -443,8 +447,8 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        Ability to get personalized explanations, questions or quizzes,
-                                        from the AI.
+                                        "Can you generate an outline for the following essay I have to write: 'explain 
+                                        the influence Turing had on cryptography'"
                                     </div>
                                 </div>
                             </a>
@@ -492,7 +496,6 @@
 
 
 
-
     <!-- Section 4: For Teachers -->
 
     <div class="ui vertical stripe segment" id="second_section_main_div">
@@ -535,7 +538,7 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">     
-                                        Easily create CS questions and exercises directly on our platform.
+                                        Easily create questions and exercises directly on our platform.
                                         <!-- Easily integrate custom questions and exercises directly onto our platform to encourage student participation and active learning. -->
                                     </div>
                                 </div>
@@ -551,14 +554,14 @@
                                 </div>
                             </a>
 
-                            <a class="item" href="{% url 'about' %}">
+                            <!-- <a class="item" href="{% url 'about' %}">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description" style="color: #1e70bf;">
                                         Learn More
                                     </div>
                                 </div>
-                            </a>
+                            </a> -->
     
                             <!-- <a class="item">
                                 <i class="right triangle icon"></i>
@@ -816,10 +819,17 @@
                     
                 });
 
-
             }
 
         };
+
+
+
+        $('.playground_button').click(function(){
+
+            window.location.href = 'playground';
+
+        });
 
 
     </script>

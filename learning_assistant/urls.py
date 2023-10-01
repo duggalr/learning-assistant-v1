@@ -64,6 +64,8 @@ urlpatterns = [
 
     path("teacher-admin/question/<int:qid>", views.teacher_specific_question_view, name="teacher_specific_question_view"),
 
+    
+    path("landing_teacher_email_input", views.landing_teacher_email_input, name="landing_teacher_email_input"),
 
     ## Files
     path("handle_user_file_upload", views.handle_user_file_upload, name="handle_user_file_upload"),

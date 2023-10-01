@@ -107,13 +107,11 @@
             border-radius: 5px;
         }
 
-        /* TODO: finalize the ui and backend functionality for this */
         .container{
             overflow-y: hidden;
             overflow-x: hidden;            
         }
         
-
         /* #features_list{
             list-style: none;
         } */
@@ -592,9 +590,13 @@
 
 
                     <h4>Want to utilize this in your classroom?</h4>
-                    <div class="ui action input" style="width: 100%;">
-                        <input type="email" placeholder="enter your email and I will reach out...">
-                        <button class="ui button">Submit</button>
+                    <div id="main_teacher_input_div" class="ui action input" style="width: 100%;">
+                        <input id="teacher_email" type="email" placeholder="enter your email and I will reach out...">
+                        <button id="teacher_email_button" class="ui button">Submit</button>
+                    </div>
+
+                    <div id="teacher_email_submit_success" style="color: green; display: none;">
+                        Thank you! I will be in touch very soon!
                     </div>
 
                     <!-- <div class="ui animated medium black button calendly_invite_button" tabindex="0">
@@ -652,18 +654,18 @@
         const initial_user_session = '{{ user_session }}';
 
         let anon_user_messages = [];
-        if (initial_user_session == ''){
+        if (initial_user_session == 'None'){
 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
 
-            console.log('tmp-user-messages:', tmp_usr_messages)
+            // console.log('tmp-user-messages:', tmp_usr_messages)
 
             if (tmp_usr_messages != null){
                 anon_user_messages = tmp_usr_messages
 
                 if (anon_user_messages.length > 0){
 
-                    for (idx = 0; idx <= anon_user_messages.length-2; idx++){
+                    for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
 
                         // console.log(idx, idx+1)
 
@@ -735,11 +737,11 @@
                 let user_conversation_obj_id = $('#user_conversation_obj_id').val();
 
                 let prev_conversation_history = []
-                if (initial_user_session == ''){
+                if (initial_user_session == 'None'){
                     // anon user, fetch messages from localstorage
                     if (anon_user_messages.length > 0){
 
-                        prev_conversation_history = anon_user_messages.slice(0, 6)
+                        prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
 
                         // if (anon_user_messages.length > 6){
 
@@ -776,7 +778,7 @@
                 }
                 
 
-                console.log('Previous Conversation History:', prev_conversation_history_st)
+                // console.log('Previous Conversation History:', prev_conversation_history_st)
 
                 let d = {
                     'message': messageText,
@@ -815,20 +817,19 @@
                         $('#sendButton').show();
                         $('#primary_loading_button').hide();
 
-
-                        var final_question_st = "Question: " + messageText
-                        var final_response_st = "Response: " + model_response_message
-                        anon_user_messages.push(final_question_st)
-                        anon_user_messages.push(final_response_st)
-
-                        localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
-
-
-                        // check if user-anon, if so:
-                            // save in local storage
-                            // retrieve from local storage before passing to backend
+                        
+                        if (initial_user_session == 'None'){
+                            // var final_question_st = "Question: " + messageText
+                            // var final_response_st = "Response: " + model_response_message
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            anon_user_messages.push(final_question_st)
+                            anon_user_messages.push(final_response_st)
+                            localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+                        }
 
                     },
+
                     error: function (response) {}
                     
                 });
@@ -842,6 +843,36 @@
         $('.playground_button').click(function(){
 
             window.location.href = 'playground';
+
+        });
+
+
+        $('#teacher_email_button').click(function(){
+
+            let teacher_email = $('#teacher_email').val();
+            console.log('teacher-email:', teacher_email)
+
+
+            let d = {
+                'teacher_email': teacher_email,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'landing_teacher_email_input' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    $('#main_teacher_input_div').hide();
+                    $('#teacher_email_submit_success').show();
+
+                },
+
+                error: function (response) {}
+                
+            });
 
         });
 

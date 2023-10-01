@@ -362,28 +362,29 @@
         const initial_user_session = '{{ user_session }}';
 
         let anon_user_messages = [];
-        if (initial_user_session == ''){
+        if (initial_user_session == 'None'){
 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
 
-            console.log('tmp-user-messages:', tmp_usr_messages)
+            // console.log('tmp-user-messages:', tmp_usr_messages)
 
             if (tmp_usr_messages != null){
                 anon_user_messages = tmp_usr_messages
 
                 if (anon_user_messages.length > 0){
 
-                    for (idx = 0; idx <= anon_user_messages.length-2; idx++){
+                    for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
 
                         // let messageText = anon_user_messages[idx].split('Question: ')[1];
                         // let model_response_message = anon_user_messages[idx+1].split('Response: ')[1];
 
-                        // console.log(idx, idx+1)
-                        // console.log(messageText)
-                        // console.log(model_response_message)
-
                         let messageText = anon_user_messages[idx]
                         let model_response_message = anon_user_messages[idx+1]
+
+                        console.log(idx, idx+1)
+                        console.log(messageText)
+                        console.log(model_response_message)
+                        console.log()
 
                         const message = document.createElement("div");
                         message.className = "message";
@@ -535,9 +536,6 @@
 
                         prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
 
-                        // TODO: this is only gettign the first 6! 
-                        // prev_conversation_history = anon_user_messages.slice(0, 6)
-
                         // if (anon_user_messages.length > 6){
 
                         //     for (tidx = 1; tidx <= 6; tidx += 1){
@@ -572,8 +570,7 @@
                     
                 }
                 
-
-                console.log('Previous Conversation History:', prev_conversation_history_st)
+                // console.log('Previous Conversation History:', prev_conversation_history_st)
 
                 let d = {
                     'message': messageText,
@@ -616,18 +613,19 @@
                         // var final_question_st = "Question: " + messageText
                         // var final_response_st = "Response: " + model_response_message
 
-                        if (initial_user_session == ''){
+                        if (initial_user_session == 'None'){
+                            // var final_question_st = "Question: " + messageText
+                            // var final_response_st = "Response: " + model_response_message
 
                             var final_question_st = messageText
                             var final_response_st = model_response_message
                             anon_user_messages.push(final_question_st)
                             anon_user_messages.push(final_response_st)
-
                             localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
-
                         }
 
                     },
+
                     error: function (response) {}
                     
                 });

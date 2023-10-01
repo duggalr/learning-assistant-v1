@@ -160,6 +160,11 @@ class UserFileConversation(models.Model):
 
 
 
+class LandingTeacherEmail(models.Model):
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 
 # class NewPracticeQuestion(models.Model):
 #     question_name = models.CharField(max_length=3000)

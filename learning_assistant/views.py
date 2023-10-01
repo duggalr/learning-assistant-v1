@@ -1901,7 +1901,15 @@ def teacher_specific_question_view(request, qid):
 
 
 
+def landing_teacher_email_input(request):
+    if request.method == 'POST':
+        val = request.POST['teacher_email'].strip()
+        lt_obj = LandingTeacherEmail.objects.create(
+            email = val
+        )
+        lt_obj.save()
 
+        return JsonResponse({'success': True})
 
 
 

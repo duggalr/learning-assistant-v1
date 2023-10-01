@@ -184,6 +184,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
+
 ## Files
 if 'PRODUCTION' in os.environ:
     ## AWS Static Files
@@ -208,6 +209,7 @@ else:
     MEDIA_URL = '/media/'
 
 
+
 if 'PRODUCTION' in os.environ:
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'Strict'
@@ -224,5 +226,4 @@ if 'PRODUCTION' in os.environ:
 ## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
-
 

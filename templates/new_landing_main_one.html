@@ -145,14 +145,28 @@
                         Learn More.
                     </a>
                     &nbsp;&nbsp;&nbsp;
-                    <a style="color: gray;" id="demo_link" href="https://www.youtube.com/watch?v=hYPCzFBtVFE" target="_blank" rel="noopener noreferrer">
-                        Watch the Full Demo.
+                    <a style="color: gray;" id="demo_link" href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" target="_blank" rel="noopener noreferrer">
+                        Watch the Demo.
                     </a>
                 </span> 
 
+                <!-- width: 75%; text-align: center; -->
                 <p style="font-weight: 500; font-size: 17.5px; font-family: 'Raleway', sans-serif; padding-top: 12px; line-height: 1.9em;">
-                    A GPT-4 based learning tutor, empowering your personalized educational journey, guiding you every step of the way.
+                    <!-- A GPT-4 based learning tutor, empowering your personalized educational journey, guiding you every step of the way. -->
+                    A GPT-4 based tutor, enabling you to get real-time help and feedback for your programming problems, 
+                    <br/>
+                    directly in our online playground.
+                    <!-- &nbsp;&nbsp; -->
                 </p>
+
+                <!-- <p>
+                    Get immedidate feedback for your solutions or ask questions on the problems you are working on. 
+                </p>
+
+                <p>
+                    Ask Companion to generate new questions or examples for concepts you are struggling with.
+                </p>
+                 -->
 
                 <!-- <span style="font-size: 14.5px; color: gray; ">
                     <a id="demo_link" href="https://www.youtube.com/watch?v=hYPCzFBtVFE" target="_blank" rel="noopener noreferrer">
@@ -163,7 +177,6 @@
                         Watch the Full Demo.
                     </a>
                 </span>  -->
-
 
                 <!-- <div id="main-button-row" style="padding-top: 0px; ">
                
@@ -187,19 +200,30 @@
 
                 </div> -->
 
-                <div >
+
+                <div class="ui animated large black button playground_button" tabindex="0" >
+                    <div class="visible content">
+                        Try Companion in our Playground. 100% Free.
+                    </div>
+                    <div class="hidden content">
+                        <i class="code icon"></i>
+                    </div>
+                </div>
+
+                <div style="padding-top: 15px;">
                     <a style="font-size: 14.5px;" href="#teacher-section">Are you a Teacher, looking to introduce a personalized tutor for your students, in your classroom?</a>
                 </div>
 
-                <!-- <div style="margin-top: 30px;">
-                    <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-                </div> -->
+                <div style="margin-top: 20px;">
+                    <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
+                    <iframe width="1000" height="600" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                </div>
 
             </div>
 
             
             <!-- Chat Section -->
-            <div class="column" style="width: 75%; padding-top: 14px;">
+            <!-- <div class="column" style="width: 75%; padding-top: 14px;">
 
                 <h4>Try it, by asking questions below.</h4>
 
@@ -215,8 +239,6 @@
                         <br/><br/>
                         When it comes to asking me homework questions, I will never provide you with the answer. 
                         Instead, my approach is to guide you like a great tutor, fostering your critical thinking and empowering you to arrive at the answers independently.
-                        <!-- When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
-                        guide you, to help you come up with the answer on your own. -->
                         <br/><br/>
                         If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
                         learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
@@ -291,8 +313,7 @@
 
                 {% endif %}
 
-
-            </div>
+            </div> -->
 
         </div>
 
@@ -324,19 +345,68 @@
                     <h2 class="ui header" id="vertical_section_header">
     
                         <div class="content" style="font-family: 'Raleway', sans-serif;">
+                            <i class="code icon" style="font-size: 20px;"></i>
                             What's this about?
                         </div>
     
                     </h2>
-    
+
+
                     <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;">
-                        Companion is a GPT-4 based tutor, whose goal is to help develop your thinking, 
-                        as you learn through new concepets. 
-                        <br/><br/>
-                        Want to learn Python? 
-                        Try learning it, through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, as needed.
-                        <br/><br/>
-                        <strong>
+                    
+                        Through a conversational manner, Code Companion provides immediate help and feedback for your
+                        coding problems, in our <a href="{% url 'playground' %}">online playground environment.</a>
+
+                    </p>
+
+                    
+                    <h3 class="ui header" id="vertical_section_header">
+    
+                        <div class="content" style="font-family: 'Raleway', sans-serif; padding-top: 5px;">
+                            You can leverage Code Companion to: 
+                        </div>
+    
+                    </h3>
+
+                    <ul class="ui list" id="features_list">
+
+                        <li>
+                            Get immediate help and feedback, while doing a Homework, or say a LeetCode problem.
+                        </li>
+
+                        <li>
+                            Upload a PDF of your problem sets or lecture notes, and asks Companion questions directly on 
+                            those files.
+                        </li>
+
+                        <li>
+                            Practice Python through our <a href="{% url 'practice_questions' %}">Beginner Exercises</a>, with the assistant there to help
+                            write and evaluate your code.
+                        </li>
+
+                    </ul>
+    
+                    <!-- <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;"> -->
+                        <!-- Companion is a GPT-4 based tutor, whose goal is to help develop your thinking, 
+                        as you learn through new concepets.  -->
+
+                        <!-- Through a conversational manner, Companion provides immediate help and feedback for your
+                        coding problems, in our <a href="{% url 'playground' %}">online playground environment.</a>
+
+                        <br/><br/> -->
+            
+                        <!-- <br/>
+                        Want to practice get immediate help and feedback, while doing a Homework, or say a LeetCode problem?
+                        <br/>
+                        Try it now, for free.
+                        <br/>
+                        Watch our demo if you want to learn more. (#TODO:)
+                        <br/><br/> -->
+                        <!-- Want to learn Python? 
+                        Try learning it, through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, as needed. -->
+                        <!-- <br/><br/> -->
+
+                        <!-- <strong>
                             You can leverage Companion to: 
                         </strong>
                         
@@ -357,33 +427,9 @@
                             <li>
                                 Upload your lecture notes or problems, and ask questions on those files.
                             </li>
-                        </ul>
+                        </ul> -->
 
-                    </p>
-
-                    <!-- <p style="font-size: 18px;">
-                        Features:
-                    </p> -->
-
-                    <!-- <h3 class="ui header" id="vertical_section_header">
-    
-                        <div class="content" style="font-family: 'Raleway', sans-serif;">
-                            Features:
-                        </div>
-    
-                    </h3>
-
-                    <ul class="ui list" style="padding-top: 10px;">
-                        <li>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </li>
-                        <li>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </li>
-                    </ul> -->
+                    <!-- </p> -->
 
                 </div>
                 
@@ -410,16 +456,16 @@
                     <h2 class="ui header" id="vertical_section_header">
     
                         <!-- <i class="plug icon" style="font-size: 26px;"></i> -->
-                        <i class="child icon" style="font-size: 20px;"></i>
+                        <i class="child icon" style="font-size: 18px;"></i>
                         <div class="content" style="font-family: 'Raleway', sans-serif;">
-                            Common Use Cases for Students:
+                            Common Use Cases for Learners
                         </div>
     
                     </h2>
     
-                    <span style="color: gray; padding-bottom: 0px;">
+                    <!-- <span style="color: gray; padding-bottom: 0px;">
                         Leverage your personalized tutor. See some common questions other students ask below...
-                    </span>
+                    </span> -->
 
                     <div class="ui basic segment" style="padding-top: 0px;">
     
@@ -429,8 +475,9 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        "Honestly, I'm struggling with learning how indexing works when using a for loop..
-                                        here's the question I have ... can you help me here?"
+                                        <!-- "Honestly, I'm struggling with learning how indexing works when using a for loop..
+                                        here's the question I have ... can you help me here?" -->
+                                        Get relevant hints or help, as you work through a problem.
                                     </div>
                                 </div>
                             </a>
@@ -439,8 +486,10 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">                                
-                                        "I'm trying to get better at writing.. I've been writing for a few days now.. here's my
-                                        draft, how can I improve it? how can I become a better fiction writer?"
+                                        <!-- "I'm trying to get better at writing.. I've been writing for a few days now.. here's my
+                                        draft, how can I improve it? how can I become a better fiction writer?" -->
+                                        Get immediate feedback for your solutions, helping you determine and write 
+                                        optimal code.
                                     </div>
                                 </div>
                             </a>
@@ -449,20 +498,30 @@
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">
-                                        "Can you generate an outline for the following essay I have to write: 'explain 
-                                        the influence Turing had on cryptography'"
+                                        <!-- "Can you generate an outline for the following essay I have to write: 'explain 
+                                        the influence Turing had on cryptography'" -->
+                                        Generate additional practice questions from Companion for concepts you want to improve upon.
                                     </div>
                                 </div>
                             </a>
 
-                            <a class="item" href="{% url 'playground' %}">
+                            <a class="item" href="{% url 'practice_questions' %}">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description" style="color: #1e70bf;">
-                                        Visit our Online Code Editor
+                                        Practice with our Beginner Python Exercises.
                                     </div>
                                 </div>
                             </a>
+
+                            <!-- <a class="item" href="{% url 'playground' %}">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description" style="color: #1e70bf;">
+                                        Try now in our Online Code Editor
+                                    </div>
+                                </div>
+                            </a> -->
 
                             <!-- <a class="item" href="{% url 'about' %}">
                                 <i class="right triangle icon"></i>
@@ -477,14 +536,14 @@
     
                     </div>
 
-                    <!-- <div class="ui animated medium black button playground_button" tabindex="0" >
+                    <div class="ui animated medium black button playground_button" tabindex="0" >
                         <div class="visible content">
-                            Try the Tutor for free in our Playground
+                            Try Companion in our Playground. 100% Free.
                         </div>
                         <div class="hidden content">
                             <i class="code icon"></i>
                         </div>
-                    </div> -->
+                    </div>
     
                 </div>
 
@@ -520,7 +579,7 @@
                     <h2 class="ui header" id="vertical_section_header">
     
                         <!-- <i class="plug icon" style="font-size: 26px;"></i> -->
-                        <i class="users icon" style="font-size: 20px;"></i>
+                        <i class="users icon" style="font-size: 18px;"></i>
                         <div class="content" style="font-family: 'Raleway', sans-serif;">
                             For Teachers
                         </div>
@@ -535,26 +594,18 @@
                     <div class="ui basic segment" style="padding-top: 0px;">
     
                         <div class="ui list" id="vertical_section_list">
-                            
-                            <a class="item">
-                                <i class="right triangle icon"></i>
-                                <div class="content">
-                                    <div class="description">
-                                        Utilize GPT-4 as your personalized assistant, to help design comprehensive lesson plans tailored to your curriculum and teaching style.                
-                                    </div>
-                                </div>
-                            </a>
-    
+           
                             <a class="item">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description">     
-                                        Easily create and assign questions / exercises to students, directly on our platform.
+                                        Easily create and assign questions to students, directly on our platform.
+                                        Allow students to utilize Code Companion for problems you assign them.
                                         <!-- Easily integrate custom questions and exercises directly onto our platform to encourage student participation and active learning. -->
                                     </div>
                                 </div>
                             </a>
-    
+
                             <a class="item">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
@@ -566,6 +617,15 @@
                                 </div>
                             </a>
 
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        Utilize GPT-4 as your personalized assistant, to help design comprehensive lesson plans tailored to your curriculum and teaching style.                
+                                    </div>
+                                </div>
+                            </a>
+     
                             <!-- <a class="item" href="{% url 'about' %}">
                                 <i class="right triangle icon"></i>
                                 <div class="content">

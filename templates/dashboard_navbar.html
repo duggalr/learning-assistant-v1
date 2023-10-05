@@ -20,14 +20,14 @@
                 <a class="item" href="{% url 'dashboard' %}">
                     Dashboard
                 </a>
-                <a class="item" href="{% url 'general_cs_tutor' %}">
-                    Assistant
-                </a>
                 <a class="item" href="{% url 'playground' %}">
-                    Code Editor
-                </a>
+                    Code Companion
+                </a>                                
                 <a class="item" href="{% url 'practice_questions' %}">
                     Python Exercises
+                </a>
+                <a class="item" href="{% url 'general_cs_tutor' %}">
+                    General Tutor
                 </a>
                 {% if request.user.is_superuser %}
                     <a class="item" href="{% url 'teacher_admin_dashboard' %}">
@@ -59,14 +59,14 @@
 
             <div class="right menu" style="margin-right: 0%;">
 
-                <a class="item" href="{% url 'general_cs_tutor' %}">
-                    Assistant
-                </a>
                 <a class="item" href="{% url 'playground' %}">
-                    Code Editor
-                </a>
+                    Code Companion
+                </a> 
                 <a class="item" href="{% url 'practice_questions' %}">
                     Python Exercises
+                </a>
+                <a class="item" href="{% url 'general_cs_tutor' %}">
+                    General Tutor
                 </a>
                 <a class="item" href="{% url 'about' %}">
                     About

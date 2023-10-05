@@ -375,6 +375,11 @@
                         </li>
 
                         <li>
+                            Develop your own personalized syllabus or learning plan with <a href="{% url 'general_cs_tutor' %}">our General Learning Assistant</a>,
+                            for whatever field you are interested in exploring.
+                        </li>
+
+                        <li>
                             Upload a PDF of your problem sets or lecture notes, and asks Companion questions directly on 
                             those files.
                         </li>
@@ -463,11 +468,12 @@
     
                     </h2>
     
-                    <!-- <span style="color: gray; padding-bottom: 0px;">
-                        Leverage your personalized tutor. See some common questions other students ask below...
-                    </span> -->
+                    <span style="color: gray; padding-bottom: 0px;">
+                        <!-- Leverage your personalized tutor. See some common questions other students ask below... -->
+                        Empowering your personalized educational journey.
+                    </span>
 
-                    <div class="ui basic segment" style="padding-top: 0px;">
+                    <div class="ui basic segment" style="padding-top: 5px;">
     
                         <div class="ui list" id="vertical_section_list">
            
@@ -493,7 +499,7 @@
                                     </div>
                                 </div>
                             </a>
-    
+
                             <a class="item">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
@@ -501,6 +507,18 @@
                                         <!-- "Can you generate an outline for the following essay I have to write: 'explain 
                                         the influence Turing had on cryptography'" -->
                                         Generate additional practice questions from Companion for concepts you want to improve upon.
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a class="item">
+                                <i class="right triangle icon"></i>
+                                <div class="content">
+                                    <div class="description">                                
+                                        <!-- "I'm trying to get better at writing.. I've been writing for a few days now.. here's my
+                                        draft, how can I improve it? how can I become a better fiction writer?" -->
+                                        Develop your own personalized syllabus or learning plan with our General Learning Assistant,
+                                        for whatever field you are interested in exploring.
                                     </div>
                                 </div>
                             </a>
@@ -591,7 +609,7 @@
                         allowing you to more efficiently teach your students.
                     </span>
     
-                    <div class="ui basic segment" style="padding-top: 0px;">
+                    <div class="ui basic segment" style="padding-top: 5px;">
     
                         <div class="ui list" id="vertical_section_list">
            
@@ -696,78 +714,78 @@
 
     <script>
 
-        // Chat Functionality
-        const chat = document.getElementById("chat");
-        const chatInput = document.getElementById("chatInput");
-        const sendButton = document.getElementById("sendButton");
+        // // Chat Functionality
+        // const chat = document.getElementById("chat");
+        // const chatInput = document.getElementById("chatInput");
+        // const sendButton = document.getElementById("sendButton");
 
-        sendButton.addEventListener("click", sendMessage);
-        chatInput.addEventListener("keydown", (event) => {
+        // sendButton.addEventListener("click", sendMessage);
+        // chatInput.addEventListener("keydown", (event) => {
         
-            if (event.keyCode == 13 && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
+        //     if (event.keyCode == 13 && !event.shiftKey) {
+        //         event.preventDefault();
+        //         sendMessage();
+        //     }
 
-        });
+        // });
 
-        const initial_user_session = '{{ user_session }}';
+        // const initial_user_session = '{{ user_session }}';
 
-        let anon_user_messages = [];
-        if (initial_user_session == 'None'){
+        // let anon_user_messages = [];
+        // if (initial_user_session == 'None'){
 
-            let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
+        //     let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
 
-            // console.log('tmp-user-messages:', tmp_usr_messages)
+        //     // console.log('tmp-user-messages:', tmp_usr_messages)
 
-            if (tmp_usr_messages != null){
-                anon_user_messages = tmp_usr_messages
+        //     if (tmp_usr_messages != null){
+        //         anon_user_messages = tmp_usr_messages
 
-                if (anon_user_messages.length > 0){
+        //         if (anon_user_messages.length > 0){
 
-                    for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
+        //             for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
 
-                        // console.log(idx, idx+1)
+        //                 // console.log(idx, idx+1)
 
-                        let messageText = anon_user_messages[idx]
-                        let model_response_message = anon_user_messages[idx+1]
+        //                 let messageText = anon_user_messages[idx]
+        //                 let model_response_message = anon_user_messages[idx+1]
 
-                        const message = document.createElement("div");
-                        message.className = "message";
-                        message.innerHTML = "<b>You:</b> " + messageText;
-                        message.style.whiteSpace = 'pre-wrap'
-                        chat.appendChild(message);
+        //                 const message = document.createElement("div");
+        //                 message.className = "message";
+        //                 message.innerHTML = "<b>You:</b> " + messageText;
+        //                 message.style.whiteSpace = 'pre-wrap'
+        //                 chat.appendChild(message);
 
-                        const responseMessage = document.createElement("div");
-                        responseMessage.className = "message";
-                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
-                        chat.appendChild(responseMessage);
+        //                 const responseMessage = document.createElement("div");
+        //                 responseMessage.className = "message";
+        //                 responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+        //                 // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+        //                 chat.appendChild(responseMessage);
 
-                        // chat.scrollTop = chat.scrollHeight;
+        //                 // chat.scrollTop = chat.scrollHeight;
 
-                    }
+        //             }
 
-                }
+        //         }
 
-            }
+        //     }
 
-        }
+        // }
 
 
-        $("#chatInput").on('keyup', function(event) {
+        // $("#chatInput").on('keyup', function(event) {
             
-            var currentString = $("#chatInput").val()
+        //     var currentString = $("#chatInput").val()
 
-            if (currentString.length > 0){
+        //     if (currentString.length > 0){
 
-                $('#sendButton').removeClass('disabled');
+        //         $('#sendButton').removeClass('disabled');
                 
-            } else {
-                $('#sendButton').addClass('disabled');
-            }
+        //     } else {
+        //         $('#sendButton').addClass('disabled');
+        //     }
            
-        });
+        // });
 
 
         function sendMessage() {

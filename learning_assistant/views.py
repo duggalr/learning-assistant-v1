@@ -157,7 +157,7 @@ def about(request):
     })
 
 
-# TODO: add the student-assign-qus logic here and go from thre
+# TODO: make it accessibly for anon and ensure everything works**
 def playground(request):
     initial_user_session = request.session.get("user")
 
@@ -364,14 +364,28 @@ def handle_user_message(request):
         # print('form-data:', request.POST)
 
         user_question = request.POST['message'].strip()
-        user_code = request.POST['user_code'].strip()
-        user_cid = request.POST['cid']
-        user_lqid = request.POST['lqid']
+        user_code = request.POST['user_code'].strip()        
 
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
-            return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
 
+            # TODO: get the messages from localstorage here
+
+            previous_message_st = request.POST['previous_messages'].strip()
+
+            model_response_dict = main_utils.main_handle_question(
+                question = user_question,
+                student_code = user_code,
+                previous_chat_history_st = previous_message_st
+            )
+            # print('model-response:', model_response_dict)
+            # return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
+            # model_response_dict['cid'] = uc_obj.id
+            return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+        user_cid = request.POST['cid']
+        user_lqid = request.POST['lqid']
 
         lesson_ques_obj = None
         if user_lqid != 'None':

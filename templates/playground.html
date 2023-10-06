@@ -196,6 +196,22 @@
 
                 {% if user_session is None %}
                     <a href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
+
+                    <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+
+                    <!-- <button class="ui small black button" style="margin-left: 10px;">
+                        Sign up to save your code
+                    </button> -->
+
+                    <div class="ui animated small black button" tabindex="0" style="margin-left: 10px;">
+                        <div class="visible content">
+                            Sign up to save your code
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right icon"></i>
+                        </div>
+                    </div>
+
                 {% endif %}
                     
             </div>
@@ -411,15 +427,28 @@
     
                     {% else %}
 
-                        <div style="margin-top: 3%;">
+                        <!-- <div style="margin-top: 3%;">
                             <button class="ui black basic button" id="create_account_button">
                                 Create an account to start asking questions
                             </button>
                         </div>
     
-                        <br/>
+                        <br/> -->
 
-                        <div class="input-container" style="display: none;">
+                        <!-- <div class="input-container" style="display: none;">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div> -->
+
+                        <div class="input-container">
             
                             <div class="ui form" style="width: 100%;">
                                 <div class="field">
@@ -431,6 +460,10 @@
                             <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
     
                         </div>
+    
+                        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                        </span>
     
                     {% endif %}
 
@@ -660,6 +693,58 @@ mystdout.getvalue()
         });
 
 
+
+        // TODO: start with implementing localstorage and showing in the handle-user-message and go from there
+        const initial_user_session = '{{ user_session }}';
+
+        let anon_user_messages = [];
+        if (initial_user_session == 'None'){
+
+            // TODO: 
+            let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
+
+            // console.log('tmp-user-messages:', tmp_usr_messages)
+
+            if (tmp_usr_messages != null){
+                anon_user_messages = tmp_usr_messages
+
+                if (anon_user_messages.length > 0){
+
+                    for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
+
+                        // console.log(idx, idx+1)
+
+                        let messageText = anon_user_messages[idx]
+                        let model_response_message = anon_user_messages[idx+1]
+
+                        const message = document.createElement("div");
+                        message.className = "message";
+                        message.innerHTML = "<b>You:</b> " + messageText;
+                        message.style.whiteSpace = 'pre-wrap'
+                        chat.appendChild(message);
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+
+                        // chat.scrollTop = chat.scrollHeight;
+
+                    }
+
+
+                    // localStorage.setItem('anon_playground_user_code', user_code);
+                    let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
+                    console.log('anon-user-code:', anon_user_code_st);
+                    editor.setValue(anon_user_code_st);
+
+                }
+
+            }
+
+        }
+
         function sendMessage() {
 
             const messageText = chatInput.value.trim();
@@ -691,13 +776,44 @@ mystdout.getvalue()
                 let cid = $('#code_obj_id').val();
                 let lqid = $('#lesson_question_obj_id').val();
 
-                let d = {
-                    'message': messageText,
-                    'user_code': user_code,
-                    'cid': cid,
-                    'lqid': lqid,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                };
+
+                let d = {};
+                if (initial_user_session == 'None'){
+
+                    let prev_conversation_history = []
+                    if (anon_user_messages.length > 0){
+                        
+                        prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+
+                    }
+
+                    let prev_conversation_history_st = ''
+                    if (prev_conversation_history.length > 0){
+                        
+                        prev_conversation_history_st = prev_conversation_history.join('\n');
+                        
+                    }
+
+                    d = {
+                        'message': messageText,
+                        'user_code': user_code,
+                        'previous_messages': prev_conversation_history_st,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+
+                } 
+                else {
+
+                    d = {
+                        'message': messageText,
+                        'user_code': user_code,
+                        'cid': cid,
+                        'lqid': lqid,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    };
+
+                }
+         
                 
                 $.ajax({
                     type: 'POST',
@@ -733,8 +849,23 @@ mystdout.getvalue()
                         $('#sendButton').show();
                         $('#primary_loading_button').hide();
                         
-                        let saved_cid = model_response_dict['cid'];
-                        $('#code_obj_id').val(saved_cid);
+
+                        if (initial_user_session == 'None'){
+
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            anon_user_messages.push(final_question_st)
+                            anon_user_messages.push(final_response_st)
+                            localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+
+                            localStorage.setItem('anon_playground_user_code', user_code);
+
+                        } else {
+
+                            let saved_cid = model_response_dict['cid'];
+                            $('#code_obj_id').val(saved_cid);
+
+                        }
 
                         $('#solution_submit_button').removeClass("disabled");
 

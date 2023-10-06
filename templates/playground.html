@@ -185,7 +185,7 @@
 
                 {% else %}
 
-                    <div id="solution_submit_button" class="ui tiny animated positive disabled button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
+                    <div  id="solution_submit_button" class="ui tiny animated positive disabled button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%; display: none;">
                         <div class="visible content">Submit</div>
                         <div class="hidden content">
                             <i class="check icon"></i>
@@ -195,7 +195,6 @@
                 {% endif %}
 
                 {% if user_session is None %}
-                    <a href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
 
                     <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
 
@@ -203,7 +202,7 @@
                         Sign up to save your code
                     </button> -->
 
-                    <div class="ui animated small black button" tabindex="0" style="margin-left: 10px;">
+                    <div class="ui animated tiny black button playground_sign_up_button" tabindex="0" style="margin-left: 10px;">
                         <div class="visible content">
                             Sign up to save your code
                         </div>
@@ -211,6 +210,8 @@
                             <i class="hand point right icon"></i>
                         </div>
                     </div>
+
+                    <a href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
 
                 {% endif %}
                     
@@ -697,8 +698,13 @@ mystdout.getvalue()
         // TODO: start with implementing localstorage and showing in the handle-user-message and go from there
         const initial_user_session = '{{ user_session }}';
 
+        var url_string = window.location.href; 
+        var url = new URL(url_string);
+        var c = url.searchParams.get("lqid");
+        // console.log('lqid', c);
+
         let anon_user_messages = [];
-        if (initial_user_session == 'None'){
+        if (initial_user_session == 'None' && c == null){
 
             // TODO: 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
@@ -736,7 +742,7 @@ mystdout.getvalue()
 
                     // localStorage.setItem('anon_playground_user_code', user_code);
                     let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
-                    console.log('anon-user-code:', anon_user_code_st);
+                    // console.log('anon-user-code:', anon_user_code_st);
                     editor.setValue(anon_user_code_st);
 
                 }
@@ -744,6 +750,16 @@ mystdout.getvalue()
             }
 
         }
+
+
+        if (c != null){
+            localStorage.removeItem("anon_playround_user_messages");
+            localStorage.removeItem("anon_playground_user_code");
+            // let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
+            // localStorage.getItem('anon_playground_user_code');
+        }
+
+
 
         function sendMessage() {
 
@@ -1045,6 +1061,15 @@ mystdout.getvalue()
 
         });
         
+
+
+        $('.playground_sign_up_button').click(function(){
+            
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+            window.location.replace(new_url);
+
+        });
+
 
     </script>
 

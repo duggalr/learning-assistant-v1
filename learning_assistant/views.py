@@ -404,7 +404,7 @@ def handle_user_message(request):
             prev_conversation_messages = UserConversation.objects.filter(
                 code_obj_id = user_cid,
                 user_auth_obj = user_oauth_obj
-            ).order_by('created_at')
+            ).order_by('-created_at')
 
             if len(prev_conversation_messages) > 0:
                 for uc_obj in prev_conversation_messages[:5]:
@@ -535,9 +535,6 @@ def save_user_code(request):
 
 
 
-# TODO: 
-    # at the moment, file-name-change will only work if code object exists (ie. cid is not None)
-        # fix this to save the code with the new file-name if the code obj doesn't exist
 def handle_file_name_change(request):
     
     initial_user_session = request.session.get("user")

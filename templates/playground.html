@@ -110,7 +110,7 @@
             {% if lesson_question_object is not None %}
 
                 <!-- <a href="{% url 'practice_questions' %}" > -->
-                <a href="javascript:history.back()">
+                <a href="#" onclick="goBackPage();return false;">
                     <i class="arrow alternate circle left outline icon"></i>
                     Back
                 </a>
@@ -119,7 +119,7 @@
 
                 {% if user_session is not None %}
 
-                    <a href="javascript:history.back()">
+                    <a href="#" onclick="goBackPage();return false;">
                         <i class="arrow alternate circle left outline icon"></i>
                         Back
                     </a>
@@ -568,7 +568,6 @@
         if (user_code_obj != 'None'){
 
             let user_code_st = `{{ uc_obj.user_code|safe }}`;
-            // console.log('user-code-st:', user_code_st);
             editor.setValue(user_code_st);
 
         } else if (lesson_qid != 'None'){
@@ -1109,6 +1108,17 @@ mystdout.getvalue()
             window.location.replace(new_url);
 
         });
+
+
+
+        // Thanks: https://stackoverflow.com/questions/25639290/windows-history-back-location-reload-jquery
+        function goBackPage(event) {
+            if ('referrer' in document) {
+                window.location = document.referrer;
+            } else {
+                window.history.back();
+            }
+        }
 
 
     </script>

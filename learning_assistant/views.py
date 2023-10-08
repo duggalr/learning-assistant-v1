@@ -366,7 +366,8 @@ def handle_user_message(request):
         # print('form-data:', request.POST)
 
         user_question = request.POST['message'].strip()
-        user_code = request.POST['user_code'].strip()        
+        user_code = request.POST['user_code'].strip()     
+        user_code = user_code.replace('`', '"').strip()
 
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
@@ -494,6 +495,7 @@ def save_user_code(request):
 
         user_auth_obj = user_oauth_objects[0]
         user_code = request.POST['user_code'].strip()
+        user_code = user_code.replace('`', '"').strip()
         cid = request.POST['cid']
         lq_id = request.POST['lqid']
 
@@ -550,7 +552,8 @@ def handle_file_name_change(request):
         new_file_name = request.POST['new_file_name'].strip()
         cid = request.POST['cid']
         lqid = request.POST['lqid']
-        user_code = request.POST['user_code']
+        user_code = request.POST['user_code'].strip()
+        user_code = user_code.replace('`', '"').strip()
 
         lesson_ques_obj = None
         if lqid != 'None':

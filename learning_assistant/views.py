@@ -157,7 +157,7 @@ def about(request):
     })
 
 
-# TODO: make it accessibly for anon and ensure everything works**
+
 def playground(request):
     initial_user_session = request.session.get("user")
 
@@ -195,7 +195,6 @@ def playground(request):
         uc_objects = UserCode.objects.filter(
             id = code_id
         )
-
     else:
         uc_objects = UserCode.objects.filter(
             id = code_id,
@@ -214,7 +213,6 @@ def playground(request):
                 code_obj = uc_obj,
                 user_auth_obj = user_oauth_obj
             ).order_by('created_at')
-    
     else:
         uc_obj = None
         if ls_q_obj is not None:
@@ -225,6 +223,9 @@ def playground(request):
             if len(lesson_code_objects) == 1:  # should always be 1
                 uc_obj = lesson_code_objects[0]
 
+
+    initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
+    print('rnd filename:', initial_rnd_file_name)
 
     return render(request, 'playground.html', {
         'user_session': initial_user_session,
@@ -237,6 +238,7 @@ def playground(request):
         'stdqid': student_assigned_qid,
         'teacher_question_object': tq_obj,
         'teacher_question_test_cases': tq_obj_test_case_examples,
+        'initial_rnd_file_name': initial_rnd_file_name
         # 'student_obj': student_obj
     })
 
@@ -547,15 +549,31 @@ def handle_file_name_change(request):
         user_auth_obj = user_oauth_objects[0]
         new_file_name = request.POST['new_file_name'].strip()
         cid = request.POST['cid']
+        lqid = request.POST['lqid']
+        user_code = request.POST['user_code']
 
+        lesson_ques_obj = None
+        if lqid != 'None':
+            lesson_question_objects = LessonQuestion.objects.filter(id = lqid)
+            if len(lesson_question_objects) > 0:
+                lesson_ques_obj = lesson_question_objects[0]
 
-        uc_obj = UserCode.objects.get(
-            id = cid,
-            user_auth_obj = user_auth_obj
-        )
+        if cid == 'None':
+            uc_obj = UserCode.objects.create(
+                user_auth_obj = user_auth_obj,
+                code_unique_name = new_file_name,
+                user_code = user_code,
+                lesson_question_obj = lesson_ques_obj
+            )
+            uc_obj.save()
 
-        uc_obj.code_unique_name = new_file_name
-        uc_obj.save()
+        else:
+            uc_obj = UserCode.objects.get(
+                id = cid,
+                user_auth_obj = user_auth_obj
+            )
+            uc_obj.code_unique_name = new_file_name
+            uc_obj.save()
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 

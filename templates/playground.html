@@ -109,12 +109,31 @@
 
             {% if lesson_question_object is not None %}
 
-                <a href="{% url 'practice_questions' %}" >
+                <!-- <a href="{% url 'practice_questions' %}" > -->
+                <a href="javascript:history.back()">
                     <i class="arrow alternate circle left outline icon"></i>
-                    Back to Exercises
+                    Back
                 </a>
 
+            {% else %}
+
+                {% if user_session is not None %}
+
+                    <a href="javascript:history.back()">
+                        <i class="arrow alternate circle left outline icon"></i>
+                        Back
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'playground' %}">
+                        <!-- <i class="arrow alternate circle left outline icon"></i> -->
+                        <i class="plus icon"></i>
+                        New question
+                    </a>
+
+                {% endif %}
+
             {% endif %}
+
             
             <div style="display: flex; align-items: center; padding-top: 15px;">
 
@@ -139,6 +158,14 @@
                             &nbsp;
                             <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
                         {% endif %}
+
+                    {% elif user_session is not None %}
+
+                    <span id="code_file_name_text" style="font-size: 16px;">File: {{ initial_rnd_file_name }}</span>    
+                    <input type="text" id="file_name_input" name="file_name_input" value="{{ lesson_question_object.question_name }}" style="display: none;">
+                    <button id="file_name_input_submit" style="display: none;">save</button>
+                    &nbsp;
+                    <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
 
                     {% else %}
 
@@ -695,7 +722,6 @@ mystdout.getvalue()
 
 
 
-        // TODO: start with implementing localstorage and showing in the handle-user-message and go from there
         const initial_user_session = '{{ user_session }}';
 
         var url_string = window.location.href; 
@@ -996,8 +1022,13 @@ mystdout.getvalue()
 
             let new_file_name = $('#file_name_input').val();
             let cid = $('#code_obj_id').val();
+            let lqid = $('#lesson_question_obj_id').val();
+            let user_code = editor.getValue();
+
             let d = {
                 'cid': cid, 
+                'lqid': lqid,
+                'user_code': user_code,
                 'new_file_name': new_file_name,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             }
@@ -1018,6 +1049,15 @@ mystdout.getvalue()
                     $('#file_name_input_submit').hide();
                     $('#code_file_name_text').show();
                     $('#edit_filename_span').show();
+
+
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('cid', response['cid']);
+                    window.history.replaceState(null, null, url);
+                    
+                    // console.log('cid:', response['cid']);
+                    let saved_cid = response['cid'];
+                    $("#code_obj_id").val(saved_cid);
 
                 },
                 error: function (response) {}

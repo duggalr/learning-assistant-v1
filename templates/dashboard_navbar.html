@@ -30,7 +30,7 @@
                     General Tutor
                 </a>
                 {% if request.user.is_superuser %}
-                    <a class="item" href="{% url 'teacher_admin_dashboard' %}">
+                    <a class="item" href="{% url 'super_user_admin_dashboard' %}">
                         Admin
                     </a>
                 {% endif %}
@@ -75,7 +75,7 @@
                     Contact
                 </a>
                 {% if request.user.is_superuser %}
-                <a class="item" href="{% url 'teacher_admin_dashboard' %}">
+                <a class="item" href="{% url 'super_user_admin_dashboard' %}">
                     Admin
                 </a>
                 {% endif %}

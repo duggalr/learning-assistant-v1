@@ -1958,10 +1958,16 @@ def super_user_admin_dashboard(request):
     
     final_all_users_rv = []
     for uobj in all_users:
+
         code_count = UserCode.objects.filter(
             user_auth_obj = uobj
         ).count()
+        
         conversation_count = UserConversation.objects.filter(
+            user_auth_obj = uobj
+        ).count()
+
+        gt_conversation_count = UserGeneralTutorConversation.objects.filter(
             user_auth_obj = uobj
         ).count()
 
@@ -1970,13 +1976,44 @@ def super_user_admin_dashboard(request):
             'user_created_at': datetime.datetime.fromtimestamp(float(uobj.created_at)),
             'user_last_login_in': datetime.datetime.fromtimestamp(float(uobj.updated_at)),
             'code_count': code_count,
-            'conversation_count': conversation_count
+            'conversation_count': conversation_count,
+            'gt_conversation_count': gt_conversation_count
         })
 
     final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
 
+    requested_teacher_email_objects = LandingTeacherEmail.objects.all()
+
+    teacher_objects = Teacher.objects.all()
+    registered_teacher_student_list = []
+    for tobj in teacher_objects:
+        
+        teacher_invited_students = TeacherStudentInvite.objects.filter(
+            teacher_obj = tobj,
+            student_registered = False
+        ).count()
+        teacher_actual_students = Student.objects.filter(
+            teacher_obj = tobj
+        ).count()
+
+        registered_teacher_student_list.append({
+            'teacher_obj': tobj,
+            'teacher_invited_students_count': teacher_invited_students,
+            'teacher_actual_students_count': teacher_actual_students
+        })
+
+
+    total_user_code_conversations = UserConversation.objects.all().count()
+    total_user_code_files = UserCode.objects.all().count()
+    total_user_general_conversations = UserGeneralTutorConversation.objects.all().count()
+
     return render(request, 'site_admin_dashboard.html', {
-        'all_students': final_all_users_rv
+        'all_students': final_all_users_rv,
+        'all_requested_teachers': requested_teacher_email_objects,
+        'registered_teacher_student_list': registered_teacher_student_list,
+        'total_user_code_conversations': total_user_code_conversations,
+        'total_user_code_files': total_user_code_files,
+        'total_user_general_conversations': total_user_general_conversations
     })
 
 

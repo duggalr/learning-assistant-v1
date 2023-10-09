@@ -61,15 +61,34 @@
             </ul>
 
 
-            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+            <!-- <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;"> -->
                 
-                <h3 class="ui header" >
-                    <!-- <i class="user icon"></i> -->
+                <!-- <h3 class="ui header" >
                     Student Activity:
-                </h3>
+                </h3> -->
+
+            <!-- </div> -->
+
+
+            <div style="padding-top: 3px;"></div>
+
+            <!-- Tabular Menu -->
+            <div class="ui tabular menu">
+
+                <a class="active item" id="registered_users_tab">
+                    <!-- <i class="question icon" style="font-size: 13px;"></i> -->
+                    <i class="hashtag icon" style="font-size: 13px;"></i>
+                    Code Companion Conversations
+                </a>
+                
+                <a class="item" id="requested_teachers_tab">
+                    <i class="hashtag icon" style="font-size: 13px;"></i>
+                    General Tutor Conversations
+                </a>
 
             </div>
 
+            
             <ul>
 
                 {% for cdobj in user_code_objects %}

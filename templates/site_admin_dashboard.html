@@ -15,17 +15,46 @@
 
         <div class="twelve wide column">
 
-            <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
+            <div style="padding-top: 20px; padding-bottom: 15px; display:flex; justify-content:space-between; align-items:baseline;">
                 
                 <h3 class="ui header" >
                     <!-- <i class="code branch icon" style="font-size: 22px;"></i> -->
-                    <i class="user secret icon"></i>
+                    <i class="user secret icon" style="font-size: 24px;"></i>
                     Admin Dashboard
                 </h3>
 
             </div>
         
-            <div class="ui middle aligned divided list" style="width: 100%; padding-top: 10px;">
+
+            <!-- Tabular Menu -->
+            <div class="ui tabular menu">
+
+                <a class="active item" id="registered_users_tab">
+                    <!-- <i class="question icon" style="font-size: 13px;"></i> -->
+                    <i class="users icon" style="font-size: 13px;"></i>
+                    Registered Users
+                </a>
+                
+                <a class="item" id="requested_teachers_tab">
+                    <i class="pencil alternate icon" style="font-size: 13px;"></i>
+                    Requested Teachers
+                </a>
+
+                <a class="item" id="add_question_tab">
+                    <i class="building icon" style="font-size: 13px;"></i>
+                    Registered Teachers and Students
+                </a>
+
+                <a class="item" id="add_question_tab">
+                    <i class="chart line icon" style="font-size: 13px;"></i>
+                    Statistics
+                </a>
+
+            </div>
+
+
+            <!-- Users Enrolled -->
+            <div id="primary_all_user_view_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px;">
       
                 {% for st_obj in all_students %}
 
@@ -65,6 +94,12 @@
                                     <i class="hashtag icon"></i>Code Files: {{ st_obj.code_count }}
                                 </span>
 
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>General Tutor Messages: {{ st_obj.gt_conversation_count }}
+                                </span>
+
                             </div>
 
                         </div>
@@ -74,6 +109,94 @@
                 {% endfor %}
 
             </div>
+
+
+            <!-- Teachers Requested -->
+            <div id="requested_teachers_view_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; display: none;">
+      
+                {% for st_obj in all_requested_teachers %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header" style="font-size: 15.5px;">
+                                <!-- <a class="file_name_header"> -->
+                                {{ st_obj.email }}
+                                <!-- </a> -->
+                            </div>
+            
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Registered Teachers / Students -->
+            <div id="registered_teachers_view_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; display: none;">
+      
+                {% for st_obj in registered_teacher_student_list %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header" style="font-size: 15.5px;">
+                                <a class="file_name_header">
+                                    {{ st_obj.teacher_obj.full_name }}
+                                </a>
+                            </div>
+            
+                            <div style="padding-top: 14px;">
+
+                                <span style="font-size: 12.5px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>
+                                    Created: {{ st_obj.teacher_obj.created_at|date }}
+                                </span>
+                                
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>Student Invite Count: {{ st_obj.teacher_invited_students_count }}
+                                </span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+
+                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>Registered Student Count: {{ st_obj.teacher_actual_students_count }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Basic Usage Statistics -->
+            <div id="basic_usage_statistics_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; display: none;">
+      
+                <p>
+                    Total User Code Conversations: {{ total_user_code_conversations }}
+                </p>
+
+                <p>
+                    Total User Code Files: {{ total_user_code_files }}
+                </p>
+
+                <p>
+                    Total User General Tutor Conversations: {{ total_user_general_conversations }}
+                </p>
+
+            </div>
+
 
         </div>
 

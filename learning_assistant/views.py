@@ -2044,7 +2044,12 @@ def super_user_admin_student_page(request, uid):
     # final_user_rv['user_code_objects'] = user_code_objects
     # final_user_rv['user_conversation_objects'] = user_conversation_objects
 
+    user_gt_c_objects = UserGeneralTutorConversation.objects.filter(
+        user_auth_obj = user_auth_obj
+    ).order_by('-created_at')
+
     final_user_rv['user_code_objects'] = final_code_rv
+    final_user_rv['user_gt_c_objects'] = user_gt_c_objects
 
     return render(request, 'site_admin_student_view.html', final_user_rv)
 

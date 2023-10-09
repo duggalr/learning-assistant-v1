@@ -75,63 +75,111 @@
             <!-- Tabular Menu -->
             <div class="ui tabular menu">
 
-                <a class="active item" id="registered_users_tab">
+                <a class="active item" id="cc_conversations">
                     <!-- <i class="question icon" style="font-size: 13px;"></i> -->
                     <i class="hashtag icon" style="font-size: 13px;"></i>
                     Code Companion Conversations
                 </a>
                 
-                <a class="item" id="requested_teachers_tab">
+                <a class="item" id="gt_conversations">
                     <i class="hashtag icon" style="font-size: 13px;"></i>
                     General Tutor Conversations
                 </a>
 
             </div>
 
+
+            <!-- CC conversations tab -->
+            <div id="code_companion_conversation_tab" style="padding-top: 1px;">
+  
+                <ul>
+
+                    {% for cdobj in user_code_objects %}
+                    
+                        <li>
+                            
+                            {% if cdobj.0.lesson_question_obj.lesson_obj is None %}
+    
+                                <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
+                                    <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>None
+                                </a>
+                                
+                            {% else %}
+                                
+                                <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
+                                    <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>{{ cdobj.0.lesson_question_obj.lesson_obj.title }}
+                                </a>
+                                
+                            {% endif %}
+                            
+                            <ul style="padding-top: 10px; line-height: 1.7em;">
+    
+                                {% for code_convers in cdobj.1 %}
+    
+                                    <li>
+                                        <strong>Question: </strong>{{ code_convers.question }}                                    
+                                    </li>
+                                    <li>
+                                        <strong>Response: </strong>{{ code_convers.response }}
+                                    </li>
+                                    
+                                    <hr/>
+    
+                                {% endfor %}
+    
+                            </ul>
+                            
+                        </li>
+                        <br/>
+    
+                    {% endfor %}
+    
+                </ul>
+
+            </div>
             
-            <ul>
 
-                {% for cdobj in user_code_objects %}
-                
-                    <li>
-                        
-                        {% if cdobj.0.lesson_question_obj.lesson_obj is None %}
+            <!-- GT conversations tab -->
+            <div id="general_tutor_conversations_tab" style="padding-top: 1px; display: none;">
+  
+                <ul>
 
-                            <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
-                                <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>None
-                            </a>
+                    {% for cdobj in user_gt_c_objects %}
+                    
+                        <li>
+                            <strong>Question: </strong>{{ cdobj.question }}
+                        </li>
+                        <br/>
+                        <li>
+                            <strong>Response: </strong>{{ cdobj.response }}
+                        </li>
+
+                        <hr/>
+
+                        <!-- <li>
                             
-                        {% else %}
-                            
-                            <a href="{% url 'playground' %}?cid={{ cdobj.0.id }}">
-                                <strong>File: </strong>{{ cdobj.0.code_unique_name }} | <strong>ID: </strong>{{ cdobj.0.id }} | <strong>Lesson: </strong>{{ cdobj.0.lesson_question_obj.lesson_obj.title }}
-                            </a>
-                            
-                        {% endif %}
-                        
-                        <ul style="padding-top: 10px; line-height: 1.7em;">
-
-                            {% for code_convers in cdobj.1 %}
-
+                            <ul style="padding-top: 10px; line-height: 1.7em;">
+    
                                 <li>
-                                    <strong>Question: </strong>{{ code_convers.question }}                                    
+                                    <strong>Question: </strong>{{ cdobj.question }}                                    
                                 </li>
+                                <br/>
                                 <li>
-                                    <strong>Response: </strong>{{ code_convers.response }}
+                                    <strong>Response: </strong>{{ cdobj.response }}
                                 </li>
                                 
                                 <hr/>
+    
+                            </ul>
+                            
+                        </li> -->
+                        <br/>
+    
+                    {% endfor %}
+    
+                </ul>
 
-                            {% endfor %}
-
-                        </ul>
-                        
-                    </li>
-                    <br/>
-
-                {% endfor %}
-
-            </ul>
+            </div>
 
 
         </div>
@@ -139,6 +187,33 @@
         <div class="two wide column"></div>
 
     </div>
+
+
+
+    <script>
+
+        $('#cc_conversations').click(function(){
+
+            $('#code_companion_conversation_tab').show();
+            $('#general_tutor_conversations_tab').hide();
+
+            $('#cc_conversations').addClass('active');
+            $('#gt_conversations').removeClass('active');
+
+        });
+
+
+        $('#gt_conversations').click(function(){
+
+            $('#code_companion_conversation_tab').hide();
+            $('#general_tutor_conversations_tab').show();
+
+            $('#cc_conversations').removeClass('active');
+            $('#gt_conversations').addClass('active');
+
+        });
+
+    </script>
 
 
 {% endblock %}

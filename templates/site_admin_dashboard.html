@@ -40,12 +40,12 @@
                     Requested Teachers
                 </a>
 
-                <a class="item" id="add_question_tab">
+                <a class="item" id="registered_teacher_tab">
                     <i class="building icon" style="font-size: 13px;"></i>
                     Registered Teachers and Students
                 </a>
 
-                <a class="item" id="add_question_tab">
+                <a class="item" id="site_stats_tab">
                     <i class="chart line icon" style="font-size: 13px;"></i>
                     Statistics
                 </a>
@@ -184,15 +184,24 @@
             <div id="basic_usage_statistics_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; display: none;">
       
                 <p>
-                    Total User Code Conversations: {{ total_user_code_conversations }}
+                    <strong>
+                        Total User Code Conversations:
+                    </strong>
+                     {{ total_user_code_conversations }}
                 </p>
 
                 <p>
-                    Total User Code Files: {{ total_user_code_files }}
+                    <strong>
+                        Total User Code Files:
+                    </strong>
+                    {{ total_user_code_files }}
                 </p>
 
                 <p>
-                    Total User General Tutor Conversations: {{ total_user_general_conversations }}
+                    <strong>
+                        Total User General Tutor Conversations:
+                    </strong>
+                    {{ total_user_general_conversations }}
                 </p>
 
             </div>
@@ -206,7 +215,68 @@
 
 
     <script>
+
+
+        $('#registered_users_tab').click(function(){
+
+            $('#primary_all_user_view_div').show();
+            $('#requested_teachers_view_div').hide();
+            $('#registered_teachers_view_div').hide();
+            $('#basic_usage_statistics_div').hide();
+
+            $('#registered_users_tab').addClass('active');
+            $('#requested_teachers_tab').removeClass('active');
+            $('#registered_teacher_tab').removeClass('active');
+            $('#site_stats_tab').removeClass('active');
+
+        });
+
+
+        $('#requested_teachers_tab').click(function(){
+
+            $('#primary_all_user_view_div').hide();
+            $('#requested_teachers_view_div').show();
+            $('#registered_teachers_view_div').hide();
+            $('#basic_usage_statistics_div').hide();
+
+            $('#registered_users_tab').removeClass('active');
+            $('#requested_teachers_tab').addClass('active');
+            $('#registered_teacher_tab').removeClass('active');
+            $('#site_stats_tab').removeClass('active');
+
+        });
+
+
+        $('#registered_teacher_tab').click(function(){
+
+            $('#primary_all_user_view_div').hide();
+            $('#requested_teachers_view_div').hide();
+            $('#registered_teachers_view_div').show();
+            $('#basic_usage_statistics_div').hide();
+
+            $('#registered_users_tab').removeClass('active');
+            $('#requested_teachers_tab').removeClass('active');
+            $('#registered_teacher_tab').addClass('active');
+            $('#site_stats_tab').removeClass('active');
+
+        });
+
         
+        $('#site_stats_tab').click(function(){
+
+            $('#primary_all_user_view_div').hide();
+            $('#requested_teachers_view_div').hide();
+            $('#registered_teachers_view_div').hide();
+            $('#basic_usage_statistics_div').show();
+
+            $('#registered_users_tab').removeClass('active');
+            $('#requested_teachers_tab').removeClass('active');
+            $('#registered_teacher_tab').removeClass('active');
+            $('#site_stats_tab').addClass('active');
+
+        });
+
+
     </script>
 
 

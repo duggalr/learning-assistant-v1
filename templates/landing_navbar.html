@@ -24,7 +24,8 @@
             </a>
             <a class="item" href="mailto:rahul@codecompanion.app">
                 Contact
-            </a>
+            </a>            
+            
             {% if request.user.is_superuser %}
                 <a class="item" href="{% url 'teacher_admin_dashboard' %}">
                     Admin

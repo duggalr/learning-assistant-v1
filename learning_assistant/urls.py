@@ -32,8 +32,8 @@ urlpatterns = [
     # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
 
     # # Admin Views
-    # path("admin-dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),
-    # path("admin-student-profile/<int:uid>", views.teacher_admin_student_page, name="teacher_admin_student_page"),
+    path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
+    path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
     
     # Teacher-Student Views
     path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),

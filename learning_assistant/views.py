@@ -580,6 +580,7 @@ def handle_file_name_change(request):
 
 
 def teacher_admin_dashboard(request):
+# def super_user_admin_dashboard(request):
 
     if not request.user.is_superuser:
         return redirect('landing')
@@ -612,35 +613,36 @@ def teacher_admin_dashboard(request):
 
 
 
-def teacher_admin_student_page(request, uid):
+# # def teacher_admin_student_page(request, uid):
+# def super_user_admin_student_page(request, uid):
     
-    if not request.user.is_superuser:
-        return redirect('landing')
+#     if not request.user.is_superuser:
+#         return redirect('landing')
 
-    user_auth_obj = get_object_or_404(UserOAuth, id = uid)
+#     user_auth_obj = get_object_or_404(UserOAuth, id = uid)
 
-    final_user_rv = {}
-    final_user_rv['user_obj'] = user_auth_obj
-    final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
-    final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
+#     final_user_rv = {}
+#     final_user_rv['user_obj'] = user_auth_obj
+#     final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
+#     final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
     
-    user_code_objects = UserCode.objects.filter(
-        user_auth_obj = user_auth_obj
-    )
+#     user_code_objects = UserCode.objects.filter(
+#         user_auth_obj = user_auth_obj
+#     )
 
-    final_code_rv = []
-    for uc_obj in user_code_objects:
-        user_conversation_objects = UserConversation.objects.filter(
-            code_obj = uc_obj
-        )
-        final_code_rv.append([uc_obj, user_conversation_objects])
+#     final_code_rv = []
+#     for uc_obj in user_code_objects:
+#         user_conversation_objects = UserConversation.objects.filter(
+#             code_obj = uc_obj
+#         )
+#         final_code_rv.append([uc_obj, user_conversation_objects])
 
-    # final_user_rv['user_code_objects'] = user_code_objects
-    # final_user_rv['user_conversation_objects'] = user_conversation_objects
+#     # final_user_rv['user_code_objects'] = user_code_objects
+#     # final_user_rv['user_conversation_objects'] = user_conversation_objects
 
-    final_user_rv['user_code_objects'] = final_code_rv
+#     final_user_rv['user_code_objects'] = final_code_rv
 
-    return render(request, 'teacher_admin_student_view.html', final_user_rv)
+#     return render(request, 'teacher_admin_student_view.html', final_user_rv)
 
 
 
@@ -1071,19 +1073,19 @@ def teacher_admin_login(request):
 
 
 
-def teacher_admin_dashboard(request):
+# def teacher_admin_dashboard(request):
 
-    if request.session.get("teacher_object", None) is None:
-        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
-        return redirect('landing')
+#     if request.session.get("teacher_object", None) is None:
+#         # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+#         return redirect('landing')
 
-    teacher_obj = request.session.get("teacher_object")
-    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+#     # teacher_obj = request.session.get("teacher_object")
+#     # teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
 
-    return render(request, 'teacher_admin_dashboard.html', {
-        'teacher_obj': teacher_obj,
-    })
+#     return render(request, 'teacher_admin_dashboard.html', {
+#         'teacher_obj': teacher_obj,
+#     })
 
 
 
@@ -1942,6 +1944,73 @@ def landing_teacher_email_input(request):
         lt_obj.save()
 
         return JsonResponse({'success': True})
+
+
+
+### Super User Views ###
+
+def super_user_admin_dashboard(request):
+    
+    if not request.user.is_superuser:
+        return redirect('landing')
+
+    all_users = UserOAuth.objects.all()
+    
+    final_all_users_rv = []
+    for uobj in all_users:
+        code_count = UserCode.objects.filter(
+            user_auth_obj = uobj
+        ).count()
+        conversation_count = UserConversation.objects.filter(
+            user_auth_obj = uobj
+        ).count()
+
+        final_all_users_rv.append({
+            'user_obj': uobj,
+            'user_created_at': datetime.datetime.fromtimestamp(float(uobj.created_at)),
+            'user_last_login_in': datetime.datetime.fromtimestamp(float(uobj.updated_at)),
+            'code_count': code_count,
+            'conversation_count': conversation_count
+        })
+
+    final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
+
+    return render(request, 'site_admin_dashboard.html', {
+        'all_students': final_all_users_rv
+    })
+
+
+
+def super_user_admin_student_page(request, uid):
+    
+    if not request.user.is_superuser:
+        return redirect('landing')
+
+    user_auth_obj = get_object_or_404(UserOAuth, id = uid)
+
+    final_user_rv = {}
+    final_user_rv['user_obj'] = user_auth_obj
+    final_user_rv['user_signup_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.created_at))
+    final_user_rv['user_last_login_date'] = datetime.datetime.fromtimestamp(float(user_auth_obj.updated_at))
+    
+    user_code_objects = UserCode.objects.filter(
+        user_auth_obj = user_auth_obj
+    ).order_by('-created_at')
+
+    final_code_rv = []
+    for uc_obj in user_code_objects:
+        user_conversation_objects = UserConversation.objects.filter(
+            code_obj = uc_obj
+        )
+        final_code_rv.append([uc_obj, user_conversation_objects])
+
+    # final_user_rv['user_code_objects'] = user_code_objects
+    # final_user_rv['user_conversation_objects'] = user_conversation_objects
+
+    final_user_rv['user_code_objects'] = final_code_rv
+
+    return render(request, 'site_admin_student_view.html', final_user_rv)
+
 
 
 

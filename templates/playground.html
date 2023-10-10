@@ -573,7 +573,7 @@
         } else if (lesson_qid != 'None'){
 
             let lesson_question = `{{ lesson_question_object.question_text|safe }}`
-            console.log('lesson-q:', lesson_question)
+            // console.log('lesson-q:', lesson_question)
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + lesson_question + `\n\n# Write your code below:\n\n`);
 
         } else if (stdqid != 'None'){
@@ -792,7 +792,7 @@ mystdout.getvalue()
 
             if (messageText !== "") {
 
-                console.log('message-text:', messageText)
+                // console.log('message-text:', messageText)
 
                 $('#chatInput').prop('disabled', true);
 
@@ -812,7 +812,7 @@ mystdout.getvalue()
                 // let user_code = $('#code').val().trim();
                 let user_code = editor.getValue();
 
-                console.log('user-code:', user_code)
+                // console.log('user-code:', user_code)
 
                 let cid = $('#code_obj_id').val();
                 let lqid = $('#lesson_question_obj_id').val();
@@ -868,13 +868,13 @@ mystdout.getvalue()
                         var model_response_dict = response['response'];
                         // var model_response_message = model_response_dict['response']
 
-                        console.log('Response Dict:', model_response_dict)
+                        // console.log('Response Dict:', model_response_dict)
 
                         var model_response_message = model_response_dict['response'];
                         // model_response_message = model_response_message.replaceAll('\n', '<br/><br/>');
                         model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
-                        console.log('Response:', model_response_message)
+                        // console.log('Response:', model_response_message)
 
                         var user_question = model_response_dict['question'];
 
@@ -942,7 +942,7 @@ mystdout.getvalue()
 
         function saveCode(){
 
-            console.log('cid:', $('#code_obj_id').val())
+            // console.log('cid:', $('#code_obj_id').val())
 
             let cid = $('#code_obj_id').val();
             let lqid = $('#lesson_question_obj_id').val();
@@ -962,7 +962,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('response:', response);
+                    // console.log('response:', response);
 
                     if (response['success'] == true){
 
@@ -975,7 +975,7 @@ mystdout.getvalue()
                             window.history.replaceState(null, null, url);
                             // window.location.href = url;
                             
-                            console.log('cid:', response['cid']);
+                            // console.log('cid:', response['cid']);
                             let saved_cid = response['cid'];
                             $("#code_obj_id").val(saved_cid);
 
@@ -1039,7 +1039,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('response:', response);
+                    // console.log('response:', response);
 
                     $('#code_file_name_text').html("File: " + response['new_file_name']);
                     $('#file_name_input').val(response['new_file_name']);

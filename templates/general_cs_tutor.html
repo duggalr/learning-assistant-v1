@@ -381,10 +381,10 @@
                         let messageText = anon_user_messages[idx]
                         let model_response_message = anon_user_messages[idx+1]
 
-                        console.log(idx, idx+1)
-                        console.log(messageText)
-                        console.log(model_response_message)
-                        console.log()
+                        // console.log(idx, idx+1)
+                        // console.log(messageText)
+                        // console.log(model_response_message)
+                        // console.log()
 
                         const message = document.createElement("div");
                         message.className = "message";
@@ -509,7 +509,7 @@
 
             if (messageText !== "") {
 
-                console.log('message-text:', messageText)
+                // console.log('message-text:', messageText)
 
                 $('#chatInput').prop('disabled', true);
 
@@ -588,12 +588,12 @@
                     success: function (response) {
 
                         var model_response_dict = response['response'];
-                        console.log('Response Dict:', model_response_dict)
+                        // console.log('Response Dict:', model_response_dict)
 
                         var model_response_message = model_response_dict['response'];
                         model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
-                        console.log('Response:', model_response_message)
+                        // console.log('Response:', model_response_message)
 
                         var user_question = model_response_dict['question'];
 
@@ -672,7 +672,7 @@
 
                     $('#loading_modal_div').show();
 
-                    console.log('file-data:', file_data)
+                    // console.log('file-data:', file_data)
                     let userFile =  file_data[0];
 
                     if (fileName.length > 0){
@@ -680,7 +680,7 @@
                         if (userFile.type == 'application/pdf'){
                                 
                             let csrf_token_val = $('input[name="csrfmiddlewaretoken"]').val();
-                            console.log('csrf-token:', csrf_token_val)
+                            // console.log('csrf-token:', csrf_token_val)
                             form_data.append("user_file", userFile);
                             form_data.append("user_file_name", fileName);
 
@@ -704,7 +704,7 @@
 
                                     },
                                     error: function (response) {
-                                        console.log("NOPEEEEEE")
+                                        // console.log("NOPEEEEEE")
                                     }
                                 });
                                 

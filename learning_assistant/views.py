@@ -579,37 +579,37 @@ def handle_file_name_change(request):
 
 
 
-def teacher_admin_dashboard(request):
-# def super_user_admin_dashboard(request):
+# def teacher_admin_dashboard(request):
+# # def super_user_admin_dashboard(request):
 
-    if not request.user.is_superuser:
-        return redirect('landing')
+#     # if not request.user.is_superuser:
+#     #     return redirect('landing')
 
-    all_users = UserOAuth.objects.all()
+#     all_users = UserOAuth.objects.all()
     
-    final_all_users_rv = []
-    for uobj in all_users:
-        code_count = UserCode.objects.filter(
-            user_auth_obj = uobj
-        ).count()
-        conversation_count = UserConversation.objects.filter(
-            user_auth_obj = uobj
-        ).count()
+#     final_all_users_rv = []
+#     for uobj in all_users:
+#         code_count = UserCode.objects.filter(
+#             user_auth_obj = uobj
+#         ).count()
+#         conversation_count = UserConversation.objects.filter(
+#             user_auth_obj = uobj
+#         ).count()
 
-        final_all_users_rv.append({
-            'user_obj': uobj,
-            'user_created_at': datetime.datetime.fromtimestamp(float(uobj.created_at)),
-            'user_last_login_in': datetime.datetime.fromtimestamp(float(uobj.updated_at)),
-            'code_count': code_count,
-            'conversation_count': conversation_count
-        })
+#         final_all_users_rv.append({
+#             'user_obj': uobj,
+#             'user_created_at': datetime.datetime.fromtimestamp(float(uobj.created_at)),
+#             'user_last_login_in': datetime.datetime.fromtimestamp(float(uobj.updated_at)),
+#             'code_count': code_count,
+#             'conversation_count': conversation_count
+#         })
 
     
-    final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
+#     final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
 
-    return render(request, 'teacher_admin_dashboard.html', {
-        'all_students': final_all_users_rv
-    })
+#     return render(request, 'teacher_admin_dashboard.html', {
+#         'all_students': final_all_users_rv
+#     })
 
 
 
@@ -1073,20 +1073,18 @@ def teacher_admin_login(request):
 
 
 
-# def teacher_admin_dashboard(request):
+def teacher_admin_dashboard(request):
 
-#     if request.session.get("teacher_object", None) is None:
-#         # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
-#         return redirect('landing')
+    if request.session.get("teacher_object", None) is None:
+        # TODO: redirect to landing for now as private-beta for improving teacher-db-functionality
+        return redirect('landing')
 
-#     # teacher_obj = request.session.get("teacher_object")
-#     # teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
+    teacher_obj = request.session.get("teacher_object")
+    teacher_obj = Teacher.objects.get(id = teacher_obj['id'])
 
-
-#     return render(request, 'teacher_admin_dashboard.html', {
-#         'teacher_obj': teacher_obj,
-#     })
-
+    return render(request, 'teacher_admin_dashboard.html', {
+        'teacher_obj': teacher_obj,
+    })
 
 
 

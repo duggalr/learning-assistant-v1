@@ -1982,9 +1982,9 @@ def super_user_admin_dashboard(request):
 
     final_all_users_rv = sorted(final_all_users_rv, key=itemgetter('user_last_login_in'), reverse=True)
 
-    requested_teacher_email_objects = LandingTeacherEmail.objects.all()
+    requested_teacher_email_objects = LandingTeacherEmail.objects.all().order_by('-created_at')
 
-    teacher_objects = Teacher.objects.all()
+    teacher_objects = Teacher.objects.all().order_by('-created_at')
     registered_teacher_student_list = []
     for tobj in teacher_objects:
         

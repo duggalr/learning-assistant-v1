@@ -6,5 +6,4 @@ app = Celery("django_celery")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
-# python -m celery -A uoft_rooms worker
 # python -m celery -A gpt_learning_assistant worker

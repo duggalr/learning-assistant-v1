@@ -1757,7 +1757,7 @@ def student_admin_playground(request):
     if std_code_obj is not None:
         student_code_conversations = StudentPlaygroundConversation.objects.filter(
             code_obj = std_code_obj
-        )
+        ).order_by('created_at')
 
     return render(request, 'student_playground_environment.html', {
         'teacher_obj': teacher_obj,
@@ -1809,7 +1809,7 @@ def handle_student_playground_message(request):
         prev_conversation_messages = StudentPlaygroundConversation.objects.filter(
             student_obj = student_obj,
             code_obj = spc_obj
-        ).order_by('created_at')
+        ).order_by('-created_at')
 
         if len(prev_conversation_messages) > 0:
             for uc_obj in prev_conversation_messages[:3]:

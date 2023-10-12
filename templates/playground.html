@@ -119,9 +119,10 @@
 
                 {% if user_session is not None %}
 
-                    <a href="#" onclick="goBackPage();return false;">
+                    <!-- <a href="#" onclick="goBackPage();return false;"> -->
+                    <a href="{% url 'dashboard' %}">
                         <i class="arrow alternate circle left outline icon"></i>
-                        Back
+                        Back to Dashbaord
                     </a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{% url 'playground' %}">

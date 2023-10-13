@@ -2053,14 +2053,43 @@ def super_user_admin_student_page(request, uid):
 
 
 
-
-
-
-
 def super_user_motivation_prompt(request):
     # TODO: build, use, and go from there...
         # potentially building refactor-AI <-- literally a web-app at first (doesn't need to be vscode?)
     return render(request, 'super_user_motivation_prompt.html')
+
+
+
+import json
+from django.views.decorators.csrf import csrf_exempt
+
+## REST API Views ##
+
+@csrf_exempt
+def test_api_response(request):
+    
+    print(request)
+
+    post_data = json.loads(request.body.decode("utf-8"))
+    print('post-data:', post_data)
+
+    user_question = post_data['user_question'].strip()
+    user_code = post_data['user_code'].strip()
+
+    tutor_response = main_utils.main_handle_question(
+        question = user_question, 
+        student_code = user_code,
+        previous_chat_history_st = ''
+    )
+
+    di = {
+        'input': 'example',
+        'output': 3,
+        'user': 'testing'
+    }
+    
+    return JsonResponse(data=di)
+
 
 
 

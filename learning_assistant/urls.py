@@ -75,5 +75,9 @@ urlpatterns = [
     # # General New Views
     # path("new_landing", views.new_landing_main, name="new_landing_main"),
 
+
+    ## REST API
+    path("test_api_response", views.test_api_response, name="test_api_response"),
+
 ]
 

@@ -2057,6 +2057,13 @@ def super_user_admin_student_page(request, uid):
 
 
 
+def super_user_motivation_prompt(request):
+    # TODO: build, use, and go from there...
+        # potentially building refactor-AI <-- literally a web-app at first (doesn't need to be vscode?)
+    return render(request, 'super_user_motivation_prompt.html')
+
+
+
 
 
 

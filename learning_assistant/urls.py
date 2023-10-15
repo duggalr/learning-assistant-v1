@@ -31,9 +31,6 @@ urlpatterns = [
 
     # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
 
-    # # Admin Views
-    path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
-    path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
     
     # Teacher-Student Views
     path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),
@@ -75,6 +72,14 @@ urlpatterns = [
     # # General New Views
     # path("new_landing", views.new_landing_main, name="new_landing_main"),
 
+
+    ## Admin Views
+    path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
+    path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
+
+
+    ## Custom Learning Views
+    path("super_user_motivation_prompt", views.super_user_motivation_prompt, name="super_user_motivation_prompt"),
 
     ## REST API
     path("test_api_response", views.test_api_response, name="test_api_response"),

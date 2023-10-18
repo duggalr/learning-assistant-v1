@@ -42,24 +42,29 @@
         <div class="one wide column"></div>
 
         <div class="fourteen wide column" style="padding-top: 35px;">
-            
+
+            <!-- <a href="{% url 'new_course_home' %}" style="padding: 0px;">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back
+            </a> -->
+
             <!-- Header -->
-            <h3 id="lesson_header">
-                Lesson 1: Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+            <h3 id="lesson_header" style="padding-bottom: 0px;">                
+                {{ course_lesson_object.lesson_title }}
             </h3>
 
             <!-- Description -->
-            <!-- <div class="ui basic segment" style=" padding-bottom: 5px;" >
+            <div class="ui basic segment" style="padding-bottom: 0px; padding-top: 0px;" >
 
-                <p style="font-size: 15px; color: gray;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend.
+                <p style="font-size: 14px; color: gray;">
+                    {{ course_lesson_object.lesson_description }}
                 </p>
                 
-            </div> -->
+            </div>
 
 
             <!-- Tabular Menu -->
-            <div class="ui tabular menu" style="padding-top: 10px;">
+            <div class="ui tabular menu" style="padding-top: 5px;">
 
                 <a class="active item" id="lesson_video_tab">
                     <i class="file code icon" style="font-size: 13px;"></i>

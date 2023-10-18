@@ -2064,13 +2064,31 @@ def super_user_motivation_prompt(request):
 ## New Course ##
 
 def new_course_home(request):
-    return render(request, 'course_home.html')
+    all_lesson_objects = PythonCourseLesson.objects.all()
+    return render(request, 'course_home.html', {
+        'all_lesson_objects': all_lesson_objects
+    })
 
 
 def new_course_lesson_page(request, lid):
-    # TODO: utilize lesson-id
-    
-    return render(request, 'course_lesson_page.html')
+    course_lesson_obj = get_object_or_404(PythonCourseLesson, id = lid)
+
+    return render(request, 'course_lesson_page.html', {
+        'course_lesson_object': course_lesson_obj
+    })
+
+
+def new_course_admin(request):
+    return render(request, 'course_lesson_admin.html')
+
+
+def new_course_question_management(request):
+    all_lesson_objects = PythonCourseLesson.objects.all()
+    return render(request, 'course_question_management.html', {
+        'all_lesson_objects': all_lesson_objects
+    })
+
+
 
 
 

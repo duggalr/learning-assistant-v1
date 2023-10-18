@@ -88,6 +88,9 @@ urlpatterns = [
     ## New Python Course Home
     path("new_course_home", views.new_course_home, name="new_course_home"),
     path("new_course_lesson_page/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
+    path("new_course_admin", views.new_course_admin, name="new_course_admin"),
+    path("new_course_question_management", views.new_course_question_management, name="new_course_question_management"),
 
 ]
+
 

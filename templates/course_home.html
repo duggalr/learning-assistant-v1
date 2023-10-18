@@ -44,92 +44,32 @@
 
             <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
 
-                <div class="item" >
+                {% for lobj in all_lesson_objects %}
 
-                    <div class="right floated content" style="padding-top: 10px;">
-                        <!-- <a class="ui red label">not started</a> -->
-                        <!-- <a class="ui teal label">in progress</a> -->
-                        <a class="ui green label">completed</a>
-                    </div>
+                    <div class="item" >
 
-                    <div class="content">
-                        <div class="header" style="font-size: 15.5px; margin-top: 10px;">
-                            <i class="hand point right outline icon"></i>
-                            Lesson 1: Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+                        <div class="right floated content" style="padding-top: 10px;">
+                            <a class="ui red label">not started</a>
                         </div>
-                    </div>
 
-                    <div style="padding-top: 5px; padding-bottom: 12px;">
-                        <span style="color: gray; font-size: 13.5px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </span>
-                    </div>
-
-                </div>
-                
-                <div class="item" >
-
-                    <div class="right floated content" style="padding-top: 10px;">
-                        <a class="ui red label">not started</a>
-                    </div>
-
-                    <div class="content">
-                        <div class="header" style="font-size: 15.5px; margin-top: 10px;">
-                            <i class="hand point right outline icon"></i>
-                            Lesson 2: Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+                        <div class="content">
+                            <a href="{% url 'new_course_lesson_page' lobj.id %}">
+                                <div class="header" style="font-size: 15.5px; margin-top: 10px;">
+                                    <i class="hand point right outline icon"></i>
+                                    {{ lobj.lesson_title }}
+                                </div>
+                            </a>
                         </div>
-                    </div>
 
-                    <div style="padding-top: 5px; padding-bottom: 12px;">
-                        <span style="color: gray; font-size: 13.5px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </span>
-                    </div>
-
-                </div>
-                
-                <div class="item" >
-
-                    <div class="right floated content" style="padding-top: 10px;">
-                        <a class="ui red label">not started</a>
-                    </div>
-
-                    <div class="content">
-                        <div class="header" style="font-size: 15.5px; margin-top: 10px;">
-                            <i class="hand point right outline icon"></i>
-                            Lesson 3: Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+                        <div style="padding-top: 5px; padding-bottom: 12px;">
+                            <span style="color: gray; font-size: 13.5px;">
+                                {{ lobj.lesson_description }}
+                            </span>
                         </div>
+
                     </div>
 
-                    <div style="padding-top: 5px; padding-bottom: 12px;">
-                        <span style="color: gray; font-size: 13.5px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </span>
-                    </div>
-
-                </div>
-                
-                <div class="item" >
-
-                    <div class="right floated content" style="padding-top: 10px;">
-                        <a class="ui red label">not started</a>
-                    </div>
-
-                    <div class="content">
-                        <div class="header" style="font-size: 15.5px; margin-top: 10px;">
-                            <i class="hand point right outline icon"></i>
-                            Lesson 4: Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
-                        </div>
-                    </div>
-
-                    <div style="padding-top: 5px; padding-bottom: 12px;">
-                        <span style="color: gray; font-size: 13.5px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </span>
-                    </div>
-
-                </div>
-                
+                {% endfor %}
 
             </div>
 
@@ -139,5 +79,4 @@
 
 
 {% endblock %}
-
 

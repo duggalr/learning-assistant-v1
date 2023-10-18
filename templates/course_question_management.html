@@ -58,8 +58,7 @@
     </style>    
 
 
-    {% include 'teacher_admin_navbar.html' %}
-
+    {% include 'dashboard_navbar.html' %}
 
     <!-- Main -->
     <div class="ui grid container">
@@ -68,7 +67,7 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-            <a href="{% url 'teacher_admin_dashboard' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
+            <a href="{% url 'new_course_admin' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
@@ -90,9 +89,9 @@
 
             <br/>
 
-            <span style="color: gray; font-size: 13px;">
+            <!-- <span style="color: gray; font-size: 13px;">
                 Here, you can see a list of your questions, which students have answered them, along with creating new questions.
-            </span>
+            </span> -->
 
             <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
 
@@ -159,7 +158,7 @@
             </div>
             
 
-            <div id="add_question_div" style="display: none; padding-top: 20px;">
+            <div id="add_question_div" style="display: none; padding-top: 0px;">
 
                 <div class="ui grid container">
 
@@ -176,11 +175,16 @@
                                 <label>Question</label>
                                 <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required></textarea>
                             </div>
-    
-                            <!-- <div class="field">
-                                <label>Test Cases (enter each testcase in a new line, in this exact format: input=[1,2,3,4,5] ;; output=15)</label>
-                                <textarea rows="5" name="question-test-case" placeholder="input=[1,2,3,4,5] ;; output=15&#10;input=(3, 100) ;; output=300&#10;input='hello there.' ;; output=['hello', 'threre.']"></textarea>
-                            </div> -->
+
+                            <div class="required field">
+                                <label>Lesson Object</label>
+                                <select class="ui dropdown" required>
+                                    <option value="">Choose Lesson Object</option>
+                                    {% for obj in all_lesson_objects %}
+                                        <option value="{{ obj.id }}">{{ obj.lesson_title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
 
                             <h5>Add Test Cases: <span style="font-size: 13px; color: gray; font-weight: 400;">(optional)</span></h5>
 
@@ -214,6 +218,39 @@
                                 <div class="field">
                                     <label>Output</label>
                                     <input name="test-output-three" placeholder="output = True" type="text">
+                                </div>
+                            </div>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-four" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-four" placeholder="output = True" type="text">
+                                </div>
+                            </div>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-five" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-five" placeholder="output = True" type="text">
+                                </div>
+                            </div>
+
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Input</label>
+                                    <input name="test-input-six" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                </div>
+                                <div class="field">
+                                    <label>Output</label>
+                                    <input name="test-output-six" placeholder="output = True" type="text">
                                 </div>
                             </div>
     
@@ -355,12 +392,10 @@
             // });
 
         })
-        
 
 
     </script>
 
 
 {% endblock %}
-
 

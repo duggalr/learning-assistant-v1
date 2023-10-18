@@ -159,10 +159,33 @@ class UserFileConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-
 class LandingTeacherEmail(models.Model):
     email = models.EmailField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+## New Course Modals ## 
+
+class PythonCourseLesson(models.Model):
+    lesson_title = models.CharField(max_length=3000)
+    lesson_description = models.TextField()
+    lesson_video = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PythonLessonQuestion(models.Model):
+    question_name = models.CharField(max_length=3000)
+    question_text = models.TextField()
+    course_lesson_obj = models.ForeignKey(PythonCourseLesson, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+## TODO: 
+# class PythonLessonQuestionTestCase(models.Model):
+#     pass
+
+
 
 
 
@@ -186,4 +209,5 @@ class LandingTeacherEmail(models.Model):
 #     status = models.CharField(max_length=3000)
 #     created_at = models.DateTimeField(auto_now_add=True)
 #     updated_at = models.DateTimeField(auto_now=True)
+
 

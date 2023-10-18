@@ -86,7 +86,7 @@
 
                 <a class="item" id="lesson_exercises_tab">
                     <i class="file pdf icon" style="font-size: 13px;"></i>
-                    Exercises (5)
+                    Exercises ({{ lesson_question_objects|length }})
                 </a>
 
             </div>
@@ -148,120 +148,32 @@
 
                 <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px; padding-left: 20px; padding-bottom: 10px;">
 
-                    <div class="item">
+                    {% for tqobj in lesson_question_objects %}
 
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                        <div class="item">
 
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" >
-                                    Question Sample Text
-                                </a>
-                            </div>
-                        
-                            <div style="padding-top: 14px; ">
-                                
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: 2023-10-10
-                                </span>
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
-                            </div>
+                                <div class="header" style="font-size: 15.5px;">
+                                    <a class="file_name_header" >
+                                        {{ tqobj.question_name }}
+                                    </a>
+                                </div>
+                            
+                                <div style="padding-top: 14px; ">
+                                    
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Uploaded: {{ tqobj.created_at }}
+                                    </span>
 
-                        </div>
-
-                    </div>
-
-                    <div class="item">
-
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" >
-                                    Question Sample Text
-                                </a>
-                            </div>
-                        
-                            <div style="padding-top: 14px; ">
-                                
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: 2023-10-10
-                                </span>
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                    <div class="item">
-
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" >
-                                    Question Sample Text
-                                </a>
-                            </div>
-                        
-                            <div style="padding-top: 14px; ">
-                                
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: 2023-10-10
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="item">
-
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" >
-                                    Question Sample Text
-                                </a>
-                            </div>
-                        
-                            <div style="padding-top: 14px; ">
-                                
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: 2023-10-10
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="item">
-
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" >
-                                    Question Sample Text
-                                </a>
-                            </div>
-                        
-                            <div style="padding-top: 14px; ">
-                                
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: 2023-10-10
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    {% endfor %}
 
                 </div>
 

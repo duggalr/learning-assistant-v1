@@ -2073,8 +2073,11 @@ def new_course_home(request):
 def new_course_lesson_page(request, lid):
     course_lesson_obj = get_object_or_404(PythonCourseLesson, id = lid)
 
+    lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = course_lesson_obj)
+
     return render(request, 'course_lesson_page.html', {
-        'course_lesson_object': course_lesson_obj
+        'course_lesson_object': course_lesson_obj,
+        'lesson_question_objects': lesson_question_objects
     })
 
 
@@ -2086,7 +2089,6 @@ def new_course_question_management(request):
     
     all_lesson_objects = PythonCourseLesson.objects.all()
     all_question_objects = PythonLessonQuestion.objects.all()
-
 
     if request.method == 'POST':
         question_name = request.POST['question-name'].strip()

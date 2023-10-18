@@ -41,7 +41,7 @@
 
         <div class="one wide column"></div>
 
-        <div class="fourteen wide column" style="padding-top: 35px;">
+        <div class="fourteen wide column" style="padding-top: 20px;">
 
             <!-- <a href="{% url 'new_course_home' %}" style="padding: 0px;">
                 <i class="arrow alternate circle left outline icon"></i>
@@ -52,6 +52,19 @@
             <h3 id="lesson_header" style="padding-bottom: 0px;">                
                 {{ course_lesson_object.lesson_title }}
             </h3>
+
+            <div>
+                <a href="{% url 'new_course_home' %}" style="padding: 0px;">
+                    <i class="arrow alternate circle left outline icon"></i>
+                    Back
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="{% url 'new_course_lesson_page' course_lesson_object.id %}" style="padding: 0px;">                    
+                    Next
+                    <i class="arrow alternate circle right outline icon"></i>
+                </a>
+            </div>
+            
 
             <!-- Description -->
             <div class="ui basic segment" style="padding-bottom: 0px; padding-top: 0px;" >
@@ -73,7 +86,7 @@
 
                 <a class="item" id="lesson_exercises_tab">
                     <i class="file pdf icon" style="font-size: 13px;"></i>
-                    Exercises
+                    Exercises (5)
                 </a>
 
             </div>
@@ -126,10 +139,6 @@
                     </div>
 
                 </div>
-
-
-                
-
 
             </div>
 
@@ -259,6 +268,7 @@
             </div>
             
             <br/>
+
 
         </div>
 

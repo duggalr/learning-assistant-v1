@@ -95,7 +95,7 @@
 
             <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 20px; padding-bottom: 10px;">
 
-                {% if teacher_questions|length == 0 %}
+                {% if all_question_objects|length == 0 %}
 
                     <div class="ui placeholder segment">
 
@@ -108,11 +108,11 @@
 
                 {% else %}
 
-                    {% for tqobj in teacher_questions %}
+                    {% for tqobj in all_question_objects %}
 
                         <div class="item">
 
-                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                            <div class="content" style="padding-top: 0px; padding-bottom: 28px;">
         
                                 <div class="right floated content">
                                     <div class="negative ui mini animated button delete_question_button" tabindex="0">
@@ -126,8 +126,8 @@
                                 <input class="t_question_id" type="hidden" value="{{ tqobj.0.id }}" />
         
                                 <div class="header" style="font-size: 15.5px;">
-                                    <a class="file_name_header" href="{% url 'teacher_specific_question_view' qid=tqobj.0.id %}">
-                                        {{ tqobj.0.question_name }}
+                                    <a class="file_name_header" href="{% url 'new_course_question_view' tqobj.id %}">
+                                        {{ tqobj.question_name }}
                                     </a>
                                 </div>
         
@@ -135,14 +135,14 @@
 
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="code branch icon"></i>
-                                        Number of Code Files: {{ tqobj.1 }}
+                                        Associated Lesson: {{ tqobj.course_lesson_obj.lesson_title }}
                                     </span>
                                     
                                     <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px; padding-right: 8px;">|</span>
 
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ tqobj.0.created_at|date }}
+                                        Uploaded: {{ tqobj.created_at|date }}
                                     </span>
         
                                 </div>
@@ -178,7 +178,7 @@
 
                             <div class="required field">
                                 <label>Lesson Object</label>
-                                <select class="ui dropdown" required>
+                                <select name="lesson_object_selected" class="ui dropdown" required>
                                     <option value="">Choose Lesson Object</option>
                                     {% for obj in all_lesson_objects %}
                                         <option value="{{ obj.id }}">{{ obj.lesson_title }}</option>
@@ -337,61 +337,61 @@
         });
 
 
-        $('.delete_question_button').click(function(){
+        // $('.delete_question_button').click(function(){
 
-            let text = 'Are you sure you want to delete your question?'
+        //     let text = 'Are you sure you want to delete your question?'
 
-            let confirm_value = confirm(text)
-            if (confirm_value == true){
+        //     let confirm_value = confirm(text)
+        //     if (confirm_value == true){
                 
-                let qValue = $(this).parent().parent().find('.t_question_id').val()
-                let d = {
-                    'qid': qValue,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                }
+        //         let qValue = $(this).parent().parent().find('.t_question_id').val()
+        //         let d = {
+        //             'qid': qValue,
+        //             csrfmiddlewaretoken: '{{ csrf_token }}'
+        //         }
 
-                $.ajax({
-                    type: 'POST',
-                    url: "{% url 'teacher_question_delete' %}",
-                    dataType: "json",
-                    data: d,
-                    success: function (response) {
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: "{% url 'teacher_question_delete' %}",
+        //             dataType: "json",
+        //             data: d,
+        //             success: function (response) {
 
-                        window.location.reload();
+        //                 window.location.reload();
 
-                    },
-                    error: function (response) {}
+        //             },
+        //             error: function (response) {}
                     
-                });
+        //         });
 
-            }
+        //     }
 
-            // let cid = $('#code_obj_id').val();
-            // let lqid = $('#lesson_question_obj_id').val();
+        //     // let cid = $('#code_obj_id').val();
+        //     // let lqid = $('#lesson_question_obj_id').val();
 
-            // let d = {
-            //     'message': messageText,
-            //     'user_code': user_code,
-            //     'cid': cid,
-            //     'lqid': lqid,
-            //     csrfmiddlewaretoken: '{{ csrf_token }}'
-            // };
+        //     // let d = {
+        //     //     'message': messageText,
+        //     //     'user_code': user_code,
+        //     //     'cid': cid,
+        //     //     'lqid': lqid,
+        //     //     csrfmiddlewaretoken: '{{ csrf_token }}'
+        //     // };
             
-            // $.ajax({
-            //     type: 'POST',
-            //     url: "{% url 'handle_user_message' %}",
-            //     dataType: "json",
-            //     data: d,
-            //     success: function (response) {
+        //     // $.ajax({
+        //     //     type: 'POST',
+        //     //     url: "{% url 'handle_user_message' %}",
+        //     //     dataType: "json",
+        //     //     data: d,
+        //     //     success: function (response) {
 
-            //         // console.log('response:', response);
+        //     //         // console.log('response:', response);
 
-            //     },
-            //     error: function (response) {}
+        //     //     },
+        //     //     error: function (response) {}
                 
-            // });
+        //     // });
 
-        })
+        // })
 
 
     </script>

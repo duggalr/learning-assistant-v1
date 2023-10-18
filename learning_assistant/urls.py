@@ -90,6 +90,7 @@ urlpatterns = [
     path("new_course_lesson_page/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
     path("new_course_admin", views.new_course_admin, name="new_course_admin"),
     path("new_course_question_management", views.new_course_question_management, name="new_course_question_management"),
+    path("new_course_question_view/<int:qid>", views.new_course_question_view, name="new_course_question_view"),
 
 ]
 

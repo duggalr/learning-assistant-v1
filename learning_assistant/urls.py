@@ -84,5 +84,10 @@ urlpatterns = [
     ## REST API
     path("test_api_response", views.test_api_response, name="test_api_response"),
 
+
+    ## New Python Course Home
+    path("new_course_home", views.new_course_home, name="new_course_home"),
+    path("new_course_lesson_page/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
+
 ]
 

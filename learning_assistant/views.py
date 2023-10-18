@@ -2061,6 +2061,19 @@ def super_user_motivation_prompt(request):
 
 
 
+## New Course ##
+
+def new_course_home(request):
+    return render(request, 'course_home.html')
+
+
+def new_course_lesson_page(request, lid):
+    # TODO: utilize lesson-id
+    
+    return render(request, 'course_lesson_page.html')
+
+
+
 
 import json
 from django.views.decorators.csrf import csrf_exempt

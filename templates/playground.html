@@ -645,6 +645,9 @@ mystdout.getvalue()
 
                 let output = pyodide.runPython(captureOutputCode);
 
+                console.log('User Code:', editor.getValue())
+                console.log('CODE OUTPUT:', output);
+
                 addToOutput(output);
 
                 // console.log('user-sessions:', user_session)

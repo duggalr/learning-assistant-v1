@@ -132,7 +132,16 @@
 
             {% endif %} -->
 
-            
+            <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back to Exercises
+            </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'playground' %}">
+                Next Question
+                <i class="arrow alternate circle right outline icon"></i>
+            </a>
+
             <div style="display: flex; align-items: center; padding-top: 15px;">
 
                 <h4 style="margin: 0;">
@@ -435,6 +444,7 @@
         } else {
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
+            console.log('std-question:', std_question)
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
 
         }
@@ -544,6 +554,64 @@ mystdout.getvalue()
         });
 
 
+        const initial_user_session = '{{ user_session }}';
+
+        let anon_user_localstg_dict = {};
+        let pcid_associated_dict = {};
+        let pcid_user_messages = [];
+
+        if (initial_user_session == 'None'){
+
+            let tmp_usr_messages = JSON.parse(localStorage.getItem("python_lesson_playground_user_dictionary"));
+
+            console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
+
+            if (tmp_usr_messages != null){
+
+                anon_user_localstg_dict = tmp_usr_messages;
+
+                if (pcqid in anon_user_localstg_dict){
+
+                    pcid_associated_dict = anon_user_localstg_dict[pcqid];
+                    pcid_user_messages = pcid_associated_dict['user_messages'];
+                    pcid_user_code = pcid_associated_dict['user_code'];
+
+                    if (pcid_user_messages.length > 0){
+
+                        for (idx = 0; idx <= pcid_user_messages.length-2; idx += 2){
+
+                            let messageText = pcid_user_messages[idx]
+                            let model_response_message = pcid_user_messages[idx+1]
+
+                            const message = document.createElement("div");
+                            message.className = "message";
+                            message.innerHTML = "<b>You:</b> " + messageText;
+                            message.style.whiteSpace = 'pre-wrap'
+                            chat.appendChild(message);
+
+                            const responseMessage = document.createElement("div");
+                            responseMessage.className = "message";
+                            responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                            // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                            chat.appendChild(responseMessage);
+
+                            // chat.scrollTop = chat.scrollHeight;
+
+                        }
+
+                        // let anon_user_code_st = localStorage.getItem('python_lesson_playground_user_code');
+                        editor.setValue(pcid_user_code);
+
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
         function sendMessage() {
 
             const messageText = chatInput.value.trim();
@@ -576,9 +644,9 @@ mystdout.getvalue()
                 if (initial_user_session == 'None'){
 
                     let prev_conversation_history = []
-                    if (anon_user_messages.length > 0){
+                    if (pcid_user_messages.length > 0){
                         
-                        prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+                        prev_conversation_history = pcid_user_messages.slice( pcid_user_messages.length-6, pcid_user_messages.length )
 
                     }
 
@@ -603,74 +671,66 @@ mystdout.getvalue()
                         'message': messageText,
                         'user_code': user_code,
                         'cid': cid,
-                        'lqid': lqid,
                         'pclid': pclid,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     };
 
                 }
 
-
                 console.log('user-message-dict:', d);
 
-                // $.ajax({
-                //     type: 'POST',
-                //     url: "{% url 'handle_user_message' %}",
-                //     dataType: "json",
-                //     data: d,
-                //     success: function (response) {
-
-                //         // console.log('response:', response);
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'new_course_handle_user_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
                         
-                //         var model_response_dict = response['response'];
-                //         // var model_response_message = model_response_dict['response']
+                        var model_response_dict = response['response'];
 
-                //         // console.log('Response Dict:', model_response_dict)
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
-                //         var model_response_message = model_response_dict['response'];
-                //         // model_response_message = model_response_message.replaceAll('\n', '<br/><br/>');
-                //         model_response_message = model_response_message.replaceAll('\n', '<br/>');
+                        var user_question = model_response_dict['question'];
 
-                //         // console.log('Response:', model_response_message)
-
-                //         var user_question = model_response_dict['question'];
-
-                //         const responseMessage = document.createElement("div");
-                //         responseMessage.className = "message";
-                //         responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                //         // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
-                //         chat.appendChild(responseMessage);
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
                         
-                //         chat.scrollTop = chat.scrollHeight;
+                        chat.scrollTop = chat.scrollHeight;
 
-                //         $('#chatInput').prop('disabled', false);
-                //         $('#sendButton').show();
-                //         $('#primary_loading_button').hide();
-                        
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
-                //         if (initial_user_session == 'None'){
+                        if (initial_user_session == 'None'){
 
-                //             var final_question_st = messageText
-                //             var final_response_st = model_response_message
-                //             anon_user_messages.push(final_question_st)
-                //             anon_user_messages.push(final_response_st)
-                //             localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            pcid_user_messages.push(final_question_st)
+                            pcid_user_messages.push(final_response_st)
+                            
+                            pcid_associated_dict['user_messages'] = pcid_user_messages
+                            pcid_associated_dict['user_code'] = user_code
+                            anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                            localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+                            // localStorage.setItem('python_lesson_playground_user_messages', JSON.stringify(anon_user_messages));
+                            // localStorage.setItem('python_lesson_playground_user_code', user_code);
 
-                //             localStorage.setItem('anon_playground_user_code', user_code);
+                        } else {
 
-                //         } else {
+                            let saved_cid = model_response_dict['cid'];
+                            $('#code_obj_id').val(saved_cid);
 
-                //             let saved_cid = model_response_dict['cid'];
-                //             $('#code_obj_id').val(saved_cid);
+                        }
 
-                //         }
+                        $('#solution_submit_button').removeClass("disabled");
 
-                //         $('#solution_submit_button').removeClass("disabled");
-
-                //     },
-                //     error: function (response) {}
+                    },
+                    error: function (response) {}
                     
-                // });
+                });
 
 
             }
@@ -683,8 +743,6 @@ mystdout.getvalue()
 
 
 {% endblock %}
-
-
 
 
 

@@ -191,7 +191,7 @@ class PythonLessonQuestionTestCase(models.Model):
 
 class PythonLessonUserCode(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-    lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
+    lesson_question_obj = models.ForeignKey(PythonLessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
     code_unique_name = models.CharField(max_length=2000)
     user_code = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -199,7 +199,7 @@ class PythonLessonUserCode(models.Model):
 
 class PythonLessonConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-    code_obj = models.ForeignKey(UserCode, on_delete=models.CASCADE)
+    code_obj = models.ForeignKey(PythonLessonUserCode, on_delete=models.CASCADE)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()

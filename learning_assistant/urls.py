@@ -93,7 +93,7 @@ urlpatterns = [
     path("new_course_question_view/<int:qid>", views.new_course_question_view, name="new_course_question_view"),
 
     path("new_course_playground", views.new_course_playground, name="new_course_playground"),
+    path("new_course_handle_user_message", views.new_course_handle_user_message, name="new_course_handle_user_message"),
 
 ]
-
 

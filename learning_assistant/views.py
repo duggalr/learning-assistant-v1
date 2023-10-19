@@ -163,10 +163,25 @@ def playground(request):
 
     code_id = request.GET.get('cid', None)
     lqid = request.GET.get('lqid', None)
+    
+    pclid = request.GET.get('pclid', None)
+
 
     user_oauth_obj = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+
+    pt_course_lesson_question_obj = None
+    pt_course_test_case_examples = []
+    if pclid is not None:
+        # PythonLessonQuestion.objects
+        pt_course_lesson_question_obj = get_object_or_404(PythonLessonQuestion, id = pclid)
+        pt_course_test_case_examples = PythonLessonQuestionTestCase.objects.filter(
+            lesson_question_obj = pt_course_lesson_question_obj
+        )
+
+
 
     ls_q_obj = None
     ls_q_test_case_examples = []
@@ -176,6 +191,7 @@ def playground(request):
         print(ls_q_test_case_examples)
         # ls_q_obj = get_object_or_404(NewPracticeQuestion, id = lqid)
         # ls_q_test_case_examples = NewPracticeTestCase.objects.filter(question_obj = ls_q_obj)
+
 
     student_assigned_qid = request.GET.get('stdqid', None)
     tq_obj = None
@@ -200,6 +216,7 @@ def playground(request):
             id = code_id,
             user_auth_obj = user_oauth_obj
         )
+
 
     user_conversation_objects = []
     if len(uc_objects) > 0:
@@ -238,8 +255,13 @@ def playground(request):
         'stdqid': student_assigned_qid,
         'teacher_question_object': tq_obj,
         'teacher_question_test_cases': tq_obj_test_case_examples,
-        'initial_rnd_file_name': initial_rnd_file_name
+        'initial_rnd_file_name': initial_rnd_file_name,
         # 'student_obj': student_obj
+
+        'pclid': pclid,
+        'pt_course_lesson_question_obj': pt_course_lesson_question_obj,
+        'pt_course_test_case_examples': pt_course_test_case_examples
+
     })
 
 
@@ -389,6 +411,7 @@ def handle_user_message(request):
 
         user_cid = request.POST['cid']
         user_lqid = request.POST['lqid']
+        # user_pclid = request.POST['pclid']
 
         lesson_ques_obj = None
         if user_lqid != 'None':
@@ -2171,6 +2194,32 @@ def new_course_question_view(request, qid):
     question_obj = get_object_or_404(PythonLessonQuestion, id = qid)
     return render(request, 'course_question_view.html', {
         'question_object': question_obj
+    })
+
+
+# TODO:
+    # add the new lesson question here
+    # handle the anon + signed-up user logic 
+    # add the test-case submit functionality
+    # go from there...
+    # **really spend time making this solid
+def new_course_playground(request):
+
+    pcqid = request.GET.get('pcqid')
+
+    initial_user_session = request.session.get("user")
+    pc_question_obj = get_object_or_404(PythonLessonQuestion, id = pcqid)
+    question_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = pc_question_obj)
+
+    user_code_obj = None
+
+    return render(request, 'course_playground_environment.html', {
+        'user_session': initial_user_session,
+        'pcqid': pcqid,
+        'pc_question_obj': pc_question_obj,
+        'pt_course_test_case_examples': question_test_cases,
+        
+        'user_code_obj': user_code_obj
     })
 
 

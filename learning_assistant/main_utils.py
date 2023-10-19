@@ -515,3 +515,30 @@ Below, you will receive the students question, any relevant text that can be use
     return final_dict_rv 
 
 
+
+
+
+
+## Handle Solution Checking 
+
+import ast
+from RestrictedPython import compile_restricted
+
+def course_question_solution_check(source_code, input_param, output_param):
+    tree = ast.parse(source_code, mode='exec')
+    print(tree.body)
+
+    function = tree.body[0]
+
+    byte_code = compile_restricted(
+        source_code,
+        filename='<inline code>',
+        mode='exec'
+    )
+    print(byte_code)
+
+    exec(byte_code)
+    user_function = locals()[function.name]
+    # print(user_function(3, 4))
+
+

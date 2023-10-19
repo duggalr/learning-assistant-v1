@@ -181,13 +181,17 @@ class PythonLessonQuestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+# TODO: 
+    # save the input params as a list and save separate as a input text string (do same for output)
+    # then ast parse when passing to the utils function
+        # finish that functionality
+        # **get this to work well for anon + logged-in cases**
+
 class PythonLessonQuestionTestCase(models.Model):
     lesson_question_obj = models.ForeignKey(PythonLessonQuestion, on_delete=models.CASCADE)
     input_param = models.CharField(max_length=5000, blank=True, null=True)
     correct_output = models.CharField(max_length=5000, blank=True, null=True)
 
-
-# TODO: 
 
 class PythonLessonUserCode(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)

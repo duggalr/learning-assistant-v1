@@ -2332,6 +2332,45 @@ def new_course_handle_user_message(request):
 
 
 
+def new_course_handle_solution_submit(request):
+
+    if request.method == 'POST':
+
+        user_code = request.POST['user_code'].strip()     
+        user_code = user_code.replace('`', '"').strip()
+        user_cid = request.POST['cid']
+        user_pclid = request.POST['pclid']
+        
+        lesson_ques_obj = None
+        if user_pclid != 'None':
+            lesson_question_objects = PythonLessonQuestion.objects.filter(id = user_pclid)
+            if len(lesson_question_objects) > 0:
+                lesson_ques_obj = lesson_question_objects[0]
+
+        initial_user_session = request.session.get('user')
+        if initial_user_session is None:
+            pt_q_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = lesson_ques_obj)
+            
+
+            # previous_message_st = request.POST['previous_messages'].strip()
+            # model_response_dict = main_utils.main_handle_question(
+            #     question = user_question,
+            #     student_code = user_code,
+            #     previous_chat_history_st = previous_message_st
+            # )
+            # return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+ 
+
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+
+
+
+
+
+
 
 
 import json

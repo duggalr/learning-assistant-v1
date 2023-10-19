@@ -564,7 +564,7 @@ mystdout.getvalue()
 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("python_lesson_playground_user_dictionary"));
 
-            console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
+            // console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
 
             if (tmp_usr_messages != null){
 
@@ -737,6 +737,50 @@ mystdout.getvalue()
 
         };
 
+
+        function handleSolutionSubmit(){
+
+            const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
+            $('#chatInput').prop('disabled', true);
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+            chat.scrollTop = chat.scrollHeight;
+            chatInput.value = "";
+
+            let user_code = editor.getValue();
+            let cid = $('#code_obj_id').val();
+            let pclid = $('#course_question_obj_id').val();
+
+            d = {
+                'message': messageText,
+                'user_code': user_code,
+                'cid': cid,
+                'pclid': pclid,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'new_course_handle_solution_submit' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    console.log('res:', response);
+
+                },
+                error: function (response) {}
+                
+            });
+
+
+        }
 
 
     </script>

@@ -2365,10 +2365,6 @@ def new_course_handle_solution_submit(request):
                 input_param = tc_input_list,
                 output_param = tc_output,
             )
-            # if valid_solution:
-            #     correct_count += 1
-            # else:
-            #     incorrect_count += 1
 
             tc_status = 0
             if valid_solution:
@@ -2378,7 +2374,6 @@ def new_course_handle_solution_submit(request):
                 'tc_id_text': f'status_{ qtc_obj.id }',
                 'status': tc_status
             })
-        
 
         print('Correct List:', test_case_correct_list)
 
@@ -2391,7 +2386,6 @@ def new_course_handle_solution_submit(request):
             #     previous_chat_history_st = ''
             # )
         
-
             model_response_dict = {
                 'question': '',
                 'q_prompt': '',
@@ -2402,12 +2396,6 @@ def new_course_handle_solution_submit(request):
 
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         
-
-
-
-
-
-
 
 
 

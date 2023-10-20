@@ -526,19 +526,46 @@ from RestrictedPython import compile_restricted
 
 def course_question_solution_check(source_code, input_param, output_param):
     tree = ast.parse(source_code, mode='exec')
-    print(tree.body)
-
     function = tree.body[0]
+    num_inputs = len([a.arg for a in function.args.args])
 
     byte_code = compile_restricted(
         source_code,
         filename='<inline code>',
         mode='exec'
     )
-    print(byte_code)
 
     exec(byte_code)
     user_function = locals()[function.name]
-    # print(user_function(3, 4))
+
+    if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
+        return False
+
+    if num_inputs == 1:
+        function_output = user_function(input_param[0])
+        if function_output == output_param:
+            return True
+        else:
+            return False
+
+    elif num_inputs == 2:
+        function_output = user_function(input_param[0], input_param[1])
+        if function_output == output_param:
+            return True
+        else:
+            return False
+
+
+# source_code = """
+# def function_one(x, y):
+#     def function_two(z):
+#         return z ** 2
+
+#     val_two = function_two(3)
+#     return (9 ** 9) / val_two
+# """
+
+# x, y = [3], 9
+# course_question_solution_check(source_code, x, y)
 
 

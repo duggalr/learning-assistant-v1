@@ -2331,15 +2331,19 @@ def new_course_handle_user_message(request):
 
 
 
+import ast
 
 def new_course_handle_solution_submit(request):
 
     if request.method == 'POST':
 
-        user_code = request.POST['user_code'].strip()     
+        # TODO: save the users code in the db on submit
+
+        user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
         user_cid = request.POST['cid']
         user_pclid = request.POST['pclid']
+        user_message = request.POST['message'].strip()
         
         lesson_ques_obj = None
         if user_pclid != 'None':
@@ -2347,23 +2351,57 @@ def new_course_handle_solution_submit(request):
             if len(lesson_question_objects) > 0:
                 lesson_ques_obj = lesson_question_objects[0]
 
+
+        pt_q_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = lesson_ques_obj)
+        test_case_correct_list = []
+        for qtc_obj in pt_q_test_cases:
+            tc_input = qtc_obj.input_param
+            tc_output = qtc_obj.correct_output
+
+            tc_input_list = ast.literal_eval(tc_input)
+
+            valid_solution = main_utils.course_question_solution_check(
+                source_code = user_code,
+                input_param = tc_input_list,
+                output_param = tc_output,
+            )
+            # if valid_solution:
+            #     correct_count += 1
+            # else:
+            #     incorrect_count += 1
+
+            tc_status = 0
+            if valid_solution:
+                tc_status = 1
+
+            test_case_correct_list.append({
+                'tc_id_text': f'status_{ qtc_obj.id }',
+                'status': tc_status
+            })
+        
+
+        print('Correct List:', test_case_correct_list)
+
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
-            pt_q_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = lesson_ques_obj)
-            
-
-            # previous_message_st = request.POST['previous_messages'].strip()
+        
             # model_response_dict = main_utils.main_handle_question(
-            #     question = user_question,
+            #     question = user_message,
             #     student_code = user_code,
-            #     previous_chat_history_st = previous_message_st
+            #     previous_chat_history_st = ''
             # )
-            # return JsonResponse({'success': True, 'response': model_response_dict})
+        
 
+            model_response_dict = {
+                'question': '',
+                'q_prompt': '',
+                'response': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            }
 
- 
+            return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
 
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
 
 
 

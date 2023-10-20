@@ -529,31 +529,34 @@ def course_question_solution_check(source_code, input_param, output_param):
     function = tree.body[0]
     num_inputs = len([a.arg for a in function.args.args])
 
-    byte_code = compile_restricted(
-        source_code,
-        filename='<inline code>',
-        mode='exec'
-    )
-
-    exec(byte_code)
+    try:
+        byte_code = compile_restricted(
+            source_code,
+            filename='<inline code>',
+            mode='exec'
+        )
+        exec(byte_code)
+    except:
+        return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.'}
+    
     user_function = locals()[function.name]
 
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
-        return False
+        return {'success': False, 'message': 'Not enough parameters in the function.'}
 
     if num_inputs == 1:
         function_output = user_function(input_param[0])
         if function_output == output_param:
-            return True
+            return {'success': True, 'message': 'Test case successfully passed.'}
         else:
-            return False
+            return {'success': False, 'message': 'Function returned wrong output.'}
 
     elif num_inputs == 2:
         function_output = user_function(input_param[0], input_param[1])
         if function_output == output_param:
-            return True
+            return {'success': True, 'message': 'Test case successfully passed.'}
         else:
-            return False
+            return {'success': False, 'message': 'Function returned wrong output.'}
 
 
 # source_code = """

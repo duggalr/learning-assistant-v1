@@ -183,10 +183,14 @@
 
                 &nbsp;&nbsp;
 
-                <a href="{% url 'login' %}">
-                    Save your progress
-                </a>
+                {% if not user_session %}
 
+                    <a href="{% url 'login' %}">
+                        Save your progress
+                    </a>
+
+                {% endif %}
+                
                 <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         
                 {% if user_session is not None %}
@@ -241,7 +245,12 @@
                 <textarea id="code"></textarea>
             </div>
 
-            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+            {% if user_code_obj is not None %}
+                <input id="code_obj_id" type="hidden" value="{{ user_code_obj.id }}" />
+            {% else %}
+                <input id="code_obj_id" type="hidden" value="{{ user_code_obj }}" />
+            {% endif %}
+            
             <input id="course_question_obj_id" type="hidden" value="{{ pcqid }}" />
 
         </div>
@@ -410,6 +419,9 @@
 
                 </table>
 
+                <h5>Additional Test Case Message:</h5>
+                <p id="test-case-feedback"></p>
+
                 <h5>Feedback:</h5>
                 <p id="gpt-answer-feedback"></p>
 
@@ -486,13 +498,14 @@
         
         user_session = '{{ user_session }}';
         let pcqid = '{{ pcqid }}';
-        let user_cid = '{{ code_id }}';
+        let user_cid = null;
         let user_code_obj = '{{ user_code_obj }}';
 
         if (user_code_obj != 'None'){
 
             let user_code_st = `{{ user_code_obj.user_code|safe }}`;
             editor.setValue(user_code_st);
+            user_cid = '{{ user_code_obj.id }}';
 
         } else {
 
@@ -815,13 +828,13 @@ mystdout.getvalue()
             $('#sendButton').hide();
             $('#primary_loading_button').show();
 
-            const message = document.createElement("div");
-            message.className = "message";
-            message.innerHTML = "<b>You:</b> " + messageText;
-            message.style.whiteSpace = 'pre-wrap'
-            chat.appendChild(message);
-            chat.scrollTop = chat.scrollHeight;
-            chatInput.value = "";
+            // const message = document.createElement("div");
+            // message.className = "message";
+            // message.innerHTML = "<b>You:</b> " + messageText;
+            // message.style.whiteSpace = 'pre-wrap'
+            // chat.appendChild(message);
+            // chat.scrollTop = chat.scrollHeight;
+            // chatInput.value = "";
 
             let user_code = editor.getValue();
             let cid = $('#code_obj_id').val();
@@ -850,6 +863,7 @@ mystdout.getvalue()
                         let gpt_resp = gpt_response_dict['response']
                         let test_case_list = response['test_case_list']
 
+                        let test_case_message = ''
                         for (idx = 0; idx <= test_case_list.length-1; idx++){
                             
                             let tc_dict = test_case_list[idx]
@@ -863,12 +877,26 @@ mystdout.getvalue()
                             } else {
 
                                 document.getElementById(tc_val).innerHTML = '<i class="x icon"></i>'
+                                test_case_message = tc_dict['message']
 
                             }
 
                         }
 
+                        if (test_case_message == ''){
+                            test_case_message = 'All tests run correctly.'    
+                        }
+
+                        document.getElementById('test-case-feedback').innerText = test_case_message;
                         document.getElementById('gpt-answer-feedback').innerText = gpt_resp;
+
+
+                        if ('cid' in response){
+
+                            let saved_cid = response['cid'];
+                            $("#code_obj_id").val(saved_cid);
+
+                        }
 
                     }
 

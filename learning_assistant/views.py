@@ -2236,7 +2236,7 @@ def new_course_playground(request):
         'pc_question_obj': pc_question_obj,
         'pt_course_test_case_examples': question_test_cases,
 
-        'code_id': user_code_obj.id,
+        # 'code_id': user_code_obj.id,
         'user_code_obj': user_code_obj
     })
 
@@ -2357,7 +2357,7 @@ def new_course_save_user_code(request):
         if initial_user_session is not None:
             user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
             if len(user_oauth_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+                return JsonResponse({'success': False, 'response': 'User must be authenticated.'})            
         else:
             return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
 
@@ -2366,6 +2366,8 @@ def new_course_save_user_code(request):
         user_code = user_code.replace('`', '"').strip()
         cid = request.POST['cid']
         lq_id = request.POST['pclid']
+
+        print('user-cid:', cid)
 
         lesson_ques_obj = PythonLessonQuestion.objects.get(id = lq_id)
 
@@ -2409,8 +2411,6 @@ def new_course_handle_solution_submit(request):
 
     if request.method == 'POST':
 
-        # TODO: save the users code in the db on submit
-
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
         user_cid = request.POST['cid']
@@ -2432,11 +2432,13 @@ def new_course_handle_solution_submit(request):
 
             tc_input_list = ast.literal_eval(tc_input)
 
-            valid_solution = main_utils.course_question_solution_check(
+            valid_solution_dict = main_utils.course_question_solution_check(
                 source_code = user_code,
                 input_param = tc_input_list,
                 output_param = tc_output,
             )
+
+            valid_solution = valid_solution_dict['success']
 
             tc_status = 0
             if valid_solution:
@@ -2444,8 +2446,10 @@ def new_course_handle_solution_submit(request):
 
             test_case_correct_list.append({
                 'tc_id_text': f'status_{ qtc_obj.id }',
-                'status': tc_status
+                'status': tc_status,
+                'message': valid_solution_dict['message']
             })
+
 
         print('Correct List:', test_case_correct_list)
 
@@ -2466,8 +2470,61 @@ def new_course_handle_solution_submit(request):
 
             return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
 
-        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        else:
+
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         
+            # model_response_dict = main_utils.main_handle_question(
+            #     question = user_message,
+            #     student_code = user_code,
+            #     previous_chat_history_st = ''
+            # )
+
+            model_response_dict = {
+                'question': '',
+                'q_prompt': '',
+                'response': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            }
+
+            if user_cid == 'None':
+
+                rnd_code_filename = lesson_ques_obj.question_name
+
+                uc_obj = PythonLessonUserCode.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    code_unique_name = rnd_code_filename,
+                    user_code = user_code,
+                    lesson_question_obj = lesson_ques_obj
+                )
+                uc_obj.save()
+
+                return JsonResponse({
+                    'success': True, 
+                    'cid': uc_obj.id, 
+                    'response': model_response_dict, 
+                    'test_case_list': test_case_correct_list
+                })
+
+            else:
+                uc_objects = PythonLessonUserCode.objects.filter(
+                    id = user_cid, 
+                    user_auth_obj = user_oauth_obj
+                )
+                if len(uc_objects) == 0:
+                    return JsonResponse({'success': False, 'response': 'Object id not found.'})
+
+                uc_obj = uc_objects[0]
+                uc_obj.lesson_question_obj = lesson_ques_obj
+                uc_obj.user_code = user_code
+                uc_obj.save()
+
+                return JsonResponse({
+                    'success': True, 
+                    'cid': uc_obj.id, 
+                    'response': model_response_dict, 
+                    'test_case_list': test_case_correct_list
+                })
+                
 
 
 

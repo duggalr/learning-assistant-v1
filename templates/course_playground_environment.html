@@ -174,7 +174,7 @@
 
                 &nbsp;&nbsp;
 
-                <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
+                <div id="solution_submit_button" class="ui tiny animated positive button solution-submit-button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
                     <div class="visible content">Submit</div>
                     <div class="hidden content">
                         <i class="check icon"></i>
@@ -391,7 +391,7 @@
             <!-- Check Answer Tab -->
             <div id="check_answer_div" style="display: none;">
 
-                <button onclick="handleSolutionSubmit()" class="positive ui small button" style="float: right; margin-bottom: 15px;">check answer</button>
+                <button onclick="handleSolutionSubmit()" class="positive ui small button solution-submit-button" style="float: right; margin-bottom: 15px;">check answer</button>
 
                 <table class="ui celled table">
 
@@ -424,7 +424,6 @@
 
                 <h5>Feedback:</h5>
                 <p id="gpt-answer-feedback"></p>
-
 
 
             </div>
@@ -821,24 +820,23 @@ mystdout.getvalue()
         };
 
 
-        function handleSolutionSubmit(){
+
+        function handleSolutionSubmit(event){
 
             const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
+            
             $('#chatInput').prop('disabled', true);
             $('#sendButton').hide();
             $('#primary_loading_button').show();
 
-            // const message = document.createElement("div");
-            // message.className = "message";
-            // message.innerHTML = "<b>You:</b> " + messageText;
-            // message.style.whiteSpace = 'pre-wrap'
-            // chat.appendChild(message);
-            // chat.scrollTop = chat.scrollHeight;
-            // chatInput.value = "";
+            $('.solution-submit-button').addClass('loading');
+            $('.solution-submit-button').addClass('disabled');
 
             let user_code = editor.getValue();
             let cid = $('#code_obj_id').val();
             let pclid = $('#course_question_obj_id').val();
+
+            $( '#check_answer_tab' ).click ();
 
             d = {
                 'message': messageText,
@@ -872,11 +870,11 @@ mystdout.getvalue()
 
                             if (tc_status == 1){
                                 
-                                document.getElementById(tc_val).innerHTML = '<i class="check icon"></i>'
+                                document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
 
                             } else {
 
-                                document.getElementById(tc_val).innerHTML = '<i class="x icon"></i>'
+                                document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
                                 test_case_message = tc_dict['message']
 
                             }
@@ -884,7 +882,7 @@ mystdout.getvalue()
                         }
 
                         if (test_case_message == ''){
-                            test_case_message = 'All tests run correctly.'    
+                            test_case_message = 'All tests ran correctly.'    
                         }
 
                         document.getElementById('test-case-feedback').innerText = test_case_message;
@@ -897,6 +895,13 @@ mystdout.getvalue()
                             $("#code_obj_id").val(saved_cid);
 
                         }
+
+                        $('.solution-submit-button').removeClass('loading');
+                        $('.solution-submit-button').removeClass('disabled');
+
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
                     }
 

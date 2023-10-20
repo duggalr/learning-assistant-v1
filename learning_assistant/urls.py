@@ -97,6 +97,8 @@ urlpatterns = [
     path("new_course_playground", views.new_course_playground, name="new_course_playground"),
     
     path("new_course_handle_solution_submit", views.new_course_handle_solution_submit, name="new_course_handle_solution_submit"),
-    
+
+    path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
+
 ]
 

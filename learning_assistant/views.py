@@ -2208,18 +2208,35 @@ def new_course_playground(request):
     pcqid = request.GET.get('pcqid')
 
     initial_user_session = request.session.get("user")
+
+    user_auth_obj = None    
+    if initial_user_session is not None:
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) > 0:
+            user_auth_obj = user_oauth_objects[0]
+
+
     pc_question_obj = get_object_or_404(PythonLessonQuestion, id = pcqid)
-    print('q-obj:', pc_question_obj)
     question_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = pc_question_obj)
 
     user_code_obj = None
+    
+    user_code_objects = PythonLessonUserCode.objects.filter(
+        lesson_question_obj = pc_question_obj,
+        user_auth_obj = user_auth_obj
+    )
+    if len(user_code_objects) > 0:
+        user_code_obj = user_code_objects[0]
+
+    # TODO: test the logic and ensure everything good
 
     return render(request, 'course_playground_environment.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
         'pc_question_obj': pc_question_obj,
         'pt_course_test_case_examples': question_test_cases,
-        
+
+        'code_id': user_code_obj.id,
         'user_code_obj': user_code_obj
     })
 
@@ -2328,6 +2345,61 @@ def new_course_handle_user_message(request):
     
         model_response_dict['cid'] = uc_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+def new_course_save_user_code(request):
+    
+    if request.method == 'POST':
+        
+        initial_user_session = request.session.get("user")
+
+        if initial_user_session is not None:
+            user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+            if len(user_oauth_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+        else:
+            return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+
+        user_auth_obj = user_oauth_objects[0]
+        user_code = request.POST['user_code'].strip()
+        user_code = user_code.replace('`', '"').strip()
+        cid = request.POST['cid']
+        lq_id = request.POST['pclid']
+
+        lesson_ques_obj = PythonLessonQuestion.objects.get(id = lq_id)
+
+        if cid == 'None':
+
+            rnd_code_filename = lesson_ques_obj.question_name
+
+            uc_obj = PythonLessonUserCode.objects.create(
+                user_auth_obj = user_auth_obj,
+                code_unique_name = rnd_code_filename,
+                user_code = user_code,
+                lesson_question_obj = lesson_ques_obj
+            )
+            uc_obj.save()
+            
+            return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+        else:
+            uc_objects = PythonLessonUserCode.objects.filter(
+                id = cid, 
+                user_auth_obj = user_auth_obj
+            )
+            if len(uc_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'Object id not found.'})
+
+            uc_obj = uc_objects[0]
+            uc_obj.lesson_question_obj = lesson_ques_obj
+            uc_obj.user_code = user_code
+            uc_obj.save()
+            
+            return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+
+
 
 
 

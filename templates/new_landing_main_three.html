@@ -41,6 +41,32 @@
             margin-top: 9%;
         }
         
+        #course-section{
+            padding-left: 12em;
+            padding-right: 12em;
+            padding-top: 3em;
+            padding-bottom: 2em;
+        }
+
+        #landing_course_description{
+            padding-top: 20px;
+            padding-bottom: 0px;
+            font-size: 16px;
+            color: #36454F;
+            line-height: 1.8em;
+        }
+        
+        #vertical_section_header{
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        #demo_link{
+            font-size: 15px;
+            color: #5865f2;
+        }
+
     </style>
 
 
@@ -108,12 +134,182 @@
 
         </div>
 
-
     </section>
 
 
+    <!-- Divider -->
+    <div class="ui vertical stripe segment" style="margin-top: 6%;"></div>
+    <!-- <div style="margin-top: 10%;"></div> -->
+
+    <!-- Section 2: Course Introduction -->
+    <section >
+
+        <div class="ui vertical stripe segment" id="course-section">
+    
+            <div class="ui middle aligned stackable grid container">
+        
+                <div class="ui centered row" id="third_section_row">
+
+                    <div class="ui basic segment" style="padding-top: 0px; margin-top: 0px;">
+
+                        <h2 class="ui header" id="vertical_section_header">
+        
+                            <div class="content" >
+                                <!-- <i class="code icon" style="font-size: 20px;"></i> -->
+                                Learn Python with an AI Tutor &#128218;
+                            </div>
+        
+                        </h2>
+
+                        <span>
+                            <a id="demo_link" href="https://discord.gg/bmMj4z5f" target="_blank" rel="noopener noreferrer">
+                                <i class="discord icon"></i>
+                                Get help in our Discord Community
+                            </a>
+                        </span>
+    
+                        <!-- <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;"> -->
+                        <p id="landing_course_description">
+                            Learn Python for free online through a course that focuses on exercises. Each section includes a short video introducing concepts, and you'll have an AI Tutor to guide you through the video and exercises.
+
+                            <!-- Learn Python, through a free online course.
+                            <br/>
+                            This course is structured to be exercise heavy, with one brief video introducing the concepts for that
+                            particular section.
+                            <br/>
+                            You will have the AI Tutor with you at all times, to help you go through the video, along with completing the
+                            exercises. -->
+                            <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis, 
+                            mauris nulla auctor nibh, quis tincidunt tellus ex quis velit. -->
+                        </p>
+                 
+                    </div>
+
+                    <div class="ui styled fluid accordion">
+                        
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+                        </div>
+                        <div class="content" >
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Introduction to Functions
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+                        
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            If / Else Statements, Boolean Logic
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Strings
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            For Loop
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            Lists
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            While Loops
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </section>
 
     
+
+
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+
     <script>
 
         // $("#landing_header").hover(function () {
@@ -122,6 +318,7 @@
         
         // });
 
+        $('.ui.accordion').accordion();
 
     </script>
 

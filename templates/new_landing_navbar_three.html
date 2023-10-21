@@ -1,0 +1,74 @@
+{% load static %}
+
+<!-- Top Navbar -->
+<div class="ui secondary menu" style="margin-top: 2.5%;">
+
+    <div class="ui container">
+
+        <div class="item navbar-logo">
+            <!-- <i class="magic icon" style="font-size: 20px; color: red;"></i> -->
+            <img src="{% static 'icon_one.png' %}" style="height: 10%; width: 20%;">
+            <span style="color: black; padding-left: 10px; font-size: 25.5px; font-family: 'Raleway', sans-serif; font-weight: 400; letter-spacing: 0.5px;">
+                Companion
+            </span>
+        </div>
+
+        <div class="right menu" style="margin-right: 0%;">
+                        
+            <a class="item" href="{% url 'new_course_home' %}">
+                Python Course
+            </a>
+            <a class="item" href="{% url 'playground' %}">
+                AI Tutor Playground
+            </a>
+            <a class="item" href="{% url 'general_cs_tutor' %}" >
+                General Tutor
+            </a>
+            <a class="item" href="{% url 'about' %}">
+                About
+            </a>
+
+            <!-- <div class="item">
+                <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
+            </div> -->
+            
+            <div class="item" style="padding-left: 12px;">
+                <button class="ui black button">
+                    Signup or Login
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let user_session = '{{ user_session }}';
+
+    if (user_session != 'None'){
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
+            window.location.replace(new_url);
+
+        });
+
+    } else {
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+            window.location.replace(new_url);
+
+        });
+
+    }
+    
+</script>
+
+

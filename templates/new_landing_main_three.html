@@ -8,17 +8,17 @@
         
         #first_landing_column{
             width: 100%; 
-            margin-top: 15%;
+            margin-top: 10%;
         }
 
         #landing_header{
-            font-size: 30px; 
-            /* font-family: 'Raleway', sans-serif;  */
+            font-size: 26px; 
+            font-family: 'Raleway', sans-serif; 
         }
 
         #landing_helper_text{
             font-weight: 500; 
-            font-size: 19px; 
+            font-size: 21px; 
             font-family: 'Raleway', sans-serif; 
             padding-top: 6px; 
             line-height: 1.9em;
@@ -26,12 +26,25 @@
             /* letter-spacing: 0.8px; */
         }
 
+        #landing_page_description{
+            color: #36454F;
+            font-size: 15px;
+            line-height: 1.6em;
+        }
+
         #landing_page_button_div{
-            margin-top: 25px;
+            margin-top: 30px;
+        }
+
+        #second_landing_column{
+            /* margin-left: 30px; */
+            margin-top: 9%;
         }
         
     </style>
 
+
+    {% include 'new_landing_navbar_three.html' %}
 
     <!-- Section 1: Landing -->
     <section>
@@ -40,8 +53,8 @@
 
             <div id="first_landing_column" class="eight wide column">
 
-                <h1 id="landing_header" class="ui header animate__animated ">
-                    Code Companion
+                <h1 id="landing_header" class="ui header animate__animated">
+                    Your Code Companion.
                     <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
                 </h1>
 
@@ -50,25 +63,26 @@
                 </p>
 
                 <!-- <div class="ui basic segment"> -->
-                <p>
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+                <p id="landing_page_description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut faucibus sapien. Praesent ut bibendum leo. 
+                    Cras aliquam a ipsum sed pharetra. Suspendisse commodo commodo turpis ac ullamcorper.
                 </p>
                 <!-- </div> -->
 
                 <div id="landing_page_button_div">
 
-                    <div class="ui animated medium black button playground_button" tabindex="0" style="font-size: 15px;">
+                    <div class="ui animated secondary large basic button playground_button" tabindex="0">
                         <div class="visible content">
-                            Try Companion in our Playground.
+                            Try it in our Online Editor
                         </div>
                         <div class="hidden content">
                             <i class="code icon"></i>
                         </div>
                     </div>
                     
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;
 
-                    <div class="ui animated secondary medium basic button playground_button" tabindex="0" style="font-size: 15px;">
+                    <div class="ui animated secondary large black button playground_button" tabindex="0" >
                         <div class="visible content">
                             Learn Python with an AI Tutor!
                         </div>
@@ -83,6 +97,13 @@
             </div>
 
             <div id="second_landing_column" class="eight wide column">
+
+                <div>
+                    <!-- <iframe width="95%" height="350" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe> -->
+                    <iframe width="95%" height="350" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                </div>
+                
+
             </div>
 
         </div>
@@ -90,6 +111,19 @@
 
     </section>
 
+
+
+    
+    <script>
+
+        // $("#landing_header").hover(function () {
+            
+        //     $(this).toggleClass("animate__bounce");
+        
+        // });
+
+
+    </script>
 
 
 {% endblock %}

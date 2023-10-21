@@ -47,28 +47,15 @@
 
 <script>
 
-    let user_session = '{{ user_session }}';
 
-    if (user_session != 'None'){
+    $('.navbar-logo').click(function(){
 
-        $('.navbar-logo').click(function(){
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+        window.location.replace(new_url);
 
-            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
-            window.location.replace(new_url);
+    });
 
-        });
 
-    } else {
-
-        $('.navbar-logo').click(function(){
-
-            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
-            window.location.replace(new_url);
-
-        });
-
-    }
-    
 </script>
 
 

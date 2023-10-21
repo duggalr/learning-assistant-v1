@@ -117,7 +117,7 @@
 
     {% include 'new_landing_navbar_three.html' %}
 
-    <div class="ui grid container">
+    <div class="ui grid container animate__animated animate__fadeInUp">
 
         <div class="two wide column"></div>
 
@@ -185,46 +185,24 @@
                             <div class="content">
                                 <a href="">
                                     <div class="header list_lesson_header">
-                                        <!-- <i class="hand point right outline icon"></i> -->
-                                        Lesson Title One
+                                        {{ lobj.lesson_title }}
                                     </div>
                                 </a>
                             </div>
 
                             <div class="list_lesson_description">
                                 <span>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    {{ lobj.lesson_description }}
                                 </span>
                             </div>
 
                         </li>
 
-                        <li class="v-progress-item inprogress">
+                        <li class="v-progress-item ">
 
                             <div class="content">
                                 <a href="">
                                     <div class="header list_lesson_header">
-                                        <!-- <i class="hand point right outline icon"></i> -->
-                                        Lesson Title One
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="list_lesson_description">
-                                <span>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                </span>
-                            </div>
-
-                        </li>
-
-
-                        <li class="v-progress-item inprogress">
-
-                            <div class="content">
-                                <a href="">
-                                    <div class="header list_lesson_header">
-                                        <!-- <i class="hand point right outline icon"></i> -->
                                         Lesson Title One
                                     </div>
                                 </a>
@@ -239,12 +217,30 @@
                         </li>
 
 
-                        <li class="v-progress-item inprogress">
+                        <li class="v-progress-item ">
 
                             <div class="content">
                                 <a href="">
                                     <div class="header list_lesson_header">
-                                        <!-- <i class="hand point right outline icon"></i> -->
+                                        Lesson Title One
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="list_lesson_description">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </div>
+
+                        </li>
+
+
+                        <li class="v-progress-item ">
+
+                            <div class="content">
+                                <a href="">
+                                    <div class="header list_lesson_header">
                                         Lesson Title One
                                     </div>
                                 </a>

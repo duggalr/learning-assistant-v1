@@ -5,16 +5,123 @@
 
     <style>
 
+        #main_lesson_div{
+            padding-top: 50px;
+        }
+
+        /* Progress Bar Credits --> https://codepen.io/ineffabledeeps/pen/MWPpZRP */
+
+        :root{
+            --v-progress-left: 50px;
+            --v-progress-item-height-width: 12px;
+            --v-progress-line-height: 60px;
+            --v-progress-line-width: 3px;
+            --v-progress-gap: 13px;
+            --blue: #0081C9;
+            --green: #159895;
+            --light-blue: #5BC0F8;
+        }
+
+        /* vertical progress */
+        .v-progress{
+            padding: 10px 0 10px 0;
+        }
+
+        .v-progress ul{
+            list-style: none;
+        }
+
+        .v-progress-item {
+            position: relative;
+            /* left: var(--v-progress-left); */
+            margin-left: var(--v-progress-left);
+            height: var(--v-progress-item-height-width);
+            line-height: var(--v-progress-item-height-width);
+            margin-bottom: var(--v-progress-line-height);
+            --v-progress-border: 8px;
+            /* border-bottom: 5px solid red; */
+        }
+
+        .v-progress-item:last-child {
+            margin-bottom: 0px;
+        }
+
+        .v-progress-item:last-child:after {
+            border-left: 0px;
+        }
+
+        .v-progress-item:before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            width: var(--v-progress-item-height-width);
+            height: var(--v-progress-item-height-width);
+            left: calc(0px - var(--v-progress-left));
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+
+        .v-progress-item:after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            height: calc(var(--v-progress-line-height) - var(--v-progress-gap));
+            top: calc(var(--v-progress-item-height-width) + var(--v-progress-gap) / 2);
+            left: calc(0px - var(--v-progress-left) + var(--v-progress-item-height-width) / 2 - var(--v-progress-line-width) / 2);
+            border-left: var(--v-progress-line-width) solid #ccc;
+        }
+
+        .v-progress-item.completed:after {
+            border-color: var(--light-blue);
+        }
+
+        .v-progress-item.completed:before {
+            content: "✔";
+            font-size: 11px;
+            text-align: center;
+            color: white;
+            background: var(--light-blue);
+            height: calc(var(--v-progress-border) + var(--v-progress-item-height-width));
+            width: calc(var(--v-progress-border) + var(--v-progress-item-height-width));
+            line-height: calc(var(--v-progress-border) + var(--v-progress-item-height-width));
+            left: calc(0px - var(--v-progress-left) - var(--v-progress-border) / 2);
+            top: calc(0px - var(--v-progress-border) + var(--v-progress-border) / 2);
+        }
+
+        .v-progress-item.inprogress:before {
+            background-color: white;
+        /*   height: calc(var(--v-progress-border) + var(--v-progress-item-height-width));
+            width: calc(var(--v-progress-border) + var(--v-progress-item-height-width)); */
+            outline: calc(var(--v-progress-border) / 2) solid var(--blue);
+            top: calc(0px - var(--v-progress-border) + var(--v-progress-border));
+        }
+
+
+        .list_lesson_header{
+            font-size: 17px;
+            /* margin-top: 10px; */
+        }
+
+        .list_lesson_description{
+            padding-top: 12px; 
+            padding-bottom: 12px;
+        }
+
+        .list_lesson_description span{
+            color: gray; 
+            font-size: 14px;
+        }
+
     </style>
 
 
-    {% include 'dashboard_navbar.html' %}
+    {% include 'new_landing_navbar_three.html' %}
 
     <div class="ui grid container">
 
         <div class="two wide column"></div>
 
-        <div class="twelve wide column" style="padding-top: 30px;">
+        <div id="main_lesson_div" class="twelve wide column">
             
             <!-- Header -->
             <h3 id="lesson_header">
@@ -25,13 +132,7 @@
             <div class="ui basic segment" style=" padding-bottom: 5px;" >
 
                 <p style="font-size: 15px;">
-                    <!-- TODO: build as much out here -->
-                    <!-- <strong>
-                        
-                    </strong> -->
-                    <!-- <br/><br/> -->
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum.
-                    <!-- <br/><br/> -->        
                 </p>
                 
             </div>
@@ -42,7 +143,7 @@
                 Lessons
             </h3>
 
-            <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
+            <!-- <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
 
                 {% for lobj in all_lesson_objects %}
 
@@ -71,8 +172,103 @@
 
                 {% endfor %}
 
-            </div>
+            </div> -->
 
+            <div class="v-progress">
+
+                <ul>
+                    
+                    {% for lobj in all_lesson_objects %}
+
+                        <li class="v-progress-item inprogress">
+
+                            <div class="content">
+                                <a href="">
+                                    <div class="header list_lesson_header">
+                                        <!-- <i class="hand point right outline icon"></i> -->
+                                        Lesson Title One
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="list_lesson_description">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </div>
+
+                        </li>
+
+                        <li class="v-progress-item inprogress">
+
+                            <div class="content">
+                                <a href="">
+                                    <div class="header list_lesson_header">
+                                        <!-- <i class="hand point right outline icon"></i> -->
+                                        Lesson Title One
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="list_lesson_description">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </div>
+
+                        </li>
+
+
+                        <li class="v-progress-item inprogress">
+
+                            <div class="content">
+                                <a href="">
+                                    <div class="header list_lesson_header">
+                                        <!-- <i class="hand point right outline icon"></i> -->
+                                        Lesson Title One
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="list_lesson_description">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </div>
+
+                        </li>
+
+
+                        <li class="v-progress-item inprogress">
+
+                            <div class="content">
+                                <a href="">
+                                    <div class="header list_lesson_header">
+                                        <!-- <i class="hand point right outline icon"></i> -->
+                                        Lesson Title One
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="list_lesson_description">
+                                <span>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </div>
+
+                        </li>
+
+
+                    {% endfor %}
+
+                    <!-- <li class="v-progress-item inprogress">Deepak</li>
+                    <li class="v-progress-item">Deepak</li>
+                    <li class="v-progress-item">Deepak</li> -->
+
+               </ul>
+
+            </div>  
+            
         </div>        
 
     </div>

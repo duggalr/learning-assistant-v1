@@ -162,7 +162,7 @@
                     A GPT-4 based tutor, enabling you to get real-time help and feedback for your programming problems, 
                     <br/>
                     directly in our online playground.
-                    <!-- &nbsp;&nbsp; -->
+                    100% Free.
                 </p>
 
                 <!-- <p>
@@ -206,6 +206,11 @@
 
                 </div> -->
 
+                <!-- 
+                    TODO:  
+                        - make a new landing page
+                -->
+
                 <div class="ui animated large black button playground_button" tabindex="0" >
                     <div class="visible content">
                         Try Companion in our Playground. 100% Free.
@@ -214,6 +219,16 @@
                         <i class="code icon"></i>
                     </div>
                 </div>
+                
+                <div class="ui animated large black button playground_button" tabindex="0" >
+                    <div class="visible content">
+                        Learn Python with an AI Tutor!
+                    </div>
+                    <div class="hidden content">
+                        <i class="code icon"></i>
+                    </div>
+                </div>
+
 
                 <div style="padding-top: 15px;">
                     <a 
@@ -224,12 +239,11 @@
                 </div>
 
 
-                <div style="padding-top: 15px;">
+                <!-- <div style="padding-top: 15px;">
                     <a style="font-size: 14.5px;" href="#teacher-section">Are you a Teacher, looking to introduce a personalized tutor for your students, in your classroom?</a>
-                </div>
+                </div> -->
 
                 <div style="margin-top: 20px;">
-                    <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
                     <iframe width="1000" height="600" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
                 </div>
 
@@ -389,6 +403,13 @@
                         </li>
 
                         <li>
+                            Learn or test your Python skills, with our <a href="{% url 'new_course_home' %}">Exercises.</a>
+                            Leverage the assistant, to help write and evaluate your code.
+                            <!-- Practice Python through our <a href="">Beginner Exercises</a>, with the assistant there to help
+                            write and evaluate your code. -->
+                        </li>
+
+                        <li>
                             Develop your own personalized syllabus or learning plan with <a href="{% url 'general_cs_tutor' %}">our General Learning Assistant</a>,
                             for whatever field you are interested in exploring.
                         </li>
@@ -396,11 +417,6 @@
                         <li>
                             Upload a PDF of your problem sets or lecture notes, and asks Companion questions directly on 
                             those files.
-                        </li>
-
-                        <li>
-                            Practice Python through our <a href="{% url 'practice_questions' %}">Beginner Exercises</a>, with the assistant there to help
-                            write and evaluate your code.
                         </li>
 
                     </ul>
@@ -422,7 +438,7 @@
                         Watch our demo if you want to learn more. (#TODO:)
                         <br/><br/> -->
                         <!-- Want to learn Python? 
-                        Try learning it, through some of our <a href="{% url 'practice_questions' %}">Beginner Python exercises</a>, with Companion there to help you, as needed. -->
+                        Try learning it, through some of our <a href="">Beginner Python exercises</a>, with Companion there to help you, as needed. -->
                         <!-- <br/><br/> -->
 
                         <!-- <strong>
@@ -537,11 +553,11 @@
                                 </div>
                             </a>
 
-                            <a class="item" href="{% url 'practice_questions' %}">
+                            <a class="item" href="{% url 'new_course_home' %}">
                                 <i class="right triangle icon"></i>
                                 <div class="content">
                                     <div class="description" style="color: #1e70bf;">
-                                        Practice with our Beginner Python Exercises.
+                                        Learn or test your Python skills, with our Exercises.
                                     </div>
                                 </div>
                             </a>

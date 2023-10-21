@@ -40,7 +40,7 @@
             /* Add any additional styling for the output segment here */
             border: 1px solid #d4d4d5;
             width: 100%;
-            height: 35%;
+            height: 30%;
         }
 
 
@@ -224,13 +224,7 @@
 
                 {% if user_session is None %}
 
-                    <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
-
-                    <!-- <button class="ui small black button" style="margin-left: 10px;">
-                        Sign up to save your code
-                    </button> -->
-
-                    <div class="ui animated tiny black button playground_sign_up_button" tabindex="0" style="margin-left: 10px;">
+                    <div class="ui animated tiny black button playground_sign_up_button" tabindex="0">
                         <div class="visible content">
                             Sign up to save your code
                         </div>
@@ -260,7 +254,7 @@
             <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
             <input id="lesson_question_obj_id" type="hidden" value="{{ qid }}" />
 
-            <input id="course_question_obj_id" type="hidden" value="{{ pclid }}" />
+            <!-- <input id="course_question_obj_id" type="hidden" value="{{ pclid }}" /> -->
 
             <!-- <button class="ui primary button" onclick="evaluatePython()">
                 <h5>Run</h5>
@@ -390,7 +384,7 @@
                     {% if lesson_question_test_cases|length == 0 %}
 
                         <p style="color: gray;">
-                            Example Test Cases available for Lesson Questions only.
+                            Test Cases available for Lesson Questions only.
                         </p>
 
                     {% endif %}
@@ -603,13 +597,7 @@
             let std_question = `{{ teacher_question_object.question_text|safe }}`
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
 
-        } else if (pclid != 'None'){
-
-            let std_question = `{{ pt_course_lesson_question_obj.question_text|safe }}`
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
-
-        }
-        
+        } 
         else {
 
             editor.setValue(`# Run the code by clicking the button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# Write your question here...\n\n# Write your code below:\n\n`);
@@ -763,7 +751,6 @@ mystdout.getvalue()
         let anon_user_messages = [];
         if (initial_user_session == 'None' && c == null){
 
-            // TODO: 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
 
             // console.log('tmp-user-messages:', tmp_usr_messages)
@@ -848,7 +835,7 @@ mystdout.getvalue()
 
                 let cid = $('#code_obj_id').val();
                 let lqid = $('#lesson_question_obj_id').val();
-                let pclid = $('#course_question_obj_id').val();
+                // let pclid = $('#course_question_obj_id').val();
 
 
                 let d = {};
@@ -883,7 +870,7 @@ mystdout.getvalue()
                         'user_code': user_code,
                         'cid': cid,
                         'lqid': lqid,
-                        'pclid': pclid,
+                        // 'pclid': pclid,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     };
 
@@ -931,8 +918,8 @@ mystdout.getvalue()
                             var final_response_st = model_response_message
                             anon_user_messages.push(final_question_st)
                             anon_user_messages.push(final_response_st)
+                            
                             localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
-
                             localStorage.setItem('anon_playground_user_code', user_code);
 
                         } else {

@@ -409,7 +409,6 @@
         }
 
 
-
         $("#chatInput").on('keyup', function(event) {
             
             var currentString = $("#chatInput").val()
@@ -530,7 +529,7 @@
                 let user_conversation_obj_id = $('#user_conversation_obj_id').val();
 
                 let prev_conversation_history = []
-                if (initial_user_session == ''){
+                if (initial_user_session == 'None'){
                     // anon user, fetch messages from localstorage
                     if (anon_user_messages.length > 0){
 
@@ -570,8 +569,6 @@
                     
                 }
                 
-                // console.log('Previous Conversation History:', prev_conversation_history_st)
-
                 let d = {
                     'message': messageText,
                     'prev_conversation_history_st': prev_conversation_history_st,
@@ -629,7 +626,7 @@
                     error: function (response) {}
                     
                 });
-
+                
             }
 
         };

@@ -142,10 +142,13 @@ def logout(request):
 
 ## Primary View Functions ##
 
+def test_page(request):
+    return render(request, 'test_page.html')
+
 def landing(request):
     initial_user_session = request.session.get("user")
     # return render(request, 'landing.html',  {
-    return render(request, 'new_landing_main_one.html',  {        
+    return render(request, 'new_landing_main_three.html',  {
         'user_session': initial_user_session
     })
 
@@ -942,8 +945,6 @@ def handle_general_tutor_user_message(request):
         #             prev_conversation_history.append(f"Question: { uc_question }")
         #             prev_conversation_history.append(f"Response: { uc_response }")
 
-
-        print('form-data:', request.POST)
 
         user_question = request.POST['message'].strip()
         initial_user_session = request.session.get('user')

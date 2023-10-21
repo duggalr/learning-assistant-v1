@@ -20,15 +20,21 @@
                 <a class="item" href="{% url 'dashboard' %}">
                     Dashboard
                 </a>
+                <a class="item" href="{% url 'new_course_home' %}">
+                    Python Course
+                </a>
                 <a class="item" href="{% url 'playground' %}">
+                    AI Tutor Playground
+                </a>
+                <!-- <a class="item" href="{% url 'playground' %}">
                     Code Companion
                 </a>                                
-                <a class="item" href="{% url 'practice_questions' %}">
+                <a class="item" href="">
                     Python Exercises
                 </a>
                 <a class="item" href="{% url 'general_cs_tutor' %}">
                     General Tutor
-                </a>
+                </a> -->
                 {% if request.user.is_superuser %}
                     <a class="item" href="{% url 'super_user_admin_dashboard' %}">
                         Admin
@@ -59,21 +65,30 @@
 
             <div class="right menu" style="margin-right: 0%;">
 
-                <a class="item" href="{% url 'playground' %}">
+                <!-- <a class="item" href="{% url 'playground' %}">
                     Code Companion
-                </a> 
-                <a class="item" href="{% url 'practice_questions' %}">
+                </a>  -->
+                <!-- <a class="item" href="">
                     Python Exercises
                 </a>
                 <a class="item" href="{% url 'general_cs_tutor' %}">
+                    General Tutor
+                </a> -->
+                <a class="item" href="{% url 'new_course_home' %}">
+                    Python Course
+                </a>
+                <a class="item" href="{% url 'playground' %}">
+                    AI Tutor Playground
+                </a>
+                <a class="item" href="{% url 'general_cs_tutor' %}" >
                     General Tutor
                 </a>
                 <a class="item" href="{% url 'about' %}">
                     About
                 </a>
-                <a class="item" href="mailto:rahul@codecompanion.app">
+                <!-- <a class="item" href="mailto:rahul@codecompanion.app">
                     Contact
-                </a>
+                </a> -->
                 {% if request.user.is_superuser %}
                 <a class="item" href="{% url 'super_user_admin_dashboard' %}">
                     Admin

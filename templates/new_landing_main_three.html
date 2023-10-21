@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+        
+        #first_landing_column{
+            width: 100%; 
+            margin-top: 15%;
+        }
+
+        #landing_header{
+            font-size: 30px; 
+            /* font-family: 'Raleway', sans-serif;  */
+        }
+
+        #landing_helper_text{
+            font-weight: 500; 
+            font-size: 19px; 
+            font-family: 'Raleway', sans-serif; 
+            padding-top: 6px; 
+            line-height: 1.9em;
+            color: #36454F;
+            /* letter-spacing: 0.8px; */
+        }
+
+        #landing_page_button_div{
+            margin-top: 25px;
+        }
+        
+    </style>
+
+
+    <!-- Section 1: Landing -->
+    <section>
+
+        <div class="ui grid container">
+
+            <div id="first_landing_column" class="eight wide column">
+
+                <h1 id="landing_header" class="ui header animate__animated ">
+                    Code Companion
+                    <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                </h1>
+
+                <p id="landing_helper_text">
+                    A GPT-4 based programming tutor. 100% Free.
+                </p>
+
+                <!-- <div class="ui basic segment"> -->
+                <p>
+                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+                </p>
+                <!-- </div> -->
+
+                <div id="landing_page_button_div">
+
+                    <div class="ui animated medium black button playground_button" tabindex="0" style="font-size: 15px;">
+                        <div class="visible content">
+                            Try Companion in our Playground.
+                        </div>
+                        <div class="hidden content">
+                            <i class="code icon"></i>
+                        </div>
+                    </div>
+                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <div class="ui animated secondary medium basic button playground_button" tabindex="0" style="font-size: 15px;">
+                        <div class="visible content">
+                            Learn Python with an AI Tutor!
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div>
+                    
+                </div> 
+                  
+
+            </div>
+
+            <div id="second_landing_column" class="eight wide column">
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+{% endblock %}
+
+

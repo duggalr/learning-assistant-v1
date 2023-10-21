@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+        
+        #first_landing_column{
+            text-align: center; 
+            width: 100%; 
+            margin-top: 3%;
+        }
+
+        #landing_header{
+            font-size: 33px; 
+            font-family: 'Raleway', sans-serif; 
+            padding-top: 0px; 
+            margin-top: 0px;
+        }
+
+        #landing_header:hover{
+            cursor: pointer;
+        }
+
+        #landing_helper_text{
+            font-weight: 500; 
+            font-size: 19px; 
+            font-family: 'Raleway', sans-serif; 
+            padding-top: 6px; 
+            line-height: 1.9em;
+            color: #36454F;
+            /* letter-spacing: 0.8px; */
+        }
+
+        #landing_page_button_div{
+            margin-top: 25px;
+        }
+
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+
+    <body>
+
+        <!-- Section 1: Landing -->
+        <section>
+
+            <div class="ui two column centered grid">
+
+                <div id="first_landing_column" class="column">
+
+                    <h1 id="landing_header" class="ui header animate__animated ">
+                        Companion
+                        <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                    </h1>
+    
+                    <!-- <span style="font-size: 14.5px;">
+                        <a style="color: gray;"  id="demo_link" href="#about-section">
+                            Learn More.
+                        </a>
+                        &nbsp;&nbsp;&nbsp;                    
+                        <a style="color: gray;" id="demo_link" href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" target="_blank" rel="noopener noreferrer">
+                            Watch the Demo.
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a style="color: gray;" id="demo_link" href="https://discord.gg/bmMj4z5f" target="_blank" rel="noopener noreferrer">
+                            <i class="discord icon"></i>
+                            Join the Discord Community!
+                        </a>
+                    </span>  -->
+    
+                    <p id="landing_helper_text">
+                        A GPT-4 based programming tutor.
+                        <!-- A GPT-4 based tutor, enabling you to get real-time help and feedback for your programming problems, 
+                        <br/>
+                        directly in our online playground.
+                        100% Free. -->
+                    </p>
+    
+                    <div id="landing_page_button_div">
+
+                        <div class="ui animated large black button playground_button" tabindex="0" >
+                            <div class="visible content">
+                                Try Companion in our Playground.
+                            </div>
+                            <div class="hidden content">
+                                <i class="code icon"></i>
+                            </div>
+                        </div>
+                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <div class="ui animated secondary large basic button playground_button" tabindex="0" >
+                            <div class="visible content">
+                                Learn Python with an AI Tutor!
+                            </div>
+                            <div class="hidden content">
+                                <!-- <i class="code icon"></i> -->
+                                <i class="hand point right outline icon"></i>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+                    <!-- <div style="margin-top: 20px;">
+                        <iframe width="1000" height="600" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                    </div> -->
+    
+                </div>
+
+            </div>
+
+        </section>
+
+    </body>
+
+
+
+    <script>
+
+
+        $("#landing_header").hover(function () {
+            
+            $(this).toggleClass("animate__pulse");
+        
+        });
+
+    </script>
+
+
+{% endblock %}
+
+

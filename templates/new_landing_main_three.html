@@ -51,15 +51,15 @@
         #landing_course_description{
             padding-top: 20px;
             padding-bottom: 0px;
-            font-size: 16px;
+            font-size: 15px;
             color: #36454F;
             line-height: 1.8em;
         }
         
         #vertical_section_header{
             font-family: 'Raleway', sans-serif;
-            font-size: 24px;
-            font-weight: 500;
+            font-size: 26px;
+            /* font-weight: 500; */
         }
 
         #demo_link{
@@ -67,19 +67,24 @@
             color: #5865f2;
         }
 
+        #course_accordion{
+            margin-top: 5px;
+        }
+        
     </style>
 
 
     {% include 'new_landing_navbar_three.html' %}
 
+
     <!-- Section 1: Landing -->
-    <section>
+    <section class="animate__animated animate__fadeInUp">
 
         <div class="ui grid container">
 
             <div id="first_landing_column" class="eight wide column">
 
-                <h1 id="landing_header" class="ui header animate__animated">
+                <h1 id="landing_header" class="ui header">
                     Your Code Companion.
                     <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
                 </h1>
@@ -138,28 +143,27 @@
 
 
     <!-- Divider -->
-    <div class="ui vertical stripe segment" style="margin-top: 6%;"></div>
+    <div class="ui vertical stripe segment" style="margin-top: 9%;"></div>
     <!-- <div style="margin-top: 10%;"></div> -->
 
     <!-- Section 2: Course Introduction -->
-    <section >
+    <section>
 
         <div class="ui vertical stripe segment" id="course-section">
     
             <div class="ui middle aligned stackable grid container">
         
-                <div class="ui centered row" id="third_section_row">
+                <div class="ui centered row animate__animated" id="landing_course_row">
 
                     <div class="ui basic segment" style="padding-top: 0px; margin-top: 0px;">
 
-                        <h2 class="ui header" id="vertical_section_header">
+                        <h1 class="ui header" id="vertical_section_header">
         
                             <div class="content" >
-                                <!-- <i class="code icon" style="font-size: 20px;"></i> -->
                                 Learn Python with an AI Tutor &#128218;
                             </div>
         
-                        </h2>
+                        </h1>
 
                         <span>
                             <a id="demo_link" href="https://discord.gg/bmMj4z5f" target="_blank" rel="noopener noreferrer">
@@ -170,7 +174,9 @@
     
                         <!-- <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;"> -->
                         <p id="landing_course_description">
-                            Learn Python for free online through a course that focuses on exercises. Each section includes a short video introducing concepts, and you'll have an AI Tutor to guide you through the video and exercises.
+                            Learn or Practice Python through our <a href="">free online course</a> that focuses primarily on exercises. 
+                            Each section includes a short video introducing concepts, along with exercises.
+                            You will also have an AI Tutor to guide you through the video and exercises.
 
                             <!-- Learn Python, through a free online course.
                             <br/>
@@ -185,8 +191,8 @@
                  
                     </div>
 
-
-                    <div class="ui styled fluid accordion" style="margin-top: 15px;">
+                    <!-- <h4>Course Outline</h4> -->
+                    <div class="ui styled fluid accordion" id="course_accordion">
                         
                         <div class="title">
                             <i class="dropdown icon"></i>
@@ -325,7 +331,6 @@
 
                     </div>
 
-
                 </div>
 
             </div>
@@ -351,6 +356,30 @@
         // });
 
         $('.ui.accordion').accordion();
+
+
+        // Create the observer
+        const observer = new IntersectionObserver(entries => {
+
+            entries.forEach(entry => {
+
+                const primary_row = entry.target.querySelector('#landing_course_row');
+
+                if (entry.isIntersecting) { // element is visible
+                    console.log('entry:', entry)
+                    primary_row.classList.add('animate__fadeIn');
+	                return;
+                }
+
+                // element is no longer visible
+                primary_row.classList.remove('animate__fadeIn');
+
+            });
+
+        });
+
+        observer.observe(document.querySelector('#course-section'));
+
 
     </script>
 

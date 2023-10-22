@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+        #code-column{
+            padding-top: 20px;
+            padding-left: 0px;
+        }
+
+        .code-editor {
+            border: 1px solid #d4d4d5;
+            width: 100%;
+            /* height: 100%; */
+            /* padding-top: 0px;
+            margin-top: 0px; */
+        }
+
+        #code {
+            width: 100%;
+            /* height: auto; */
+            word-break: break-word;
+        }
+
+    </style>
+
+    
+    {% include 'new_landing_navbar_three.html' %}
+
+
+    <div class="ui grid container">
+
+        <!-- Code Editor -->
+        <div class="nine wide column" id="code-column">
+
+            <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
+                <i class="arrow alternate circle left outline icon"></i>
+                Back to Exercises
+            </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'playground' %}">
+                Next Question
+                <i class="arrow alternate circle right outline icon"></i>
+            </a>
+
+            <div style="display: flex; align-items: center; padding-top: 15px;">
+
+                <h4 style="margin: 0;">
+
+                    <span id="code_file_name_text" style="font-size: 16px;">File: {{ pc_question_obj.question_name }}</span>
+
+                </h4>
+
+            </div>
+
+            <div class="ui segment code-editor" style="margin-top: 20px;">
+                <textarea id="code"></textarea>
+            </div>
+
+            <input id="course_question_obj_id" type="hidden" value="{{ pcqid }}" />
+
+        </div>
+
+
+        <!-- 
+            TODO:
+                - Build / finalize out the UI for playground
+                    -  finalize UI for landing, course, playground-course
+                    - tmw -> start the functionality for current and go from there
+                        - words + course-content is included in this...
+        -->
+
+        <!-- Code Tab Menu -->
+        <div class="seven wide column">
+            
+            <div class="ui tabular menu tab-menu">
+                
+                <a class="item active" id="programming_assistant_tab">
+                    <i class="comment icon"></i> Programming Assistant
+                </a>
+                
+                <a class="item" id="example_test_case_tab">
+                    <i class="bug icon"></i> Test Cases
+                </a>
+
+                <a class="item" id="check_answer_tab">
+                    <i class="check icon"></i> Check Answer
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "python",
+                version: 3,
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "default",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+        editor.setSize(600, 700);
+
+
+    </script>
+
+
+{% endblock %}
+
+

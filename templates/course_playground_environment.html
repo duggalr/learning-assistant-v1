@@ -95,6 +95,11 @@
             cursor: pointer;       
         }
 
+
+        /* .cm-s-default { 
+            background-color: #f9f9f9;
+        } */
+
     </style>
 
     
@@ -104,31 +109,6 @@
 
         <!-- Code Editor -->
         <div class="nine wide column" id="code-column">
-
-            <!-- {% if lesson_question_object is not None %}
-
-                <a href="#" onclick="goBackPage();return false;">
-                    <i class="arrow alternate circle left outline icon"></i>
-                    Back
-                </a>
-
-            {% else %}
-
-                {% if user_session is not None %}
-
-                    <a href="{% url 'dashboard' %}">
-                        <i class="arrow alternate circle left outline icon"></i>
-                        Back to Dashboard
-                    </a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{% url 'playground' %}">
-                        <i class="plus icon"></i>
-                        New question
-                    </a>
-
-                {% endif %}
-
-            {% endif %} -->
 
             <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
                 <i class="arrow alternate circle left outline icon"></i>
@@ -188,54 +168,6 @@
                     </a>
 
                 {% endif %}
-                
-                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        
-                {% if user_session is not None %}
-                
-                    <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
-                        <div class="visible content">Save Code</div>
-                        <div class="hidden content">
-                            <i class="save icon"></i>
-                        </div>
-                    </div>
-
-                {% endif %}
-
-                <span id="save_code_success_text" style="margin-left: 0%; color: green; display: none;">Code Saved!&nbsp;<i class="check icon"></i></span>
-                
-                &nbsp;&nbsp;
-
-                <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 0%;">
-                    <div class="visible content">Run Code</div>
-                    <div class="hidden content">
-                        <i class="play icon"></i>
-                    </div>
-                </div>
-                
-                &nbsp;&nbsp;
-
-                <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
-                    <div class="visible content">Submit</div>
-                    <div class="hidden content">
-                        <i class="check icon"></i>
-                    </div>
-                </div>
-
-                {% if user_session is None %}
-
-                    <div class="ui animated tiny black button playground_sign_up_button" tabindex="0" style="margin-left: 10px;">
-                        <div class="visible content">
-                            Sign up to save your code and progress
-                        </div>
-                        <div class="hidden content">
-                            <i class="hand point right icon"></i>
-                        </div>
-                    </div>
-
-                    <a href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
-
-                {% endif %} -->
 
             </div>
             
@@ -506,7 +438,7 @@
         } else {
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
-            console.log('std-question:', std_question)
+            // console.log('std-question:', std_question)
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
 
         }
@@ -978,6 +910,5 @@ mystdout.getvalue()
 
 
 {% endblock %}
-
 
 

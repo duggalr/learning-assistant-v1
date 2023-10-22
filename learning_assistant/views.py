@@ -2213,12 +2213,6 @@ def new_course_question_view(request, qid):
     })
 
 
-# TODO:
-    # add the new lesson question here
-    # handle the anon + signed-up user logic 
-    # add the test-case submit functionality
-    # go from there...
-    # **really spend time making this solid
 def new_course_playground(request):
 
     pcqid = request.GET.get('pcqid')
@@ -2244,9 +2238,7 @@ def new_course_playground(request):
     if len(user_code_objects) > 0:
         user_code_obj = user_code_objects[0]
 
-    # TODO: test the logic and ensure everything good
-
-    return render(request, 'course_playground_environment.html', {
+    return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
         'pc_question_obj': pc_question_obj,

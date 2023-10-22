@@ -427,9 +427,9 @@
     
             <div class="ui middle aligned stackable grid container">
 
-                <div class="ui centered row animate__animated" id="landing_email_row">
+                <div class="ui centered row">
 
-                    <div class="ui basic segment" style="padding-top: 0px; margin-top: 0px;">
+                    <div id="landing_email_row" class="ui basic segment animate__animated" style="padding-top: 0px; margin-top: 0px;">
 
                         <h1 class="ui header" id="vertical_section_header"  style="text-align: center;">
         
@@ -513,6 +513,28 @@
         observer.observe(document.querySelector('#course-section'));
 
 
+        const observer_second = new IntersectionObserver(entries => {
+
+            entries.forEach(entry => {
+
+                const primary_row = entry.target.querySelector('#landing_email_row');
+
+                if (entry.isIntersecting) { // element is visible
+                    console.log('entry:', entry)
+                    primary_row.classList.add('animate__fadeIn');
+                    return;
+                }
+
+                // element is no longer visible
+                primary_row.classList.remove('animate__fadeIn');
+
+            });
+            
+        });
+
+        observer_second.observe(document.querySelector('#email-subscription-section'));
+
+
 
         $('.playground_button').click(function(){
 
@@ -532,5 +554,4 @@
 
 
 {% endblock %}
-
 

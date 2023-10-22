@@ -12,7 +12,7 @@ urlpatterns = [
 
     # Primary Views
     path("test_page", views.test_page, name="test_page"),
-    
+
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
     path("dashboard", views.dashboard, name="dashboard"),
@@ -102,5 +102,8 @@ urlpatterns = [
 
     path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
 
+    path("landing_email_subscribe_handle", views.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
+
 ]
+
 

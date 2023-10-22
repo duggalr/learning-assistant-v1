@@ -204,6 +204,11 @@ class PythonLessonConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class LandingEmailSubscription(models.Model):
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 
 # TODO: 
     # save a question with the test-case

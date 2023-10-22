@@ -145,9 +145,24 @@ def logout(request):
 def test_page(request):
     return render(request, 'test_page.html')
 
+
+def landing_email_subscribe_handle(request):
+    if request.method == 'POST':
+        print('email-post:', request.POST)
+
+        user_email = request.POST['user_email'].strip()
+        le_obj = LandingEmailSubscription.objects.create(
+            email = user_email
+        )
+        le_obj.save()
+
+        return JsonResponse({'success': True})
+
+
+
 def landing(request):
     initial_user_session = request.session.get("user")
-    # return render(request, 'landing.html',  {
+    
     return render(request, 'new_landing_main_three.html',  {
         'user_session': initial_user_session
     })

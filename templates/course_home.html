@@ -6,7 +6,7 @@
     <style>
 
         #main_lesson_div{
-            padding-top: 50px;
+            padding-top: 45px;
         }
 
         /* Progress Bar Credits --> https://codepen.io/ineffabledeeps/pen/MWPpZRP */
@@ -102,6 +102,10 @@
             /* margin-top: 10px; */
         }
 
+        .list_lesson_header:hover{
+            font-size: 17.5px;
+        }
+
         .list_lesson_description{
             padding-top: 12px; 
             padding-bottom: 12px;
@@ -112,10 +116,15 @@
             font-size: 14px;
         }
 
+
+        #lesson_header{
+            font-family: 'Raleway', sans-serif; 
+            font-size: 20px; 
+        }
+        
+
     </style>
 
-
-<!-- TODO: font-adjustments and finalize UI of this page; go from there (functionality of course; pg will follow accordingly...) -->
 
     {% include 'new_landing_navbar_three.html' %}
 
@@ -127,22 +136,22 @@
             
             <!-- Header -->
             <h3 id="lesson_header">
-                Introduction to Python - Online Course
+                &#129489;&#8205;&#128187; 
+                Learn Python                
             </h3>
 
             <!-- Description -->
             <div class="ui basic segment" style=" padding-bottom: 5px;" >
 
-                <p style="font-size: 15px;">
+                <p style="font-size: 15px; color: #36454f;">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum.
                 </p>
                 
             </div>
 
-
             <!-- Header -->
             <h3 id="lesson_header">
-                Lessons
+                &#128211; Lessons
             </h3>
 
             <!-- <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
@@ -185,7 +194,7 @@
                         <li class="v-progress-item inprogress">
 
                             <div class="content">
-                                <a href="">
+                                <a href="{% url 'new_course_lesson_page' lobj.id %}">
                                     <div class="header list_lesson_header">
                                         {{ lobj.lesson_title }}
                                     </div>
@@ -256,12 +265,7 @@
 
                         </li>
 
-
                     {% endfor %}
-
-                    <!-- <li class="v-progress-item inprogress">Deepak</li>
-                    <li class="v-progress-item">Deepak</li>
-                    <li class="v-progress-item">Deepak</li> -->
 
                </ul>
 
@@ -273,4 +277,5 @@
 
 
 {% endblock %}
+
 

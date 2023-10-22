@@ -51,17 +51,29 @@
             padding-top: 3px;
         }
 
+        #main_course_grid{
+            padding-bottom: 30px;
+        }
+
+        /* #question_name_header{
+            font-family: 'Raleway', sans-serif;    
+        } */
+
+        .ui.tabular.menu .active.item {
+            background: #f9f9f9;
+        }
+
 
     </style>
 
 
     {% include 'new_landing_navbar_three.html' %}
 
-    <div class="ui grid container">
+    <div class="ui grid container" id="main_course_grid">
 
         <div class="one wide column"></div>
 
-        <div class="fourteen wide column animate__animated animate__fadeInUp" id="primary_course_column">
+        <div class="fourteen wide column animate__animated animate__fadeIn" id="primary_course_column">
 
             <!-- Header -->
             <h3 id="lesson_header">
@@ -113,7 +125,6 @@
                 <div class="ui grid container">
 
                     <div class="nine wide column" style="padding-top: 35px;">
-                        <!-- <iframe width="420" height="340" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
                         <iframe width="510" height="360" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
                     </div>
                     
@@ -164,7 +175,7 @@
             <!-- Lesson Questions -->
             <div id="main_exercises_div" style="width: 100%; padding-top: 0px; display: none;">
 
-                <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px; padding-left: 20px; padding-bottom: 10px;">
+                <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px; padding-left: 20px; padding-bottom: 0px;">
 
                     {% for tqobj in lesson_question_objects %}
 
@@ -173,9 +184,8 @@
                             <div class="content" style="padding-top: 10px; padding-bottom: 28px;">                       
 
                                 <div class="header" style="font-size: 15.5px;">
-                                    <!-- <i class="check icon" style="color: green;"></i> -->
                                     <i class="question icon" style="color: gray;"></i>
-                                    <a class="file_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.id }}">
+                                    <a id="question_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.id }}">
                                         {{ tqobj.question_name }}
                                     </a>
                                 </div>
@@ -199,13 +209,10 @@
 
             </div>
             
-            <br/>
-
-
         </div>
 
         <div class="one wide column"></div>
-
+        
     </div>
 
 

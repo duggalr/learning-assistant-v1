@@ -122,7 +122,7 @@
                     
                     &nbsp;&nbsp;
 
-                    <div class="ui animated secondary large black button playground_button" tabindex="0" >
+                    <div class="ui animated secondary large black button python_course_button" tabindex="0" >
                         <div class="visible content">
                             Learn Python with an AI Tutor!
                         </div>
@@ -133,6 +133,11 @@
                     
                 </div> 
                     
+                <div id="main_teacher_input_div" class="ui action input" style="width: 100%;">
+                    <input id="teacher_email" type="email" placeholder="enter your email and I will reach out...">
+                    <button id="teacher_email_button" class="ui button">Submit</button>
+                </div>
+
 
             </div>
 
@@ -141,8 +146,7 @@
                 <div>
                     <!-- <iframe width="95%" height="350" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe> -->
                     <iframe width="95%" height="350" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-                </div>
-                
+                </div>            
 
             </div>
 
@@ -185,6 +189,9 @@
                             Learn or Practice Python through our <a href="">free online course</a> that focuses primarily on exercises. 
                             Each section includes a short video introducing concepts, along with exercises.
                             You will also have an AI Tutor to help guide you through the video and exercises.
+
+                            <br/><br/>
+                            You can also leverage the AI Tutor to create your own exercises, for concepts you need additional practice on.
 
                             <!-- Learn Python, through a free online course.
                             <br/>
@@ -342,6 +349,21 @@
                             </p>
                         </div>
 
+                        <div class="title">
+                            <i class="dropdown icon"></i>
+                            My Own Questions
+                        </div>
+                        <div class="content">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis
+                            </p>
+                            <p>
+                                <strong>
+                                    Number of Exercises: 13
+                                </strong>
+                            </p>
+                        </div>
+
                     </div>
 
                 </div>
@@ -405,6 +427,21 @@
         });
 
         observer.observe(document.querySelector('#course-section'));
+
+
+
+        $('.playground_button').click(function(){
+
+            window.location.href = 'playground';
+
+        });
+
+
+        $('.python_course_button').click(function(){
+
+            window.location.href = 'new_course_home';
+
+        });
 
 
     </script>

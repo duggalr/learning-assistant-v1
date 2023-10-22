@@ -19,6 +19,7 @@
             padding: 10px;
             background-color: #f2f2f2;
             border-radius: 10px;
+            font-size: 15px;
         }
 
         .input-container {
@@ -31,29 +32,43 @@
             border-radius: 5px;
         }
 
+        #lesson_header{
+            padding-bottom: 0px;
+            font-family: 'Raleway', sans-serif; 
+            font-size: 20px;
+        }
+
+        #primary_course_column{
+            padding-top: 35px;
+        }
+
+        #primary_course_description{
+            padding-bottom: 8px; 
+            padding-top: 0px;
+        }
+
+        #primary_course_tab_menu{
+            padding-top: 3px;
+        }
+
 
     </style>
 
 
-    {% include 'dashboard_navbar.html' %}
+    {% include 'new_landing_navbar_three.html' %}
 
     <div class="ui grid container">
 
         <div class="one wide column"></div>
 
-        <div class="fourteen wide column" style="padding-top: 20px;">
-
-            <!-- <a href="{% url 'new_course_home' %}" style="padding: 0px;">
-                <i class="arrow alternate circle left outline icon"></i>
-                Back
-            </a> -->
+        <div class="fourteen wide column animate__animated animate__fadeInUp" id="primary_course_column">
 
             <!-- Header -->
-            <h3 id="lesson_header" style="padding-bottom: 0px;">                
-                {{ course_lesson_object.lesson_title }}
+            <h3 id="lesson_header">
+                &#128216; {{ course_lesson_object.lesson_title }}
             </h3>
 
-            <div>
+            <div style="padding-top: 5px;">
                 <a href="{% url 'new_course_home' %}" style="padding: 0px;">
                     <i class="arrow alternate circle left outline icon"></i>
                     Back
@@ -67,7 +82,7 @@
             
 
             <!-- Description -->
-            <div class="ui basic segment" style="padding-bottom: 0px; padding-top: 0px;" >
+            <div class="ui basic segment" id="primary_course_description">
 
                 <p style="font-size: 14px; color: gray;">
                     {{ course_lesson_object.lesson_description }}
@@ -77,15 +92,15 @@
 
 
             <!-- Tabular Menu -->
-            <div class="ui tabular menu" style="padding-top: 5px;">
+            <div id="primary_course_tab_menu" class="ui tabular menu">
 
                 <a class="active item" id="lesson_video_tab">
-                    <i class="file code icon" style="font-size: 13px;"></i>
+                    <i class="video icon" style="font-size: 13px;"></i>
                     Lesson Video
                 </a>
 
                 <a class="item" id="lesson_exercises_tab">
-                    <i class="file pdf icon" style="font-size: 13px;"></i>
+                    <i class="code branch icon" style="font-size: 13px;"></i>
                     Exercises ({{ lesson_question_objects|length }})
                 </a>
 
@@ -108,10 +123,13 @@
 
                             <div class="chat-container" id="chat">
                                 
-                                <div class="message">
+                                <div class="message" >
                                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. 
-                                    Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis.
+                                    <br/><br/>
+                                    You can ask me questions on any of the stuff I mention in the video.
+                                    <br/><br/>
+                                    I would be happy to provide you with clarification, examples, or 
+                                    practice questions on concepts from the video.
                                 </div>
                                 <hr>
             
@@ -142,7 +160,6 @@
 
             </div>
 
-            <!-- TODO: add corresponding logic on playground -->
 
             <!-- Lesson Questions -->
             <div id="main_exercises_div" style="width: 100%; padding-top: 0px; display: none;">
@@ -153,9 +170,11 @@
 
                         <div class="item">
 
-                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">                       
 
                                 <div class="header" style="font-size: 15.5px;">
+                                    <!-- <i class="check icon" style="color: green;"></i> -->
+                                    <i class="question icon" style="color: gray;"></i>
                                     <a class="file_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.id }}">
                                         {{ tqobj.question_name }}
                                     </a>

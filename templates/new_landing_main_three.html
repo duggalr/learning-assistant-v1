@@ -48,6 +48,13 @@
             padding-bottom: 2em;
         }
 
+        #email-subscription-section{
+            padding-left: 12em;
+            padding-right: 12em;
+            padding-top: 3em;
+            padding-bottom: 2em;
+        }
+
         #landing_course_description{
             padding-top: 20px;
             padding-bottom: 0px;
@@ -69,7 +76,7 @@
 
         #course_accordion{
             margin-top: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 70px;
             background-color: #f9f9f9;
         }
         
@@ -80,6 +87,36 @@
         /* #second_parent_section{
             background: linear-gradient(to bottom left, #ffffff, #e1f8ff);
         } */
+
+        
+        #third_parent_section{
+            /* margin-top: 20px; */
+            margin-bottom: 40px;
+        }
+
+        #main_teacher_input_div{
+            margin-top: 15px;
+            margin-right: 30px;
+            text-align: left;
+            width: 100%;
+        }
+        
+        #main_teacher_input_div input{
+            background-color: #f9f9f9;
+            border-color: black;
+        }
+
+        /* #email_subscribe_header{
+            font-family: 'Raleway', sans-serif;
+            font-size: 17px;
+            padding-top: 10px;
+            color: #36454F;
+        } */
+
+        #teacher_email_button{
+            margin-left: 10px;
+        }
+        
 
     </style>
 
@@ -133,10 +170,12 @@
                     
                 </div> 
                     
-                <div id="main_teacher_input_div" class="ui action input" style="width: 100%;">
-                    <input id="teacher_email" type="email" placeholder="enter your email and I will reach out...">
-                    <button id="teacher_email_button" class="ui button">Submit</button>
-                </div>
+
+                <!-- <h4 id="email_subscribe_header">Subscribe for updates:</h4>
+                <div id="main_teacher_input_div" class="ui action input" style="width: 75%; padding-top: 0px; margin-top: 0px;">
+                    <input id="teacher_email" type="email" placeholder="email...">
+                    <button id="teacher_email_button" class="ui secondary button">Submit</button>
+                </div> -->
 
 
             </div>
@@ -154,9 +193,11 @@
 
     </section>
 
+
     <!-- Divider -->
     <div class="ui vertical stripe segment" style="margin-top: 9%; border-bottom: 0px; background-color: #f9f9f9;"></div>
     <!-- <div style="margin-top: 13%;"></div> -->
+
 
     <!-- Section 2: Course Introduction -->
     <section id="second_parent_section" style="background-color: #f9f9f9;">
@@ -374,6 +415,49 @@
         
     </section>
 
+
+    <!-- Divider -->
+    <!-- <div class="ui vertical stripe segment" style="margin-top: 9%; border-bottom: 0px; background-color: #f9f9f9;"></div> -->
+
+
+    <!-- Section 3: Email Subscription -->
+    <section id="third_parent_section"  style="background-color: #f9f9f9;">
+
+        <div class="ui vertical stripe segment" id="email-subscription-section">
+    
+            <div class="ui middle aligned stackable grid container">
+
+                <div class="ui centered row animate__animated" id="landing_email_row">
+
+                    <div class="ui basic segment" style="padding-top: 0px; margin-top: 0px;">
+
+                        <h1 class="ui header" id="vertical_section_header"  style="text-align: center;">
+        
+                            <div class="content">
+                                <!-- Subscribe for updates &#128237;   -->
+                                Subscribe for updates &#128434;&#65039;
+                            </div>
+        
+                        </h1>
+
+                        <div class="ui icon big focus input" id="main_teacher_input_div">
+                            <input type="text" placeholder="email...">
+                            <i class="arrow right icon"></i>
+                        </div>
+
+                        <span style="color: gray;">
+                            we will never spam you...
+                        </span>
+     
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
     
 
     <!-- Footer -->

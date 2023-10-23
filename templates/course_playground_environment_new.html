@@ -24,6 +24,42 @@
             word-break: break-word;
         }
 
+
+        #tabular-menu-column{
+            padding-top: 45px;
+        }
+
+        .ui.tabular.menu .active.item {
+            background: #f9f9f9;
+        }
+
+        #output {
+            width: 100%;
+            /* height: 100%; */
+            height: 100%;
+            border: none; /* Remove border from both code and output textarea */
+            resize: none;
+        }
+        
+        .output-code {
+            /* Add any additional styling for the output segment here */
+            border: 1px solid #d4d4d5;
+            width: 100%;
+            height: 35%;
+        }
+
+        #clear_output_link{
+            color: #1e70bf;
+            font-size: 14.5px; 
+            font-weight: 500; 
+            padding-left: 5px;
+        }
+
+        #clear_output_link:hover{
+            font-weight: bold;   
+            cursor: pointer;       
+        }
+
     </style>
 
     
@@ -52,7 +88,7 @@
                     <span id="code_file_name_text" style="font-size: 16px;">File: {{ pc_question_obj.question_name }}</span>
 
                 </h4>
-
+             
             </div>
 
             <div class="ui segment code-editor" style="margin-top: 20px;">
@@ -64,35 +100,106 @@
         </div>
 
 
-        <!-- 
-            TODO:
-                - Build / finalize out the UI for playground
-                    -  finalize UI for landing, course, playground-course
-                    - tmw -> start the functionality for current and go from there
-                        - words + course-content is included in this...
-        -->
-
         <!-- Code Tab Menu -->
-        <div class="seven wide column">
+        <div class="seven wide column" id="tabular-menu-column">
             
             <div class="ui tabular menu tab-menu">
                 
-                <a class="item active" id="programming_assistant_tab">
-                    <i class="comment icon"></i> Programming Assistant
-                </a>
-                
-                <a class="item" id="example_test_case_tab">
-                    <i class="bug icon"></i> Test Cases
+                <a class="item active" id="lesson_question_tab">
+                    <i class="bug icon"></i> Problem
+                </a>                
+
+                <a class="item" id="lesson_ai_tutor_tab">
+                    <i class="comment icon"></i> AI Tutor 
                 </a>
 
-                <a class="item" id="check_answer_tab">
-                    <i class="check icon"></i> Check Answer
-                </a>
+                <!-- <a class="item" id="output_console_tab">
+                    <i class="play icon"></i> Output Console
+                </a> -->
 
             </div>
 
+            
+            <!-- Programming Question -->
+            <div id="programming_question_div">
+
+                <!-- <button onclick="handleSolutionSubmit()" class="positive ui small button solution-submit-button" style="float: right; margin-bottom: 15px;">check answer</button> -->
+
+                <div style="text-align: right;">
+
+                    <button class="small ui button">
+                        run
+                    </button>
+
+                    <button class="small ui button">
+                        get hint
+                    </button>
+
+                    <button class="small ui button" onclick="handleSolutionSubmit()">
+                        submit
+                    </button>
+
+                </div>
+
+                <h4 class="ui header" style="padding-top: 0px; margin-top: 0px;">
+                    Question:
+                </h4>
+
+                <p>
+                    {{ pc_question_obj.question_text }}
+                </p>
+
+                <!-- <div class="ui basic segment">
+                    <p>
+                        {{ pc_question_obj.question_text }}
+                    </p>
+                </div> -->
+
+
+                <h4 class="ui header" style="padding-top: 0px;">
+                    Test Cases:
+                </h4>
+
+                <table class="ui celled table">
+
+                    <thead>
+                        <tr>
+                            <th>Input</th>
+                            <th>Output</th>
+                            <th>Correct</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for tobj in pt_course_test_case_examples %}
+
+                            <tr>
+                                <td data-label="Input">{{ tobj.input_param }}</td>
+                                <td data-label="Output">{{ tobj.correct_output }}</td>
+                                <td id="status_{{ tobj.id }}" data-label="Correct"></td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                <h4 class="ui header" style="padding-top: 0px;">
+                    Output:
+                    <span id="clear_output_link">Clear Output</span>
+                </h4>
+
+                <div class="ui segment output-code">
+                    <textarea id="output" disabled></textarea>
+                </div>
+
+            </div>
 
         </div>
+
+  
 
 
     </div>

@@ -121,14 +121,23 @@
             font-family: 'Raleway', sans-serif; 
             font-size: 20px; 
         }
-        
+
+        #course_home_parent_div{
+            padding-bottom: 40px;
+        }
+
+        #course_home_description{
+            font-size: 15px; 
+            color: #36454f;
+            line-height: 1.7em;
+        }
 
     </style>
 
 
     {% include 'new_landing_navbar_three.html' %}
 
-    <div class="ui grid container animate__animated animate__fadeInUp">
+    <div id="course_home_parent_div" class="ui grid container animate__animated animate__fadeInUp">
 
         <div class="two wide column"></div>
 
@@ -143,8 +152,30 @@
             <!-- Description -->
             <div class="ui basic segment" style=" padding-bottom: 5px;" >
 
-                <p style="font-size: 15px; color: #36454f;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum.
+                <p id="course_home_description">
+                    <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum. -->
+
+                    Welcome &#127881; to our free online Python course, which is designed to help you learn or hone the Python foundations.
+                    <br/><br/>
+                    Depending on your level of familarity with Python,
+                    you can go through each of the sections in order,
+                    or jump around and skip sections you are already comfortable with.
+                    <!-- Feel free to start each of the sections in order, or jump around depending on your preference.
+                    Each section includes a short video introducing the relevant concepts, followed by many exercises to practice. -->
+                    <br/><br/>
+                    The AI Tutor will always be there with you, as you work through each of the sections.
+                    <br/><br/>
+                    You can also use the AI Tutor to generate your own questions, for specific concepts you would like additional
+                    practice in.
+
+                    <!-- Go through our <a href="{% url 'new_course_home' %}">free online course</a>, which is designed to help you learn or hone the Python foundations.
+                    <strong>
+                        The course is exercise-heavy.
+                    </strong>
+                    <br/>
+                    Each section includes a short video introducing the relevant concepts, followed by many exercises to practice.
+                    Feel free to ask your personal AI Tutor questions, as you work through the sections. -->
+
                 </p>
                 
             </div>

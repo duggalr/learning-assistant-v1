@@ -44,8 +44,9 @@
         .output-code {
             /* Add any additional styling for the output segment here */
             border: 1px solid #d4d4d5;
-            width: 100%;
-            height: 35%;
+            /* width: 100%;
+            height: 100%; */
+
         }
 
         #clear_output_link{
@@ -69,7 +70,7 @@
     <div class="ui grid container">
 
         <!-- Code Editor -->
-        <div class="nine wide column" id="code-column">
+        <div class="eight wide column" id="code-column">
 
             <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
                 <i class="arrow alternate circle left outline icon"></i>
@@ -85,7 +86,7 @@
 
                 <h4 style="margin: 0;">
 
-                    <span id="code_file_name_text" style="font-size: 16px;">File: {{ pc_question_obj.question_name }}</span>
+                    <span id="code_file_name_text" style="font-size: 16px;">{{ pc_question_obj.question_name }}</span>
 
                 </h4>
              
@@ -101,7 +102,7 @@
 
 
         <!-- Code Tab Menu -->
-        <div class="seven wide column" id="tabular-menu-column">
+        <div class="eight wide column" id="tabular-menu-column">
             
             <div class="ui tabular menu tab-menu">
                 
@@ -119,7 +120,6 @@
 
             </div>
 
-            
             <!-- Programming Question -->
             <div id="programming_question_div">
 
@@ -127,17 +127,31 @@
 
                 <div style="text-align: right;">
 
-                    <button class="small ui button">
+                    <!-- <button class="small ui button">
                         run
-                    </button>
+                    </button> -->
 
-                    <button class="small ui button">
-                        get hint
-                    </button>
+                    <div class="small ui animated button" tabindex="0">
+                        <div class="visible content">Run</div>
+                        <div class="hidden content">
+                          <i class="play icon"></i>
+                        </div>
+                    </div>
 
-                    <button class="small ui button" onclick="handleSolutionSubmit()">
-                        submit
-                    </button>
+                    &nbsp;&nbsp;
+
+                    <div class="small ui animated positive button" tabindex="0">
+                        <div class="visible content">Submit</div>
+                        <div class="hidden content">
+                          <i class="check icon"></i>
+                        </div>
+                    </div>
+                    
+                    &nbsp;&nbsp;
+
+                    <span>
+                        <a href="">get hint</a>
+                    </span>
 
                 </div>
 
@@ -186,21 +200,19 @@
 
                 </table>
 
+
                 <h4 class="ui header" style="padding-top: 0px;">
-                    Output:
-                    <span id="clear_output_link">Clear Output</span>
+                    Console Output:
+                    <span id="clear_output_link" style="font-size: 14px;">Clear Output</span>
                 </h4>
 
                 <div class="ui segment output-code">
-                    <textarea id="output" disabled></textarea>
+                    <textarea rows="13" id="output" disabled></textarea>
                 </div>
 
             </div>
 
         </div>
-
-  
-
 
     </div>
 
@@ -222,7 +234,7 @@
             scrollbarStyle: "null",
             lineWrapping: true,
         });
-        editor.setSize(600, 700);
+        editor.setSize(530, 700);
 
 
     </script>

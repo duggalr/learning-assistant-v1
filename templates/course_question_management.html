@@ -67,12 +67,20 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-            <a href="{% url 'new_course_admin' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
+            <a href="{% url 'new_course_admin_lesson_management' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
 
-            <div class="ui tabular menu">
+            <h4>
+                {{ lesson_obj.lesson_title }}
+            </h4>
+
+            <p>
+                {{ lesson_obj.lesson_description }}
+            </p>
+
+            <div class="ui tabular menu" style="padding-top: 15px;">
 
                 <a class="active item" id="questions_tab">
                     <!-- <i class="users icon" style="font-size: 16px;"></i> -->
@@ -87,13 +95,16 @@
 
             </div>
 
-            <br/>
+            <!-- <br/> -->
 
             <!-- <span style="color: gray; font-size: 13px;">
                 Here, you can see a list of your questions, which students have answered them, along with creating new questions.
             </span> -->
 
-            <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; padding-left: 10px; padding-bottom: 10px;">
+            <button id="change_order_button" class="ui tiny button">change order</button>
+            <button id="change_order_submit_button" class="ui tiny positive button" style="display: none;">submit</button>
+
+            <div id="main_question_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; padding-left: 10px; padding-bottom: 10px;">
 
                 {% if all_question_objects|length == 0 %}
 
@@ -115,17 +126,23 @@
                             <div class="content" style="padding-top: 6px; padding-bottom: 28px;">
         
                                 <div class="right floated content">
-                                    <div class="negative ui mini animated button delete_question_button" tabindex="0">
+                                    <!-- <div class="negative ui mini animated button delete_question_button" tabindex="0">
                                         <div class="visible content">Delete Question</div>
                                         <div class="hidden content">
                                         <i class="trash icon"></i>
                                         </div>
+                                    </div> -->
+
+                                    <div class="right floated content">
+                                        <div class="ui small button edit_button" id_value="{{ tqobj.id }}">edit</div>
+                                        <div class="ui small negative button delete_question_button" id_value="{{ tqobj.id }}">delete</div>
                                     </div>
                                 </div>
 
-                                <input class="t_question_id" type="hidden" value="{{ tqobj.0.id }}" />
+                                <input class="t_question_id" type="hidden" value="{{ tqobj.id }}" />
         
                                 <div class="header" style="font-size: 15.5px;">
+                                    <input class="order_number_input" id="order_number_{{ tqobj.id }}" type="number" style="width: 10%; margin-right: 10px; display: none;" value="{{ tqobj.order_number }}">
                                     <a class="file_name_header" href="{% url 'new_course_question_view' tqobj.id %}">
                                         {{ tqobj.question_name }}
                                     </a>
@@ -158,7 +175,8 @@
             </div>
             
 
-            <div id="add_question_div" style="display: none; padding-top: 0px;">
+            <!-- Add Question -->
+            <div id="add_question_div" style="display: none; padding-top: 10px;">
 
                 <div class="ui grid container">
 
@@ -180,9 +198,7 @@
                                 <label>Lesson Object</label>
                                 <select name="lesson_object_selected" class="ui dropdown" required>
                                     <option value="">Choose Lesson Object</option>
-                                    {% for obj in all_lesson_objects %}
-                                        <option value="{{ obj.id }}">{{ obj.lesson_title }}</option>
-                                    {% endfor %}
+                                    <option value="{{ current_lesson_obj.id }}" selected>{{ current_lesson_obj.lesson_title }}</option>
                                 </select>
                             </div>
 
@@ -337,6 +353,53 @@
         });
 
 
+        $('#change_order_button').click(function(){
+
+            $('.order_number_input').toggle();
+            $('#change_order_submit_button').toggle();        
+
+        });
+
+        $('#change_order_submit_button').click(function(){
+
+            var arr = {};
+            $(".order_number_input").map(function() {
+                // console.log('elem', this, this.value)
+                let order_number = this.value
+                let object_id = this.id.split('_')[2]
+                console.log(object_id, order_number)
+                // arr.push([object_id, order_number])
+                arr[object_id] = order_number
+            });
+
+            // console.log('arr', arr)
+
+            let d = {
+                'all_items': arr,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+
+            console.log(JSON.stringify(d))
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'new_course_lesson_order_management' %}",
+                dataType: "json",
+                data: {'data': JSON.stringify(d)},
+                success: function (response) {
+
+                    window.location.reload();
+
+                },
+                error: function (response) {}
+                
+            });
+
+
+        });
+
+
+
         // $('.delete_question_button').click(function(){
 
         //     let text = 'Are you sure you want to delete your question?'
@@ -352,7 +415,7 @@
 
         //         $.ajax({
         //             type: 'POST',
-        //             url: "{% url 'teacher_question_delete' %}",
+        //             url: "",
         //             dataType: "json",
         //             data: d,
         //             success: function (response) {

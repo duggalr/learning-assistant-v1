@@ -2402,7 +2402,6 @@ def new_course_lesson_order_management(request):
 def new_course_lesson_delete(request):
 
     if request.method == 'POST':
-
         if not request.user.is_superuser:
             return JsonResponse({'success': False})
 
@@ -2411,13 +2410,13 @@ def new_course_lesson_delete(request):
 
 
 
+def new_course_lesson_page(request, lid):
+    pc_obj = get_object_or_404(PythonCourseLesson, id = lid)
 
-def new_course_question_management(request):
-    
-    all_lesson_objects = PythonCourseLesson.objects.all()
-    all_question_objects = PythonLessonQuestion.objects.all()
-
+    # TODO: need to add insert + update 
     if request.method == 'POST':
+        print('POST DATA:', request.POST)
+
         question_name = request.POST['question-name'].strip()
         question_text = request.POST['question-text'].strip()
         lesson_obj_selected_id = request.POST['lesson_object_selected']
@@ -2429,7 +2428,6 @@ def new_course_question_management(request):
         tc_input_five, tc_output_five = request.POST['test-input-five'].strip(), request.POST['test-output-five'].strip()
         tc_input_six, tc_output_six = request.POST['test-input-six'].strip(), request.POST['test-output-six'].strip()
 
-    
         course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
         
         tc_question_obj = PythonLessonQuestion.objects.create(
@@ -2486,12 +2484,98 @@ def new_course_question_management(request):
                 correct_output = tc_output_six
             )
             tq_tc_obj.save()
-        
+
+
+    pyq_objects = PythonLessonQuestion.objects.filter(
+        course_lesson_obj = pc_obj
+    )
+    # all_lesson_objects = PythonCourseLesson.objects.all()
 
     return render(request, 'course_question_management.html', {
-        'all_lesson_objects': all_lesson_objects,
-        'all_question_objects': all_question_objects
+        'lesson_obj': pc_obj,
+        'all_question_objects': pyq_objects,
+        # 'all_lesson_objects': all_lesson_objects,
+        'current_lesson_obj': pc_obj
     })
+    
+    # all_lesson_objects = PythonCourseLesson.objects.all()
+    # all_question_objects = PythonLessonQuestion.objects.all()
+
+    # if request.method == 'POST':
+    #     question_name = request.POST['question-name'].strip()
+    #     question_text = request.POST['question-text'].strip()
+    #     lesson_obj_selected_id = request.POST['lesson_object_selected']
+
+    #     tc_input_one, tc_output_one = request.POST['test-input-one'].strip(), request.POST['test-output-one'].strip()
+    #     tc_input_two, tc_output_two = request.POST['test-input-two'].strip(), request.POST['test-output-two'].strip()
+    #     tc_input_three, tc_output_three = request.POST['test-input-three'].strip(), request.POST['test-output-three'].strip()
+    #     tc_input_four, tc_output_four = request.POST['test-input-four'].strip(), request.POST['test-output-four'].strip()
+    #     tc_input_five, tc_output_five = request.POST['test-input-five'].strip(), request.POST['test-output-five'].strip()
+    #     tc_input_six, tc_output_six = request.POST['test-input-six'].strip(), request.POST['test-output-six'].strip()
+
+    
+    #     course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
+        
+    #     tc_question_obj = PythonLessonQuestion.objects.create(
+    #         question_name = question_name, 
+    #         question_text = question_text,
+    #         course_lesson_obj = course_lesson_obj
+    #     )
+    #     tc_question_obj.save()
+
+    #     if tc_input_one != '' or tc_output_one != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_one,
+    #             correct_output = tc_output_one
+    #         )
+    #         tq_tc_obj.save()
+        
+    #     if tc_input_two != '' or tc_output_two != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_two,
+    #             correct_output = tc_output_two
+    #         )
+    #         tq_tc_obj.save()
+
+    #     if tc_input_three != '' or tc_output_three != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_three,
+    #             correct_output = tc_output_three
+    #         )
+    #         tq_tc_obj.save()
+        
+    #     if tc_input_four != '' or tc_output_four != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_four,
+    #             correct_output = tc_output_four
+    #         )
+    #         tq_tc_obj.save()
+        
+    #     if tc_input_five != '' or tc_output_five != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_five,
+    #             correct_output = tc_output_five
+    #         )
+    #         tq_tc_obj.save()
+
+    #     if tc_input_six != '' or tc_output_six != '':
+    #         tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+    #             lesson_question_obj = tc_question_obj,
+    #             input_param = tc_input_six,
+    #             correct_output = tc_output_six
+    #         )
+    #         tq_tc_obj.save()
+        
+    # return render(request, 'course_question_management.html', {
+    #     'all_lesson_objects': all_lesson_objects,
+    #     'all_question_objects': all_question_objects
+    # })
+
 
 
 def new_course_question_view(request, qid):
@@ -2499,8 +2583,6 @@ def new_course_question_view(request, qid):
     return render(request, 'course_question_view.html', {
         'question_object': question_obj
     })
-
-
 
 
 
@@ -2625,7 +2707,6 @@ def new_course_handle_solution_submit(request):
                     'test_case_list': test_case_correct_list
                 })
                 
-
 
 
 

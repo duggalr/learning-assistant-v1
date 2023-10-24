@@ -10,13 +10,18 @@ urlpatterns = [
     path("logout", views.logout, name="logout"),
     path("callback", views.callback, name="callback"),
 
-    # Primary Views
-    path("test_page", views.test_page, name="test_page"),
+    # # Primary Views
+    # path("test_page", views.test_page, name="test_page"),
 
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
     path("dashboard", views.dashboard, name="dashboard"),
     
+    path("landing_email_subscribe_handle", views.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
+
+    # OLD: 
+    ### path("landing_teacher_email_input", views.landing_teacher_email_input, name="landing_teacher_email_input"),
+
     # path("practice-questions", views.practice_questions, name="practice_questions"),
 
     path("general-tutor", views.general_cs_tutor, name="general_cs_tutor"),
@@ -32,39 +37,34 @@ urlpatterns = [
     path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
 
     # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
-
     
-    # Teacher-Student Views
-    path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),
-    path("teacher-admin/login", views.teacher_admin_login, name="teacher_admin_login"),
+    ## Teacher-Student Views
+    # path("teacher-admin/signup", views.teacher_admin_signup, name="teacher_admin_signup"),
+    # path("teacher-admin/login", views.teacher_admin_login, name="teacher_admin_login"),
 
-    path("teacher-admin/dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),    
-    path("teacher-admin/manage/students", views.teacher_admin_student_management, name="teacher_admin_student_management"),
-    path("teacher-admin/manage/questions", views.teacher_admin_question_management, name="teacher_admin_question_management"),
-    path("teacher-admin/assistant", views.teacher_admin_assistant_chat, name="teacher_admin_assistant_chat"),
+    # path("teacher-admin/dashboard", views.teacher_admin_dashboard, name="teacher_admin_dashboard"),    
+    # path("teacher-admin/manage/students", views.teacher_admin_student_management, name="teacher_admin_student_management"),
+    # path("teacher-admin/manage/questions", views.teacher_admin_question_management, name="teacher_admin_question_management"),
+    # path("teacher-admin/assistant", views.teacher_admin_assistant_chat, name="teacher_admin_assistant_chat"),
 
-    path("student-admin/create/account", views.student_admin_account_create, name="student_admin_account_create"),
-    path("student-admin/account/login", views.student_admin_login, name="student_admin_login"),
-    path("student-admin/dashboard", views.student_admin_dashboard, name="student_admin_dashboard"),
-    path("student-admin/playground", views.student_admin_playground, name="student_admin_playground"),
+    # path("student-admin/create/account", views.student_admin_account_create, name="student_admin_account_create"),
+    # path("student-admin/account/login", views.student_admin_login, name="student_admin_login"),
+    # path("student-admin/dashboard", views.student_admin_dashboard, name="student_admin_dashboard"),
+    # path("student-admin/playground", views.student_admin_playground, name="student_admin_playground"),
 
-    path("student-admin/handle-tutor-message", views.student_tutor_handle_message, name="student_tutor_handle_message"),
-    path("teacher-admin/handle-tutor-message", views.teacher_assistant_handle_message, name="teacher_assistant_handle_message"),
+    # path("student-admin/handle-tutor-message", views.student_tutor_handle_message, name="student_tutor_handle_message"),
+    # path("teacher-admin/handle-tutor-message", views.teacher_assistant_handle_message, name="teacher_assistant_handle_message"),
 
-    path("student-admin/handle-playground-message", views.handle_student_playground_message, name="handle_student_playground_message"),
-    path("student-admin/save-playground-code", views.save_student_playground_code, name="save_student_playground_code"),
+    # path("student-admin/handle-playground-message", views.handle_student_playground_message, name="handle_student_playground_message"),
+    # path("student-admin/save-playground-code", views.save_student_playground_code, name="save_student_playground_code"),
 
+    # path("teacher-admin/student-profile/<int:uid>", views.teacher_admin_student_view, name="teacher_admin_student_view"),
 
-    path("teacher-admin/student-profile/<int:uid>", views.teacher_admin_student_view, name="teacher_admin_student_view"),
+    # path("teacher-admin/question/delete", views.teacher_question_delete, name="teacher_question_delete"),
+    # path("teacher-admin/student/delete", views.teacher_student_delete, name="teacher_student_delete"),
 
-    path("teacher-admin/question/delete", views.teacher_question_delete, name="teacher_question_delete"),
-    path("teacher-admin/student/delete", views.teacher_student_delete, name="teacher_student_delete"),
-
-
-    path("teacher-admin/question/<int:qid>", views.teacher_specific_question_view, name="teacher_specific_question_view"),
-
+    # path("teacher-admin/question/<int:qid>", views.teacher_specific_question_view, name="teacher_specific_question_view"),
     
-    path("landing_teacher_email_input", views.landing_teacher_email_input, name="landing_teacher_email_input"),
 
     ## Files
     path("handle_user_file_upload", views.handle_user_file_upload, name="handle_user_file_upload"),
@@ -80,28 +80,27 @@ urlpatterns = [
     path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
 
 
-    ## Custom Learning Views
-    path("super_user_motivation_prompt", views.super_user_motivation_prompt, name="super_user_motivation_prompt"),
-
-    ## REST API
-    path("test_api_response", views.test_api_response, name="test_api_response"),
+    # ## Custom Learning Views
+    # path("super_user_motivation_prompt", views.super_user_motivation_prompt, name="super_user_motivation_prompt"),
+    # ## REST API
+    # path("test_api_response", views.test_api_response, name="test_api_response"),
 
 
     ## New Python Course Home
-    path("new_course_home", views.new_course_home, name="new_course_home"),
-    path("new_course_lesson_page/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
-    path("new_course_admin", views.new_course_admin, name="new_course_admin"),
-    path("new_course_question_management", views.new_course_question_management, name="new_course_question_management"),
-    path("new_course_question_view/<int:qid>", views.new_course_question_view, name="new_course_question_view"),
-
-    path("new_course_playground", views.new_course_playground, name="new_course_playground"),
-    path("new_course_handle_user_message", views.new_course_handle_user_message, name="new_course_handle_user_message"),
+    path("python-course", views.new_course_home, name="new_course_home"),
+    path("python-lesson/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
     
+    path("python-playground", views.new_course_playground, name="new_course_playground"),
+
+    path("python-lesson-admin", views.new_course_admin_dashboard, name="new_course_admin"),
+    path("python-admin-lesson-management", views.new_course_admin_lesson_management, name="new_course_admin_lesson_management"),
+    
+    path("python-lesson-question-management", views.new_course_question_management, name="new_course_question_management"),
+    path("python-question-view/<int:qid>", views.new_course_question_view, name="new_course_question_view"),
+
+    path("new_course_handle_user_message", views.new_course_handle_user_message, name="new_course_handle_user_message"),
     path("new_course_handle_solution_submit", views.new_course_handle_solution_submit, name="new_course_handle_solution_submit"),
-
     path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
-
-    path("landing_email_subscribe_handle", views.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
 
 ]
 

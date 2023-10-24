@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+        #main_center_column{
+            padding-top: 40px;
+        }
+
+        #center_card_column{
+            padding-top: 5%;
+            padding-left: 10%;
+        }
+
+        .description{
+            font-size: 12.5px;
+        }
+
+
+    </style>
+
+
+    {% include 'new_landing_navbar_three.html' %}
+    
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column" id="main_center_column">
+
+            <div class="ui tabular menu">
+
+                {% if lesson_edit %}
+
+                    <a class="item" id="lessons_tab">
+                        <i class="question icon" style="font-size: 13px;"></i>
+                        Your Lessons
+                    </a>
+                    
+                    <a class="active item" id="add_lesson_tab">
+                        <i class="plus icon" style="font-size: 13px;"></i>
+                        Create New Lesson
+                    </a>
+
+                {% else %}
+
+                    <a class="active item" id="lessons_tab">
+                        <i class="question icon" style="font-size: 13px;"></i>
+                        Your Lessons
+                    </a>
+                    
+                    <a class="item" id="add_lesson_tab">
+                        <i class="plus icon" style="font-size: 13px;"></i>
+                        Create New Lesson
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Lessons List -->
+            <div class="ui middle aligned divided list" id="lessons_div">
+
+                {% for cobj in course_lessons %}
+
+                    <div class="item" style="padding-bottom: 20px; padding-top: 10px;">
+
+                        <div class="right floated content">
+                            <div class="ui small button edit_button" id_value="{{ cobj.id }}">edit</div>
+                          </div>
+
+                        <div class="content">
+                            <a class="header">
+                                {{ cobj.lesson_title }}
+                            </a>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            
+            <!-- Lesson CRUD -->
+            <div id="add_lesson_div" style="display: none; padding-top: 10px;">
+
+                <div class="ui grid container">
+
+                    <div class="sixteen wide column" id="create_question_div">
+
+                        <form class="ui form" method="POST">{% csrf_token %}
+    
+                            {% if lesson_edit %}
+
+                                <div class="required field">
+                                    <label>Lesson Name</label>
+                                    <input type="text" name="lesson-name" placeholder="Lesson Name" value="{{ current_lesson_obj.lesson_title }}" required>
+                                </div>
+        
+                                <div class="required field">
+                                    <label>Lesson Description</label>
+                                    <textarea rows="5" name="lesson-text" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget semper metus, in pharetra dui. Nulla porta est non ullamcorper egestas." required>{{ current_lesson_obj.lesson_description }}</textarea>
+                                </div>
+
+                                <div class="required field">
+                                    <label>Lesson Youtube URL</label>
+                                    <input type="text" name="lesson-youtube-url" placeholder="Lesson Youtube URL" value="{{ current_lesson_obj.lesson_video }}" required>
+                                </div>
+
+                                <input type="hidden" name="lesson-id-value" value="{{ current_lesson_obj.id }}">
+                             
+                            {% else %}
+
+                                <div class="required field">
+                                    <label>Lesson Name</label>
+                                    <input type="text" name="lesson-name" placeholder="Lesson Name" required>
+                                </div>
+        
+                                <div class="required field">
+                                    <label>Lesson Description</label>
+                                    <textarea rows="5" name="lesson-text" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget semper metus, in pharetra dui. Nulla porta est non ullamcorper egestas." required></textarea>
+                                </div>
+
+                                <div class="required field">
+                                    <label>Lesson Youtube URL</label>
+                                    <input type="text" name="lesson-youtube-url" placeholder="Lesson Youtube URL" required>
+                                </div>
+
+                            {% endif %}
+
+                            
+                            <input type="hidden" name="lesson-edit-value" value="{{ lesson_edit }}">
+
+                            <button class="small ui secondary button" type="submit">Submit</button>
+                            
+                        </form>
+    
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="two wide column"></div>
+        
+    </div>
+
+
+
+    <script>
+
+        let lessonEdit = '{{ lesson_edit }}'
+        console.log('lesson-edit:', lessonEdit)
+
+        if (lessonEdit === 'True'){
+
+            $('#add_lesson_div').show();
+            $('#lessons_div').hide();
+
+        }
+
+
+        $('#question_management_card').click(function(){
+
+            var main_url = "{% url 'new_course_question_management' %}";
+            window.location.href = main_url;
+
+        });
+
+
+        $('#lessons_tab').click(function(){
+
+            $('#lessons_div').show();
+            $('#add_lesson_div').hide();
+
+            $('#lessons_tab').addClass('active');
+            $('#add_lesson_tab').removeClass('active');
+
+        });
+
+
+        $('#add_lesson_tab').click(function(){
+
+            $('#lessons_div').hide();
+            $('#add_lesson_div').show();
+
+            $('#lessons_tab').removeClass('active');
+            $('#add_lesson_tab').addClass('active');
+
+        });
+
+
+        $('.edit_button').click(function(){
+            
+            let idVal = $(this).attr('id_value');
+            console.log('id-val:', idVal)
+
+            var url = new URL(window.location.href);
+            url.searchParams.set('lesson-edit-id', idVal);
+
+            window.location.href = url;
+
+        })
+
+
+    </script>
+
+
+{% endblock %}
+
+

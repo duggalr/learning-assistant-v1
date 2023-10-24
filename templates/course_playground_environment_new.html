@@ -168,13 +168,26 @@
 
                     &nbsp;&nbsp;
 
-                    <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
-                        <div class="visible content">Submit</div>
-                        <div class="hidden content">
-                          <i class="check icon"></i>
+                    {% if pt_course_test_case_examples|length > 0 %}
+
+                        <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
+                            <div class="visible content">Submit</div>
+                            <div class="hidden content">
+                            <i class="check icon"></i>
+                            </div>
                         </div>
-                    </div>
-                    
+
+                    {% else %}
+
+                        <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
+                            <div class="visible content">Get Feedback</div>
+                            <div class="hidden content">
+                            <i class="check icon"></i>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
                     &nbsp;&nbsp;
 
                     <span>
@@ -188,45 +201,46 @@
                 </h4>
 
                 <p>
-                    {{ pc_question_obj.question_text }}
+                    {{ pc_question_obj.question_text|linebreaks }}
                 </p>
-
-                <!-- <div class="ui basic segment">
-                    <p>
-                        {{ pc_question_obj.question_text }}
-                    </p>
-                </div> -->
-
 
                 <h4 class="ui header" style="padding-top: 0px;">
                     Test Cases:
                 </h4>
 
-                <table class="ui celled table">
+                {% if pt_course_test_case_examples|length > 0 %}
 
-                    <thead>
-                        <tr>
-                            <th>Input</th>
-                            <th>Output</th>
-                            <th>Correct</th>
-                        </tr>
-                    </thead>
+                    <table class="ui celled table">
 
-                    <tbody>
-
-                        {% for tobj in pt_course_test_case_examples %}
-
+                        <thead>
                             <tr>
-                                <td data-label="Input">{{ tobj.input_param }}</td>
-                                <td data-label="Output">{{ tobj.correct_output }}</td>
-                                <td id="status_{{ tobj.id }}" data-label="Correct"></td>
+                                <th>Input</th>
+                                <th>Output</th>
+                                <th>Correct</th>
                             </tr>
+                        </thead>
 
-                        {% endfor %}
+                        <tbody>
 
-                    </tbody>
+                            {% for tobj in pt_course_test_case_examples %}
 
-                </table>
+                                <tr>
+                                    <td data-label="Input">{{ tobj.input_param }}</td>
+                                    <td data-label="Output">{{ tobj.correct_output }}</td>
+                                    <td id="status_{{ tobj.id }}" data-label="Correct"></td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                {% else %}
+                    
+                    <p style="color: gray;">No test cases created for this question.</p>
+
+                {% endif %}
 
 
                 <h4 class="ui header" style="padding-top: 0px;">

@@ -2100,7 +2100,7 @@ def super_user_motivation_prompt(request):
 
 
 
-## New Course ##
+### Python New Course ###
 
 def new_course_home(request):
     all_lesson_objects = PythonCourseLesson.objects.all()
@@ -2111,105 +2111,11 @@ def new_course_home(request):
 
 def new_course_lesson_page(request, lid):
     course_lesson_obj = get_object_or_404(PythonCourseLesson, id = lid)
-
     lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = course_lesson_obj)
 
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
         'lesson_question_objects': lesson_question_objects
-    })
-
-
-def new_course_admin(request):
-    return render(request, 'course_lesson_admin.html')
-
-
-def new_course_question_management(request):
-    
-    all_lesson_objects = PythonCourseLesson.objects.all()
-    all_question_objects = PythonLessonQuestion.objects.all()
-
-    if request.method == 'POST':
-        question_name = request.POST['question-name'].strip()
-        question_text = request.POST['question-text'].strip()
-        lesson_obj_selected_id = request.POST['lesson_object_selected']
-
-        tc_input_one, tc_output_one = request.POST['test-input-one'].strip(), request.POST['test-output-one'].strip()
-        tc_input_two, tc_output_two = request.POST['test-input-two'].strip(), request.POST['test-output-two'].strip()
-        tc_input_three, tc_output_three = request.POST['test-input-three'].strip(), request.POST['test-output-three'].strip()
-        tc_input_four, tc_output_four = request.POST['test-input-four'].strip(), request.POST['test-output-four'].strip()
-        tc_input_five, tc_output_five = request.POST['test-input-five'].strip(), request.POST['test-output-five'].strip()
-        tc_input_six, tc_output_six = request.POST['test-input-six'].strip(), request.POST['test-output-six'].strip()
-
-    
-        course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
-        
-        tc_question_obj = PythonLessonQuestion.objects.create(
-            question_name = question_name, 
-            question_text = question_text,
-            course_lesson_obj = course_lesson_obj
-        )
-        tc_question_obj.save()
-
-        if tc_input_one != '' or tc_output_one != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_one,
-                correct_output = tc_output_one
-            )
-            tq_tc_obj.save()
-        
-        if tc_input_two != '' or tc_output_two != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_two,
-                correct_output = tc_output_two
-            )
-            tq_tc_obj.save()
-
-        if tc_input_three != '' or tc_output_three != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_three,
-                correct_output = tc_output_three
-            )
-            tq_tc_obj.save()
-        
-        if tc_input_four != '' or tc_output_four != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_four,
-                correct_output = tc_output_four
-            )
-            tq_tc_obj.save()
-        
-        if tc_input_five != '' or tc_output_five != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_five,
-                correct_output = tc_output_five
-            )
-            tq_tc_obj.save()
-
-        if tc_input_six != '' or tc_output_six != '':
-            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
-                lesson_question_obj = tc_question_obj,
-                input_param = tc_input_six,
-                correct_output = tc_output_six
-            )
-            tq_tc_obj.save()
-        
-
-    return render(request, 'course_question_management.html', {
-        'all_lesson_objects': all_lesson_objects,
-        'all_question_objects': all_question_objects
-    })
-
-
-def new_course_question_view(request, qid):
-    question_obj = get_object_or_404(PythonLessonQuestion, id = qid)
-    return render(request, 'course_question_view.html', {
-        'question_object': question_obj
     })
 
 
@@ -2249,7 +2155,6 @@ def new_course_playground(request):
     })
 
 
-# TODO: complete this functionality and finalize this; go from there...
 def new_course_handle_user_message(request):
 
     initial_user_session = request.session.get("user")
@@ -2355,7 +2260,6 @@ def new_course_handle_user_message(request):
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-
 def new_course_save_user_code(request):
     
     if request.method == 'POST':
@@ -2407,6 +2311,154 @@ def new_course_save_user_code(request):
             uc_obj.save()
             
             return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+
+
+### Python-Course-Admin ###
+
+# def new_course_admin(request):
+def new_course_admin_dashboard(request):
+    user_is_admin = request.user.is_superuser
+    if not user_is_admin:  # exempt from auth check; has visibility into all user's code
+        return redirect('landing')
+    
+    return render(request, 'course_lesson_admin.html')
+
+
+def new_course_admin_lesson_management(request):
+    user_is_admin = request.user.is_superuser
+    if not user_is_admin:  # exempt from auth check; has visibility into all user's code
+        return redirect('landing')
+    
+    if request.method == 'POST':
+        print('post:', request.POST)
+
+        if 'lesson-edit-value' in request.POST:
+            lid = request.POST['lesson-id-value']
+            pc_obj = PythonCourseLesson.objects.get(id = lid)
+            pc_obj.lesson_title = request.POST['lesson-name'].strip()
+            pc_obj.lesson_description = request.POST['lesson-text'].strip()
+            pc_obj.lesson_video = request.POST['lesson-youtube-url'].strip()
+            pc_obj.save()
+
+        else:
+            lesson_name = request.POST['lesson-name'].strip()
+            lesson_description = request.POST['lesson-text'].strip()
+            lesson_yt_url = request.POST['lesson-youtube-url'].strip()
+            
+            pc_lesson_obj = PythonCourseLesson.objects.create(
+                lesson_title = lesson_name,
+                lesson_description = lesson_description,
+                lesson_video = lesson_yt_url
+            )
+            pc_lesson_obj.save()
+
+        return redirect('new_course_admin_lesson_management')
+
+
+    if 'lesson-edit-id' in request.GET:
+        lesson_edit_id = request.GET.get('lesson-edit-id')
+        course_lessons = PythonCourseLesson.objects.all()
+        return render(request, 'course_lesson_crud.html', {
+            'course_lessons': course_lessons,
+            'current_lesson_obj': PythonCourseLesson.objects.get(id = lesson_edit_id),
+            'lesson_edit': True
+        })
+
+    course_lessons = PythonCourseLesson.objects.all()
+    return render(request, 'course_lesson_crud.html', {
+        'course_lessons': course_lessons
+    })
+
+
+
+def new_course_question_management(request):
+    
+    all_lesson_objects = PythonCourseLesson.objects.all()
+    all_question_objects = PythonLessonQuestion.objects.all()
+
+    if request.method == 'POST':
+        question_name = request.POST['question-name'].strip()
+        question_text = request.POST['question-text'].strip()
+        lesson_obj_selected_id = request.POST['lesson_object_selected']
+
+        tc_input_one, tc_output_one = request.POST['test-input-one'].strip(), request.POST['test-output-one'].strip()
+        tc_input_two, tc_output_two = request.POST['test-input-two'].strip(), request.POST['test-output-two'].strip()
+        tc_input_three, tc_output_three = request.POST['test-input-three'].strip(), request.POST['test-output-three'].strip()
+        tc_input_four, tc_output_four = request.POST['test-input-four'].strip(), request.POST['test-output-four'].strip()
+        tc_input_five, tc_output_five = request.POST['test-input-five'].strip(), request.POST['test-output-five'].strip()
+        tc_input_six, tc_output_six = request.POST['test-input-six'].strip(), request.POST['test-output-six'].strip()
+
+    
+        course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
+        
+        tc_question_obj = PythonLessonQuestion.objects.create(
+            question_name = question_name, 
+            question_text = question_text,
+            course_lesson_obj = course_lesson_obj
+        )
+        tc_question_obj.save()
+
+        if tc_input_one != '' or tc_output_one != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_one,
+                correct_output = tc_output_one
+            )
+            tq_tc_obj.save()
+        
+        if tc_input_two != '' or tc_output_two != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_two,
+                correct_output = tc_output_two
+            )
+            tq_tc_obj.save()
+
+        if tc_input_three != '' or tc_output_three != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_three,
+                correct_output = tc_output_three
+            )
+            tq_tc_obj.save()
+        
+        if tc_input_four != '' or tc_output_four != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_four,
+                correct_output = tc_output_four
+            )
+            tq_tc_obj.save()
+        
+        if tc_input_five != '' or tc_output_five != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_five,
+                correct_output = tc_output_five
+            )
+            tq_tc_obj.save()
+
+        if tc_input_six != '' or tc_output_six != '':
+            tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                lesson_question_obj = tc_question_obj,
+                input_param = tc_input_six,
+                correct_output = tc_output_six
+            )
+            tq_tc_obj.save()
+        
+
+    return render(request, 'course_question_management.html', {
+        'all_lesson_objects': all_lesson_objects,
+        'all_question_objects': all_question_objects
+    })
+
+
+def new_course_question_view(request, qid):
+    question_obj = get_object_or_404(PythonLessonQuestion, id = qid)
+    return render(request, 'course_question_view.html', {
+        'question_object': question_obj
+    })
 
 
 

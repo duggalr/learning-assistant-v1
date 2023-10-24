@@ -22,7 +22,7 @@
     </style>
 
 
-    {% include 'dashboard_navbar.html' %}
+    {% include 'new_landing_navbar_three.html' %}
     
     <div class="ui grid container">
 
@@ -30,7 +30,15 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-            <h3>Welcome!</h3>
+            <ul>
+                <li>
+                    <a href="{% url 'new_course_admin_lesson_management' %}">
+                        Manage your Lessons
+                    </a>
+                </li>
+            </ul>
+
+            <!-- <h3>Welcome!</h3>
 
             <span style="color: gray;">
                 Here, you will be able to view and manage each of your students progress, along with getting help from your personal assistant
@@ -108,7 +116,7 @@
 
                 </div>
 
-            </div>
+            </div> -->
 
         </div>
 

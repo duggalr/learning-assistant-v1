@@ -2358,17 +2358,34 @@ def new_course_admin_lesson_management(request):
 
     if 'lesson-edit-id' in request.GET:
         lesson_edit_id = request.GET.get('lesson-edit-id')
-        course_lessons = PythonCourseLesson.objects.all()
+        course_lessons = PythonCourseLesson.objects.all().order_by('order_number')
         return render(request, 'course_lesson_crud.html', {
             'course_lessons': course_lessons,
             'current_lesson_obj': PythonCourseLesson.objects.get(id = lesson_edit_id),
             'lesson_edit': True
         })
 
-    course_lessons = PythonCourseLesson.objects.all()
+    course_lessons = PythonCourseLesson.objects.all().order_by('order_number')
     return render(request, 'course_lesson_crud.html', {
         'course_lessons': course_lessons
     })
+
+
+import json
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def new_course_lesson_order_management(request):
+    if request.method == 'POST':
+        d = json.loads(request.POST.get('data', ''))
+        all_items = d['all_items']
+        for obj_id in all_items:
+            order_num = all_items[obj_id]
+            cobj = PythonCourseLesson.objects.get(id = obj_id)
+            cobj.order_number = order_num
+            cobj.save()
+
+        return JsonResponse({'success': True})
 
 
 
@@ -2588,8 +2605,7 @@ def new_course_handle_solution_submit(request):
 
 
 
-import json
-from django.views.decorators.csrf import csrf_exempt
+
 
 ## REST API Views ##
 

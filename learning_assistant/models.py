@@ -171,6 +171,7 @@ class PythonCourseLesson(models.Model):
     lesson_title = models.CharField(max_length=3000)
     lesson_description = models.TextField()
     lesson_video = models.URLField()
+    order_number = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

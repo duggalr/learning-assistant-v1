@@ -2316,8 +2316,12 @@ def new_course_save_user_code(request):
 
 ### Python-Course-Admin ###
 
+# TODO: 
+    # create a super-suser decorator for all these functions below
+
+
 # def new_course_admin(request):
-def new_course_admin_dashboard(request):
+def admin_new_course_dashboard(request):
     user_is_admin = request.user.is_superuser
     if not user_is_admin:  # exempt from auth check; has visibility into all user's code
         return redirect('landing')
@@ -2325,7 +2329,7 @@ def new_course_admin_dashboard(request):
     return render(request, 'course_lesson_admin.html')
 
 
-def new_course_admin_lesson_management(request):
+def admin_new_course_lesson_management(request):
     user_is_admin = request.user.is_superuser
     if not user_is_admin:  # exempt from auth check; has visibility into all user's code
         return redirect('landing')
@@ -2381,7 +2385,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-def new_course_lesson_order_management(request):
+def admin_new_course_lesson_order_management(request):
     
     if request.method == 'POST':
 
@@ -2399,7 +2403,7 @@ def new_course_lesson_order_management(request):
         return JsonResponse({'success': True})
 
 
-def new_course_lesson_delete(request):
+def admin_new_course_lesson_delete(request):
 
     if request.method == 'POST':
         if not request.user.is_superuser:
@@ -2410,7 +2414,7 @@ def new_course_lesson_delete(request):
 
 
 
-def new_course_lesson_page(request, lid):
+def admin_new_course_lesson_page(request, lid):
     pc_obj = get_object_or_404(PythonCourseLesson, id = lid)
 
     if request.method == 'POST':
@@ -2522,7 +2526,7 @@ def new_course_lesson_page(request, lid):
     
 
 
-def new_course_question_delete(request):
+def admin_new_course_question_delete(request):
 
     if request.method == 'POST':
         if not request.user.is_superuser:
@@ -2533,10 +2537,8 @@ def new_course_question_delete(request):
         return JsonResponse({'success': True})
 
 
-
-
 @csrf_exempt
-def new_course_question_order_management(request):
+def admin_new_course_question_order_management(request):
      if request.method == 'POST':
 
         if not request.user.is_superuser:
@@ -2554,7 +2556,7 @@ def new_course_question_order_management(request):
 
 
 
-def new_course_question_view(request, qid):
+def admin_new_course_question_view(request, qid):
     question_obj = get_object_or_404(PythonLessonQuestion, id = qid)
     return render(request, 'course_question_view.html', {
         'question_object': question_obj
@@ -2684,34 +2686,34 @@ def new_course_handle_solution_submit(request):
                 
 
 
-## REST API Views ##
 
-@csrf_exempt
-def test_api_response(request):
+
+# ## REST API Views ##
+
+# @csrf_exempt
+# def test_api_response(request):
     
-    print(request)
+#     print(request)
 
-    post_data = json.loads(request.body.decode("utf-8"))
-    print('post-data:', post_data)
+#     post_data = json.loads(request.body.decode("utf-8"))
+#     print('post-data:', post_data)
 
-    user_question = post_data['user_question'].strip()
-    user_code = post_data['user_code'].strip()
+#     user_question = post_data['user_question'].strip()
+#     user_code = post_data['user_code'].strip()
 
-    tutor_response = main_utils.main_handle_question(
-        question = user_question, 
-        student_code = user_code,
-        previous_chat_history_st = ''
-    )
+#     tutor_response = main_utils.main_handle_question(
+#         question = user_question, 
+#         student_code = user_code,
+#         previous_chat_history_st = ''
+#     )
 
-    di = {
-        'input': 'example',
-        'output': 3,
-        'user': 'testing'
-    }
+#     di = {
+#         'input': 'example',
+#         'output': 3,
+#         'user': 'testing'
+#     }
     
-    return JsonResponse(data=di)
-
-
+#     return JsonResponse(data=di)
 
 
 

@@ -36,6 +36,14 @@
                         Manage your Lessons
                     </a>
                 </li>
+
+
+                <li>
+                    <a href="{% url 'logout' %}">
+                        logout
+                    </a>
+                </li>
+
             </ul>
 
             <!-- <h3>Welcome!</h3>
@@ -127,14 +135,6 @@
 
 
     <script>
-
-
-        $('#question_management_card').click(function(){
-
-            var main_url = "{% url 'new_course_question_management' %}";
-            window.location.href = main_url;
-
-        });
 
 
     </script>

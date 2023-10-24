@@ -179,6 +179,7 @@ class PythonLessonQuestion(models.Model):
     question_name = models.CharField(max_length=3000)
     question_text = models.TextField()
     course_lesson_obj = models.ForeignKey(PythonCourseLesson, on_delete=models.CASCADE)
+    order_number = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

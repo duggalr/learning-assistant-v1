@@ -184,92 +184,111 @@
 
                         <form class="ui form" method="POST">{% csrf_token %}
     
-                            <div class="required field">
-                                <label>Question Name</label>
-                                <input type="text" name="question-name" placeholder="Question Name" required>
-                            </div>
-    
-                            <div class="required field">
-                                <label>Question</label>
-                                <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required></textarea>
-                            </div>
+                            {% if question_edit %}
 
-                            <div class="required field">
-                                <label>Lesson Object</label>
-                                <select name="lesson_object_selected" class="ui dropdown" required>
-                                    <option value="">Choose Lesson Object</option>
-                                    <option value="{{ current_lesson_obj.id }}" selected>{{ current_lesson_obj.lesson_title }}</option>
-                                </select>
-                            </div>
+                                <div class="required field">
+                                    <label>Question Name</label>
+                                    <input value="{{ current_question_obj.question_name }}" type="text" name="question-name" placeholder="Question Name" required>
+                                </div>
+        
+                                <div class="required field">
+                                    <label>Question</label>
+                                    <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required>{{ current_question_obj.question_text }}</textarea>
+                                </div>
 
-                            <h5>Add Test Cases: <span style="font-size: 13px; color: gray; font-weight: 400;">(optional)</span></h5>
+                                <input type="hidden" name="question-id-value" value="{{ current_question_obj.id }}">
+                                <input type="hidden" name="question-edit-value" value="{{ question_edit }}">
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-one" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
-                                </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-one" placeholder="output = True" type="text">
-                                </div>
-                            </div>
+                            {% else %}
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-two" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                <div class="required field">
+                                    <label>Question Name</label>
+                                    <input type="text" name="question-name" placeholder="Question Name" required>
                                 </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-two" placeholder="output = True" type="text">
+        
+                                <div class="required field">
+                                    <label>Question</label>
+                                    <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required></textarea>
                                 </div>
-                            </div>
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-three" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                <div class="required field">
+                                    <label>Lesson Object</label>
+                                    <select name="lesson_object_selected" class="ui dropdown" required>
+                                        <option value="">Choose Lesson Object</option>
+                                        <option value="{{ current_lesson_obj.id }}" selected>{{ current_lesson_obj.lesson_title }}</option>
+                                    </select>
                                 </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-three" placeholder="output = True" type="text">
-                                </div>
-                            </div>
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-four" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
-                                </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-four" placeholder="output = True" type="text">
-                                </div>
-                            </div>
+                                <h5>Add Test Cases: <span style="font-size: 13px; color: gray; font-weight: 400;">(optional)</span></h5>
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-five" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-one" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-one" placeholder="output = True" type="text">
+                                    </div>
                                 </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-five" placeholder="output = True" type="text">
-                                </div>
-                            </div>
 
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Input</label>
-                                    <input name="test-input-six" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-two" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-two" placeholder="output = True" type="text">
+                                    </div>
                                 </div>
-                                <div class="field">
-                                    <label>Output</label>
-                                    <input name="test-output-six" placeholder="output = True" type="text">
+
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-three" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-three" placeholder="output = True" type="text">
+                                    </div>
                                 </div>
-                            </div>
-    
+
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-four" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-four" placeholder="output = True" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-five" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-five" placeholder="output = True" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Input</label>
+                                        <input name="test-input-six" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                    </div>
+                                    <div class="field">
+                                        <label>Output</label>
+                                        <input name="test-output-six" placeholder="output = True" type="text">
+                                    </div>
+                                </div>
+
+                            {% endif %}
+
                             <button class="small ui secondary button" type="submit">Submit</button>
                             
                         </form>
@@ -331,6 +350,19 @@
 
     <script>
 
+        let questionEdit = '{{ question_edit }}'
+
+        if (questionEdit === 'True'){
+
+            $('#add_question_div').show();
+            $('#main_question_div').hide();
+
+            $('#add_question_tab').addClass('active');
+            $('#questions_tab').removeClass('active');
+
+        };
+
+
         $('#questions_tab').click(function(){
 
             $('#main_question_div').show();
@@ -360,6 +392,20 @@
 
         });
 
+
+        $('.edit_button').click(function(){
+            
+            let idVal = $(this).attr('id_value');
+            console.log('id-val:', idVal);
+
+            var url = new URL(window.location.href);
+            url.searchParams.set('question-edit-id', idVal);
+
+            window.location.href = url;
+
+        });
+
+
         $('#change_order_submit_button').click(function(){
 
             var arr = {};
@@ -372,8 +418,6 @@
                 arr[object_id] = order_number
             });
 
-            // console.log('arr', arr)
-
             let d = {
                 'all_items': arr,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -383,7 +427,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{% url 'new_course_lesson_order_management' %}",
+                url: "{% url 'new_course_question_order_management' %}",
                 dataType: "json",
                 data: {'data': JSON.stringify(d)},
                 success: function (response) {
@@ -395,9 +439,38 @@
                 
             });
 
-
         });
 
+
+        $('.delete_question_button').click(function(){
+            
+            if (confirm('You sure you want to delete this lesson?')) {
+               
+                let idVal = $(this).attr('id_value');
+                console.log('id-val:', idVal)
+
+                let d = {
+                    'qid': idVal,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'new_course_question_delete' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+
+                        window.location.reload();
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+            } else {}
+
+        });
 
 
         // $('.delete_question_button').click(function(){

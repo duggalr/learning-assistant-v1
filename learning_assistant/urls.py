@@ -103,6 +103,7 @@ urlpatterns = [
     path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
 
     path("new_course_lesson_order_management", views.new_course_lesson_order_management, name="new_course_lesson_order_management"),
+    path("new_course_lesson_delete", views.new_course_lesson_delete, name="new_course_lesson_delete"),
 
 ]
 

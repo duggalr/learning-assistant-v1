@@ -2333,6 +2333,9 @@ def new_course_admin_lesson_management(request):
     if request.method == 'POST':
         print('post:', request.POST)
 
+        if not request.user.is_superuser:
+            return JsonResponse({'success': False})
+
         if 'lesson-edit-value' in request.POST:
             lid = request.POST['lesson-id-value']
             pc_obj = PythonCourseLesson.objects.get(id = lid)
@@ -2357,6 +2360,9 @@ def new_course_admin_lesson_management(request):
 
 
     if 'lesson-edit-id' in request.GET:
+        if not request.user.is_superuser:
+            return JsonResponse({'success': False})
+
         lesson_edit_id = request.GET.get('lesson-edit-id')
         course_lessons = PythonCourseLesson.objects.all().order_by('order_number')
         return render(request, 'course_lesson_crud.html', {
@@ -2376,7 +2382,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def new_course_lesson_order_management(request):
+    
     if request.method == 'POST':
+
+        if not request.user.is_superuser:
+            return JsonResponse({'success': False})
+
         d = json.loads(request.POST.get('data', ''))
         all_items = d['all_items']
         for obj_id in all_items:
@@ -2386,6 +2397,18 @@ def new_course_lesson_order_management(request):
             cobj.save()
 
         return JsonResponse({'success': True})
+
+
+def new_course_lesson_delete(request):
+
+    if request.method == 'POST':
+
+        if not request.user.is_superuser:
+            return JsonResponse({'success': False})
+
+        PythonCourseLesson.objects.filter(id = request.POST['lid']).delete()
+        return JsonResponse({'success': True})
+
 
 
 

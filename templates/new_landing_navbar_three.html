@@ -14,7 +14,13 @@
         </div>
 
         <div id="landing_parent_div" class="right menu" style="margin-right: 0%;">
-                        
+
+            {% if user_session %}
+                <a class="item" href="{% url 'dashboard' %}">
+                    Your Dashboard
+                </a>
+            {% endif %}
+
             <a class="item" href="{% url 'new_course_home' %}">
                 Learn or Practice Python
             </a>
@@ -24,19 +30,33 @@
             <a class="item" href="{% url 'general_cs_tutor' %}" >
                 General Tutor
             </a>
-            <a class="item" href="{% url 'about' %}">
-                About
-            </a>
+
+            {% if not user_session %}
+                <a class="item" href="{% url 'about' %}">
+                    About
+                </a>
+            {% endif %}
 
             <!-- <div class="item">
                 <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
             </div> -->
             
-            <div class="item" style="padding-left: 12px;">
-                <button class="ui basic black button">
-                    Signup or Login
-                </button>
-            </div>
+            {% if user_session %}
+
+                <a class="item" href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <div class="item" style="padding-left: 12px;">
+                    <button class="ui basic black button auth_button">
+                        Signup or Login
+                    </button>
+                </div>
+
+            {% endif %}
+            
 
         </div>
 
@@ -54,6 +74,14 @@
         window.location.replace(new_url);
 
     });
+
+
+    $('.auth_button').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+        window.location.replace(new_url);
+
+    })
 
 
 </script>

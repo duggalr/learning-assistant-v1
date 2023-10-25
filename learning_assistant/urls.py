@@ -19,7 +19,7 @@ urlpatterns = [
     
     path("landing_email_subscribe_handle", views.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
 
-    # OLD: 
+    # OLD:
     ### path("landing_teacher_email_input", views.landing_teacher_email_input, name="landing_teacher_email_input"),
 
     # path("practice-questions", views.practice_questions, name="practice_questions"),

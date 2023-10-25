@@ -16,6 +16,8 @@
 
         .file_name_header{
             color: black;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14.5px;
         }
 
         .file_name_header:hover{
@@ -28,49 +30,47 @@
             color: lightblue;
         }
 
+        .ui.tabular.menu .active.item {
+            background: #f9f9f9;
+        }
+
+        #dashboard_header{
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .tab_header{
+            font-family: 'Raleway', sans-serif;
+        }
+
     </style>
 
 
     {% include 'new_landing_navbar_three.html' %}
 
+    
     <div class="ui grid container">
         
         <div class="two wide column"></div>
 
         <div class="twelve wide column">
 
-            <!-- <div style="padding-top: 20px; display:flex; justify-content:space-between; align-items:baseline;">
-                
-                <h3 class="ui header" >
-                    <i class="code branch icon" style="font-size: 22px;"></i>
-                    Saved Code:
-                </h3>
-
-                <span class="add_code_icon" style="font-size: 16px;">
-                    <i class="code icon"></i>
-                    Start Coding
-                </span>
-
-            </div> -->
-
-
             <div style="padding-top: 15px;">
-                <h3 class="ui header">
-                    Dashboard
+                <h3 class="ui header" id="dashboard_header">
+                    &#128216; Dashboard
                 </h3>
             </div>
 
             <div class="ui tabular menu" style="padding-top: 12px;">
 
-                <a class="active item" id="questions_tab">
+                <a class="active item tab_header" id="questions_tab">
                     <i class="file code icon" style="font-size: 13px;"></i>
                     Saved Code
                 </a>
 
-                <a class="item" id="files_tab">
+                <!-- <a class="disabled item tab_header" id="files_tab">
                     <i class="file pdf icon" style="font-size: 13px;"></i>
                     Saved Files
-                </a>
+                </a> -->
 
                 <div class="right menu">
                     <div class="item">
@@ -78,16 +78,12 @@
                             <i class="plus icon"></i>
                             Start a New Question
                         </a>
-                        <!-- <div class="ui transparent icon input">
-                            <input type="text" placeholder="Search users...">
-                            <i class="search link icon"></i>
-                        </div> -->
                     </div>
                 </div>
 
             </div>
 
-            
+
             <!-- Main Code Div -->
             <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
 
@@ -103,7 +99,7 @@
 
                                     <div class="header" style="font-size: 15.5px;">
                                         <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}">
-                                            {{ cdi.code_obj.code_unique_name }}
+                                            &#128220; {{ cdi.code_obj.code_unique_name }}
                                         </a>
                                     </div>
 
@@ -111,7 +107,7 @@
 
                                     <div class="header" style="font-size: 15.5px;">
                                         <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}">
-                                            {{ cdi.code_obj.code_unique_name }}
+                                            &#128220; {{ cdi.code_obj.code_unique_name }}
                                         </a>
                                     </div>
 
@@ -159,22 +155,6 @@
                             </li>
                         </div>
 
-                        <!-- <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
-                            No Code Files Saved.
-                            <br/><br/>
-                            <li>
-                                You can run your code while asking Code Companion for help in our <a href="{% url 'playground' %}">playground</a>.
-                            </li>
-                            <br/>
-                            <li>
-                                You can also have a conversation with your tutor <a href="{% url 'general_cs_tutor' %}">here</a>.
-                            </li>
-                            <br/>
-                            <li>
-                                Feel free to also browse through and try some beginner  <a href="{% url 'practice_questions' %}">python exercises</a> on the site.
-                            </li>
-                        </div> -->
-
                     </div>
 
                 {% endif %}
@@ -183,7 +163,6 @@
 
 
             <!-- Main File Div -->
-                    
             <div id="main_file_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; display: none;">
 
                 {% if user_file_objects|length > 0 %}
@@ -237,57 +216,42 @@
 
         </div>
 
+
         <div class="two wide column"></div>
+
+
 
     </div>
 
 
-    
+
+
     <script>
 
-        
-        $('.visit_playground_button').click(function(){
-
-            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
-            window.location.replace(new_url);
-
-        })
-
-
-        $('.add_code_icon').click(function(){
-
-            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
-            window.location.replace(new_url);
-
-        })
-
-
+        $('.tabular.menu .item').tab();
 
         $('#questions_tab').click(function(){
-
-            $('#main_code_div').show();
-            $('#main_file_div').hide();
 
             $('#questions_tab').addClass('active');
             $('#files_tab').removeClass('active');
 
-        });
-
-
-        $('#files_tab').click(function(){
-
-            $('#main_code_div').hide();
-            $('#main_file_div').show();
-
-            $('#questions_tab').removeClass('active');
-            $('#files_tab').addClass('active');
+            $('#main_code_div').show();
+            $('#main_file_div').hide();
 
         });
-        
+
+        // $('#files_tab').click(function(){
+
+        //     $('#files_tab').addClass('active');
+        //     $('#questions_tab').removeClass('active');
+
+        //     $('#main_file_div').show();
+        //     $('#main_code_div').hide();
+
+        // });
+
 
     </script>
 
-
 {% endblock %}
-
 

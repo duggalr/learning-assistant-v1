@@ -383,7 +383,7 @@ def dashboard(request):
     ).order_by('-uploaded_at')
     print(user_file_objects)
 
-    return render(request, 'dashboard.html',  {
+    return render(request, 'new_user_dashboard.html',  {
         'user_session': initial_user_session,
         'user_code_list': final_rv,
         'user_file_objects': user_file_objects

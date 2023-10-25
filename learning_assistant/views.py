@@ -199,8 +199,6 @@ def playground(request):
             lesson_question_obj = pt_course_lesson_question_obj
         )
 
-
-
     ls_q_obj = None
     ls_q_test_case_examples = []
     if lqid is not None:
@@ -209,7 +207,6 @@ def playground(request):
         print(ls_q_test_case_examples)
         # ls_q_obj = get_object_or_404(NewPracticeQuestion, id = lqid)
         # ls_q_test_case_examples = NewPracticeTestCase.objects.filter(question_obj = ls_q_obj)
-
 
     student_assigned_qid = request.GET.get('stdqid', None)
     tq_obj = None
@@ -262,7 +259,8 @@ def playground(request):
     initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
     print('rnd filename:', initial_rnd_file_name)
 
-    return render(request, 'playground.html', {
+    # return render(request, 'playground.html', {
+    return render(request, 'new_general_playground.html', {        
         'user_session': initial_user_session,
         'code_id': code_id,
         'uc_obj': uc_obj,

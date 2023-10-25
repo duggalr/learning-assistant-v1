@@ -93,8 +93,12 @@
     
     {% include 'new_landing_navbar_three.html' %}
 
-
+    
     <div class="ui grid container">
+
+        <div class="ui active inverted dimmer" id="primary_page_loader">
+            <div class="ui text loader">Firing up the IDE.. please hold for ~5 seconds...</div>
+        </div>
 
         <!-- Code Editor -->
         <div class="eight wide column" id="code-column">
@@ -373,11 +377,7 @@
         let pcqid = '{{ pclid }}';
         let user_cid = null;
         let user_code_obj = '{{ uc_obj }}';
-
-        console.log('pcid', pcqid)
-        console.log('user_cid', user_cid)
-        console.log('user-code', user_code_obj)
-
+        
         if (user_code_obj != 'None'){
 
             let user_code_st = `{{ user_code_obj.user_code|safe }}`;
@@ -391,7 +391,7 @@
 
         } else {
 
-            editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\n`);
+            editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\nprint('Hello Code Companion')\n\n`);
 
         }
 
@@ -401,6 +401,9 @@
 
             // Pyodide ready
             output.value += "Ready!\n";
+
+            $('#primary_page_loader').hide();
+
             return pyodide;
         };
         
@@ -444,8 +447,8 @@ mystdout.getvalue()
 
                 let output = pyodide.runPython(captureOutputCode);
 
-                console.log('User Code:', editor.getValue())
-                console.log('CODE OUTPUT:', output);
+                // console.log('User Code:', editor.getValue())
+                // console.log('CODE OUTPUT:', output);
 
                 addToOutput(output);
 
@@ -628,7 +631,7 @@ mystdout.getvalue()
 
                 }
 
-                console.log('user-message-dict:', d);
+                // console.log('user-message-dict:', d);
 
                 $.ajax({
                     type: 'POST',
@@ -688,12 +691,12 @@ mystdout.getvalue()
 
         function saveCode(){
 
-            console.log('save-user-sessh:', initial_user_session)
+            // console.log('save-user-sessh:', initial_user_session)
 
             if (initial_user_session == 'None'){
 
                 let user_code = editor.getValue();
-                console.log('new-user-code-save:', user_code)
+                // console.log('new-user-code-save:', user_code)
                 localStorage.setItem('anon_playground_user_code', user_code);
 
 

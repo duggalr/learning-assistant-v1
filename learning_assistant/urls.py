@@ -88,7 +88,7 @@ urlpatterns = [
 
     ## New Python Course Home
     path("python-course", views.new_course_home, name="new_course_home"),
-    # path("python-lesson/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
+    path("python-lesson/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
     
     path("python-playground", views.new_course_playground, name="new_course_playground"),
     path("new_course_handle_user_message", views.new_course_handle_user_message, name="new_course_handle_user_message"),
@@ -97,7 +97,7 @@ urlpatterns = [
 
     path("python-lesson-admin", views.admin_new_course_dashboard, name="admin_new_course_dashboard"),
     path("python-admin-lesson-management", views.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
-    path("python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_page, name="admin_new_course_lesson_page"),
+    path("python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),
 
     path("python-question-view/<int:qid>", views.admin_new_course_question_view, name="admin_new_course_question_view"),
     path("new_course_lesson_order_management", views.admin_new_course_lesson_order_management, name="admin_new_course_lesson_order_management"),

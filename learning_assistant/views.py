@@ -2404,7 +2404,7 @@ def admin_new_course_lesson_delete(request):
 
 
 
-def admin_new_course_lesson_page(request, lid):
+def admin_new_course_lesson_question_management(request, lid):
     pc_obj = get_object_or_404(PythonCourseLesson, id = lid)
 
     if request.method == 'POST':

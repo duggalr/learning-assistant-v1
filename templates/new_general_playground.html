@@ -6,7 +6,7 @@
     <style>
 
         #code-column{
-            padding-top: 20px;
+            padding-top: 15px;
             padding-left: 0px;
         }
 
@@ -103,13 +103,21 @@
 
                 <h4 style="margin: 0;">
 
-                    <span id="code_file_name_text" style="font-size: 16px;">Your Code</span>
-
+                    <span id="code_file_name_text" style="font-size: 16px;">
+                        &#128195; Your Code
+                    </span>
+                    
                 </h4>
-                
+
             </div>
 
-            <div class="ui segment code-editor" style="margin-top: 20px;">
+            <div style="margin: 0; padding-top: 2px;">
+                <span style="color: gray; font-size: 11px; ">
+                    Make a <a href="{% url 'login' %}">free account</a>, to save your code.
+                </span>
+            </div>
+
+            <div class="ui segment code-editor" style="margin-top: 10px;">
                 <textarea id="code"></textarea>
             </div>
 
@@ -122,7 +130,7 @@
             <div class="ui tabular menu tab-menu">
                 
                 <a class="item active" id="lesson_question_tab">
-                    <i class="bug icon"></i> Problem
+                    <i class="bug icon"></i> Console
                 </a>                
 
                 <a class="item" id="lesson_ai_tutor_tab">
@@ -136,7 +144,7 @@
 
                 <div style="text-align: left;">
 
-                    <div class="small ui animated button" tabindex="0" onclick="evaluatePython()">
+                    <div class="small ui animated black button" tabindex="0" onclick="evaluatePython()">
                         <div class="visible content">Run</div>
                         <div class="hidden content">
                             <i class="play icon"></i>
@@ -151,6 +159,28 @@
                     </div> -->
 
                 </div>
+
+
+                <div style="margin-top: 5px;">
+                    <span style="color: gray; font-size: 12px;">
+                        Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
+                    </span>
+                </div>
+                
+
+
+                <!-- <h4 class="ui header" style="padding-top: 20px; margin-top: 0px;">
+                    Programming Problem you are working on:
+                    <span>
+                        <button>
+                            edit
+                        </button>
+                    </span>
+                </h4>
+                
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec turpis ut ipsum fringilla accumsan.
+                </p> -->
 
                 <!-- <h4 class="ui header" style="padding-top: 0px; margin-top: 0px;">
                     Question:
@@ -333,7 +363,7 @@
             scrollbarStyle: "null",
             lineWrapping: true,
         });
-        editor.setSize(530, 700);
+        editor.setSize(530, 600);
 
 
         user_session = '{{ user_session }}';

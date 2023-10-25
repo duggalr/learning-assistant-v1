@@ -32,6 +32,7 @@ class UserCode(models.Model):
     code_unique_name = models.CharField(max_length=2000)
     user_code = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class UserConversation(models.Model):

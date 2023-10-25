@@ -361,7 +361,7 @@ def dashboard(request):
 
     user_code_objects = UserCode.objects.filter(
         user_auth_obj = user_oauth_obj
-    ).order_by('-created_at')
+    ).order_by('-updated_at')
     
     final_rv = []
     for uc_obj in user_code_objects:
@@ -424,14 +424,14 @@ def handle_user_message(request):
 
 
         user_cid = request.POST['cid']
-        user_lqid = request.POST['lqid']
+        # user_lqid = request.POST['lqid']
         # user_pclid = request.POST['pclid']
 
-        lesson_ques_obj = None
-        if user_lqid != 'None':
-            lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
-            if len(lesson_question_objects) > 0:
-                lesson_ques_obj = lesson_question_objects[0]
+        # lesson_ques_obj = None
+        # if user_lqid != 'None':
+        #     lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
+        #     if len(lesson_question_objects) > 0:
+        #         lesson_ques_obj = lesson_question_objects[0]
 
 
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
@@ -466,16 +466,18 @@ def handle_user_message(request):
 
         if user_cid == 'None':
             
-            if user_lqid == 'None':
-                rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
-            else:
-                rnd_code_filename = lesson_ques_obj.question_name
+            # if user_lqid == 'None':
+            #     rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            # else:
+            #     rnd_code_filename = lesson_ques_obj.question_name
+
+            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
 
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_oauth_obj,
                 code_unique_name = rnd_code_filename,
                 user_code = user_code,
-                lesson_question_obj = lesson_ques_obj
+                lesson_question_obj = None
             )
             uc_obj.save()
             
@@ -498,7 +500,7 @@ def handle_user_message(request):
                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
 
             uc_obj = uc_objects[0]
-            uc_obj.lesson_question_obj = lesson_ques_obj
+            # uc_obj.lesson_question_obj = lesson_ques_obj
             uc_obj.user_code = user_code
             uc_obj.save()
 
@@ -534,26 +536,29 @@ def save_user_code(request):
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
         cid = request.POST['cid']
-        lq_id = request.POST['lqid']
+        # lq_id = request.POST['lqid']
 
-        lesson_ques_obj = None
-        if lq_id != 'None':
-            lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
-            if len(lesson_question_objects) > 0:
-                lesson_ques_obj = lesson_question_objects[0]
+        # lesson_ques_obj = None
+        # if lq_id != 'None':
+        #     lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
+        #     if len(lesson_question_objects) > 0:
+        #         lesson_ques_obj = lesson_question_objects[0]
 
         if cid == 'None':
             
-            if lq_id == 'None':
-                rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
-            else:
-                rnd_code_filename = lesson_ques_obj.question_name
+            # if lq_id == 'None':
+            #     rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+            # else:
+            #     rnd_code_filename = lesson_ques_obj.question_name
+
+            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
 
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_auth_obj,
                 code_unique_name = rnd_code_filename,
                 user_code = user_code,
-                lesson_question_obj = lesson_ques_obj
+                lesson_question_obj = None
+                # lesson_question_obj = lesson_ques_obj
             )
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
@@ -565,7 +570,7 @@ def save_user_code(request):
                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
             
             uc_obj = uc_objects[0]
-            uc_obj.lesson_question_obj = lesson_ques_obj
+            # uc_obj.lesson_question_obj = lesson_ques_obj
             uc_obj.user_code = user_code
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
@@ -585,22 +590,15 @@ def handle_file_name_change(request):
         user_auth_obj = user_oauth_objects[0]
         new_file_name = request.POST['new_file_name'].strip()
         cid = request.POST['cid']
-        lqid = request.POST['lqid']
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
-
-        lesson_ques_obj = None
-        if lqid != 'None':
-            lesson_question_objects = LessonQuestion.objects.filter(id = lqid)
-            if len(lesson_question_objects) > 0:
-                lesson_ques_obj = lesson_question_objects[0]
 
         if cid == 'None':
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_auth_obj,
                 code_unique_name = new_file_name,
                 user_code = user_code,
-                lesson_question_obj = lesson_ques_obj
+                lesson_question_obj = None
             )
             uc_obj.save()
 

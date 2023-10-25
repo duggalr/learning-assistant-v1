@@ -88,6 +88,11 @@
             border-radius: 5px;
         }
 
+        #edit_filename_span:hover{
+            cursor: pointer;
+        }
+
+
     </style>
 
     
@@ -107,26 +112,46 @@
 
                 <h4 style="margin: 0;">
 
-                    <span id="code_file_name_text" style="font-size: 16px;">
-                        <span style="font-size: 20px;">
-                            &#128195; 
+                    {% if user_session %}
+
+                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
+                        {% if user_session is not None %}
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}" style="display: none;">
+                            <button id="file_name_input_submit" style="display: none;">save</button>
+                            &nbsp;
+                            <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+                        {% endif %}
+
+                    {% else %}
+
+                        <span id="code_file_name_text" style="font-size: 16px;">
+                            <span style="font-size: 20px;">
+                                &#128195; 
+                            </span>
+                            Your Code
                         </span>
-                        Your Code
-                    </span>
+
+                    {% endif %}
                     
                 </h4>
 
             </div>
 
-            <div style="margin: 0; padding-top: 2px;">
-                <span style="color: gray; font-size: 11px; ">
-                    Make a <a href="{% url 'login' %}">free account</a>, to save your code.
-                </span>
-            </div>
+            {% if not user_session %}
+
+                <div style="margin: 0; padding-top: 2px;">
+                    <span style="color: gray; font-size: 11px; ">
+                        Make a <a href="{% url 'login' %}">free account</a>, to save your code.
+                    </span>
+                </div>
+
+            {% endif %}
 
             <div class="ui segment code-editor" style="margin-top: 10px;">
                 <textarea id="code"></textarea>
             </div>
+
+            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
 
         </div>
 
@@ -380,9 +405,9 @@
         
         if (user_code_obj != 'None'){
 
-            let user_code_st = `{{ user_code_obj.user_code|safe }}`;
+            let user_code_st = `{{ uc_obj.user_code|safe }}`;
             editor.setValue(user_code_st);
-            user_cid = '{{ user_code_obj.id }}';
+            user_cid = '{{ uc_obj.id }}';
 
         } else if (pcqid != 'None') {
 
@@ -409,6 +434,7 @@
         
         let pyodideReadyPromise = main();
 
+        
         function addToOutput(s) {
 
             try {
@@ -429,6 +455,7 @@
             }
             
         }
+
 
         async function evaluatePython() {
             let pyodide = await pyodideReadyPromise;
@@ -546,7 +573,6 @@ mystdout.getvalue()
 
             }
 
-
             // localStorage.setItem('anon_playground_user_code', user_code);
             let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
             if (anon_user_code_st != null){
@@ -592,7 +618,7 @@ mystdout.getvalue()
                 let user_code = editor.getValue();
 
                 let cid = $('#code_obj_id').val();
-                let lqid = $('#lesson_question_obj_id').val();
+                // let lqid = $('#lesson_question_obj_id').val();
 
                 let d = {};
                 if (initial_user_session == 'None'){
@@ -625,7 +651,7 @@ mystdout.getvalue()
                         'message': messageText,
                         'user_code': user_code,
                         'cid': cid,
-                        'lqid': lqid,
+                        // 'lqid': lqid,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     };
 
@@ -703,12 +729,12 @@ mystdout.getvalue()
             } else {
 
                 let cid = $('#code_obj_id').val();
-                let lqid = $('#lesson_question_obj_id').val();
+                // let lqid = $('#lesson_question_obj_id').val();
 
                 let user_code = editor.getValue();
                 let d = {
                     'cid': cid,
-                    'lqid': lqid,
+                    // 'lqid': lqid,
                     'user_code': user_code,
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 };
@@ -778,6 +804,67 @@ mystdout.getvalue()
             $('#output').val('');
 
         });
+
+
+        $('#edit_filename_span').click(function(){
+
+            $('#code_file_name_text').hide();
+            $('#edit_filename_span').hide();
+
+            $('#file_name_input').show();
+            $('#file_name_input_submit').show();
+
+        });
+
+
+
+
+        // TODO: modify and fix this
+        $('#file_name_input_submit').click(function(){
+
+            let new_file_name = $('#file_name_input').val();
+            let cid = $('#code_obj_id').val();
+            let user_code = editor.getValue();
+
+            let d = {
+                'cid': cid, 
+                'user_code': user_code,
+                'new_file_name': new_file_name,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+
+$.ajax({
+    type: 'POST',
+    url: "{% url 'handle_file_name_change' %}",
+    dataType: "json",
+    data: d,
+    success: function (response) {
+
+        // console.log('response:', response);
+
+        $('#code_file_name_text').html("File: " + response['new_file_name']);
+        $('#file_name_input').val(response['new_file_name']);
+
+        $('#file_name_input').hide();
+        $('#file_name_input_submit').hide();
+        $('#code_file_name_text').show();
+        $('#edit_filename_span').show();
+
+
+        var url = new URL(window.location.href);
+        url.searchParams.set('cid', response['cid']);
+        window.history.replaceState(null, null, url);
+        
+        // console.log('cid:', response['cid']);
+        let saved_cid = response['cid'];
+        $("#code_obj_id").val(saved_cid);
+
+    },
+    error: function (response) {}
+    
+});
+
+})
 
 
     </script>

@@ -1327,7 +1327,6 @@ def teacher_admin_question_management(request):
 
 # TODO: authorize the functions below
 
-
 def teacher_question_delete(request):
     if request.method == "POST":
         if request.session.get("teacher_object", None) is None:
@@ -2054,7 +2053,6 @@ def super_user_admin_dashboard(request):
     })
 
 
-
 def super_user_admin_student_page(request, uid):
     
     if not request.user.is_superuser:
@@ -2089,7 +2087,6 @@ def super_user_admin_student_page(request, uid):
     final_user_rv['user_gt_c_objects'] = user_gt_c_objects
 
     return render(request, 'site_admin_student_view.html', final_user_rv)
-
 
 
 def super_user_motivation_prompt(request):
@@ -2315,9 +2312,6 @@ def new_course_save_user_code(request):
 
 
 ### Python-Course-Admin ###
-
-# TODO: 
-    # create a super-suser decorator for all these functions below
 
 
 # def new_course_admin(request):

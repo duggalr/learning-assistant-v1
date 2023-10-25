@@ -26,7 +26,7 @@
 
 
         #tabular-menu-column{
-            padding-top: 45px;
+            padding-top: 40px;
         }
 
         .ui.tabular.menu .active.item {
@@ -104,7 +104,10 @@
                 <h4 style="margin: 0;">
 
                     <span id="code_file_name_text" style="font-size: 16px;">
-                        &#128195; Your Code
+                        <span style="font-size: 20px;">
+                            &#128195; 
+                        </span>
+                        Your Code
                     </span>
                     
                 </h4>
@@ -367,9 +370,13 @@
 
 
         user_session = '{{ user_session }}';
-        let pcqid = '{{ pcqid }}';
+        let pcqid = '{{ pclid }}';
         let user_cid = null;
-        let user_code_obj = '{{ user_code_obj }}';
+        let user_code_obj = '{{ uc_obj }}';
+
+        console.log('pcid', pcqid)
+        console.log('user_cid', user_cid)
+        console.log('user-code', user_code_obj)
 
         if (user_code_obj != 'None'){
 
@@ -377,10 +384,14 @@
             editor.setValue(user_code_st);
             user_cid = '{{ user_code_obj.id }}';
 
-        } else {
+        } else if (pcqid != 'None') {
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+
+        } else {
+
+            editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\n`);
 
         }
 
@@ -528,13 +539,15 @@ mystdout.getvalue()
 
                     }
 
-                    // localStorage.setItem('anon_playground_user_code', user_code);
-                    let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
-                    // console.log('anon-user-code:', anon_user_code_st);
-                    editor.setValue(anon_user_code_st);
-
                 }
 
+            }
+
+
+            // localStorage.setItem('anon_playground_user_code', user_code);
+            let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
+            if (anon_user_code_st != null){
+                editor.setValue(anon_user_code_st);
             }
 
         }

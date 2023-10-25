@@ -323,7 +323,8 @@ However, if you feel the student has received the information they need and ther
     di = {"role": "user", "content": q_prompt}
     messages_list = [di]
     response = openai.ChatCompletion.create(
-        model = "gpt-4",
+        # model = "gpt-4",
+        model = "gpt-3.5-turbo-16k",
         messages = messages_list,
     )
     response_message = response["choices"][0]["message"]['content']

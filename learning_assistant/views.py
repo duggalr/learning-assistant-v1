@@ -184,11 +184,9 @@ def playground(request):
     
     pclid = request.GET.get('pclid', None)
 
-
     user_oauth_obj = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-
 
     pt_course_lesson_question_obj = None
     pt_course_test_case_examples = []

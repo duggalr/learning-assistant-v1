@@ -100,15 +100,19 @@
         <div class="fourteen wide column" id="code-column">
         
             <h4 style="font-size: 18px;">
-                <i class="comments icon"></i>
+                <!-- <i class="comments icon"></i> -->
                 <!-- Chat with Code Companion -->
+                <span style="font-size: 21px;">
+                    &#128227;
+                </span>
                 Chat
             </h4>
 
-            <span style="font-size: 13px; color: gray;">
-                My goal is to help you, on your personal lifelong learning journey.
-                <br/>
+            <span style="font-size: 12px; color: gray;">
+                <!-- My goal is to help you, on your personal lifelong learning journey. -->                
                 For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed.
+                <br/>
+                <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our code editor environment.
             </span>
 
 
@@ -281,10 +285,10 @@
             <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
                 Answer Response usually takes 15-30 seconds. (this will get better soon...)
             </span>
-            <br/>
+            <!-- <br/>
             <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
                 <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our code editor environment.
-            </span>
+            </span> -->
 
 
         </div>

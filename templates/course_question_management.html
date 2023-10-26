@@ -67,7 +67,7 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-            <a href="{% url 'new_course_admin_lesson_management' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
+            <a href="{% url 'admin_new_course_lesson_management' %}" style="padding-top: 0px; margin-top: 0px; padding-bottom: 5px;">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
@@ -143,7 +143,7 @@
         
                                 <div class="header" style="font-size: 15.5px;">
                                     <input class="order_number_input" id="order_number_{{ tqobj.id }}" type="number" style="width: 10%; margin-right: 10px; display: none;" value="{{ tqobj.order_number }}">
-                                    <a class="file_name_header" href="{% url 'new_course_question_view' tqobj.id %}">
+                                    <a class="file_name_header" href="{% url 'admin_new_course_question_view' tqobj.id %}">
                                         {{ tqobj.question_name }}
                                     </a>
                                 </div>
@@ -427,7 +427,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{% url 'new_course_question_order_management' %}",
+                url: "{% url 'admin_new_course_question_order_management' %}",
                 dataType: "json",
                 data: {'data': JSON.stringify(d)},
                 success: function (response) {
@@ -456,7 +456,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{% url 'new_course_question_delete' %}",
+                    url: "{% url 'admin_new_course_question_delete' %}",
                     dataType: "json",
                     data: d,
                     success: function (response) {

@@ -2348,15 +2348,18 @@ def admin_new_course_lesson_management(request):
             lesson_name = request.POST['lesson-name'].strip()
             lesson_description = request.POST['lesson-text'].strip()
             lesson_yt_url = request.POST['lesson-youtube-url'].strip()
+
+            next_order_number = PythonCourseLesson.objects.latest('id').order_number + 1
             
             pc_lesson_obj = PythonCourseLesson.objects.create(
                 lesson_title = lesson_name,
                 lesson_description = lesson_description,
-                lesson_video = lesson_yt_url
+                lesson_video = lesson_yt_url,
+                order_number = next_order_number
             )
             pc_lesson_obj.save()
 
-        return redirect('new_course_admin_lesson_management')
+        return redirect('admin_new_course_lesson_management')
 
 
     if 'lesson-edit-id' in request.GET:
@@ -2438,10 +2441,13 @@ def admin_new_course_lesson_question_management(request, lid):
 
             course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
             
+            next_order_number = PythonLessonQuestion.objects.latest('id').order_number + 1
+
             tc_question_obj = PythonLessonQuestion.objects.create(
                 question_name = question_name, 
                 question_text = question_text,
-                course_lesson_obj = course_lesson_obj
+                course_lesson_obj = course_lesson_obj,
+                order_number = next_order_number
             )
             tc_question_obj.save()
 
@@ -2494,7 +2500,7 @@ def admin_new_course_lesson_question_management(request, lid):
                 tq_tc_obj.save()
 
 
-        return redirect('new_course_lesson_page', lid = pc_obj.id)
+        return redirect('admin_new_course_lesson_question_management', lid = pc_obj.id)
 
 
     pyq_objects = PythonLessonQuestion.objects.filter(
@@ -2615,11 +2621,11 @@ def new_course_handle_solution_submit(request):
 
             user_prev_messages = request.POST['previous_messages']
         
-            # model_response_dict = main_utils.main_handle_question(
-            #     question = user_message,
-            #     student_code = user_code,
-            #     previous_chat_history_st = user_prev_messages
-            # )
+            model_response_dict = main_utils.main_handle_question(
+                question = user_message,
+                student_code = user_code,
+                previous_chat_history_st = user_prev_messages
+            )
 
             return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
 
@@ -2647,11 +2653,11 @@ def new_course_handle_solution_submit(request):
             if len(prev_conversation_history) > 0:
                 prev_conversation_st = '\n'.join(prev_conversation_history)
             
-            # model_response_dict = main_utils.main_handle_question(
-            #     question = user_message,
-            #     student_code = user_code,
-            #     previous_chat_history_st = prev_conversation_st
-            # )
+            model_response_dict = main_utils.main_handle_question(
+                question = user_message,
+                student_code = user_code,
+                previous_chat_history_st = prev_conversation_st
+            )
 
             if user_cid == 'None':
 

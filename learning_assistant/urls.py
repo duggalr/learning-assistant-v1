@@ -95,17 +95,17 @@ urlpatterns = [
     path("new_course_handle_solution_submit", views.new_course_handle_solution_submit, name="new_course_handle_solution_submit"),
     path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
 
-    path("python-lesson-admin", views.admin_new_course_dashboard, name="admin_new_course_dashboard"),
-    path("python-admin-lesson-management", views.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
-    path("python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),
+    path("admin-python-lesson", views.admin_new_course_dashboard, name="admin_new_course_dashboard"),
+    path("admin-python-lesson-management", views.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
+    path("admin-python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),
 
-    path("python-question-view/<int:qid>", views.admin_new_course_question_view, name="admin_new_course_question_view"),
-    path("new_course_lesson_order_management", views.admin_new_course_lesson_order_management, name="admin_new_course_lesson_order_management"),
-    path("new_course_lesson_delete", views.admin_new_course_lesson_delete, name="admin_new_course_lesson_delete"),
+    path("admin-python-question-view/<int:qid>", views.admin_new_course_question_view, name="admin_new_course_question_view"),
+    path("admin-python-lesson-order-management", views.admin_new_course_lesson_order_management, name="admin_new_course_lesson_order_management"),
+    path("admin-python-lesson-delete", views.admin_new_course_lesson_delete, name="admin_new_course_lesson_delete"),
 
-    path("new_course_question_delete", views.admin_new_course_question_delete, name="admin_new_course_question_delete"),
+    path("admin-python-question_delete", views.admin_new_course_question_delete, name="admin_new_course_question_delete"),
     
-    path("new_course_question_order_management", views.admin_new_course_question_order_management, name="admin_new_course_question_order_management"),
+    path("admin-python-question-order-management", views.admin_new_course_question_order_management, name="admin_new_course_question_order_management"),
 
 ]
 

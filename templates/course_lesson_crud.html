@@ -30,7 +30,7 @@
 
         <div class="twelve wide column" id="main_center_column">
 
-            <a href="{% url 'new_course_admin' %}">
+            <a href="{% url 'admin_new_course_dashboard' %}">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back
             </a>
@@ -82,8 +82,8 @@
                         </div>
 
                         <div class="content">
-                            <a class="header" href="{% url 'new_course_lesson_page' cobj.id %}">
-                                <input class="order_number_input" id="order_number_{{ cobj.id }}" type="number" style="width: 10%; margin-right: 10px; display: none;" value="{{ cobj.order_number }}">
+                            <input class="order_number_input" id="order_number_{{ cobj.id }}" type="number" style="width: 10%; margin-right: 10px; display: none;" value="{{ cobj.order_number }}">
+                            <a class="header" href="{% url 'admin_new_course_lesson_question_management' cobj.id %}">                                
                                 {{ cobj.lesson_title }}
                             </a>
                         </div>
@@ -224,7 +224,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{% url 'new_course_lesson_delete' %}",
+                    url: "{% url 'admin_new_course_lesson_delete' %}",
                     dataType: "json",
                     data: d,
                     success: function (response) {
@@ -272,7 +272,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{% url 'new_course_lesson_order_management' %}",
+                url: "{% url 'admin_new_course_lesson_order_management' %}",
                 dataType: "json",
                 data: {'data': JSON.stringify(d)},
                 success: function (response) {

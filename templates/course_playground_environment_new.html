@@ -120,7 +120,13 @@
              
             </div>
 
-            <div class="ui segment code-editor" style="margin-top: 20px;">
+            <div style="margin: 0; padding-top: 2px; padding-bottom: 0px;">
+                <span style="color: gray; font-size: 11px;">
+                    When submitting your code, ensure no print or import statements are present.
+                </span>
+            </div>
+
+            <div class="ui segment code-editor" style="margin-top: 10px;">
                 <textarea id="code"></textarea>
             </div>
 
@@ -172,11 +178,11 @@
                     {% if pt_course_test_case_examples|length > 0 %}
 
                         <div class="small ui animated positive button solution-submit-button" tabindex="0" onclick="handleSolutionSubmit()">
-                            <div class="visible content">Submit</div>
+                            <div class="visible content">Submit Solution</div>
                             <div class="hidden content">
                             <i class="check icon"></i>
                             </div>
-                        </div>
+                        </div>                        
 
                     {% else %}
 
@@ -196,6 +202,7 @@
                     </span>
 
                 </div>
+
 
                 <h4 class="ui header" style="padding-top: 0px; margin-top: 0px;">
                     Question:

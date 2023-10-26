@@ -162,22 +162,16 @@
             <!-- Programming Question -->
             <div id="programming_question_div">
 
-                <!-- <button onclick="handleSolutionSubmit()" class="positive ui small button solution-submit-button" style="float: right; margin-bottom: 15px;">check answer</button> -->
-
                 <div style="text-align: right;">
 
-                    <!-- <button class="small ui button">
-                        run
-                    </button> -->
-
-                    <div class="small ui animated button" tabindex="0" onclick="evaluatePython()">
+                    <div class="small ui animated primary button" tabindex="0" onclick="evaluatePython()">
                         <div class="visible content">Run</div>
                         <div class="hidden content">
                           <i class="play icon"></i>
                         </div>
                     </div>
 
-                    &nbsp;&nbsp;
+                    <!-- &nbsp;&nbsp; -->
 
                     {% if pt_course_test_case_examples|length > 0 %}
 
@@ -188,22 +182,20 @@
                             </div>
                         </div>                        
 
-                    {% else %}
-
-                        <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
-                            <div class="visible content">Get Feedback</div>
-                            <div class="hidden content">
-                            <i class="check icon"></i>
-                            </div>
-                        </div>
-
                     {% endif %}
 
-                    &nbsp;&nbsp;
+                    <div class="small ui animated button feedback-submit-button" tabindex="0" onclick="handleAIFeedback()">
+                        <div class="visible content">Get Feedback from AI</div>
+                        <div class="hidden content">
+                        <i class="compass icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- &nbsp;&nbsp;
 
                     <span>
                         <a href="">get a hint</a>
-                    </span>
+                    </span> -->
 
                 </div>
 
@@ -254,17 +246,10 @@
 
                 {% endif %}
 
-                <!-- style="display: none;" -->
-                <div id="py_question_submit_feedback" >
+                <div id="py_question_submit_feedback" style="display: none;">
 
                     <h5>Additional Test Case Message:</h5>
                     <p id="test-case-feedback"></p>
-    
-                    <h5>AI Tutor Feedback:
-                        <span><a id="go_to_chat_span" style="font-weight: 400;">go to chat</a></span>
-                    </h5>
-                    
-                    <p id="gpt-answer-feedback"></p>
 
                 </div>
 
@@ -484,9 +469,9 @@ mystdout.getvalue()
 
                 saveCode();
 
-                var console_elem = document.getElementsByClassName('output-code')[0];
-                var topPos = console_elem.offsetTop;
-                document.getElementById('tabular-menu-column').scrollTop = topPos;
+                // var console_elem = document.getElementsByClassName('output-code')[0];
+                // var topPos = console_elem.offsetTop;
+                // document.getElementById('tabular-menu-column').scrollTop = topPos;
 
                 // if (user_session != 'None'){
                 //     saveCode();
@@ -739,7 +724,8 @@ mystdout.getvalue()
 
 
 
-        function handleSolutionSubmit(event){
+
+        function handleAIFeedback(event){
 
             const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
             
@@ -747,9 +733,9 @@ mystdout.getvalue()
             $('#sendButton').hide();
             $('#primary_loading_button').show();
 
-            $('.solution-submit-button').addClass('loading');
-            $('.solution-submit-button').addClass('disabled');
-
+            $('.feedback-submit-button').addClass('loading');
+            $('.feedback-submit-button').addClass('disabled');
+            
             let user_code = editor.getValue();
             let cid = $('#code_obj_id').val();
             let pclid = $('#course_question_obj_id').val();
@@ -764,36 +750,21 @@ mystdout.getvalue()
             chat.scrollTop = chat.scrollHeight;
             chatInput.value = "";
 
-            // question has no test-cases, will resort to AI feedback in chat
-            if (py_question_test_cases_count == 0){
+            
+            $( '#lesson_ai_tutor_tab' ).click ();
 
-                $( '#lesson_ai_tutor_tab' ).click ();
-
-            }
-
-            // d = {
-            //     'message': messageText,
-            //     'user_code': user_code,
-            //     'cid': cid,
-            //     'pclid': pclid,
-            //     csrfmiddlewaretoken: '{{ csrf_token }}'
-            // };
 
             let d = {};
             if (initial_user_session == 'None'){
 
                 let prev_conversation_history = []
                 if (pcid_user_messages.length > 0){
-                    
                     prev_conversation_history = pcid_user_messages.slice( pcid_user_messages.length-6, pcid_user_messages.length )
-
                 }
 
                 let prev_conversation_history_st = ''
                 if (prev_conversation_history.length > 0){
-                    
                     prev_conversation_history_st = prev_conversation_history.join('\n');
-                    
                 }
 
                 d = {
@@ -818,7 +789,89 @@ mystdout.getvalue()
 
             }
 
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'new_course_handle_ai_feedback' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
 
+                    console.log('res:', response);
+
+                    if (response['success'] == true){
+
+                        let gpt_response_dict = response['response'];
+
+                        if ('cid' in response){
+
+                            let saved_cid = response['cid'];
+                            $("#code_obj_id").val(saved_cid);
+
+                        };                            
+                        
+                        console.log('gpt-response-dict:', gpt_response_dict)
+
+                        // display in chat area
+                        var model_response_message = gpt_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                        var user_question = gpt_response_dict['question'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+
+                        chat.scrollTop = chat.scrollHeight;
+
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
+
+                        $('.feedback-submit-button').removeClass('loading');
+                        $('.feedback-submit-button').removeClass('disabled');
+
+                        if (initial_user_session == 'None'){
+
+                            // add to localstorage
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            pcid_user_messages.push(final_question_st)
+                            pcid_user_messages.push(final_response_st)
+                            
+                            pcid_associated_dict['user_messages'] = pcid_user_messages
+                            pcid_associated_dict['user_code'] = user_code
+                            anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                            localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+
+                        }
+
+
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        function handleSolutionSubmit(event){
+
+
+            $('.solution-submit-button').addClass('loading');
+            $('.solution-submit-button').addClass('disabled');
+
+            let user_code = editor.getValue();
+            let cid = $('#code_obj_id').val();
+            let pclid = $('#course_question_obj_id').val();
+
+            let d = {
+                'user_code': user_code,
+                'cid': cid,
+                'pclid': pclid,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
 
             $.ajax({
                 type: 'POST',
@@ -830,135 +883,166 @@ mystdout.getvalue()
                     console.log('res:', response);
 
                     if (response['success'] == true){
-
-                        let gpt_response_dict = response['response']
-                        let gpt_resp = gpt_response_dict['response']
+                        
                         let test_case_list = response['test_case_list']
 
-                        if (test_case_list.length == 0){
-
-                            if ('cid' in response){
-
-                                let saved_cid = response['cid'];
-                                $("#code_obj_id").val(saved_cid);
-
-                            };                            
+                        let test_case_message = ''
+                        for (idx = 0; idx <= test_case_list.length-1; idx++){
                             
-                            console.log('gpt-response-dict:', gpt_response_dict)
+                            let tc_dict = test_case_list[idx]
+                            let tc_val = tc_dict['tc_id_text']
+                            let tc_status = tc_dict['status']
 
-                            // display in chat area
-                            var model_response_message = gpt_response_dict['response'];
-                            model_response_message = model_response_message.replaceAll('\n', '<br/>');
-
-                            var user_question = gpt_response_dict['question'];
-
-                            const responseMessage = document.createElement("div");
-                            responseMessage.className = "message";
-                            responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                            chat.appendChild(responseMessage);
-
-                            chat.scrollTop = chat.scrollHeight;
-
-                            $('#chatInput').prop('disabled', false);
-                            $('#sendButton').show();
-                            $('#primary_loading_button').hide();
-
-                            $('.solution-submit-button').removeClass('loading');
-                            $('.solution-submit-button').removeClass('disabled');
-
-
-                            if (initial_user_session == 'None'){
-
-                                // add to localstorage
-                                var final_question_st = messageText
-                                var final_response_st = model_response_message
-                                pcid_user_messages.push(final_question_st)
-                                pcid_user_messages.push(final_response_st)
+                            if (tc_status == 1){
                                 
-                                pcid_associated_dict['user_messages'] = pcid_user_messages
-                                pcid_associated_dict['user_code'] = user_code
-                                anon_user_localstg_dict[pcqid] = pcid_associated_dict
-                                localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+                                document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
+
+                            } else {
+
+                                document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
+                                test_case_message = tc_dict['message']
 
                             }
 
                         }
 
-                        else {
-
-                            let test_case_message = ''
-                            for (idx = 0; idx <= test_case_list.length-1; idx++){
-                                
-                                let tc_dict = test_case_list[idx]
-                                let tc_val = tc_dict['tc_id_text']
-                                let tc_status = tc_dict['status']
-
-                                if (tc_status == 1){
-                                    
-                                    document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
-
-                                } else {
-
-                                    document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
-                                    test_case_message = tc_dict['message']
-
-                                }
-
-                            }
-
-
-                            if (test_case_message == ''){
-                                test_case_message = 'All tests ran correctly.'    
-                            }
-
-                            document.getElementById('test-case-feedback').innerText = test_case_message;
-                            document.getElementById('gpt-answer-feedback').innerText = gpt_resp;
-                            
-                            const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
-            
-                            // $( '#lesson_ai_tutor_tab' ).click ();
-
-                            const message = document.createElement("div");
-                            message.className = "message";
-                            message.innerHTML = "<b>You:</b> " + messageText;
-                            message.style.whiteSpace = 'pre-wrap'
-                            chat.appendChild(message);
-
-                            gpt_resp = gpt_resp.replaceAll('\n', '<br/>');
-                            const responseMessage = document.createElement("div");
-                            responseMessage.className = "message";
-                            responseMessage.innerHTML = "<b>GPT-4:</b> " + gpt_resp;
-                            chat.appendChild(responseMessage);
-
-                            chat.scrollTop = chat.scrollHeight;
-                            chatInput.value = "";
-
-                            $('#py_question_submit_feedback').show();
-
-                            $('#chatInput').prop('disabled', false);
-                            $('#sendButton').show();
-                            $('#primary_loading_button').hide();
-
-                            $('.solution-submit-button').removeClass('loading');
-                            $('.solution-submit-button').removeClass('disabled');
-
-
-                            // add to localstorage
-                            if (initial_user_session == 'None'){
-                                var final_question_st = messageText
-                                var final_response_st = model_response_message
-                                pcid_user_messages.push(final_question_st)
-                                pcid_user_messages.push(final_response_st)
-
-                                pcid_associated_dict['user_messages'] = pcid_user_messages
-                                pcid_associated_dict['user_code'] = user_code
-                                anon_user_localstg_dict[pcqid] = pcid_associated_dict
-                                localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
-                            }
-
+                        if (test_case_message == ''){
+                            test_case_message = 'All tests ran correctly.'    
                         }
+
+                        document.getElementById('test-case-feedback').innerText = test_case_message;
+                        $('#py_question_submit_feedback').show();
+
+                        $('.solution-submit-button').removeClass('loading');
+                        $('.solution-submit-button').removeClass('disabled');
 
                     }
+
+
+                    //     if (test_case_list.length == 0){
+
+                    //         if ('cid' in response){
+
+                    //             let saved_cid = response['cid'];
+                    //             $("#code_obj_id").val(saved_cid);
+
+                    //         };                            
+                            
+                    //         console.log('gpt-response-dict:', gpt_response_dict)
+
+                    //         // display in chat area
+                    //         var model_response_message = gpt_response_dict['response'];
+                    //         model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                    //         var user_question = gpt_response_dict['question'];
+
+                    //         const responseMessage = document.createElement("div");
+                    //         responseMessage.className = "message";
+                    //         responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    //         chat.appendChild(responseMessage);
+
+                    //         chat.scrollTop = chat.scrollHeight;
+
+                    //         $('#chatInput').prop('disabled', false);
+                    //         $('#sendButton').show();
+                    //         $('#primary_loading_button').hide();
+
+                    //         $('.solution-submit-button').removeClass('loading');
+                    //         $('.solution-submit-button').removeClass('disabled');
+
+
+                    //         if (initial_user_session == 'None'){
+
+                    //             // add to localstorage
+                    //             var final_question_st = messageText
+                    //             var final_response_st = model_response_message
+                    //             pcid_user_messages.push(final_question_st)
+                    //             pcid_user_messages.push(final_response_st)
+                                
+                    //             pcid_associated_dict['user_messages'] = pcid_user_messages
+                    //             pcid_associated_dict['user_code'] = user_code
+                    //             anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                    //             localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+
+                    //         }
+
+                    //     }
+
+                    //     else {
+
+                    //         let test_case_message = ''
+                    //         for (idx = 0; idx <= test_case_list.length-1; idx++){
+                                
+                    //             let tc_dict = test_case_list[idx]
+                    //             let tc_val = tc_dict['tc_id_text']
+                    //             let tc_status = tc_dict['status']
+
+                    //             if (tc_status == 1){
+                                    
+                    //                 document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
+
+                    //             } else {
+
+                    //                 document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
+                    //                 test_case_message = tc_dict['message']
+
+                    //             }
+
+                    //         }
+
+
+                    //         if (test_case_message == ''){
+                    //             test_case_message = 'All tests ran correctly.'    
+                    //         }
+
+                    //         document.getElementById('test-case-feedback').innerText = test_case_message;
+                    //         document.getElementById('gpt-answer-feedback').innerText = gpt_resp;
+                            
+                    //         const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
+            
+                    //         // $( '#lesson_ai_tutor_tab' ).click ();
+
+                    //         const message = document.createElement("div");
+                    //         message.className = "message";
+                    //         message.innerHTML = "<b>You:</b> " + messageText;
+                    //         message.style.whiteSpace = 'pre-wrap'
+                    //         chat.appendChild(message);
+
+                    //         gpt_resp = gpt_resp.replaceAll('\n', '<br/>');
+                    //         const responseMessage = document.createElement("div");
+                    //         responseMessage.className = "message";
+                    //         responseMessage.innerHTML = "<b>GPT-4:</b> " + gpt_resp;
+                    //         chat.appendChild(responseMessage);
+
+                    //         chat.scrollTop = chat.scrollHeight;
+                    //         chatInput.value = "";
+
+                    //         $('#py_question_submit_feedback').show();
+
+                    //         $('#chatInput').prop('disabled', false);
+                    //         $('#sendButton').show();
+                    //         $('#primary_loading_button').hide();
+
+                    //         $('.solution-submit-button').removeClass('loading');
+                    //         $('.solution-submit-button').removeClass('disabled');
+
+
+                    //         // add to localstorage
+                    //         if (initial_user_session == 'None'){
+                    //             var final_question_st = messageText
+                    //             var final_response_st = model_response_message
+                    //             pcid_user_messages.push(final_question_st)
+                    //             pcid_user_messages.push(final_response_st)
+
+                    //             pcid_associated_dict['user_messages'] = pcid_user_messages
+                    //             pcid_associated_dict['user_code'] = user_code
+                    //             anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                    //             localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+                    //         }
+
+                    //     }
+
+                    // }
 
                 },
                 error: function (response) {}
@@ -1046,6 +1130,8 @@ mystdout.getvalue()
             }
 
         };
+
+
 
 
         $('#clear_output_link').click(function(){

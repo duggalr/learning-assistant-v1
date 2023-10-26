@@ -107,6 +107,8 @@ urlpatterns = [
     
     path("admin-python-question-order-management", views.admin_new_course_question_order_management, name="admin_new_course_question_order_management"),
 
+    path("admin-python-question-handle-feedback", views.new_course_handle_ai_feedback, name="new_course_handle_ai_feedback"),
+
 ]
 
 

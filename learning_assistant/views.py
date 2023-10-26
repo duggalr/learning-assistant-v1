@@ -2576,7 +2576,6 @@ def new_course_handle_solution_submit(request):
         user_code = user_code.replace('`', '"').strip()
         user_cid = request.POST['cid']
         user_pclid = request.POST['pclid']
-        user_message = request.POST['message'].strip()
         
         lesson_ques_obj = None
         if user_pclid != 'None':
@@ -2593,9 +2592,6 @@ def new_course_handle_solution_submit(request):
 
             tc_input_list = ast.literal_eval(tc_input)
             tc_output = eval(tc_output)
-
-            # print('tc-input-list:', tc_input_list)
-            # print('tc-output-type:', tc_output, type(tc_output), eval(tc_output))
 
             valid_solution_dict = main_utils.course_question_solution_check(
                 source_code = user_code,
@@ -2619,6 +2615,154 @@ def new_course_handle_solution_submit(request):
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
 
+            return JsonResponse({
+                'success': True, 
+                'test_case_list': test_case_correct_list
+            })
+
+        else:
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+            if user_cid == 'None':
+                rnd_code_filename = lesson_ques_obj.question_name
+                uc_obj = PythonLessonUserCode.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    code_unique_name = rnd_code_filename,
+                    user_code = user_code,
+                    lesson_question_obj = lesson_ques_obj
+                )
+                uc_obj.save()
+
+                return JsonResponse({
+                    'success': True, 
+                    'cid': uc_obj.id, 
+                    'test_case_list': test_case_correct_list
+                })
+
+            else:
+                uc_objects = PythonLessonUserCode.objects.filter(
+                    id = user_cid, 
+                    user_auth_obj = user_oauth_obj
+                )
+                if len(uc_objects) == 0:
+                    return JsonResponse({'success': False, 'response': 'Object id not found.'})
+
+                uc_obj = uc_objects[0]
+                uc_obj.lesson_question_obj = lesson_ques_obj
+                uc_obj.user_code = user_code
+                uc_obj.save()
+
+                return JsonResponse({
+                    'success': True, 
+                    'cid': uc_obj.id, 
+                    'test_case_list': test_case_correct_list
+                })
+
+
+
+        # initial_user_session = request.session.get('user')
+        # if initial_user_session is None:
+
+        #     user_prev_messages = request.POST['previous_messages']
+        
+        #     model_response_dict = main_utils.main_handle_question(
+        #         question = user_message,
+        #         student_code = user_code,
+        #         previous_chat_history_st = user_prev_messages
+        #     )
+
+        #     return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
+
+        # else:
+
+        #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
+        #     prev_conversation_history = []
+        #     if user_cid != 'None':
+
+        #         prev_conversation_messages = PythonLessonConversation.objects.filter(
+        #             user_auth_obj = user_oauth_obj,
+        #             code_obj_id = user_cid
+        #         ).order_by('-created_at')
+
+        #         if len(prev_conversation_messages) > 0:
+        #             for uc_obj in prev_conversation_messages[:5]:
+        #                 uc_question = uc_obj.question
+        #                 uc_response = uc_obj.response
+        #                 prev_conversation_history.append(f"Question: { uc_question }")
+        #                 prev_conversation_history.append(f"Response: { uc_response }")
+
+
+        #     prev_conversation_st = ''
+        #     if len(prev_conversation_history) > 0:
+        #         prev_conversation_st = '\n'.join(prev_conversation_history)
+            
+        #     model_response_dict = main_utils.main_handle_question(
+        #         question = user_message,
+        #         student_code = user_code,
+        #         previous_chat_history_st = prev_conversation_st
+        #     )
+
+        #     if user_cid == 'None':
+
+        #         rnd_code_filename = lesson_ques_obj.question_name
+
+        #         uc_obj = PythonLessonUserCode.objects.create(
+        #             user_auth_obj = user_oauth_obj,
+        #             code_unique_name = rnd_code_filename,
+        #             user_code = user_code,
+        #             lesson_question_obj = lesson_ques_obj
+        #         )
+        #         uc_obj.save()
+
+        #         return JsonResponse({
+        #             'success': True, 
+        #             'cid': uc_obj.id, 
+        #             'response': model_response_dict, 
+        #             'test_case_list': test_case_correct_list
+        #         })
+
+        #     else:
+        #         uc_objects = PythonLessonUserCode.objects.filter(
+        #             id = user_cid, 
+        #             user_auth_obj = user_oauth_obj
+        #         )
+        #         if len(uc_objects) == 0:
+        #             return JsonResponse({'success': False, 'response': 'Object id not found.'})
+
+        #         uc_obj = uc_objects[0]
+        #         uc_obj.lesson_question_obj = lesson_ques_obj
+        #         uc_obj.user_code = user_code
+        #         uc_obj.save()
+
+        #         return JsonResponse({
+        #             'success': True, 
+        #             'cid': uc_obj.id, 
+        #             'response': model_response_dict, 
+        #             'test_case_list': test_case_correct_list
+        #         })
+
+
+
+
+def new_course_handle_ai_feedback(request):
+    
+    if request.method == 'POST':
+
+        user_code = request.POST['user_code'].strip()
+        user_code = user_code.replace('`', '"').strip()
+        user_cid = request.POST['cid']
+        user_pclid = request.POST['pclid']
+        user_message = request.POST['message'].strip()
+        
+        lesson_ques_obj = None
+        if user_pclid != 'None':
+            lesson_question_objects = PythonLessonQuestion.objects.filter(id = user_pclid)
+            if len(lesson_question_objects) > 0:
+                lesson_ques_obj = lesson_question_objects[0]
+
+        initial_user_session = request.session.get('user')
+        if initial_user_session is None:
+
             user_prev_messages = request.POST['previous_messages']
         
             model_response_dict = main_utils.main_handle_question(
@@ -2627,10 +2771,10 @@ def new_course_handle_solution_submit(request):
                 previous_chat_history_st = user_prev_messages
             )
 
-            return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
+            return JsonResponse({'success': True, 'response': model_response_dict})
 
         else:
-
+            
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         
             prev_conversation_history = []
@@ -2675,7 +2819,6 @@ def new_course_handle_solution_submit(request):
                     'success': True, 
                     'cid': uc_obj.id, 
                     'response': model_response_dict, 
-                    'test_case_list': test_case_correct_list
                 })
 
             else:
@@ -2695,9 +2838,9 @@ def new_course_handle_solution_submit(request):
                     'success': True, 
                     'cid': uc_obj.id, 
                     'response': model_response_dict, 
-                    'test_case_list': test_case_correct_list
                 })
-                
+
+
 
 
 

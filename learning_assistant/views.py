@@ -2591,11 +2591,11 @@ def new_course_handle_solution_submit(request):
             tc_input = qtc_obj.input_param
             tc_output = qtc_obj.correct_output
 
-            print(f'input-test-case: {tc_input} / output-tc: {tc_output}' )
-
             tc_input_list = ast.literal_eval(tc_input)
+            tc_output = eval(tc_output)
 
-            print('tc-input-list:', tc_input_list)
+            # print('tc-input-list:', tc_input_list)
+            # print('tc-output-type:', tc_output, type(tc_output), eval(tc_output))
 
             valid_solution_dict = main_utils.course_question_solution_check(
                 source_code = user_code,

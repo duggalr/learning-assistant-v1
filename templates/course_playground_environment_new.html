@@ -89,6 +89,10 @@
             border-radius: 5px;
         }
 
+        #go_to_chat_span:hover{
+            cursor: pointer;
+        }
+
     </style>
 
     
@@ -250,12 +254,16 @@
 
                 {% endif %}
 
-                <div id="py_question_submit_feedback" style="display: none;">
+                <!-- style="display: none;" -->
+                <div id="py_question_submit_feedback" >
 
                     <h5>Additional Test Case Message:</h5>
                     <p id="test-case-feedback"></p>
     
-                    <h5>Feedback:</h5>
+                    <h5>AI Tutor Feedback:
+                        <span><a id="go_to_chat_span" style="font-weight: 400;">go to chat</a></span>
+                    </h5>
+                    
                     <p id="gpt-answer-feedback"></p>
 
                 </div>
@@ -475,6 +483,10 @@ mystdout.getvalue()
                 addToOutput(output);
 
                 saveCode();
+
+                var console_elem = document.getElementsByClassName('output-code')[0];
+                var topPos = console_elem.offsetTop;
+                document.getElementById('tabular-menu-column').scrollTop = topPos;
 
                 // if (user_session != 'None'){
                 //     saveCode();
@@ -742,19 +754,20 @@ mystdout.getvalue()
             let cid = $('#code_obj_id').val();
             let pclid = $('#course_question_obj_id').val();
 
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            chatInput.value = "";
+
             // question has no test-cases, will resort to AI feedback in chat
             if (py_question_test_cases_count == 0){
 
                 $( '#lesson_ai_tutor_tab' ).click ();
-
-                const message = document.createElement("div");
-                message.className = "message";
-                message.innerHTML = "<b>You:</b> " + messageText;
-                message.style.whiteSpace = 'pre-wrap'
-                chat.appendChild(message);
-
-                chat.scrollTop = chat.scrollHeight;
-                chatInput.value = "";
 
             }
 
@@ -901,7 +914,47 @@ mystdout.getvalue()
                             document.getElementById('test-case-feedback').innerText = test_case_message;
                             document.getElementById('gpt-answer-feedback').innerText = gpt_resp;
                             
+                            const messageText = 'I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?'
+            
+                            // $( '#lesson_ai_tutor_tab' ).click ();
+
+                            const message = document.createElement("div");
+                            message.className = "message";
+                            message.innerHTML = "<b>You:</b> " + messageText;
+                            message.style.whiteSpace = 'pre-wrap'
+                            chat.appendChild(message);
+
+                            gpt_resp = gpt_resp.replaceAll('\n', '<br/>');
+                            const responseMessage = document.createElement("div");
+                            responseMessage.className = "message";
+                            responseMessage.innerHTML = "<b>GPT-4:</b> " + gpt_resp;
+                            chat.appendChild(responseMessage);
+
+                            chat.scrollTop = chat.scrollHeight;
+                            chatInput.value = "";
+
                             $('#py_question_submit_feedback').show();
+
+                            $('#chatInput').prop('disabled', false);
+                            $('#sendButton').show();
+                            $('#primary_loading_button').hide();
+
+                            $('.solution-submit-button').removeClass('loading');
+                            $('.solution-submit-button').removeClass('disabled');
+
+
+                            // add to localstorage
+                            if (initial_user_session == 'None'){
+                                var final_question_st = messageText
+                                var final_response_st = model_response_message
+                                pcid_user_messages.push(final_question_st)
+                                pcid_user_messages.push(final_response_st)
+
+                                pcid_associated_dict['user_messages'] = pcid_user_messages
+                                pcid_associated_dict['user_code'] = user_code
+                                anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                                localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+                            }
 
                         }
 
@@ -1002,7 +1055,12 @@ mystdout.getvalue()
         });
 
 
+        $('#go_to_chat_span').click(function(){
+            
+            $( '#lesson_ai_tutor_tab' ).click ();
 
+        });
+        
     </script>
 
 

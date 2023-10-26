@@ -110,7 +110,7 @@ for idx in list_one:
 ##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
 You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
 
-##Previous Chat History with Student: (ordered by latest message being at the top.)
+##Previous Chat History with Student:
 {previous_chat_history_st}
 
 ##Student Question:

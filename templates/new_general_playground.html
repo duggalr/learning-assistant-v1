@@ -833,36 +833,36 @@ mystdout.getvalue()
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             }
 
-$.ajax({
-    type: 'POST',
-    url: "{% url 'handle_file_name_change' %}",
-    dataType: "json",
-    data: d,
-    success: function (response) {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_file_name_change' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
 
-        // console.log('response:', response);
+                    // console.log('response:', response);
 
-        $('#code_file_name_text').html("File: " + response['new_file_name']);
-        $('#file_name_input').val(response['new_file_name']);
+                    $('#code_file_name_text').html("File: " + response['new_file_name']);
+                    $('#file_name_input').val(response['new_file_name']);
 
-        $('#file_name_input').hide();
-        $('#file_name_input_submit').hide();
-        $('#code_file_name_text').show();
-        $('#edit_filename_span').show();
+                    $('#file_name_input').hide();
+                    $('#file_name_input_submit').hide();
+                    $('#code_file_name_text').show();
+                    $('#edit_filename_span').show();
 
 
-        var url = new URL(window.location.href);
-        url.searchParams.set('cid', response['cid']);
-        window.history.replaceState(null, null, url);
-        
-        // console.log('cid:', response['cid']);
-        let saved_cid = response['cid'];
-        $("#code_obj_id").val(saved_cid);
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('cid', response['cid']);
+                    window.history.replaceState(null, null, url);
+                    
+                    // console.log('cid:', response['cid']);
+                    let saved_cid = response['cid'];
+                    $("#code_obj_id").val(saved_cid);
 
-    },
-    error: function (response) {}
-    
-});
+                },
+                error: function (response) {}
+                
+            });
 
 })
 

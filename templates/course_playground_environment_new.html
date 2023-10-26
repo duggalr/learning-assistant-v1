@@ -99,7 +99,7 @@
     {% include 'new_landing_navbar_three.html' %}
 
 
-    <div class="ui grid container">
+    <div class="ui grid container" id="primary_grid">
 
         <!-- Code Editor -->
         <div class="eight wide column" id="code-column">
@@ -469,9 +469,19 @@ mystdout.getvalue()
 
                 saveCode();
 
+                // TODO: implement scroll and the rest; go from there
+                    // leetcode + tutor
+                    // continue with SP (try to complete 1/2 tonight)
+                    // read
+
+                $('html, body').animate({
+                    scrollTop: $("#output").offset().top
+                }, 1000);
+
                 // var console_elem = document.getElementsByClassName('output-code')[0];
                 // var topPos = console_elem.offsetTop;
-                // document.getElementById('tabular-menu-column').scrollTop = topPos;
+                // console.log('top-pos:', topPos)
+                // document.getElementById('primary_grid').scrollTop = topPos;
 
                 // if (user_session != 'None'){
                 //     saveCode();
@@ -482,6 +492,10 @@ mystdout.getvalue()
                 addToOutput(err);
 
                 saveCode();
+
+                var console_elem = document.getElementById('output')
+                var topPos = console_elem.offsetTop;
+                document.getElementById('primary_grid').scrollTop = topPos;
 
                 // if (user_session != 'None'){
                 //     saveCode();
@@ -907,7 +921,7 @@ mystdout.getvalue()
                         }
 
                         if (test_case_message == ''){
-                            test_case_message = 'All tests ran correctly.'    
+                            test_case_message = 'All tests ran correctly.'
                         }
 
                         document.getElementById('test-case-feedback').innerText = test_case_message;

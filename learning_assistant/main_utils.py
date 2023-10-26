@@ -546,14 +546,22 @@ def course_question_solution_check(source_code, input_param, output_param):
         return {'success': False, 'message': 'Not enough parameters in the function.'}
 
     if num_inputs == 1:
-        function_output = user_function(input_param[0])
+        try:
+            function_output = user_function(input_param[0])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.'}
+        
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.'}
         else:
             return {'success': False, 'message': 'Function returned wrong output.'}
 
     elif num_inputs == 2:
-        function_output = user_function(input_param[0], input_param[1])
+        try:
+            function_output = user_function(input_param[0], input_param[1])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.'}
+        
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.'}
         else:

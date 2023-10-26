@@ -2126,7 +2126,9 @@ def new_course_playground(request):
     pc_question_obj = get_object_or_404(PythonLessonQuestion, id = pcqid)
     question_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = pc_question_obj)
 
+
     user_code_obj = None
+    code_id = None
     
     user_code_objects = PythonLessonUserCode.objects.filter(
         lesson_question_obj = pc_question_obj,
@@ -2134,16 +2136,19 @@ def new_course_playground(request):
     )
     if len(user_code_objects) > 0:
         user_code_obj = user_code_objects[0]
+        code_id = user_code_obj.id
 
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
         'pc_question_obj': pc_question_obj,
         'pt_course_test_case_examples': question_test_cases,
+        'pt_course_test_case_examples_length': len(question_test_cases),
 
-        # 'code_id': user_code_obj.id,
+        'code_id': code_id,
         'user_code_obj': user_code_obj
     })
+
 
 
 def new_course_handle_user_message(request):
@@ -2249,6 +2254,9 @@ def new_course_handle_user_message(request):
     
         model_response_dict['cid'] = uc_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
 
 
 def new_course_save_user_code(request):
@@ -2577,7 +2585,11 @@ def new_course_handle_solution_submit(request):
             tc_input = qtc_obj.input_param
             tc_output = qtc_obj.correct_output
 
+            print(f'input-test-case: {tc_input} / output-tc: {tc_output}' )
+
             tc_input_list = ast.literal_eval(tc_input)
+
+            print('tc-input-list:', tc_input_list)
 
             valid_solution_dict = main_utils.course_question_solution_check(
                 source_code = user_code,
@@ -2598,22 +2610,16 @@ def new_course_handle_solution_submit(request):
             })
 
 
-        print('Correct List:', test_case_correct_list)
-
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
+
+            user_prev_messages = request.POST['previous_messages']
         
             # model_response_dict = main_utils.main_handle_question(
             #     question = user_message,
             #     student_code = user_code,
-            #     previous_chat_history_st = ''
+            #     previous_chat_history_st = user_prev_messages
             # )
-        
-            model_response_dict = {
-                'question': '',
-                'q_prompt': '',
-                'response': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            }
 
             return JsonResponse({'success': True, 'response': model_response_dict, 'test_case_list': test_case_correct_list})
 
@@ -2621,17 +2627,31 @@ def new_course_handle_solution_submit(request):
 
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         
+            prev_conversation_history = []
+            if user_cid != 'None':
+
+                prev_conversation_messages = PythonLessonConversation.objects.filter(
+                    user_auth_obj = user_oauth_obj,
+                    code_obj_id = user_cid
+                ).order_by('-created_at')
+
+                if len(prev_conversation_messages) > 0:
+                    for uc_obj in prev_conversation_messages[:5]:
+                        uc_question = uc_obj.question
+                        uc_response = uc_obj.response
+                        prev_conversation_history.append(f"Question: { uc_question }")
+                        prev_conversation_history.append(f"Response: { uc_response }")
+
+
+            prev_conversation_st = ''
+            if len(prev_conversation_history) > 0:
+                prev_conversation_st = '\n'.join(prev_conversation_history)
+            
             # model_response_dict = main_utils.main_handle_question(
             #     question = user_message,
             #     student_code = user_code,
-            #     previous_chat_history_st = ''
+            #     previous_chat_history_st = prev_conversation_st
             # )
-
-            model_response_dict = {
-                'question': '',
-                'q_prompt': '',
-                'response': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            }
 
             if user_cid == 'None':
 

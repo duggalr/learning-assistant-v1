@@ -104,7 +104,7 @@
         <!-- Code Editor -->
         <div class="eight wide column" id="code-column">
 
-            <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
+            <!-- <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}">
                 <i class="arrow alternate circle left outline icon"></i>
                 Back to Exercises
             </a>
@@ -112,7 +112,28 @@
             <a href="{% url 'playground' %}">
                 Next Question
                 <i class="arrow alternate circle right outline icon"></i>
-            </a>
+            </a> -->
+
+            <div style="padding-top: 5px;">
+                <a href="{% url 'new_course_lesson_page' pc_question_obj.course_lesson_obj.id %}" style="padding: 0px;">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                &nbsp;&nbsp;&nbsp;
+                {% if prev_question_obj is not None %}
+                    <a href="{% url 'new_course_playground' %}?pcqid={{ prev_question_obj.id }}" style="padding: 0px;">                    
+                        <i class="arrow alternate circle left outline icon"></i>
+                        Back Question
+                    </a>
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;
+                {% if next_question_obj is not None %}
+                    <a href="{% url 'new_course_playground' %}?pcqid={{ next_question_obj.id }}" style="padding: 0px;">                    
+                        Next Question
+                        <i class="arrow alternate circle right outline icon"></i>
+                    </a>
+                {% endif %}
+            </div>
 
             <div style="display: flex; align-items: center; padding-top: 15px;">
 

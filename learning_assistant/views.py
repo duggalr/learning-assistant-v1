@@ -2138,7 +2138,6 @@ def new_course_playground(request):
     pc_question_obj = get_object_or_404(PythonLessonQuestion, id = pcqid)
     question_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = pc_question_obj)
 
-
     user_code_obj = None
     code_id = None
     
@@ -2150,6 +2149,17 @@ def new_course_playground(request):
         user_code_obj = user_code_objects[0]
         code_id = user_code_obj.id
 
+
+    next_order_number = pc_question_obj.order_number + 1
+    prev_order_number = pc_question_obj.order_number - 1
+    next_question_obj = None
+    if PythonLessonQuestion.objects.filter(order_number = next_order_number).count() > 0:
+        next_question_obj = PythonLessonQuestion.objects.get(order_number = next_order_number)
+
+    prev_question_obj = None
+    if PythonLessonQuestion.objects.filter(order_number = prev_order_number).count() > 0:
+        prev_question_obj = PythonLessonQuestion.objects.get(order_number = prev_order_number)
+
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
@@ -2158,7 +2168,10 @@ def new_course_playground(request):
         'pt_course_test_case_examples_length': len(question_test_cases),
 
         'code_id': code_id,
-        'user_code_obj': user_code_obj
+        'user_code_obj': user_code_obj,
+
+        'next_question_obj': next_question_obj,
+        'prev_question_obj': prev_question_obj
     })
 
 

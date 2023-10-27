@@ -82,14 +82,23 @@
 
             <div style="padding-top: 5px;">
                 <a href="{% url 'new_course_home' %}" style="padding: 0px;">
-                    <i class="arrow alternate circle left outline icon"></i>
-                    Back
+                    <i class="home icon"></i>
+                    Home
                 </a>
                 &nbsp;&nbsp;&nbsp;
-                <a href="{% url 'new_course_lesson_page' course_lesson_object.id %}" style="padding: 0px;">                    
-                    Next
-                    <i class="arrow alternate circle right outline icon"></i>
-                </a>
+                {% if prev_lesson_obj is not None %}
+                    <a href="{% url 'new_course_lesson_page' prev_lesson_obj.id  %}" style="padding: 0px;">                    
+                        <i class="arrow alternate circle left outline icon"></i>
+                        Back
+                    </a>
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;
+                {% if next_lesson_obj is not None %}
+                    <a href="{% url 'new_course_lesson_page' next_lesson_obj.id  %}" style="padding: 0px;">                    
+                        Next
+                        <i class="arrow alternate circle right outline icon"></i>
+                    </a>
+                {% endif %}
             </div>
             
 

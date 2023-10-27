@@ -2104,9 +2104,21 @@ def new_course_lesson_page(request, lid):
     course_lesson_obj = get_object_or_404(PythonCourseLesson, id = lid)
     lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = course_lesson_obj)
 
+    next_order_number = course_lesson_obj.order_number + 1
+    prev_order_number = course_lesson_obj.order_number - 1
+    next_lesson_obj = None
+    if PythonCourseLesson.objects.filter(order_number = next_order_number).count() > 0:
+        next_lesson_obj = PythonCourseLesson.objects.get(order_number = next_order_number)
+
+    prev_lesson_obj = None
+    if PythonCourseLesson.objects.filter(order_number = prev_order_number).count() > 0:
+        prev_lesson_obj = PythonCourseLesson.objects.get(order_number = prev_order_number)
+
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
-        'lesson_question_objects': lesson_question_objects
+        'lesson_question_objects': lesson_question_objects,
+        'next_lesson_obj': next_lesson_obj,
+        'prev_lesson_obj': prev_lesson_obj
     })
 
 

@@ -543,7 +543,7 @@ def course_question_solution_check(source_code, input_param, output_param):
     user_function = locals()[function.name]
 
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
-        return {'success': False, 'message': 'Not enough parameters in the function.'}
+        return {'success': False, 'message': 'The number of the parameters in the function is not correct.'}
 
     if num_inputs == 1:
         try:

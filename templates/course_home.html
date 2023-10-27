@@ -144,6 +144,9 @@
 
         <div id="main_lesson_div" class="twelve wide column">
             
+
+            {% if not user_session %}
+
             <!-- Header -->
             <h3 id="lesson_header">
                 &#129489;&#8205;&#128187; 
@@ -153,6 +156,7 @@
             <!-- Description -->
             <div class="ui basic segment" style=" padding-bottom: 5px;" >
 
+                
                 <p id="course_home_description">
                     <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum. -->
 
@@ -181,6 +185,9 @@
                 </p>
                 
             </div>
+
+
+            {% endif %}
 
             <!-- Header -->
             <h3 id="lesson_header">

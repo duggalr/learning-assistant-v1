@@ -111,10 +111,21 @@
 
             <div style="padding-top: 5px;">
 
-                <a href="{% url 'dashboard' %}" style="padding: 0px;">
-                    <i class="home icon"></i>
-                    Home
-                </a>
+                {% if user_session %}
+
+                    <a href="{% url 'dashboard' %}" style="padding: 0px;">
+                        <i class="home icon"></i>
+                        Home
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'landing' %}" style="padding: 0px;">
+                        <i class="home icon"></i>
+                        Home
+                    </a>
+
+                {% endif %}
                 
             </div>
 

@@ -2108,8 +2108,16 @@ def new_course_home(request):
         num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
         rv.append([lobj, num_questions])
 
+    initial_user_session = request.session.get("user")
+    user_auth_obj = None    
+    if initial_user_session is not None:
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) > 0:
+            user_auth_obj = user_oauth_objects[0]
+
     return render(request, 'course_home.html', {
-        'all_lesson_objects': rv
+        'all_lesson_objects': rv,
+        'user_session': initial_user_session,
     })
 
 
@@ -2127,11 +2135,20 @@ def new_course_lesson_page(request, lid):
     if PythonCourseLesson.objects.filter(order_number = prev_order_number).count() > 0:
         prev_lesson_obj = PythonCourseLesson.objects.get(order_number = prev_order_number)
 
+
+    initial_user_session = request.session.get("user")
+    user_auth_obj = None    
+    if initial_user_session is not None:
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) > 0:
+            user_auth_obj = user_oauth_objects[0]
+
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
         'lesson_question_objects': lesson_question_objects,
         'next_lesson_obj': next_lesson_obj,
-        'prev_lesson_obj': prev_lesson_obj
+        'prev_lesson_obj': prev_lesson_obj,
+        'user_session': initial_user_session,
     })
 
 
@@ -2166,19 +2183,24 @@ def new_course_playground(request):
     next_order_number = pc_question_obj.order_number + 1
     prev_order_number = pc_question_obj.order_number - 1
     next_question_obj = None
-    if PythonLessonQuestion.objects.filter(order_number = next_order_number).count() > 0:
-        next_question_obj = PythonLessonQuestion.objects.get(order_number = next_order_number)
+    if PythonLessonQuestion.objects.filter(order_number = next_order_number, course_lesson_obj = pc_question_obj.course_lesson_obj).count() > 0:
+        next_question_obj = PythonLessonQuestion.objects.get(order_number = next_order_number, course_lesson_obj = pc_question_obj.course_lesson_obj)
 
     prev_question_obj = None
-    if PythonLessonQuestion.objects.filter(order_number = prev_order_number).count() > 0:
-        prev_question_obj = PythonLessonQuestion.objects.get(order_number = prev_order_number)
+    if PythonLessonQuestion.objects.filter(order_number = prev_order_number, course_lesson_obj = pc_question_obj.course_lesson_obj).count() > 0:
+        prev_question_obj = PythonLessonQuestion.objects.get(order_number = prev_order_number, course_lesson_obj = pc_question_obj.course_lesson_obj)
 
-    user_q_submissions = PythonLessonQuestionUserSubmission.objects.filter(user_auth_obj = user_auth_obj)
+    user_q_submissions = PythonLessonQuestionUserSubmission.objects.filter(user_auth_obj = user_auth_obj, lesson_question_obj = pc_question_obj)
     q_complete_success = False
     for sub_obj in user_q_submissions:
         if sub_obj.complete:
             q_complete_success = True
             break
+
+    user_conversation_objects = PythonLessonConversation.objects.filter(
+        code_obj = user_code_obj,
+        user_auth_obj = user_auth_obj
+    ).order_by('created_at')
 
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
@@ -2194,7 +2216,9 @@ def new_course_playground(request):
         'prev_question_obj': prev_question_obj,
 
         'total_user_submissions': len(user_q_submissions),
-        'q_complete_success': q_complete_success
+        'q_complete_success': q_complete_success,
+
+        'user_conversation_objects': user_conversation_objects
     })
 
 

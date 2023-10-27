@@ -65,13 +65,12 @@
 
                 <a class="active item tab_header" id="course_questions_tab">
                     <i class="code icon" style="font-size: 13px;"></i>
-                    Your Course Questions
+                    Course Progress
                 </a>
 
                 <a class="item tab_header" id="questions_tab">
                     <i class="code branch icon" style="font-size: 13px;"></i>
-                    Your Code Questions
-                    
+                    Your Code Files
                 </a>
 
                 <!-- <a class="disabled item tab_header" id="files_tab">
@@ -173,10 +172,17 @@
             <!-- Main Course Questions -->
             <div id="main_course_questions_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
                 
-                <h4>
-                    Questions Completed: {{ pt_course_code_objects|length }} / {{ total_lesson_questions }}
+                <h4 style="text-align: right;">
+                    <span style="color: rgb(36, 36, 255);">
+                        Total Questions Completed: {{ pt_course_code_objects|length }} / {{ total_lesson_questions }}
+                    </span>
+                    <br/>
+                    <a href="{% url 'new_course_home' %}" style="font-size: 14px; font-weight: 400;">
+                        Go to course
+                    </a>
                 </h4>
                 
+
                 <!-- <div class="ui statistics">
 
                     <div class="statistic">
@@ -197,7 +203,8 @@
                         <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
                             <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}">
+                                <!-- <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}"> -->
+                                <a class="file_name_header" href="{% url 'new_course_playground' %}?pcqid={{ ptc_obj.lesson_question_obj.id }}">
                                     &#128220; {{ ptc_obj.code_unique_name }}
                                 </a>
                             </div>

@@ -2095,8 +2095,14 @@ def super_user_motivation_prompt(request):
 
 def new_course_home(request):
     all_lesson_objects = PythonCourseLesson.objects.all()
+
+    rv = []
+    for lobj in all_lesson_objects:
+        num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
+        rv.append([lobj, num_questions])
+
     return render(request, 'course_home.html', {
-        'all_lesson_objects': all_lesson_objects
+        'all_lesson_objects': rv
     })
 
 

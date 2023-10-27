@@ -6,7 +6,7 @@
     <style>
 
         #main_lesson_div{
-            padding-top: 40px;
+            padding-top: 30px;
         }
 
         /* Progress Bar Credits --> https://codepen.io/ineffabledeeps/pen/MWPpZRP */
@@ -197,7 +197,7 @@
                         </div>
 
                         <div class="content">
-                            <a href="{% url 'new_course_lesson_page' lobj.id %}">
+                            <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
                                 <div class="header" style="font-size: 15.5px; margin-top: 10px;">
                                     <i class="hand point right outline icon"></i>
                                     {{ lobj.lesson_title }}
@@ -227,16 +227,20 @@
 
                             <div class="content">
                                 <!-- TODO: fix this -->
-                                <a href="{% url 'new_course_lesson_page' lobj.id %}">
+                                <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
                                     <div class="header list_lesson_header">
-                                        {{ lobj.lesson_title }}
+                                        {{ lobj.0.lesson_title }}
                                     </div>
                                 </a>
                             </div>
 
                             <div class="list_lesson_description">
                                 <span style="line-height: 1.3em;">
-                                    {{ lobj.lesson_description }}
+                                    {{ lobj.0.lesson_description }}
+                                </span>
+                                <br/>
+                                <span style="line-height: 1.3em; font-weight: 900;">
+                                    Number of Exercises: {{ lobj.1 }}
                                 </span>
                             </div>
 

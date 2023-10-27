@@ -207,6 +207,14 @@ class PythonLessonConversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class PythonLessonQuestionUserSubmission(models.Model):  # keeps track of all user submissions
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    lesson_question_obj = models.ForeignKey(PythonLessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
+    code_str = models.TextField()
+    complete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)    
+
+
 class LandingEmailSubscription(models.Model):
     email = models.EmailField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -123,7 +123,7 @@
                 {% if prev_question_obj is not None %}
                     <a href="{% url 'new_course_playground' %}?pcqid={{ prev_question_obj.id }}" style="padding: 0px;">                    
                         <i class="arrow alternate circle left outline icon"></i>
-                        Back Question
+                        Previous Question
                     </a>
                 {% endif %}
                 &nbsp;&nbsp;&nbsp;
@@ -140,6 +140,13 @@
                 <h4 style="margin: 0;">
 
                     <span id="code_file_name_text" style="font-size: 16px;">{{ pc_question_obj.question_name }}</span>
+                    &nbsp;
+
+                    {% if q_complete_success is True %}
+                        <div class="ui horizontal green label q_complete_label">Complete</div>
+                    {% else %}
+                        <div class="ui horizontal green label q_complete_label" style="display: none;">Complete</div>
+                    {% endif %}
 
                 </h4>
              
@@ -229,6 +236,7 @@
                     {{ pc_question_obj.question_text|linebreaks }}
                 </p>
 
+
                 <h4 class="ui header" style="padding-top: 0px;">
                     Test Cases:
                 </h4>
@@ -241,6 +249,7 @@
                             <tr>
                                 <th>Input</th>
                                 <th>Output</th>
+                                <th>Function-Output</th>
                                 <th>Correct</th>
                             </tr>
                         </thead>
@@ -252,6 +261,7 @@
                                 <tr>
                                     <td data-label="Input">{{ tobj.input_param }}</td>
                                     <td data-label="Output">{{ tobj.correct_output }}</td>
+                                    <td id="user_output_{{ tobj.id }}" data-label="Function-Output"></td>
                                     <td id="status_{{ tobj.id }}" data-label="Correct"></td>
                                 </tr>
 
@@ -273,6 +283,15 @@
                     <p id="test-case-feedback"></p>
 
                 </div>
+
+
+                {% if user_session %}
+
+                    <h5 class="ui header" style="padding-top: 0px;">
+                        Number of submissions: <span id="code_submission_count">{{ total_user_submissions }}</span>
+                    </h5>
+
+                {% endif %}
 
                 <h4 class="ui header" style="padding-top: 0px;">
                     Console Output:
@@ -891,6 +910,10 @@ mystdout.getvalue()
         }
 
 
+
+
+        let code_submission_count_val = '{{ total_user_submissions }}'
+
         function handleSolutionSubmit(event){
 
 
@@ -926,7 +949,12 @@ mystdout.getvalue()
                             
                             let tc_dict = test_case_list[idx]
                             let tc_val = tc_dict['tc_id_text']
+                            let user_out_id = tc_dict['user_output_id_text']
                             let tc_status = tc_dict['status']
+                            let user_fnc_output = tc_dict['user_function_output']
+
+                            document.getElementById(user_out_id).innerHTML = user_fnc_output
+                            // $('#user_fnc_tb_header').show()
 
                             if (tc_status == 1){
                                 
@@ -941,9 +969,20 @@ mystdout.getvalue()
 
                         }
 
+
+                        if (response['q_complete_success'] === true){
+                            
+                            $('.q_complete_label').show();
+                            
+                        }
+
                         if (test_case_message == ''){
                             test_case_message = 'All tests ran correctly.'
                         }
+                        
+                        let prev_val = document.getElementById('code_submission_count').innerText
+                        let new_subm_val = +prev_val + 1
+                        document.getElementById('code_submission_count').innerText = new_subm_val
 
                         document.getElementById('test-case-feedback').innerText = test_case_message;
                         $('#py_question_submit_feedback').show();

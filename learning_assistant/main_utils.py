@@ -526,9 +526,12 @@ import ast
 from RestrictedPython import compile_restricted
 
 def course_question_solution_check(source_code, input_param, output_param):
-    tree = ast.parse(source_code, mode='exec')
-    function = tree.body[0]
-    num_inputs = len([a.arg for a in function.args.args])
+    try:
+        tree = ast.parse(source_code, mode='exec')
+        function = tree.body[0]
+        num_inputs = len([a.arg for a in function.args.args])
+    except: 
+        return {'success': False, 'message': 'Invalid Syntax. Code could not compile.', 'user_function_output': None}
 
     try:
         byte_code = compile_restricted(
@@ -538,34 +541,34 @@ def course_question_solution_check(source_code, input_param, output_param):
         )
         exec(byte_code)
     except:
-        return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.'}
+        return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
     
     user_function = locals()[function.name]
 
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
-        return {'success': False, 'message': 'The number of the parameters in the function is not correct.'}
+        return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
 
     if num_inputs == 1:
         try:
             function_output = user_function(input_param[0])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.'}
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
         
         if function_output == output_param:
-            return {'success': True, 'message': 'Test case successfully passed.'}
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
         else:
-            return {'success': False, 'message': 'Function returned wrong output.'}
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.'}
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
         
         if function_output == output_param:
-            return {'success': True, 'message': 'Test case successfully passed.'}
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
         else:
-            return {'success': False, 'message': 'Function returned wrong output.'}
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
 
 # source_code = """

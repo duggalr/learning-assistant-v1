@@ -63,16 +63,15 @@
 
             <div class="ui tabular menu" style="padding-top: 12px;">
 
-                <a class="active item tab_header" id="questions_tab">
+                <a class="active item tab_header" id="course_questions_tab">
+                    <i class="code icon" style="font-size: 13px;"></i>
+                    Your Course Questions
+                </a>
+
+                <a class="item tab_header" id="questions_tab">
                     <i class="code branch icon" style="font-size: 13px;"></i>
                     Your Code Questions
                     
-                </a>
-
-
-                <a class="item tab_header" id="course_questions_tab">
-                    <i class="code icon" style="font-size: 13px;"></i>
-                    Your Course Questions
                 </a>
 
                 <!-- <a class="disabled item tab_header" id="files_tab">
@@ -93,7 +92,7 @@
 
 
             <!-- Main Code Div -->
-            <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+            <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; display: none;">
 
                 {% if user_code_list|length > 0 %}
 
@@ -170,24 +169,52 @@
             </div>
 
 
+
             <!-- Main Course Questions -->
             <div id="main_course_questions_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
                 
-                <!-- 
-                    TODO: 
-                        - complete the dashboard view
-                            - the course-db should be primary and then, 'your-code-qs' as secondary
-                            - go from there to test everything and finalize as logged in user
-                            - finalize everything else**
-                                - general-tutor UI?
-                                - pyoide loading <-- **important to fix
-                                - websockets on tutor-chat?                                
-                -->
-
                 <h4>
-                    Questions Completed: 3 / 12
+                    Questions Completed: {{ pt_course_code_objects|length }} / {{ total_lesson_questions }}
                 </h4>
                 
+                <!-- <div class="ui statistics">
+
+                    <div class="statistic">
+                        <div class="value">
+                          total_lesson_questions
+                        </div>
+                        <div class="label">
+                          Team Members
+                        </div>
+                    </div>
+
+                </div> -->
+
+                {% for ptc_obj in pt_course_code_objects %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header" style="font-size: 15.5px;">
+                                <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}">
+                                    &#128220; {{ ptc_obj.code_unique_name }}
+                                </a>
+                            </div>
+            
+                            <div style="padding-top: 14px;">
+                                <span style="font-size: 12.5px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>
+                                    Uploaded: {{ ptc_obj.created_at|date }}                                
+                                </span>
+                        
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
 
             </div>
 

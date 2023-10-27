@@ -377,16 +377,23 @@ def dashboard(request):
             'user_conv_obj_count': us_conv_objects_count
         })
 
+
+    pt_course_code_objects = PythonLessonUserCode.objects.filter(user_auth_obj = user_oauth_obj)
+
     
     user_file_objects = UserFiles.objects.filter(
         user_auth_obj = user_oauth_obj
     ).order_by('-uploaded_at')
-    print(user_file_objects)
+    # print(user_file_objects)
+
+    total_lesson_questions = PythonLessonQuestion.objects.count()
 
     return render(request, 'new_user_dashboard.html',  {
         'user_session': initial_user_session,
         'user_code_list': final_rv,
-        'user_file_objects': user_file_objects
+        'user_file_objects': user_file_objects,
+        'pt_course_code_objects': pt_course_code_objects,
+        'total_lesson_questions': total_lesson_questions
         # 'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })
@@ -2166,6 +2173,13 @@ def new_course_playground(request):
     if PythonLessonQuestion.objects.filter(order_number = prev_order_number).count() > 0:
         prev_question_obj = PythonLessonQuestion.objects.get(order_number = prev_order_number)
 
+    user_q_submissions = PythonLessonQuestionUserSubmission.objects.filter(user_auth_obj = user_auth_obj)
+    q_complete_success = False
+    for sub_obj in user_q_submissions:
+        if sub_obj.complete:
+            q_complete_success = True
+            break
+
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
@@ -2177,7 +2191,10 @@ def new_course_playground(request):
         'user_code_obj': user_code_obj,
 
         'next_question_obj': next_question_obj,
-        'prev_question_obj': prev_question_obj
+        'prev_question_obj': prev_question_obj,
+
+        'total_user_submissions': len(user_q_submissions),
+        'q_complete_success': q_complete_success
     })
 
 
@@ -2617,6 +2634,7 @@ def new_course_handle_solution_submit(request):
 
         pt_q_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = lesson_ques_obj)
         test_case_correct_list = []
+        q_complete_success = True
         for qtc_obj in pt_q_test_cases:
             tc_input = qtc_obj.input_param
             tc_output = qtc_obj.correct_output
@@ -2636,10 +2654,15 @@ def new_course_handle_solution_submit(request):
             if valid_solution:
                 tc_status = 1
 
+            else:  # user got an answer wrong; unsuccessfully completed
+                q_complete_success = False
+
             test_case_correct_list.append({
+                'user_output_id_text': f'user_output_{ qtc_obj.id }',
                 'tc_id_text': f'status_{ qtc_obj.id }',
                 'status': tc_status,
-                'message': valid_solution_dict['message']
+                'message': valid_solution_dict['message'],
+                'user_function_output': valid_solution_dict['user_function_output']
             })
 
 
@@ -2653,6 +2676,7 @@ def new_course_handle_solution_submit(request):
 
         else:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
             if user_cid == 'None':
                 rnd_code_filename = lesson_ques_obj.question_name
                 uc_obj = PythonLessonUserCode.objects.create(
@@ -2663,10 +2687,24 @@ def new_course_handle_solution_submit(request):
                 )
                 uc_obj.save()
 
+                pq_subm_obj = PythonLessonQuestionUserSubmission.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    lesson_question_obj = lesson_ques_obj,
+                    code_str = user_code,
+                    complete = q_complete_success
+                )
+                pq_subm_obj.save()
+
+                total_submissions = PythonLessonQuestionUserSubmission.objects.filter(
+                    user_auth_obj = user_oauth_obj
+                ).count()
+
                 return JsonResponse({
                     'success': True, 
                     'cid': uc_obj.id, 
-                    'test_case_list': test_case_correct_list
+                    'test_case_list': test_case_correct_list,
+                    'q_complete_success': q_complete_success,
+                    'total_q_submissions': total_submissions
                 })
 
             else:
@@ -2682,12 +2720,25 @@ def new_course_handle_solution_submit(request):
                 uc_obj.user_code = user_code
                 uc_obj.save()
 
+                pq_subm_obj = PythonLessonQuestionUserSubmission.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    lesson_question_obj = lesson_ques_obj,
+                    code_str = user_code,
+                    complete = q_complete_success
+                )
+                pq_subm_obj.save()
+
+                total_submissions = PythonLessonQuestionUserSubmission.objects.filter(
+                    user_auth_obj = user_oauth_obj
+                ).count()
+
                 return JsonResponse({
                     'success': True, 
                     'cid': uc_obj.id, 
-                    'test_case_list': test_case_correct_list
+                    'test_case_list': test_case_correct_list,
+                    'q_complete_success': q_complete_success,
+                    'total_q_submissions': total_submissions
                 })
-
 
 
         # initial_user_session = request.session.get('user')

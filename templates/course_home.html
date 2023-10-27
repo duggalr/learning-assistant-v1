@@ -7,6 +7,7 @@
 
         #main_lesson_div{
             padding-top: 30px;
+            padding-bottom: 40px;
         }
 
         /* Progress Bar Credits --> https://codepen.io/ineffabledeeps/pen/MWPpZRP */
@@ -14,7 +15,7 @@
         :root{
             --v-progress-left: 50px;
             --v-progress-item-height-width: 12px;
-            --v-progress-line-height: 80px;
+            --v-progress-line-height: 95px;
             --v-progress-line-width: 3px;
             --v-progress-gap: 13px;
             --blue: #0081C9;
@@ -223,12 +224,13 @@
                     
                     {% for lobj in all_lesson_objects %}
 
-                        <li class="v-progress-item inprogress">
+                        <!-- inprogress / completed -->
+                        <li class="v-progress-item">
 
                             <div class="content">
-                                <!-- TODO: fix this -->
                                 <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
                                     <div class="header list_lesson_header">
+                                        &#8987;
                                         {{ lobj.0.lesson_title }}
                                     </div>
                                 </a>
@@ -236,12 +238,9 @@
 
                             <div class="list_lesson_description">
                                 <span style="line-height: 1.3em;">
-                                    {{ lobj.0.lesson_description }}
+                                    <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                 </span>
-                                <br/>
-                                <span style="line-height: 1.3em; font-weight: 900;">
-                                    Number of Exercises: {{ lobj.1 }}
-                                </span>
+                                <!-- <br/> -->
                             </div>
 
                         </li>

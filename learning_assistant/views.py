@@ -2094,7 +2094,7 @@ def super_user_motivation_prompt(request):
 ### Python New Course ###
 
 def new_course_home(request):
-    all_lesson_objects = PythonCourseLesson.objects.all()
+    all_lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
 
     rv = []
     for lobj in all_lesson_objects:

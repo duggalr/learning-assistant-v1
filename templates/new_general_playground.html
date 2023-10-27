@@ -105,16 +105,36 @@
             <div class="ui text loader">Firing up the IDE.. please hold for ~5 seconds...</div>
         </div>
 
+
         <!-- Code Editor -->
         <div class="eight wide column" id="code-column">
+
+            <div style="padding-top: 5px;">
+
+                <a href="{% url 'dashboard' %}" style="padding: 0px;">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                
+            </div>
+
 
             <div style="display: flex; align-items: center; padding-top: 15px;">
 
                 <h4 style="margin: 0;">
 
                     {% if user_session %}
+                        
+                        {% if user_code_obj is not None %}
 
-                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
+                            <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
+                        
+                        {% else %}
+
+                            <span id="code_file_name_text" style="font-size: 16px;">File: {{ initial_rnd_file_name }}</span>
+
+                        {% endif %}
+                        
                         {% if user_session is not None %}
                             <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}" style="display: none;">
                             <button id="file_name_input_submit" style="display: none;">save</button>

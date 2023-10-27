@@ -47,6 +47,7 @@
 
     {% include 'new_landing_navbar_three.html' %}
 
+    <!-- TODO: build the new dashboard view + functionality -->
     
     <div class="ui grid container">
         
@@ -63,8 +64,15 @@
             <div class="ui tabular menu" style="padding-top: 12px;">
 
                 <a class="active item tab_header" id="questions_tab">
-                    <i class="file code icon" style="font-size: 13px;"></i>
-                    Saved Code
+                    <i class="code branch icon" style="font-size: 13px;"></i>
+                    Your Code Questions
+                    
+                </a>
+
+
+                <a class="item tab_header" id="course_questions_tab">
+                    <i class="code icon" style="font-size: 13px;"></i>
+                    Your Course Questions
                 </a>
 
                 <!-- <a class="disabled item tab_header" id="files_tab">
@@ -162,8 +170,30 @@
             </div>
 
 
+            <!-- Main Course Questions -->
+            <div id="main_course_questions_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+                
+                <!-- 
+                    TODO: 
+                        - complete the dashboard view
+                            - the course-db should be primary and then, 'your-code-qs' as secondary
+                            - go from there to test everything and finalize as logged in user
+                            - finalize everything else**
+                                - general-tutor UI?
+                                - pyoide loading <-- **important to fix
+                                - websockets on tutor-chat?                                
+                -->
+
+                <h4>
+                    Questions Completed: 3 / 12
+                </h4>
+                
+
+            </div>
+
+
             <!-- Main File Div -->
-            <div id="main_file_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; display: none;">
+            <!-- <div id="main_file_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px; display: none;">
 
                 {% if user_file_objects|length > 0 %}
 
@@ -211,7 +241,7 @@
                 {% endif %}
 
 
-            </div>
+            </div> -->
 
 
         </div>
@@ -233,10 +263,20 @@
         $('#questions_tab').click(function(){
 
             $('#questions_tab').addClass('active');
-            $('#files_tab').removeClass('active');
+            $('#course_questions_tab').removeClass('active');
 
             $('#main_code_div').show();
-            $('#main_file_div').hide();
+            $('#main_course_questions_div').hide();
+
+        });
+
+        $('#course_questions_tab').click(function(){
+
+            $('#course_questions_tab').addClass('active');
+            $('#questions_tab').removeClass('active');
+
+            $('#main_course_questions_div').show();
+            $('#main_code_div').hide();
 
         });
 

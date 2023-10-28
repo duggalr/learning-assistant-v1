@@ -89,13 +89,13 @@
                 {% if prev_lesson_obj is not None %}
                     <a href="{% url 'new_course_lesson_page' prev_lesson_obj.id  %}" style="padding: 0px;">                    
                         <i class="arrow alternate circle left outline icon"></i>
-                        Previous
+                        Previous Lesson
                     </a>
                 {% endif %}
                 &nbsp;&nbsp;&nbsp;
                 {% if next_lesson_obj is not None %}
                     <a href="{% url 'new_course_lesson_page' next_lesson_obj.id  %}" style="padding: 0px;">                    
-                        Next
+                        Next Lesson
                         <i class="arrow alternate circle right outline icon"></i>
                     </a>
                 {% endif %}
@@ -195,7 +195,7 @@
 
                                 <div class="header" style="font-size: 15.5px;">
                                     <i class="question icon" style="color: gray;"></i>
-                                    <a id="question_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.id }}">
+                                    <a id="question_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.0.id }}">
                                         {{ tqobj.0.question_name }}
                                     </a>
                                     &nbsp;

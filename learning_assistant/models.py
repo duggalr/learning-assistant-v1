@@ -221,6 +221,13 @@ class LandingEmailSubscription(models.Model):
 
 
 
+class PythonLessonVideoConversation(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    course_lesson_obj = models.ForeignKey(PythonCourseLesson, on_delete=models.CASCADE)
+    question = models.CharField(max_length=3000)
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 

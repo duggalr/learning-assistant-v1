@@ -2189,21 +2189,35 @@ def new_course_lesson_page(request, lid):
 
     lq_rv = []
     for lq_obj in lesson_question_objects:
-        lq_submission_objects = PythonLessonQuestionUserSubmission.objects.filter(lesson_question_obj = lq_obj)
-        lq_complete = False
-        for lq_sub_obj in lq_submission_objects:
-            if lq_sub_obj.complete is True:
-                lq_complete = True
-                break
+        if user_auth_obj is not None:
+            lq_submission_objects = PythonLessonQuestionUserSubmission.objects.filter(lesson_question_obj = lq_obj, user_auth_obj = user_auth_obj)
+            lq_complete = False
+            for lq_sub_obj in lq_submission_objects:
+                if lq_sub_obj.complete is True:
+                    lq_complete = True
+                    break
+        else:
+            lq_complete = False
+
         lq_rv.append([lq_obj, lq_complete])
+
+
+    course_video_lesson_chat_list = []
+    if user_auth_obj is not None:
+        course_video_lesson_chat_list = PythonLessonVideoConversation.objects.filter(
+            user_auth_obj = user_auth_obj,
+            course_lesson_obj = course_lesson_obj
+        )
 
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
+        'course_video_lesson_chat_list': course_video_lesson_chat_list,
         'lesson_question_objects': lesson_question_objects,
         'next_lesson_obj': next_lesson_obj,
         'prev_lesson_obj': prev_lesson_obj,
         'user_session': initial_user_session,
-        'lq_rv': lq_rv
+        'lq_rv': lq_rv,
+        'pcqid': course_lesson_obj.id
     })
 
 
@@ -2384,8 +2398,6 @@ def new_course_handle_user_message(request):
 
 
 
-
-
 def new_course_save_user_code(request):
     
     if request.method == 'POST':
@@ -2437,6 +2449,70 @@ def new_course_save_user_code(request):
             uc_obj.save()
             
             return JsonResponse({'success': True, 'cid': uc_obj.id})
+
+
+
+def new_course_video_handle_message(request):
+    
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+
+        user_question = request.POST['message'].strip()
+
+        initial_user_session = request.session.get('user')
+        if initial_user_session is None:
+            
+            previous_message_st = request.POST['previous_messages'].strip()
+
+            model_response_dict = main_utils.general_tutor_handle_question(
+                question = user_question,
+                previous_chat_history_st = previous_message_st
+            )
+            
+            return JsonResponse({'success': True, 'response': model_response_dict})
+
+        else:
+            
+            lesson_pclid = request.POST['pclid']
+            # TODO: add filter here just in case no lesson associated with id
+            pcl_obj = PythonCourseLesson.objects.get(id = lesson_pclid)
+
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+            prev_conversation_history = []
+
+            prev_conversation_messages = PythonLessonVideoConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                course_lesson_obj = pcl_obj
+            ).order_by('-created_at')
+
+            if len(prev_conversation_messages) > 0:
+                for uc_obj in prev_conversation_messages[:5]:
+                    uc_question = uc_obj.question
+                    uc_response = uc_obj.response
+                    prev_conversation_history.append(f"Question: { uc_question }")
+                    prev_conversation_history.append(f"Response: { uc_response }")
+
+            prev_conversation_st = ''
+            if len(prev_conversation_history) > 0:
+                prev_conversation_st = '\n'.join(prev_conversation_history)
+            
+            model_response_dict = main_utils.general_tutor_handle_question(
+                question = user_question,
+                previous_chat_history_st = prev_conversation_st
+            )
+
+            py_conv_obj = PythonLessonVideoConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                course_lesson_obj = pcl_obj,
+                question = user_question,
+                response = model_response_dict['response']
+            )
+            py_conv_obj.save()
+
+            return JsonResponse({'success': True, 'response': model_response_dict})
+            
+
 
 
 

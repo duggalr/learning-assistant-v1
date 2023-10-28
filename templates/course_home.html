@@ -232,29 +232,7 @@
 
                         {% if lobj.0.lesson_title == 'Lesson 0: Introduction - The Basics' %}
 
-                            <li class="v-progress-item completed">
-
-                                <div class="content">
-                                    <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
-                                        <div class="header list_lesson_header">
-                                            &#128142;
-                                            {{ lobj.0.lesson_title }}
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="list_lesson_description">
-                                    <span style="line-height: 1.3em;">
-                                        <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
-                                    </span>
-                                    <!-- <br/> -->
-                                </div>
-
-                            </li>
-
-                        {% elif lobj.0.lesson_title == 'Lesson 1: Introduction to Functions' %}
-
-                            {% if lobj.2 == 'complete' %}
+                            {% if user_session %}
 
                                 <li class="v-progress-item completed">
 
@@ -283,7 +261,7 @@
                                     <div class="content">
                                         <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
                                             <div class="header list_lesson_header">
-                                                &#9203;
+                                                &#128142;
                                                 {{ lobj.0.lesson_title }}
                                             </div>
                                         </a>
@@ -297,6 +275,82 @@
                                     </div>
 
                                 </li>
+
+                            {% endif %}
+                        
+                        {% elif lobj.0.lesson_title == 'Lesson 1: Introduction to Functions' %}
+
+                            {% if lobj.2 == 'complete' %}
+
+                                <li class="v-progress-item completed">
+
+                                    <div class="content">
+                                        <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
+                                            <div class="header list_lesson_header">
+                                                &#128142;
+                                                {{ lobj.0.lesson_title }}
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="list_lesson_description">
+                                        <span style="line-height: 1.3em;">
+                                            <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                        </span>
+                                        <!-- <br/> -->
+                                    </div>
+
+                                </li>
+
+                            {% else %}
+
+                                {% if user_session %}
+
+                                    <li class="v-progress-item inprogress">
+
+                                        <div class="content">
+                                            <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
+                                                <div class="header list_lesson_header">
+                                                    &#9203;
+                                                    {{ lobj.0.lesson_title }}
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="list_lesson_description">
+                                            <span style="line-height: 1.3em;">
+                                                <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            </span>
+                                            <!-- <br/> -->
+                                        </div>
+
+                                
+                                    </li>
+                                
+                                {% else %}
+
+                                    <li class="v-progress-item">
+
+                                        <div class="content">
+                                            <a href="{% url 'new_course_lesson_page' lobj.0.id %}">
+                                                <div class="header list_lesson_header">
+                                                    &#9203;
+                                                    {{ lobj.0.lesson_title }}
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div class="list_lesson_description">
+                                            <span style="line-height: 1.3em;">
+                                                <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            </span>
+                                            <!-- <br/> -->
+                                        </div>
+
+                                
+                                    </li>
+
+                                {% endif %}
 
                             {% endif %}
                     

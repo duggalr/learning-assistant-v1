@@ -146,12 +146,19 @@
                                 <div class="message" >
                                     <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                                     <br/><br/>
-                                    You can ask me questions on any of the stuff mentioned in the video.
+                                    Feel free to ask me questions, as you watch the lesson.
                                     <br/><br/>
                                     I would be happy to provide further clarification, examples, or 
                                     practice questions on concepts mentioned in the video.
                                 </div>
                                 <hr>
+
+                                {% for ucs_obj in course_video_lesson_chat_list %}
+                        
+                                    <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                                    <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                                {% endfor %}
             
                             </div>
 
@@ -180,7 +187,6 @@
 
             </div>
 
-            <!-- TODO: proceed to finishing the notes-todo -->
 
             <!-- Lesson Questions -->
             <div id="main_exercises_div" style="width: 100%; padding-top: 0px; display: none;">
@@ -252,6 +258,200 @@
             $('#lesson_exercises_tab').addClass('active');
 
         });
+
+
+        
+        // Chat Functionality
+        const chat = document.getElementById("chat");
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+
+        sendButton.addEventListener("click", sendMessage);
+        chatInput.addEventListener("keydown", (event) => {
+        
+            if (event.keyCode == 13 && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+
+        });
+
+        $("#chatInput").on('keyup', function(event) {
+            
+            var currentString = $("#chatInput").val()
+
+            if (currentString.length > 0){
+
+                $('#sendButton').removeClass('disabled');
+                
+            } else {
+                $('#sendButton').addClass('disabled');
+            }
+           
+        });
+
+
+        const initial_user_session = '{{ user_session }}';
+        let pcqid = '{{ pcqid }}';
+        let anon_user_localstg_dict = {};
+        let pcid_associated_dict = {'user_messages': []};
+        let pcid_user_messages = [];
+
+
+        console.log('pcqid', pcqid)
+        
+        if (initial_user_session == 'None'){
+            
+            let tmp_usr_messages = JSON.parse(localStorage.getItem("video_lesson_chat_dictionary"));
+
+            if (tmp_usr_messages != null){
+
+                anon_user_localstg_dict = tmp_usr_messages;
+
+                console.log('anon_user_localstg_dict', anon_user_localstg_dict)
+
+                if (pcqid in anon_user_localstg_dict){
+
+                    pcid_associated_dict = anon_user_localstg_dict[pcqid];
+                    pcid_user_messages = pcid_associated_dict['user_messages'];
+
+                    console.log('pcqid-dict:', pcid_associated_dict)
+
+                    if (pcid_user_messages.length > 0){
+
+                        for (idx = 0; idx <= pcid_user_messages.length-2; idx += 2){
+
+                            let messageText = pcid_user_messages[idx]
+                            let model_response_message = pcid_user_messages[idx+1]
+
+                            const message = document.createElement("div");
+                            message.className = "message";
+                            message.innerHTML = "<b>You:</b> " + messageText;
+                            message.style.whiteSpace = 'pre-wrap'
+                            chat.appendChild(message);
+
+                            const responseMessage = document.createElement("div");
+                            responseMessage.className = "message";
+                            responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                            chat.appendChild(responseMessage);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        
+        function sendMessage() {
+
+            const messageText = chatInput.value.trim();
+
+            if (messageText !== "") {
+
+                $('#chatInput').prop('disabled', true);
+                $('#sendButton').hide();
+                $('#primary_loading_button').show();
+
+                const message = document.createElement("div");
+                message.className = "message";
+                message.innerHTML = "<b>You:</b> " + messageText;
+                message.style.whiteSpace = 'pre-wrap'
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+                
+                chatInput.value = "";
+       
+                let d = {};
+                if (initial_user_session == 'None'){
+
+                    let prev_conversation_history = []
+                    if (pcid_user_messages.length > 0){
+                        
+                        prev_conversation_history = pcid_user_messages.slice( pcid_user_messages.length-6, pcid_user_messages.length )
+
+                    }
+
+                    let prev_conversation_history_st = ''
+                    if (prev_conversation_history.length > 0){
+                        
+                        prev_conversation_history_st = prev_conversation_history.join('\n');
+                        
+                    }
+
+                    d = {
+                        'pclid': pcqid,
+                        'message': messageText,
+                        'previous_messages': prev_conversation_history_st,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+
+                } 
+                else {
+
+                    d = {
+                        'message': messageText,
+                        'pclid': pcqid,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    };
+
+                }
+
+                // console.log('user-message-dict:', d);
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'new_course_video_handle_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+                        
+                        var model_response_dict = response['response'];
+
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                        var user_question = model_response_dict['question'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+                        
+                        chat.scrollTop = chat.scrollHeight;
+
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
+
+                        if (initial_user_session == 'None'){
+
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            pcid_user_messages.push(final_question_st)
+                            pcid_user_messages.push(final_response_st)
+
+                            pcid_associated_dict['user_messages'] = pcid_user_messages
+                            anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                            localStorage.setItem("video_lesson_chat_dictionary", JSON.stringify(anon_user_localstg_dict));
+
+                        }
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+
+            }
+
+        };
+
+
 
     </script>
 

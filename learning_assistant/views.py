@@ -2101,19 +2101,27 @@ def super_user_motivation_prompt(request):
 ### Python New Course ###
 
 def new_course_home(request):
-    all_lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
-
-    rv = []
-    for lobj in all_lesson_objects:
-        num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
-        rv.append([lobj, num_questions])
-
+    
     initial_user_session = request.session.get("user")
     user_auth_obj = None    
     if initial_user_session is not None:
         user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
         if len(user_oauth_objects) > 0:
             user_auth_obj = user_oauth_objects[0]
+    
+    all_lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
+
+    rv = []
+    for lobj in all_lesson_objects:
+        num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
+        if user_auth_obj is not None:
+            # TODO: start here
+            user_code_files = PythonLessonUserCode.objects.filter(
+                lesson_question_obj = lobj, 
+                user_auth_obj = user_auth_obj
+            )
+
+        rv.append([lobj, num_questions])
 
     return render(request, 'course_home.html', {
         'all_lesson_objects': rv,

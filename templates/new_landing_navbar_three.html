@@ -21,9 +21,16 @@
                 </a>
             {% endif %}
 
-            <a class="item" href="{% url 'new_course_home' %}">
-                Learn or Practice Python
-            </a>
+            {% if user_session %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    Practice Python
+                </a>
+            {% else %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    Learn or Practice Python
+                </a>
+            {% endif %}
+            
             <a class="item" href="{% url 'playground' %}">
                 AI Tutor Playground
             </a>
@@ -67,14 +74,29 @@
 
 <script>
 
+    let user_session = '{{ user_session }}';
 
-    $('.navbar-logo').click(function(){
+    console.log('user_session:', user_session)
 
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
-        window.location.replace(new_url);
+    if (user_session == 'None'){
 
-    });
+        $('.navbar-logo').click(function(){
 
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+            window.location.replace(new_url);
+
+        });
+
+    } else {
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
+            window.location.replace(new_url);
+
+        });
+
+    }
 
     $('.auth_button').click(function(){
 

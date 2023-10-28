@@ -183,45 +183,51 @@
                 </h4>
                 
 
-                <!-- <div class="ui statistics">
+                {% if pt_course_code_objects|length > 0 %}
 
-                    <div class="statistic">
-                        <div class="value">
-                          total_lesson_questions
-                        </div>
-                        <div class="label">
-                          Team Members
-                        </div>
-                    </div>
+                    {% for ptc_obj in pt_course_code_objects %}
 
-                </div> -->
+                        <div class="item">
 
-                {% for ptc_obj in pt_course_code_objects %}
+                            <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
-                    <div class="item">
+                                <div class="header" style="font-size: 15.5px;">
+                                    <!-- <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}"> -->
+                                    <a class="file_name_header" href="{% url 'new_course_playground' %}?pcqid={{ ptc_obj.lesson_question_obj.id }}">
+                                        &#128220; {{ ptc_obj.code_unique_name }}
+                                    </a>
+                                </div>
+                
+                                <div style="padding-top: 14px;">
+                                    <span style="font-size: 12.5px; color: gray; float: left;">
+                                        <i class="clock outline icon"></i>
+                                        Uploaded: {{ ptc_obj.created_at|date }}                                
+                                    </span>
+                            
+                                </div>
 
-                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
-
-                            <div class="header" style="font-size: 15.5px;">
-                                <!-- <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}&lqid={{ cdi.code_obj.lesson_question_obj.id }}"> -->
-                                <a class="file_name_header" href="{% url 'new_course_playground' %}?pcqid={{ ptc_obj.lesson_question_obj.id }}">
-                                    &#128220; {{ ptc_obj.code_unique_name }}
-                                </a>
-                            </div>
-            
-                            <div style="padding-top: 14px;">
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: {{ ptc_obj.created_at|date }}                                
-                                </span>
-                        
                             </div>
 
                         </div>
 
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="ui placeholder segment">
+
+                        <div class="ui icon header" style="font-size: 16px; line-height: 1.3em; font-weight: 600;">
+                            <i class="pdf file outline icon"></i>
+                            No Exercises Completed.
+                            <br/><br/>
+                            <li>
+                                Visit the <a href="{% url 'new_course_home' %}">Course</a>, and start completing the exercises now!
+                            </li>
+                        </div>
+
                     </div>
 
-                {% endfor %}
+                {% endif %}
 
             </div>
 

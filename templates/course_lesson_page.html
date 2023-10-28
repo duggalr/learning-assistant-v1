@@ -180,13 +180,14 @@
 
             </div>
 
+            <!-- TODO: proceed to finishing the notes-todo -->
 
             <!-- Lesson Questions -->
             <div id="main_exercises_div" style="width: 100%; padding-top: 0px; display: none;">
 
                 <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px; padding-left: 20px; padding-bottom: 0px;">
 
-                    {% for tqobj in lesson_question_objects %}
+                    {% for tqobj in lq_rv %}
 
                         <div class="item">
 
@@ -195,15 +196,19 @@
                                 <div class="header" style="font-size: 15.5px;">
                                     <i class="question icon" style="color: gray;"></i>
                                     <a id="question_name_header" href="{% url 'new_course_playground' %}?pcqid={{ tqobj.id }}">
-                                        {{ tqobj.question_name }}
+                                        {{ tqobj.0.question_name }}
                                     </a>
+                                    &nbsp;
+                                    {% if tqobj.1 == True %}
+                                        <div class="ui horizontal green label q_complete_label">Complete</div>
+                                    {% endif %}
                                 </div>
                             
                                 <div style="padding-top: 14px; ">
                                     
                                     <span style="font-size: 12.5px; color: gray; float: left;">
                                         <i class="clock outline icon"></i>
-                                        Uploaded: {{ tqobj.created_at|date }}
+                                        Uploaded: {{ tqobj.0.created_at|date }}
                                     </span>
 
                                 </div>

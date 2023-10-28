@@ -2135,7 +2135,6 @@ def new_course_lesson_page(request, lid):
     if PythonCourseLesson.objects.filter(order_number = prev_order_number).count() > 0:
         prev_lesson_obj = PythonCourseLesson.objects.get(order_number = prev_order_number)
 
-
     initial_user_session = request.session.get("user")
     user_auth_obj = None    
     if initial_user_session is not None:
@@ -2143,12 +2142,23 @@ def new_course_lesson_page(request, lid):
         if len(user_oauth_objects) > 0:
             user_auth_obj = user_oauth_objects[0]
 
+    lq_rv = []
+    for lq_obj in lesson_question_objects:
+        lq_submission_objects = PythonLessonQuestionUserSubmission.objects.filter(lesson_question_obj = lq_obj)
+        lq_complete = False
+        for lq_sub_obj in lq_submission_objects:
+            if lq_sub_obj.complete is True:
+                lq_complete = True
+                break
+        lq_rv.append([lq_obj, lq_complete])
+
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
         'lesson_question_objects': lesson_question_objects,
         'next_lesson_obj': next_lesson_obj,
         'prev_lesson_obj': prev_lesson_obj,
         'user_session': initial_user_session,
+        'lq_rv': lq_rv
     })
 
 

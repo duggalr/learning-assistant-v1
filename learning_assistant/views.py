@@ -2111,17 +2111,54 @@ def new_course_home(request):
     
     all_lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
 
+    # TODO: very inefficient approach; keep track of the progress at the lesson and user level <-- new model just for this
     rv = []
     for lobj in all_lesson_objects:
-        num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
-        if user_auth_obj is not None:
-            # TODO: start here
-            user_code_files = PythonLessonUserCode.objects.filter(
-                lesson_question_obj = lobj, 
-                user_auth_obj = user_auth_obj
-            )
+        tmp_lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj)
+        num_questions = len(tmp_lesson_question_objects)
 
-        rv.append([lobj, num_questions])
+        user_lesson_complete = False
+        user_lesson_progress = False
+        user_lesson_not_started = False
+        if user_auth_obj is not None:
+
+            for tlq_obj in tmp_lesson_question_objects:
+
+                py_q_sub_objects = PythonLessonQuestionUserSubmission.objects.filter(
+                    lesson_question_obj = tlq_obj, 
+                    user_auth_obj = user_auth_obj
+                )
+                py_q_tmp_dict = {}
+                for py_q_sub in py_q_sub_objects:
+                    # lq_id = py_q_sub.id
+                    lq_id = tlq_obj.id
+                    lq_complete = py_q_sub.complete
+                    if lq_id in py_q_tmp_dict:
+                        tp_li = py_q_tmp_dict[lq_id]
+                        tp_li.append(lq_complete)
+                        py_q_tmp_dict[lq_id] = tp_li
+                    else:
+                        py_q_tmp_dict[lq_id] = [lq_complete]
+                
+                total_complete_count = 0
+                for qid in py_q_tmp_dict:
+                    q_tmp_li = py_q_tmp_dict[qid]
+                    if True in q_tmp_li:
+                        total_complete_count += 1
+
+                if total_complete_count == num_questions:
+                    user_lesson_complete = True
+                elif total_complete_count < num_questions and len(py_q_tmp_dict) > 0:
+                    user_lesson_progress = True
+                else:
+                    user_lesson_not_started = True
+        
+        if user_lesson_complete:
+            rv.append([lobj, num_questions, 'complete'])
+        elif user_lesson_progress:
+            rv.append([lobj, num_questions, 'progress'])
+        else:
+            rv.append([lobj, num_questions, 'not_started'])
 
     return render(request, 'course_home.html', {
         'all_lesson_objects': rv,

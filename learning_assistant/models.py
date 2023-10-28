@@ -221,13 +221,6 @@ class LandingEmailSubscription(models.Model):
 
 
 
-# TODO: 
-    # save a question with the test-case
-    # from there, create the student and teacher view / logic on how each will see the questions
-        # from there, implement the student functionality to interact with the video + submit questions (test-case, etc)
-            # add all the q-completed logic <-- very similar to coding-bat
-
-
 
 
 

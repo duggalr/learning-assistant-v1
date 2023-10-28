@@ -153,9 +153,13 @@
             </div>
 
             <div style="margin: 0; padding-top: 2px; padding-bottom: 0px;">
-                <span style="color: gray; font-size: 11px;">
-                    When submitting your code, ensure no print or import statements are present.
-                </span>
+                {% if pc_question_obj.course_lesson_obj.lesson_title != 'Lesson 0: Introduction - The Basics' %}
+                    <span style="color: gray; font-size: 11px;">
+                        When submitting your code, ensure no print or import statements are present.
+                        <br/>
+                        <a href="{% url 'login' %}">Make an account</a> to track your progress.
+                    </span>
+                {% endif %}
             </div>
 
             <div class="ui segment code-editor" style="margin-top: 10px;">
@@ -213,7 +217,7 @@
                     {% endif %}
 
                     <div class="small ui animated button feedback-submit-button" tabindex="0" onclick="handleAIFeedback()">
-                        <div class="visible content">Get Feedback from AI</div>
+                        <div class="visible content">Get Feedback on your code from the AI</div>
                         <div class="hidden content">
                         <i class="compass icon"></i>
                         </div>
@@ -273,7 +277,7 @@
 
                 {% else %}
                     
-                    <p style="color: gray;">No test cases created for this question.</p>
+                    <p style="color: gray;">No test cases created for this question. Test Cases start from Lesson 1 onwards...</p>
 
                 {% endif %}
 
@@ -980,9 +984,14 @@ mystdout.getvalue()
                             test_case_message = 'All tests ran correctly.'
                         }
                         
-                        let prev_val = document.getElementById('code_submission_count').innerText
-                        let new_subm_val = +prev_val + 1
-                        document.getElementById('code_submission_count').innerText = new_subm_val
+
+                        if (user_session != 'None'){
+                        
+                            let prev_val = document.getElementById('code_submission_count').innerText
+                            let new_subm_val = +prev_val + 1
+                            document.getElementById('code_submission_count').innerText = new_subm_val
+
+                        }
 
                         document.getElementById('test-case-feedback').innerText = test_case_message;
                         $('#py_question_submit_feedback').show();

@@ -101,10 +101,9 @@
     
     <div class="ui grid container">
 
-        <div class="ui active inverted dimmer" id="primary_page_loader">
+        <!-- <div class="ui active inverted dimmer" id="primary_page_loader">
             <div class="ui text loader">Firing up the IDE.. please hold for ~5 seconds...</div>
-        </div>
-
+        </div> -->
 
         <!-- Code Editor -->
         <div class="eight wide column" id="code-column">
@@ -172,7 +171,7 @@
 
                 <div style="margin: 0; padding-top: 2px;">
                     <span style="color: gray; font-size: 11px; ">
-                        Make a <a href="{% url 'login' %}">free account</a>, to save your code.
+                        Make a <a href="{% url 'login' %}">free account</a>, to save all your code and conversations.
                     </span>
                 </div>
 
@@ -316,7 +315,7 @@
                             <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                             I'm Code Companion, your personal programming tutor.
                             <br/><br/>
-                            If you are running into a problem such as a bug in your code, or need help understanding a concept, ask me and I will be more than happy to help.
+                            If you are running into a problem such as a bug in your code, a LeetCode problem, or need help understanding a concept, ask me and I will be more than happy to help.
                             <br/><br/>
                             You can also use me to generate more practice questions for you, for specific concepts you want further review on.
                             <br/><br/>
@@ -458,7 +457,7 @@
             // Pyodide ready
             output.value += "Ready!\n";
 
-            $('#primary_page_loader').hide();
+            // $('#primary_page_loader').hide();
 
             return pyodide;
         };

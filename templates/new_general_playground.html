@@ -135,7 +135,7 @@
 
                     {% if user_session %}
                         
-                        {% if user_code_obj is not None %}
+                        {% if uc_obj is not None %}
 
                             <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
                         
@@ -213,6 +213,11 @@
                         </div>
                     </div>
 
+                    &nbsp;&nbsp;
+                    <span style="color: gray; font-size: 12px;">
+                        Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
+                    </span>
+
                     <!-- <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
                         <div class="visible content">Get Feedback</div>
                         <div class="hidden content">
@@ -223,13 +228,27 @@
                 </div>
 
 
-                <div style="margin-top: 5px;">
+                <!-- <div style="margin-top: 5px;">
                     <span style="color: gray; font-size: 12px;">
                         Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
                     </span>
-                </div>
+                </div> -->
                 
+                <!-- <h4 class="ui header" style="padding-top: 16px; margin-top: 0px;">
+                    Question:
+                </h4>
 
+                <p style="color: gray; font-size: 13px;">
+                    Feel free to visit our python exercises, to work on pre-defined problems...
+                </p> -->
+
+                <h4 class="ui header" style="padding-top: 0px;">
+                    Test Cases:
+                </h4>
+
+                <p style="color: gray; font-size: 13px;">
+                    Real soon right here, you will have an AI to help generate test cases for your own questions..
+                </p>
 
                 <!-- <h4 class="ui header" style="padding-top: 20px; margin-top: 0px;">
                     Programming Problem you are working on:

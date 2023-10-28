@@ -47,13 +47,11 @@
 
     {% include 'new_landing_navbar_three.html' %}
 
-    <!-- TODO: build the new dashboard view + functionality -->
-    
     <div class="ui grid container">
         
         <div class="two wide column"></div>
 
-        <div class="twelve wide column">
+        <div class="twelve wide column" style="padding-bottom: 40px;">
 
             <div style="padding-top: 15px;">
                 <h3 class="ui header" id="dashboard_header">
@@ -168,13 +166,13 @@
             </div>
 
 
-
             <!-- Main Course Questions -->
             <div id="main_course_questions_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
                 
                 <h4 style="text-align: right;">
                     <span style="color: rgb(36, 36, 255);">
-                        Total Questions Completed: {{ pt_course_code_objects|length }} / {{ total_lesson_questions }}
+                        Course Questions: {{ pt_course_code_objects|length }} ouf of {{ total_lesson_questions }} done!
+                        &#128519;
                     </span>
                     <br/>
                     <a href="{% url 'new_course_home' %}" style="font-size: 14px; font-weight: 400;">
@@ -288,7 +286,6 @@
 
 
         <div class="two wide column"></div>
-
 
 
     </div>

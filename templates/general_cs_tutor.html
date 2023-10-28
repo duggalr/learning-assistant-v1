@@ -113,7 +113,9 @@
                 Visit our <a href="{% url 'playground' %}">code editor</a>, if you would like to run your code and get help from the AI, as needed.
                 <!-- For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed. -->
                 <br/>
-                <a href="{% url 'login' %}">Signup</a> to save your conversations, along with uploading your files or working in our code editor environment.
+                {% if user_session is None %}
+                    <a href="{% url 'login' %}">Signup</a> to save your conversations.
+                {% endif %}
             </span>
 
 
@@ -142,11 +144,13 @@
                     </strong>
                     <br/><br/>
                     My goal is to help you on your learning journey, whether you need help with homework or want to explore a new field.
-                    <br/><br/>
-                    When it comes to asking me homework questions, I will never provide you with the answer. 
-                    Instead, my approach is to guide you like a great tutor, fostering your critical thinking and empowering you to arrive at the answers independently.
+                    <!-- <br/><br/> -->
+                    <!-- When it comes to asking me homework questions, I will never provide you with the answer. 
+                    Instead, my approach is to guide you like a great tutor, fostering your critical thinking and empowering you to arrive at the answers independently. -->
+
                     <!-- When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
                     guide you, to help you come up with the answer on your own. -->
+
                     <br/><br/>
                     If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
                     learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
@@ -157,9 +161,9 @@
                     <li>
                         I need to write an essay on Raskolnikov, in Crime and Punishment, specifically about his mental state before and after he committed his crime. I need some guidance
                     </li>
-                    <li>
+                    <!-- <li>
                         What's the implementation of calculating __len__ in python, say for a string object? I need to create my own __len__ implementation, and it should be in O(1) time.
-                    </li>
+                    </li> -->
                     <li>
                         How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work? I need to write my own list class object for my project...
                     </li>
@@ -170,9 +174,9 @@
                     <li>
                         I want to study the history of computers. Can you help develop a syllabus?
                     </li>
-                    <li>
+                    <!-- <li>
                         I want to learn Python, specifically for building my own web applications. Can you help me construct a plan on where to start?
-                    </li>
+                    </li> -->
                     
                     <!-- <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
                     I'm your personal learning assistant. 

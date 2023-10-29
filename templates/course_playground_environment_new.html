@@ -153,7 +153,7 @@
             </div>
 
             <div style="margin: 0; padding-top: 2px; padding-bottom: 0px;">
-                {% if pc_question_obj.course_lesson_obj.lesson_title != 'Lesson 0: Introduction - The Basics' %}
+                {% if 'Lesson 0:' not in pc_question_obj.course_lesson_obj.lesson_title %}
                     <span style="color: gray; font-size: 11px;">
                         When you 'submit solution', ensure no print or import statements are present.
                         <br/>
@@ -452,7 +452,8 @@
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             // console.log('std-question:', std_question)
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+            // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
 
         }
 

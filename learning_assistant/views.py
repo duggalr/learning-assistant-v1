@@ -2552,7 +2552,10 @@ def admin_new_course_lesson_management(request):
             lesson_description = request.POST['lesson-text'].strip()
             lesson_yt_url = request.POST['lesson-youtube-url'].strip()
 
-            next_order_number = PythonCourseLesson.objects.latest('id').order_number + 1
+            if PythonCourseLesson.objects.all().count() != 0:
+                next_order_number = PythonCourseLesson.objects.latest('id').order_number + 1
+            else:
+                next_order_number = 0
             
             pc_lesson_obj = PythonCourseLesson.objects.create(
                 lesson_title = lesson_name,
@@ -2644,7 +2647,10 @@ def admin_new_course_lesson_question_management(request, lid):
 
             course_lesson_obj = PythonCourseLesson.objects.get(id = lesson_obj_selected_id)
             
-            next_order_number = PythonLessonQuestion.objects.latest('id').order_number + 1
+            if PythonLessonQuestion.objects.all().count() > 0:
+                next_order_number = PythonLessonQuestion.objects.latest('id').order_number + 1
+            else:
+                next_order_number = 0
 
             tc_question_obj = PythonLessonQuestion.objects.create(
                 question_name = question_name, 

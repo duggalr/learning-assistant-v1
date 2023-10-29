@@ -8,3 +8,4 @@ todo.txt
 !.elasticbeanstalk/*.global.yml
 .env
 gpt_project_env
+ngrok

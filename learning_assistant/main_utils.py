@@ -10,6 +10,7 @@ import pinecone
 
 from dotenv import load_dotenv, find_dotenv
 
+from RestrictedPython import safe_builtins
 
 
 openai.api_key = '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'
@@ -524,6 +525,13 @@ Below, you will receive the students question, any relevant text that can be use
 
 import ast
 from RestrictedPython import compile_restricted
+from RestrictedPython.Guards import full_write_guard
+_write_ = full_write_guard
+_getattr_ = getattr
+restricted_globals = dict(__builtins__=safe_builtins)
+restricted_globals['_write_'] = full_write_guard
+print(restricted_globals)
+
 
 def course_question_solution_check(source_code, input_param, output_param):
     try:
@@ -539,12 +547,16 @@ def course_question_solution_check(source_code, input_param, output_param):
             filename='<inline code>',
             mode='exec'
         )
-        exec(byte_code)
+        exec(byte_code, restricted_globals)
+        # exec(byte_code, {'__builtins__': safe_builtins}, None)
     except:
         return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
     
+    print(locals())
     user_function = locals()[function.name]
-
+    print('user-function:', user_function)
+    print(num_inputs, input_param)
+    
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
         return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
 
@@ -560,6 +572,8 @@ def course_question_solution_check(source_code, input_param, output_param):
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
+        print('input-params', input_param[0], input_param[1])
+        function_output = user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
@@ -604,5 +618,57 @@ def course_question_solution_check(source_code, input_param, output_param):
 
 # x, y = [3], 9
 # course_question_solution_check(source_code, x, y)
+
+
+# source_code = """
+# def fun_one(s_one, s_two):
+#     return s_one[0]
+# """
+# x, y = ["hello", "world"], 'hello'
+# print( course_question_solution_check(source_code, x, y) )
+
+
+from RestrictedPython import compile_restricted
+from RestrictedPython import safe_builtins
+
+source_code = """
+def fun_one(s_one, s_two):
+    return str(len(s_one)) + s_one[1:] + s_two[:-1] + str(len(s_two))
+"""
+
+from operator import getitem
+
+# Create a restricted built-ins dictionary with '__getitem__' allowed
+restricted_globals = dict(
+    __builtins__ = safe_builtins, 
+    _getiter_ = list.__iter__ ,
+    _getattr_ = getattr,
+    _getitem_ = getitem,
+    list = list, 
+    dict = dict, 
+    enumerate = enumerate, 
+    map = map, 
+    sum = sum
+)
+
+byte_code = compile_restricted(
+    source_code,
+    filename='<inline code>',
+    mode='exec'
+)
+
+exec(byte_code, restricted_globals)
+
+# Now, call the function
+s_one = "Hello"
+s_two = "World"
+result = restricted_globals['fun_one'](s_one, s_two)
+print(result)
+
+
+# TODO:
+    # modify the function to now have getitem incorporated
+    # go from there to test each and every question
+        # continue fixing all bugs and ensure good; then, push to prod
 
 

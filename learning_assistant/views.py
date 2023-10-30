@@ -2681,6 +2681,96 @@ def admin_new_course_lesson_question_management(request, lid):
             pyq_obj.question_text = request.POST['question-text'].strip()
             pyq_obj.save()
 
+            tc_input_zero, tc_output_zero = None, None
+            if 'test-input-0' in request.POST:
+                tc_input_zero, tc_output_zero = request.POST['test-input-0'].strip(), request.POST['test-output-0'].strip()
+
+            tc_input_one, tc_output_one = None, None
+            if 'test-input-1' in request.POST:
+                tc_input_one, tc_output_one = request.POST['test-input-1'].strip(), request.POST['test-output-1'].strip()
+
+            tc_input_two, tc_output_two = None, None
+            if 'test-input-2' in request.POST:
+                tc_input_two, tc_output_two = request.POST['test-input-2'].strip(), request.POST['test-output-2'].strip()
+
+            tc_input_three, tc_output_three = None, None
+            if 'test-input-3' in request.POST:
+                tc_input_three, tc_output_three = request.POST['test-input-3'].strip(), request.POST['test-output-3'].strip()
+            
+            tc_input_four, tc_output_four = None, None
+            if 'test-input-4' in request.POST:
+                tc_input_four, tc_output_four = request.POST['test-input-4'].strip(), request.POST['test-output-4'].strip()
+            
+            tc_input_five, tc_output_five = None, None
+            if 'test-input-5' in request.POST:
+                tc_input_five, tc_output_five = request.POST['test-input-5'].strip(), request.POST['test-output-5'].strip()
+            
+            tc_input_six, tc_output_six = None, None
+            if 'test-input-6' in request.POST:
+                tc_input_six, tc_output_six = request.POST['test-input-6'].strip(), request.POST['test-output-6'].strip()
+
+            PythonLessonQuestionTestCase.objects.filter(
+                lesson_question_obj = pyq_obj
+            ).delete()
+
+            
+            if tc_input_zero is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_zero,
+                    correct_output = tc_output_zero
+                )
+                tq_tc_obj.save()
+
+            if tc_input_one is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_one,
+                    correct_output = tc_output_one
+                )
+                tq_tc_obj.save()
+            
+            if tc_input_two is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_two,
+                    correct_output = tc_output_two
+                )
+                tq_tc_obj.save()
+
+            if tc_input_three is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_three,
+                    correct_output = tc_output_three
+                )
+                tq_tc_obj.save()
+            
+            if tc_input_four is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_four,
+                    correct_output = tc_output_four
+                )
+                tq_tc_obj.save()
+            
+            if tc_input_five is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_five,
+                    correct_output = tc_output_five
+                )
+                tq_tc_obj.save()
+
+            if tc_input_six is not None:
+                tq_tc_obj = PythonLessonQuestionTestCase.objects.create(
+                    lesson_question_obj = pyq_obj,
+                    input_param = tc_input_six,
+                    correct_output = tc_output_six
+                )
+                tq_tc_obj.save()
+
+
         else:
             question_name = request.POST['question-name'].strip()
             question_text = request.POST['question-text'].strip()
@@ -2771,9 +2861,18 @@ def admin_new_course_lesson_question_management(request, lid):
             return JsonResponse({'success': False})
 
         question_edit_id = request.GET.get('question-edit-id')
+
+        current_question_obj = PythonLessonQuestion.objects.get(id = question_edit_id)
+        associated_question_test_case_objects = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = current_question_obj)
+
+        q_test_cases_rv = []
+        for idx in range(0, len(associated_question_test_case_objects)):
+            q_test_cases_rv.append([idx, associated_question_test_case_objects[idx]])
+
         return render(request, 'course_question_management.html', {
             'all_question_objects': pyq_objects,
-            'current_question_obj': PythonLessonQuestion.objects.get(id = question_edit_id),
+            'current_question_obj': current_question_obj,
+            'associated_question_test_case_objects': q_test_cases_rv,
             'question_edit': True
         })
 
@@ -2852,6 +2951,8 @@ def new_course_handle_solution_submit(request):
             print('tc-input:', tc_input)
             tc_input_list = eval(tc_input)
             tc_output = eval(tc_output)
+
+            print('tc_input_list', tc_input_list)
 
             valid_solution_dict = main_utils.course_question_solution_check(
                 source_code = user_code,

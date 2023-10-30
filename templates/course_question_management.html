@@ -58,7 +58,8 @@
     </style>    
 
 
-    {% include 'dashboard_navbar.html' %}
+    {% include 'new_landing_navbar_three.html' %}
+
 
     <!-- Main -->
     <div class="ui grid container">
@@ -195,6 +196,24 @@
                                     <label>Question</label>
                                     <textarea rows="5" name="question-text" placeholder="ie. Given a string, write a program that prints the first three characters, the last three characters, and a substring containing characters from the 4th to the 6th position." required>{{ current_question_obj.question_text }}</textarea>
                                 </div>
+
+
+                                <h5>Add Test Cases: <span style="font-size: 13px; color: gray; font-weight: 400;">(optional)</span></h5>
+
+                                {% for tc_li in associated_question_test_case_objects %}
+
+                                    <div class="two fields">
+                                        <div class="field">
+                                            <label>Input</label>
+                                            <input value="{{ tc_li.1.input_param }}" name="test-input-{{ tc_li.0 }}" placeholder="ie. x = [1,2,3,4,5], n = 5" type="text">
+                                        </div>
+                                        <div class="field">
+                                            <label>Output</label>
+                                            <input value="{{ tc_li.1.correct_output }}" name="test-output-{{ tc_li.0 }}" placeholder="output = True" type="text">
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
 
                                 <input type="hidden" name="question-id-value" value="{{ current_question_obj.id }}">
                                 <input type="hidden" name="question-edit-value" value="{{ question_edit }}">

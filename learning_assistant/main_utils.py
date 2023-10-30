@@ -570,6 +570,28 @@ def course_question_solution_check(source_code, input_param, output_param):
         else:
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
+    elif num_inputs == 3:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+    
+    elif num_inputs == 4:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2], input_param[3])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
 
 # source_code = """
 # def function_one(x, y):

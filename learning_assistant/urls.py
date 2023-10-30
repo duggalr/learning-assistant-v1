@@ -97,6 +97,8 @@ urlpatterns = [
 
     path("new_course_video_handle_message", views.new_course_video_handle_message, name="new_course_video_handle_message"),
 
+    path("new_course_random_question", views.new_course_random_question, name="new_course_random_question"),
+
     path("admin-python-lesson", views.admin_new_course_dashboard, name="admin_new_course_dashboard"),
     path("admin-python-lesson-management", views.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
     path("admin-python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),

@@ -159,8 +159,10 @@
                 <p id="course_home_description">
                     <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum. -->
 
-                    Welcome &#127881; to our free online Python course, which is designed to help you learn or hone the Python foundations.
-                    <strong>The course is exercise-heavy.</strong>
+                    Welcome &#127881; to our Python exercises, which are designed to help you learn or hone the Python foundations.
+
+                    <!-- Welcome &#127881; to our free online Python course, which is designed to help you learn or hone the Python foundations.
+                    <strong>The course is exercise-heavy.</strong> -->
                     <br/><br/>
                     Depending on your level of familarity with Python,
                     you can go through each of the sections in order,
@@ -192,7 +194,15 @@
             <!-- Header -->
             <h3 id="lesson_header">
                 &#128211; Lessons
+                &nbsp;
+                <span>
+                    <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500;">
+                        &#128256; Jump to Random Question
+                    </a>
+                </span>
             </h3>
+
+            
 
             <!-- <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
 

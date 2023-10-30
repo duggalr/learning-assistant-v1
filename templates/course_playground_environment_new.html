@@ -133,6 +133,9 @@
                         <i class="arrow alternate circle right outline icon"></i>
                     </a>
                 {% endif %}
+                <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500; float: right;">
+                    &#128256; Jump to Random Question
+                </a>
             </div>
 
             <div style="display: flex; align-items: center; padding-top: 15px;">
@@ -263,7 +266,7 @@
                             {% for tobj in pt_course_test_case_examples %}
 
                                 <tr>
-                                    <td data-label="Input">{{ tobj.input_param }}</td>
+                                    <td data-label="Input">{{ tobj.input_param|slice:"1:-1" }}</td>
                                     <td data-label="Output">{{ tobj.correct_output }}</td>
                                     <td id="user_output_{{ tobj.id }}" data-label="Function-Output"></td>
                                     <td id="status_{{ tobj.id }}" data-label="Correct"></td>
@@ -452,8 +455,8 @@
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             // console.log('std-question:', std_question)
-            // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+            // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
 
         }
 

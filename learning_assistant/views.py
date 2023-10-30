@@ -2236,6 +2236,11 @@ def new_course_playground(request):
 
     pc_question_obj = get_object_or_404(PythonLessonQuestion, id = pcqid)
     question_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = pc_question_obj)
+    # question_test_cases_rv = []
+    # for qtc_obj in question_test_cases:
+    #     print('qtc-input-param:', qtc_obj.input_param)
+    #     input_param_str = ','.join(list(ast.literal_eval(qtc_obj.input_param)))
+    #     question_test_cases_rv.append([qtc_obj.id, input_param_str, qtc_obj.correct_output])
 
     user_code_obj = None
     code_id = None
@@ -2275,8 +2280,12 @@ def new_course_playground(request):
         'user_session': initial_user_session,
         'pcqid': pcqid,
         'pc_question_obj': pc_question_obj,
+
         'pt_course_test_case_examples': question_test_cases,
         'pt_course_test_case_examples_length': len(question_test_cases),
+
+        # 'pt_course_test_case_examples': question_test_cases_rv,
+        # 'pt_course_test_case_examples_length': len(question_test_cases_rv),
 
         'code_id': code_id,
         'user_code_obj': user_code_obj,
@@ -2289,6 +2298,45 @@ def new_course_playground(request):
 
         'user_conversation_objects': user_conversation_objects
     })
+
+
+
+def new_course_random_question(request):
+    
+    initial_user_session = request.session.get("user")
+    user_auth_obj = None    
+    if initial_user_session is not None:
+        user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
+        if len(user_oauth_objects) > 0:
+            user_auth_obj = user_oauth_objects[0]
+
+    lesson_one_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 1')[0]
+    lesson_two_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 2')[0]
+
+    all_lesson_questions = PythonLessonQuestion.objects.filter(
+        course_lesson_obj__in = (lesson_one_obj.id, lesson_two_obj.id)
+    )
+    rv_all_lesson_questions = []
+    if user_auth_obj is not None:
+        user_question_submissions = PythonLessonQuestionUserSubmission.objects.filter(
+            user_auth_obj = user_auth_obj
+        )
+        user_sub_question_objects = [user_sub_q.lesson_question_obj.id for user_sub_q in user_question_submissions]
+        for aqobj in all_lesson_questions:
+            if aqobj.id not in user_sub_question_objects:
+                rv_all_lesson_questions.append(aqobj)
+    else:
+        rv_all_lesson_questions = all_lesson_questions
+
+    if len(rv_all_lesson_questions) == 0:  # user finished all questions!
+        return redirect('new_course_home')
+    else:
+        import random
+        rnd_q_obj = random.choice(rv_all_lesson_questions)
+        response = redirect('new_course_playground')
+        response['Location'] += '?pcqid=' + str(rnd_q_obj.id)
+        return response
+
 
 
 
@@ -2800,7 +2848,9 @@ def new_course_handle_solution_submit(request):
             tc_input = qtc_obj.input_param
             tc_output = qtc_obj.correct_output
 
-            tc_input_list = ast.literal_eval(tc_input)
+            # tc_input_list = ast.literal_eval(tc_input)
+            print('tc-input:', tc_input)
+            tc_input_list = eval(tc_input)
             tc_output = eval(tc_output)
 
             valid_solution_dict = main_utils.course_question_solution_check(

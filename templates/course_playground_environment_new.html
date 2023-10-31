@@ -908,7 +908,6 @@ mystdout.getvalue()
 
                         }
 
-
                     }
 
                 }
@@ -979,22 +978,18 @@ mystdout.getvalue()
 
 
                         if (response['q_complete_success'] === true){
-                            
                             $('.q_complete_label').show();
-                            
                         }
 
                         if (test_case_message == ''){
-                            test_case_message = 'All tests ran correctly.'
+                            test_case_message = 'All tests ran correctly. Nice Job! &#129395;'
                         }
                         
 
                         if (user_session != 'None'){
-                        
                             let prev_val = document.getElementById('code_submission_count').innerText
                             let new_subm_val = +prev_val + 1
                             document.getElementById('code_submission_count').innerText = new_subm_val
-
                         }
 
                         document.getElementById('test-case-feedback').innerText = test_case_message;
@@ -1003,8 +998,17 @@ mystdout.getvalue()
                         $('.solution-submit-button').removeClass('loading');
                         $('.solution-submit-button').removeClass('disabled');
 
-                    }
 
+                        if (initial_user_session == 'None'){
+
+                            pcid_associated_dict['user_code'] = user_code
+                            anon_user_localstg_dict[pcqid] = pcid_associated_dict
+                            localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
+
+                        }
+
+
+                    }
 
                     //     if (test_case_list.length == 0){
 

@@ -10,6 +10,8 @@ import pinecone
 
 from dotenv import load_dotenv, find_dotenv
 
+from operator import getitem
+from RestrictedPython import compile_restricted
 from RestrictedPython import safe_builtins
 
 
@@ -524,14 +526,18 @@ Below, you will receive the students question, any relevant text that can be use
 ## Handle Solution Checking 
 
 import ast
-from RestrictedPython import compile_restricted
-from RestrictedPython.Guards import full_write_guard
-_write_ = full_write_guard
-_getattr_ = getattr
-restricted_globals = dict(__builtins__=safe_builtins)
-restricted_globals['_write_'] = full_write_guard
-print(restricted_globals)
 
+restricted_globals = dict(
+    __builtins__ = safe_builtins, 
+    _getiter_ = list.__iter__ ,
+    _getattr_ = getattr,
+    _getitem_ = getitem,
+    list = list, 
+    dict = dict, 
+    enumerate = enumerate, 
+    map = map, 
+    sum = sum
+)
 
 def course_question_solution_check(source_code, input_param, output_param):
     try:
@@ -552,10 +558,13 @@ def course_question_solution_check(source_code, input_param, output_param):
     except:
         return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
     
-    print(locals())
-    user_function = locals()[function.name]
+    # print(locals())
+    # user_function = locals()[function.name]
+    # print('user-function:', user_function)
+    # print(num_inputs, input_param)
+
+    user_function = restricted_globals[function.name]
     print('user-function:', user_function)
-    print(num_inputs, input_param)
     
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
         return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
@@ -563,8 +572,8 @@ def course_question_solution_check(source_code, input_param, output_param):
     if num_inputs == 1:
         try:
             function_output = user_function(input_param[0])
-        except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+        except: # function execution error
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -572,12 +581,12 @@ def course_question_solution_check(source_code, input_param, output_param):
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
-        print('input-params', input_param[0], input_param[1])
-        function_output = user_function(input_param[0], input_param[1])
+        # print('input-params', input_param[0], input_param[1])
+        # function_output = user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -588,7 +597,7 @@ def course_question_solution_check(source_code, input_param, output_param):
         try:
             function_output = user_function(input_param[0], input_param[1], input_param[2])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -599,7 +608,7 @@ def course_question_solution_check(source_code, input_param, output_param):
         try:
             function_output = user_function(input_param[0], input_param[1], input_param[2], input_param[3])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'I believe your function is likely named a special Python keyword. Please change your function name to something else.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -628,6 +637,7 @@ def course_question_solution_check(source_code, input_param, output_param):
 # print( course_question_solution_check(source_code, x, y) )
 
 
+
 from RestrictedPython import compile_restricted
 from RestrictedPython import safe_builtins
 
@@ -636,34 +646,34 @@ def fun_one(s_one, s_two):
     return str(len(s_one)) + s_one[1:] + s_two[:-1] + str(len(s_two))
 """
 
-from operator import getitem
+# from operator import getitem
 
-# Create a restricted built-ins dictionary with '__getitem__' allowed
-restricted_globals = dict(
-    __builtins__ = safe_builtins, 
-    _getiter_ = list.__iter__ ,
-    _getattr_ = getattr,
-    _getitem_ = getitem,
-    list = list, 
-    dict = dict, 
-    enumerate = enumerate, 
-    map = map, 
-    sum = sum
-)
+# # Create a restricted built-ins dictionary with '__getitem__' allowed
+# restricted_globals = dict(
+#     __builtins__ = safe_builtins, 
+#     _getiter_ = list.__iter__ ,
+#     _getattr_ = getattr,
+#     _getitem_ = getitem,
+#     list = list, 
+#     dict = dict, 
+#     enumerate = enumerate, 
+#     map = map, 
+#     sum = sum
+# )
 
-byte_code = compile_restricted(
-    source_code,
-    filename='<inline code>',
-    mode='exec'
-)
+# byte_code = compile_restricted(
+#     source_code,
+#     filename='<inline code>',
+#     mode='exec'
+# )
 
-exec(byte_code, restricted_globals)
+# exec(byte_code, restricted_globals)
 
-# Now, call the function
-s_one = "Hello"
-s_two = "World"
-result = restricted_globals['fun_one'](s_one, s_two)
-print(result)
+# # Now, call the function
+# s_one = "Hello"
+# s_two = "World"
+# result = restricted_globals['fun_one'](s_one, s_two)
+# print(result)
 
 
 # TODO:

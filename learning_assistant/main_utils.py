@@ -527,17 +527,21 @@ Below, you will receive the students question, any relevant text that can be use
 
 import ast
 
-restricted_globals = dict(
-    __builtins__ = safe_builtins, 
-    _getiter_ = list.__iter__ ,
-    _getattr_ = getattr,
-    _getitem_ = getitem,
-    list = list, 
-    dict = dict, 
-    enumerate = enumerate, 
-    map = map, 
-    sum = sum
-)
+# restricted_globals = dict(
+#     __builtins__ = safe_builtins, 
+#     _getiter_ = list.__iter__ ,
+#     _getattr_ = getattr,
+#     _getitem_ = getitem,
+#     list = list, 
+#     dict = dict, 
+#     enumerate = enumerate, 
+#     map = map, 
+#     sum = sum,
+#     abs = abs,
+#     min = min, 
+#     max = max,
+#     range = range
+# )
 
 def course_question_solution_check(source_code, input_param, output_param):
     try:
@@ -582,7 +586,7 @@ def course_question_solution_check(source_code, input_param, output_param):
 
     elif num_inputs == 2:
         # print('input-params', input_param[0], input_param[1])
-        # function_output = user_function(input_param[0], input_param[1])
+        function_output = user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
@@ -616,6 +620,136 @@ def course_question_solution_check(source_code, input_param, output_param):
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
 
+
+
+globals_dict = {}
+globals_dict.update(
+    __builtins__={
+        'True': True,
+        'False': False,
+        'None': None,
+        'str': str,
+        'bool': bool,
+        'int': int,
+        'float': float,
+        'enumerate': enumerate,
+        'dict': dict,
+        'list': list,
+        'tuple': tuple,
+        'map': map,
+        'abs': abs,
+        'min': min,
+        'max': max,
+        'sum': sum,
+        'filter': filter,
+        'round': round,
+        'len': len,
+        'repr': repr,
+        'set': set,
+        'all': all,
+        'any': any,
+        'ord': ord,
+        'chr': chr,
+        'divmod': divmod,
+        'isinstance': isinstance,
+        'range': range,
+        'zip': zip,
+    }
+)
+
+
+import time
+import timeout_decorator
+
+@timeout_decorator.timeout(20)
+def new_question_solution_check(source_code, input_param, output_param, mode="exec"):
+    source_code = source_code.strip()
+
+    try:
+        tree = ast.parse(source_code, mode=mode)
+        function = tree.body[0]
+        num_inputs = len(function.args.args)
+    except: 
+        return {'success': False, 'message': 'Invalid Syntax. Code could not compile.', 'user_function_output': None}
+
+    try:
+        source_code = compile(tree, "<string>", mode)
+        restricted_locals = {}
+        exec(source_code, globals_dict, restricted_locals)
+        # print(restricted_locals[function.name](4,5))
+    except:
+        return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
+
+    user_function = restricted_locals[function.name]
+        
+    if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
+        return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
+
+    if num_inputs == 1:
+        try:
+            function_output = user_function(input_param[0])
+        except: # function execution error
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+    elif num_inputs == 2:
+        # print('input-params', input_param[0], input_param[1])
+        function_output = user_function(input_param[0], input_param[1])
+        try:
+            function_output = user_function(input_param[0], input_param[1])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+    elif num_inputs == 3:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+    
+    elif num_inputs == 4:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2], input_param[3])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+
+
+# source_code = """
+# def user_fn(a):
+#     b = a
+#     while True:
+#         b += 1
+#     # b = a
+#     # b += 4
+#     # b *= 12
+#     # return b
+# """
+# x, y = [3], 9
+# res = new_question_solution_check(source_code, x, y)
+# print(f"Res: {res}")
+
+
+# course_question_solution_check(source_code, x, y)
+
 # source_code = """
 # def function_one(x, y):
 #     def function_two(z):
@@ -637,14 +771,40 @@ def course_question_solution_check(source_code, input_param, output_param):
 # print( course_question_solution_check(source_code, x, y) )
 
 
+# source_code = """
+# def fn_one(n):
+# 	c = 0
+# 	n = abs(n)
+# 	while n != 0:
+# 		n = n // 10
+# 		c += 1
+# 	return c
+# """
+# x = [4]
+# y = 1
+# print( course_question_solution_check(source_code, x, y) )
 
-from RestrictedPython import compile_restricted
-from RestrictedPython import safe_builtins
 
-source_code = """
-def fun_one(s_one, s_two):
-    return str(len(s_one)) + s_one[1:] + s_two[:-1] + str(len(s_two))
-"""
+# source_code = """
+# def fn_two(a, b):
+# 	for idx in range(b, a):
+# 		return idx
+# """
+# x = [15,3]
+# y = 1
+# print( course_question_solution_check(source_code, x, y) )
+
+
+
+
+
+# from RestrictedPython import compile_restricted
+# from RestrictedPython import safe_builtins
+
+# source_code = """
+# def fun_one(s_one, s_two):
+#     return str(len(s_one)) + s_one[1:] + s_two[:-1] + str(len(s_two))
+# """
 
 # from operator import getitem
 
@@ -674,11 +834,5 @@ def fun_one(s_one, s_two):
 # s_two = "World"
 # result = restricted_globals['fun_one'](s_one, s_two)
 # print(result)
-
-
-# TODO:
-    # modify the function to now have getitem incorporated
-    # go from there to test each and every question
-        # continue fixing all bugs and ensure good; then, push to prod
 
 

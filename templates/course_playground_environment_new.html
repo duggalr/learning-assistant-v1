@@ -146,9 +146,9 @@
                     &nbsp;
 
                     {% if q_complete_success is True %}
-                        <div class="ui horizontal green label q_complete_label">Complete</div>
+                        <div class="ui horizontal green label q_complete_label">Complete</div> &#127881;
                     {% else %}
-                        <div class="ui horizontal green label q_complete_label" style="display: none;">Complete</div>
+                        <div class="ui horizontal green label q_complete_label" style="display: none;">Complete</div> &#127881;
                     {% endif %}
 
                 </h4>
@@ -455,8 +455,8 @@
 
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             // console.log('std-question:', std_question)
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
-            // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
+            // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
 
         }
 
@@ -594,7 +594,7 @@ mystdout.getvalue()
 
             let tmp_usr_messages = JSON.parse(localStorage.getItem("python_lesson_playground_user_dictionary"));
 
-            console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
+            // console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
 
             if (tmp_usr_messages != null){
 
@@ -858,7 +858,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('res:', response);
+                    // console.log('res:', response);
 
                     if (response['success'] == true){
 
@@ -871,7 +871,7 @@ mystdout.getvalue()
 
                         };                            
                         
-                        console.log('gpt-response-dict:', gpt_response_dict)
+                        // console.log('gpt-response-dict:', gpt_response_dict)
 
                         // display in chat area
                         var model_response_message = gpt_response_dict['response'];
@@ -945,7 +945,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('res:', response);
+                    // console.log('res:', response);
 
                     if (response['success'] == true){
                         
@@ -982,7 +982,7 @@ mystdout.getvalue()
                         }
 
                         if (test_case_message == ''){
-                            test_case_message = 'All tests ran correctly. Nice Job! &#129395;'
+                            test_case_message = 'All tests ran correctly. Nice Job!'
                         }
                         
 

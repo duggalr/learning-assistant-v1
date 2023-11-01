@@ -100,7 +100,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
     user_function = restricted_locals[function.name]
         
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
-        return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
+        return {'success': False, 'message': f'The number of the parameters in the function is not correct. The function should have {len(input_param)} params.', 'user_function_output': None}
 
     if num_inputs == 1:
         try:
@@ -2436,7 +2436,7 @@ def new_course_playground(request):
         user_auth_obj = user_auth_obj
     ).order_by('created_at')
 
-    print('q-complete-success:', q_complete_success)
+    print('user_conv_objects:', user_conversation_objects)
 
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
@@ -2473,12 +2473,14 @@ def new_course_random_question(request):
         if len(user_oauth_objects) > 0:
             user_auth_obj = user_oauth_objects[0]
 
-    lesson_one_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 1')[0]
-    lesson_two_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 2')[0]
+    # lesson_one_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 1')[0]
+    # lesson_two_obj = PythonCourseLesson.objects.filter(lesson_title__contains='Lesson 2')[0]
 
-    all_lesson_questions = PythonLessonQuestion.objects.filter(
-        course_lesson_obj__in = (lesson_one_obj.id, lesson_two_obj.id)
-    )
+    # all_lesson_questions = PythonLessonQuestion.objects.filter(
+    #     course_lesson_obj__in = (lesson_one_obj.id, lesson_two_obj.id)
+    # )
+    
+    all_lesson_questions = PythonLessonQuestion.objects.exclude(order_number = 1)
     rv_all_lesson_questions = []
     if user_auth_obj is not None:
         user_question_submissions = PythonLessonQuestionUserSubmission.objects.filter(

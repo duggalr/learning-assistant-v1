@@ -25,7 +25,7 @@
 
         /* vertical progress */
         .v-progress{
-            padding: 10px 0 10px 0;
+            padding: 5px 0 10px 0;
         }
 
         .v-progress ul{
@@ -133,6 +133,10 @@
             line-height: 1.7em;
         }
 
+        #time_test_link:hover{
+            cursor: pointer;
+        }
+
     </style>
 
 
@@ -146,62 +150,78 @@
             
             {% if not user_session %}
 
-            <!-- Header -->
-            <h3 id="lesson_header">
-                &#129489;&#8205;&#128187; 
-                Learn Python                
-            </h3>
+                <!-- Header -->
+                <h3 id="lesson_header">
+                    &#129489;&#8205;&#128187; 
+                    Learn Python                
+                </h3>
 
-            <!-- Description -->
-            <div class="ui basic segment" style=" padding-bottom: 5px;" >
+                <!-- Description -->
+                <div class="ui basic segment" style=" padding-bottom: 5px;" >
+                    
+                    <p id="course_home_description">
+                        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum. -->
 
-                
-                <p id="course_home_description">
-                    <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales dapibus mi sit amet eleifend. Suspendisse porttitor arcu a dui auctor gravida. Donec quis arcu fermentum, blandit augue quis, placerat felis. Fusce felis ante, eleifend vitae feugiat tincidunt, lacinia eget ipsum. -->
+                        Welcome &#127881; to our Python exercises, which are designed to help you learn or hone the Python foundations.
 
-                    Welcome &#127881; to our Python exercises, which are designed to help you learn or hone the Python foundations.
+                        <!-- Welcome &#127881; to our free online Python course, which is designed to help you learn or hone the Python foundations.
+                        <strong>The course is exercise-heavy.</strong> -->
+                        <br/><br/>
+                        Depending on your level of familarity with Python,
+                        you can go through each of the sections in order,
+                        or jump around and skip sections you are already comfortable with.
+                        <!-- Feel free to start each of the sections in order, or jump around depending on your preference.
+                        Each section includes a short video introducing the relevant concepts, followed by many exercises to practice. -->
+                        <br/><br/>
+                        The AI Tutor will always be there with you, as you work through each of the sections.
+                        <br/><br/>
+                        You can also use the AI Tutor to generate your own questions, for specific concepts you would like additional
+                        practice in.
+                        <br/><br/>
+                        <a href="{% url 'login' %}">Make a free account</a>, to track your progress.
+                        <!-- Go through our <a href="{% url 'new_course_home' %}">free online course</a>, which is designed to help you learn or hone the Python foundations.
+                        <strong>
+                            The course is exercise-heavy.
+                        </strong>
+                        <br/>
+                        Each section includes a short video introducing the relevant concepts, followed by many exercises to practice.
+                        Feel free to ask your personal AI Tutor questions, as you work through the sections. -->
 
-                    <!-- Welcome &#127881; to our free online Python course, which is designed to help you learn or hone the Python foundations.
-                    <strong>The course is exercise-heavy.</strong> -->
-                    <br/><br/>
-                    Depending on your level of familarity with Python,
-                    you can go through each of the sections in order,
-                    or jump around and skip sections you are already comfortable with.
-                    <!-- Feel free to start each of the sections in order, or jump around depending on your preference.
-                    Each section includes a short video introducing the relevant concepts, followed by many exercises to practice. -->
-                    <br/><br/>
-                    The AI Tutor will always be there with you, as you work through each of the sections.
-                    <br/><br/>
-                    You can also use the AI Tutor to generate your own questions, for specific concepts you would like additional
-                    practice in.
-                    <br/><br/>
-                    <a href="{% url 'login' %}">Make a free account</a>, to track your progress.
-                    <!-- Go through our <a href="{% url 'new_course_home' %}">free online course</a>, which is designed to help you learn or hone the Python foundations.
-                    <strong>
-                        The course is exercise-heavy.
-                    </strong>
-                    <br/>
-                    Each section includes a short video introducing the relevant concepts, followed by many exercises to practice.
-                    Feel free to ask your personal AI Tutor questions, as you work through the sections. -->
-
-                </p>
-                
-            </div>
-
+                    </p>
+                    
+                </div>
 
             {% endif %}
 
             <!-- Header -->
             <h3 id="lesson_header">
                 &#128211; Lessons
-                &nbsp;
+                
+                &nbsp;&nbsp;
                 <span>
                     <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500;">
                         &#128256; Jump to Random Question
                     </a>
                 </span>
+                
+                &nbsp;
+                <span>
+                    <a id="time_test_link" style="font-size: 14px; font-weight: 500; color: gray;">
+                        &#8986; Start a timed test (coming soon...)
+                    </a>
+                </span>
+
             </h3>
             
+            <p style="padding-top: 15px;">
+                Welcome. &#127881; &nbsp; Below are Python exercises, which are designed to help you learn or hone the Python foundations.
+                <br/><br/>
+                Depending on your level of familarity with Python,
+                you can go through each of the sections in order,
+                or jump around and skip sections you are already comfortable with.
+            </p>
+
+
             <!-- <span>
                 Course Questions: {{ pt_course_code_objects|length }} ouf of {{ total_lesson_questions }} done!
             </span> -->
@@ -343,7 +363,7 @@
 
                                         <div class="list_lesson_description">
                                             <span style="line-height: 1.3em;">
-                                                <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                                <strong style="color: rgb(81, 199, 238);">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                             </span>
                                             <!-- <br/> -->
                                         </div>
@@ -396,7 +416,7 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong style="color: green;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>
@@ -418,7 +438,7 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong style="color: rgb(81, 199, 238);">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>

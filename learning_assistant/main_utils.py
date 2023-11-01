@@ -23,7 +23,7 @@ def get_embedding(text, model="text-embedding-ada-002"):
     return openai.Embedding.create(input = [text], model=model)['data'][0]['embedding']
 
 
-def main_handle_question(question, student_code, previous_chat_history_st):
+def main_handle_question(question, programming_problem, student_code, previous_chat_history_st):
     
 #     q_prompt = """##Instructions:
 # You are a Python Programming Tutor / Teacher.
@@ -84,57 +84,112 @@ def main_handle_question(question, student_code, previous_chat_history_st):
 # ##Your Answer:
 # """
 
-    q_prompt = """##Instructions:
-You will be assisting a student who is learning Python, by being their upbeat, encouraging tutor. 
-Your primary goal is to guide and mentor them, helping them learn Python effectively, but also to become a great individual thinker. Please adhere to these guidelines. See examples below of what not to say, and what to say instead.
-No Direct Answers: Do not provide direct code solutions to the students' questions or challenges. Instead, focus on providing hints, explanations, and guidance that help them understand and solve the problems on their own. For questions students ask, don't simply provide the answer. Instead, provide a hint and try to ask the student a follow-up question/suggestion. Under no circumstance should you provide the student a direct answer to their problem/question.
-Encourage Problem Solving: Always encourage the students to think through the problems themselves. Ask leading questions that guide them toward a solution, and provide feedback on their thought processes.
-Make sure you consider both correctness and efficiency. You want to help the student write optimal code, that is also correct for their given problem.
-Only ask one question or offer only one suggestion at a time. Wait for the students response before asking a new question or offering a new suggestion.
-Encourage the student. Always motivate the student and provide encourage, even when they are struggling or haven't figured out the solution yet. This will help provide motivation and elicit positive emotion for the student. 
+    if programming_problem is None:
+        q_prompt = """##Instructions:
+    You will be assisting a student who is learning Python, by being their upbeat, encouraging tutor. 
+    Your primary goal is to guide and mentor them, helping them learn Python effectively, but also to become a great individual thinker. Please adhere to these guidelines. See examples below of what not to say, and what to say instead.
+    No Direct Answers: Do not provide direct code solutions to the students' questions or challenges. Instead, focus on providing hints, explanations, and guidance that help them understand and solve the problems on their own. For questions students ask, don't simply provide the answer. Instead, provide a hint and try to ask the student a follow-up question/suggestion. Under no circumstance should you provide the student a direct answer to their problem/question.
+    Encourage Problem Solving: Always encourage the students to think through the problems themselves. Ask leading questions that guide them toward a solution, and provide feedback on their thought processes.
+    Make sure you consider both correctness and efficiency. You want to help the student write optimal code, that is also correct for their given problem.
+    Only ask one question or offer only one suggestion at a time. Wait for the students response before asking a new question or offering a new suggestion.
+    Encourage the student. Always motivate the student and provide encourage, even when they are struggling or haven't figured out the solution yet. This will help provide motivation and elicit positive emotion for the student. 
 
-##Example Student Question:
-# Find the total product of the list
+    ##Example Student Question:
+    # Find the total product of the list
 
-list_one = [2,23,523,1231,32,9]
-total_product = 0
-for idx in list_one:
-    total_product = idx * idx
+    list_one = [2,23,523,1231,32,9]
+    total_product = 0
+    for idx in list_one:
+        total_product = idx * idx
 
-I'm confused here. I am multiplying idx and setting it to total_product but getting the wrong answer. What is wrong?
+    I'm confused here. I am multiplying idx and setting it to total_product but getting the wrong answer. What is wrong?
 
-##Example Bad Answer (Avoid this type of answer):
-You are correct in iterating through the list with the for loop but at the moment, your total_product is incorrectly setup. Try this instead:
-list_one = [2,23,523,1231,32,9]
-total_product = 1
-for idx in list_one:
-    total_product = total_product * idx
+    ##Example Bad Answer (Avoid this type of answer):
+    You are correct in iterating through the list with the for loop but at the moment, your total_product is incorrectly setup. Try this instead:
+    list_one = [2,23,523,1231,32,9]
+    total_product = 1
+    for idx in list_one:
+        total_product = total_product * idx
 
-##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
-You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
+    ##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
+    You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
 
-##Previous Chat History with Student:
-{previous_chat_history_st}
+    ##Previous Chat History with Student:
+    {previous_chat_history_st}
 
-##Student Question:
-{question}
+    ##Student Question:
+    {question}
 
-##Student Code:
-{student_code}
+    ##Student Code:
+    {student_code}
 
-##Your Answer:
-"""
+    ##Your Answer:
+    """
+        question = question.strip()
+        student_code = student_code.strip()
 
-    # q_embd = list(get_embedding(question))
-    question = question.strip()
-    student_code = student_code.strip()
+        q_prompt = q_prompt.format(
+            previous_chat_history_st = previous_chat_history_st,
+            question = question,
+            student_code = student_code
+        )
+        # print(q_prompt)
+        
+    else:
+        q_prompt = """##Instructions:
+    You will be assisting a student who is learning Python, by being their upbeat, encouraging tutor. 
+    Your primary goal is to guide and mentor them, helping them learn Python effectively, but also to become a great individual thinker. Please adhere to these guidelines. See examples below of what not to say, and what to say instead.
+    No Direct Answers: Do not provide direct code solutions to the students' questions or challenges. Instead, focus on providing hints, explanations, and guidance that help them understand and solve the problems on their own. For questions students ask, don't simply provide the answer. Instead, provide a hint and try to ask the student a follow-up question/suggestion. Under no circumstance should you provide the student a direct answer to their problem/question.
+    Encourage Problem Solving: Always encourage the students to think through the problems themselves. Ask leading questions that guide them toward a solution, and provide feedback on their thought processes.
+    Make sure you consider both correctness and efficiency. You want to help the student write optimal code, that is also correct for their given problem.
+    Only ask one question or offer only one suggestion at a time. Wait for the students response before asking a new question or offering a new suggestion.
+    Encourage the student. Always motivate the student and provide encourage, even when they are struggling or haven't figured out the solution yet. This will help provide motivation and elicit positive emotion for the student. 
 
-    q_prompt = q_prompt.format(
-        previous_chat_history_st = previous_chat_history_st,
-        question = question,
-        student_code = student_code
-    )
-    print(q_prompt)
+    ##Example Student Question:
+    # Find the total product of the list
+
+    list_one = [2,23,523,1231,32,9]
+    total_product = 0
+    for idx in list_one:
+        total_product = idx * idx
+
+    I'm confused here. I am multiplying idx and setting it to total_product but getting the wrong answer. What is wrong?
+
+    ##Example Bad Answer (Avoid this type of answer):
+    You are correct in iterating through the list with the for loop but at the moment, your total_product is incorrectly setup. Try this instead:
+    list_one = [2,23,523,1231,32,9]
+    total_product = 1
+    for idx in list_one:
+        total_product = total_product * idx
+
+    ##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
+    You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
+
+    ##Previous Chat History with Student:
+    {previous_chat_history_st}
+
+    ##Student Question:
+    {question}
+
+    #Student Programming Problem:
+    {programming_problem}
+
+    ##Student Code:
+    {student_code}
+
+    ##Your Answer:
+    """
+        question = question.strip()
+        student_code = student_code.strip()
+        programming_problem = programming_problem.strip()
+
+        q_prompt = q_prompt.format(
+            previous_chat_history_st = previous_chat_history_st,
+            question = question,
+            programming_problem = programming_problem,
+            student_code = student_code
+        )
+
 
     di = {"role": "user", "content": q_prompt}
     messages_list = [di]
@@ -622,46 +677,48 @@ def course_question_solution_check(source_code, input_param, output_param):
 
 
 
-globals_dict = {}
-globals_dict.update(
-    __builtins__={
-        'True': True,
-        'False': False,
-        'None': None,
-        'str': str,
-        'bool': bool,
-        'int': int,
-        'float': float,
-        'enumerate': enumerate,
-        'dict': dict,
-        'list': list,
-        'tuple': tuple,
-        'map': map,
-        'abs': abs,
-        'min': min,
-        'max': max,
-        'sum': sum,
-        'filter': filter,
-        'round': round,
-        'len': len,
-        'repr': repr,
-        'set': set,
-        'all': all,
-        'any': any,
-        'ord': ord,
-        'chr': chr,
-        'divmod': divmod,
-        'isinstance': isinstance,
-        'range': range,
-        'zip': zip,
-    }
-)
+# globals_dict = {}
+# globals_dict.update(
+#     __builtins__={
+#         'True': True,
+#         'False': False,
+#         'None': None,
+#         'str': str,
+#         'bool': bool,
+#         'int': int,
+#         'float': float,
+#         'enumerate': enumerate,
+#         'dict': dict,
+#         'list': list,
+#         'tuple': tuple,
+#         'map': map,
+#         'abs': abs,
+#         'min': min,
+#         'max': max,
+#         'sum': sum,
+#         'filter': filter,
+#         'round': round,
+#         'len': len,
+#         'repr': repr,
+#         'set': set,
+#         'all': all,
+#         'any': any,
+#         'ord': ord,
+#         'chr': chr,
+#         'divmod': divmod,
+#         'isinstance': isinstance,
+#         'range': range,
+#         'zip': zip,
+#     }
+# )
 
 
-import time
-import timeout_decorator
+# import time
+# import timeout_decorator
 
-@timeout_decorator.timeout(20)
+from wrapt_timeout_decorator import *
+
+@timeout(5)
 def new_question_solution_check(source_code, input_param, output_param, mode="exec"):
     source_code = source_code.strip()
 
@@ -731,6 +788,23 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         else:
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
+
+
+
+# source_code = """
+# def fn_two(a, b):
+# 	if a % b <= 0:
+# 		return True
+	
+# 	return False
+# """
+
+# val = new_question_solution_check(
+#     source_code,
+#     [101, 3],
+#     True
+# )
+# print(val)
 
 
 # source_code = """

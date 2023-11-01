@@ -23,15 +23,133 @@ import pinecone
 
 from .models import *
 from . import main_utils
+# from .main_utils import new_question_solution_check
 
 from learning_assistant.tasks import send_student_account_create_email
-
-
 
 
 if 'PRODUCTION' not in os.environ:
     dot_env_file = find_dotenv()
     load_dotenv(dot_env_file)
+
+
+
+
+
+globals_dict = {}
+globals_dict.update(
+    __builtins__={
+        'True': True,
+        'False': False,
+        'None': None,
+        'str': str,
+        'bool': bool,
+        'int': int,
+        'float': float,
+        'enumerate': enumerate,
+        'dict': dict,
+        'list': list,
+        'tuple': tuple,
+        'map': map,
+        'abs': abs,
+        'min': min,
+        'max': max,
+        'sum': sum,
+        'filter': filter,
+        'round': round,
+        'len': len,
+        'repr': repr,
+        'set': set,
+        'all': all,
+        'any': any,
+        'ord': ord,
+        'chr': chr,
+        'divmod': divmod,
+        'isinstance': isinstance,
+        'range': range,
+        'zip': zip,
+    }
+)
+
+
+import ast
+import time
+# import timeout_decorator
+from wrapt_timeout_decorator import *
+
+# @timeout_decorator.timeout(20, use_signals=False)
+@timeout(5)
+def new_question_solution_check(source_code, input_param, output_param, mode="exec"):
+    source_code = source_code.strip()
+
+    try:
+        tree = ast.parse(source_code, mode=mode)
+        function = tree.body[0]
+        num_inputs = len(function.args.args)
+    except: 
+        return {'success': False, 'message': 'Invalid Syntax. Code could not compile.', 'user_function_output': None}
+
+    try:
+        source_code = compile(tree, "<string>", mode)
+        restricted_locals = {}
+        exec(source_code, globals_dict, restricted_locals)
+        # print(restricted_locals[function.name](4,5))
+    except:
+        return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
+
+    user_function = restricted_locals[function.name]
+        
+    if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
+        return {'success': False, 'message': 'The number of the parameters in the function is not correct.', 'user_function_output': None}
+
+    if num_inputs == 1:
+        try:
+            function_output = user_function(input_param[0])
+        except: # function execution error
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+    elif num_inputs == 2:
+        # print('input-params', input_param[0], input_param[1])
+        function_output = user_function(input_param[0], input_param[1])
+        try:
+            function_output = user_function(input_param[0], input_param[1])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+    elif num_inputs == 3:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+    
+    elif num_inputs == 4:
+        try:
+            function_output = user_function(input_param[0], input_param[1], input_param[2], input_param[3])
+        except: # function likely named a special python keyword
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+        
+        if function_output == output_param:
+            return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        else:
+            return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
+
+
 
 
 
@@ -421,6 +539,7 @@ def handle_user_message(request):
 
             model_response_dict = main_utils.main_handle_question(
                 question = user_question,
+                programming_problem = None,
                 student_code = user_code,
                 previous_chat_history_st = previous_message_st
             )
@@ -466,6 +585,7 @@ def handle_user_message(request):
 
         model_response_dict = main_utils.main_handle_question(
             question = user_question,
+            programming_problem = None,
             student_code = user_code,
             previous_chat_history_st = prev_conversation_st
         )
@@ -2276,10 +2396,13 @@ def new_course_playground(request):
         user_auth_obj = user_auth_obj
     ).order_by('created_at')
 
+    print('q-complete-success:', q_complete_success)
+
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
         'pcqid': pcqid,
         'pc_question_obj': pc_question_obj,
+        'total_lesson_questions': PythonLessonQuestion.objects.filter(course_lesson_obj = pc_question_obj.course_lesson_obj).count(),
 
         'pt_course_test_case_examples': question_test_cases,
         'pt_course_test_case_examples_length': len(question_test_cases),
@@ -2350,17 +2473,6 @@ def new_course_handle_user_message(request):
         user_code = request.POST['user_code'].strip()     
         user_code = user_code.replace('`', '"').strip()
 
-        initial_user_session = request.session.get('user')
-        if initial_user_session is None:
-            previous_message_st = request.POST['previous_messages'].strip()
-            model_response_dict = main_utils.main_handle_question(
-                question = user_question,
-                student_code = user_code,
-                previous_chat_history_st = previous_message_st
-            )
-            return JsonResponse({'success': True, 'response': model_response_dict})
-
-
         user_cid = request.POST['cid']
         user_pclid = request.POST['pclid']
 
@@ -2369,6 +2481,19 @@ def new_course_handle_user_message(request):
             lesson_question_objects = PythonLessonQuestion.objects.filter(id = user_pclid)
             if len(lesson_question_objects) > 0:
                 lesson_ques_obj = lesson_question_objects[0]
+
+        initial_user_session = request.session.get('user')
+        if initial_user_session is None:
+            previous_message_st = request.POST['previous_messages'].strip()
+
+            programming_problem = lesson_ques_obj.question_text
+            model_response_dict = main_utils.main_handle_question(
+                question = user_question,
+                programming_problem = programming_problem,
+                student_code = user_code,
+                previous_chat_history_st = previous_message_st
+            )
+            return JsonResponse({'success': True, 'response': model_response_dict})
 
 
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
@@ -2396,6 +2521,7 @@ def new_course_handle_user_message(request):
 
         model_response_dict = main_utils.main_handle_question(
             question = user_question,
+            programming_problem = lesson_ques_obj.question_text,
             student_code = user_code,
             previous_chat_history_st = prev_conversation_st
         )
@@ -2954,11 +3080,13 @@ def new_course_handle_solution_submit(request):
 
             print('tc_input_list', tc_input_list)
 
-            valid_solution_dict = main_utils.course_question_solution_check(
+            valid_solution_dict = new_question_solution_check(
                 source_code = user_code,
                 input_param = tc_input_list,
                 output_param = tc_output,
             )
+
+            print('valid-solution-dict:', valid_solution_dict)
 
             valid_solution = valid_solution_dict['success']
 
@@ -3161,6 +3289,7 @@ def new_course_handle_ai_feedback(request):
         
             model_response_dict = main_utils.main_handle_question(
                 question = user_message,
+                programming_problem = lesson_ques_obj.question_text,
                 student_code = user_code,
                 previous_chat_history_st = user_prev_messages
             )
@@ -3193,6 +3322,7 @@ def new_course_handle_ai_feedback(request):
             
             model_response_dict = main_utils.main_handle_question(
                 question = user_message,
+                programming_problem = lesson_ques_obj.question_text,
                 student_code = user_code,
                 previous_chat_history_st = prev_conversation_st
             )

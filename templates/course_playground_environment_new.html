@@ -141,14 +141,21 @@
             <div style="display: flex; align-items: center; padding-top: 15px;">
 
                 <h4 style="margin: 0;">
+                                        
+                    <span style="font-size: 13px; color: gray;">
+                        ({{ pc_question_obj.order_number }} / {{ total_lesson_questions }})
+                    </span>
+                    &nbsp;
 
-                    <span id="code_file_name_text" style="font-size: 16px;">{{ pc_question_obj.question_name }}</span>
+                    <span id="code_file_name_text" style="font-size: 16px;">                        
+                        {{ pc_question_obj.question_name }}
+                    </span>
                     &nbsp;
 
                     {% if q_complete_success is True %}
-                        <div class="ui horizontal green label q_complete_label">Complete</div> &#127881;
+                        <div class="ui horizontal green label q_complete_label">Complete &#127881;</div>
                     {% else %}
-                        <div class="ui horizontal green label q_complete_label" style="display: none;">Complete</div> &#127881;
+                        <div class="ui horizontal green label q_complete_label" style="display: none;">Complete &#127881;</div>
                     {% endif %}
 
                 </h4>
@@ -456,7 +463,7 @@
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             // console.log('std-question:', std_question)
             // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
-            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n` + `# Write your code below:\n\n`);
+            editor.setValue(`# If you need any help, ask the AI to provide guidance.\n# If needed, define any helper functions within the primary function.\n\n` + `# Write your code below:\n\n`);
 
         }
 
@@ -707,6 +714,7 @@ mystdout.getvalue()
                     d = {
                         'message': messageText,
                         'user_code': user_code,
+                        'pclid': pclid,
                         'previous_messages': prev_conversation_history_st,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     }

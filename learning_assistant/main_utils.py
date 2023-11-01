@@ -133,7 +133,6 @@ def main_handle_question(question, programming_problem, student_code, previous_c
             question = question,
             student_code = student_code
         )
-        # print(q_prompt)
         
     else:
         q_prompt = """##Instructions:
@@ -190,6 +189,8 @@ def main_handle_question(question, programming_problem, student_code, previous_c
             student_code = student_code
         )
 
+
+    print(q_prompt)
 
     di = {"role": "user", "content": q_prompt}
     messages_list = [di]

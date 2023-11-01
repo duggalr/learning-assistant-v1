@@ -115,19 +115,19 @@
             <!-- Tabular Menu -->
             <div id="primary_course_tab_menu" class="ui tabular menu">
 
-                <a class="active item" id="lesson_video_tab">
-                    <i class="video icon" style="font-size: 13px;"></i>
-                    Lesson Video
-                </a>
-
-                <a class="item" id="lesson_exercises_tab">
+                <a class="active item" id="lesson_exercises_tab">
                     <i class="code branch icon" style="font-size: 13px;"></i>
                     Exercises ({{ lesson_question_objects|length }})
                 </a>
 
+                <a class="item" id="lesson_video_tab">
+                    <i class="video icon" style="font-size: 13px;"></i>
+                    Video of me going through an exercise
+                </a>
+
                 <div class="right menu">
                     <div class="item" style="color: blue; font-weight: 900;">
-                        Completed Exercises: 13 / 13
+                        Completed Exercises: {{ total_question_complete_count }} / {{ lesson_question_objects|length }}
                     </div>
                 </div>
 
@@ -135,7 +135,7 @@
 
 
             <!-- Lesson Video -->
-            <div id="main_video_div" style="width: 100%;">
+            <div id="main_video_div" style="width: 100%; display: none;">
 
                 <div class="ui grid container">
 
@@ -195,7 +195,7 @@
 
 
             <!-- Lesson Questions -->
-            <div id="main_exercises_div" style="width: 100%; padding-top: 0px; display: none;">
+            <div id="main_exercises_div" style="width: 100%; padding-top: 0px;">
 
                 <div class="ui middle aligned divided list" style="width: 100%; padding-top: 5px; padding-left: 20px; padding-bottom: 0px;">
 

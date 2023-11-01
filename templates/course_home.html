@@ -201,8 +201,21 @@
                     </a>
                 </span>
             </h3>
-
             
+            <!-- <span>
+                Course Questions: {{ pt_course_code_objects|length }} ouf of {{ total_lesson_questions }} done!
+            </span> -->
+
+            <h4 style="text-align: right;">
+                <span style="color: rgb(36, 36, 255);">
+                    Course Questions: {{ user_completed_questions }} out of {{ total_lesson_questions }} done!
+                    &#128519;
+                </span>
+                <br/>
+                <span style="font-size: 12px; color: gray; font-weight: 500;">
+                    Keep it up. &#128293;
+                </span>
+            </h4>
 
             <!-- <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
 
@@ -241,7 +254,7 @@
                     
                     {% for lobj in all_lesson_objects %}
 
-                        {% if lobj.0.lesson_title == 'Lesson 0: Introduction - The Basics' %}
+                        {% if 'Lesson 0:' in lobj.0.lesson_title %}
 
                             {% if user_session %}
 
@@ -289,7 +302,7 @@
 
                             {% endif %}
                         
-                        {% elif lobj.0.lesson_title == 'Lesson 1: Introduction to Functions' %}
+                        {% elif 'Lesson 1:' in lobj.0.lesson_title %}
 
                             {% if lobj.2 == 'complete' %}
 
@@ -306,7 +319,7 @@
 
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong style="color: green;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>
@@ -330,7 +343,7 @@
 
                                         <div class="list_lesson_description">
                                             <span style="line-height: 1.3em;">
-                                                <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                                <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                             </span>
                                             <!-- <br/> -->
                                         </div>
@@ -383,7 +396,7 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>
@@ -405,7 +418,7 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong>Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>
@@ -427,7 +440,7 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            <strong style="color: red;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>

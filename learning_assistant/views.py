@@ -2233,6 +2233,7 @@ def new_course_home(request):
 
     # TODO: very inefficient approach; keep track of the progress at the lesson and user level <-- new model just for this
     rv = []
+    user_question_complete_count = 0
     for lobj in all_lesson_objects:
         tmp_lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj)
         num_questions = len(tmp_lesson_question_objects)
@@ -2240,6 +2241,7 @@ def new_course_home(request):
         user_lesson_complete = False
         user_lesson_progress = False
         user_lesson_not_started = False
+        total_complete_count = 0
         if user_auth_obj is not None:
 
             for tlq_obj in tmp_lesson_question_objects:
@@ -2260,7 +2262,6 @@ def new_course_home(request):
                     else:
                         py_q_tmp_dict[lq_id] = [lq_complete]
                 
-                total_complete_count = 0
                 for qid in py_q_tmp_dict:
                     q_tmp_li = py_q_tmp_dict[qid]
                     if True in q_tmp_li:
@@ -2273,15 +2274,20 @@ def new_course_home(request):
                 else:
                     user_lesson_not_started = True
         
+        user_question_complete_count += total_complete_count
+
         if user_lesson_complete:
-            rv.append([lobj, num_questions, 'complete'])
+            rv.append([lobj, num_questions, 'complete', total_complete_count])
         elif user_lesson_progress:
-            rv.append([lobj, num_questions, 'progress'])
+            rv.append([lobj, num_questions, 'progress', total_complete_count])
         else:
-            rv.append([lobj, num_questions, 'not_started'])
+            rv.append([lobj, num_questions, 'not_started', total_complete_count])
+
 
     return render(request, 'course_home.html', {
         'all_lesson_objects': rv,
+        'total_lesson_questions': PythonLessonQuestion.objects.exclude(order_number = 1).count(),
+        'user_completed_questions': user_question_complete_count,
         'user_session': initial_user_session,
     })
 
@@ -2329,10 +2335,44 @@ def new_course_lesson_page(request, lid):
             course_lesson_obj = course_lesson_obj
         )
 
+
+    user_question_complete_count = 0
+    # for lobj in all_lesson_objects:
+
+    tmp_lesson_question_objects = PythonLessonQuestion.objects.filter(course_lesson_obj = course_lesson_obj)
+    num_questions = len(tmp_lesson_question_objects)
+
+    total_complete_count = 0
+    if user_auth_obj is not None:
+
+        for tlq_obj in tmp_lesson_question_objects:
+
+            py_q_sub_objects = PythonLessonQuestionUserSubmission.objects.filter(
+                lesson_question_obj = tlq_obj, 
+                user_auth_obj = user_auth_obj
+            )
+            py_q_tmp_dict = {}
+            for py_q_sub in py_q_sub_objects:
+                lq_id = tlq_obj.id
+                lq_complete = py_q_sub.complete
+                if lq_id in py_q_tmp_dict:
+                    tp_li = py_q_tmp_dict[lq_id]
+                    tp_li.append(lq_complete)
+                    py_q_tmp_dict[lq_id] = tp_li
+                else:
+                    py_q_tmp_dict[lq_id] = [lq_complete]
+            
+            for qid in py_q_tmp_dict:
+                q_tmp_li = py_q_tmp_dict[qid]
+                if True in q_tmp_li:
+                    total_complete_count += 1
+
+    
     return render(request, 'course_lesson_page.html', {
         'course_lesson_object': course_lesson_obj,
         'course_video_lesson_chat_list': course_video_lesson_chat_list,
         'lesson_question_objects': lesson_question_objects,
+        'total_question_complete_count': total_complete_count,
         'next_lesson_obj': next_lesson_obj,
         'prev_lesson_obj': prev_lesson_obj,
         'user_session': initial_user_session,

@@ -911,3 +911,26 @@ def course_question_solution_check(source_code, input_param, output_param):
 # print(result)
 
 
+
+
+# def sum_fibonacci_sequence(n):
+#     if n <= 0:
+#         return 0  # The sum is 0 for n <= 0
+#     elif n == 1:
+#         return 1  # The sum is 1 for n = 1
+
+#     fib_sequence = [0, 1]
+#     count = 0
+#     # while fib_sequence[-1] + fib_sequence[-2] <= n:
+#     while count <= (n-2):        
+#         next_fib = fib_sequence[-1] + fib_sequence[-2]
+#         fib_sequence.append(next_fib)
+#         count += 1
+
+#     print(fib_sequence)
+#     return sum(fib_sequence)
+
+
+# print( sum_fibonacci_sequence(10) )
+
+

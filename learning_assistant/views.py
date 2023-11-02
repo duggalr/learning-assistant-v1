@@ -2503,8 +2503,6 @@ def new_course_random_question(request):
         return response
 
 
-
-
 def new_course_handle_user_message(request):
 
     initial_user_session = request.session.get("user")

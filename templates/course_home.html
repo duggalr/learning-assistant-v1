@@ -191,51 +191,52 @@
                     
                 </div>
 
-            {% endif %}
-
-            <!-- Header -->
-            <h3 id="lesson_header">
-                &#128211; Lessons
-                
-                &nbsp;&nbsp;
-                <span>
-                    <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500;">
-                        &#128256; Jump to Random Question
-                    </a>
-                </span>
-                
-                &nbsp;
-                <span>
-                    <a id="time_test_link" style="font-size: 14px; font-weight: 500; color: gray;">
-                        &#8986; Start a timed test (coming soon...)
-                    </a>
-                </span>
-
-            </h3>
+            {% else %}
             
-            <p style="padding-top: 15px;">
-                Welcome. &#127881; &nbsp; Below are Python exercises, which are designed to help you learn or hone the Python foundations.
-                <br/><br/>
-                Depending on your level of familarity with Python,
-                you can go through each of the sections in order,
-                or jump around and skip sections you are already comfortable with.
-            </p>
+                  <!-- Header -->
+                  <h3 id="lesson_header">
+                    &#128211; Lessons
+                    
+                    &nbsp;&nbsp;
+                    <span>
+                        <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500;">
+                            &#128256; Jump to Random Question
+                        </a>
+                    </span>
+                    
+                    &nbsp;
+                    <span>
+                        <a id="time_test_link" style="font-size: 14px; font-weight: 500; color: gray;">
+                            &#8986; Start a timed test (coming soon...)
+                        </a>
+                    </span>
+    
+                </h3>
+                                
+                <p style="padding-top: 15px;">
+                    Welcome. &#127881; &nbsp; Below are Python exercises, which are designed to help you learn or hone the Python foundations.
+                    <br/><br/>
+                    Depending on your level of familarity with Python,
+                    you can go through each of the sections in order,
+                    or jump around and skip sections you are already comfortable with.
+                </p>
+    
+                <h4 style="text-align: right;">
+                    <span style="color: rgb(36, 36, 255);">
+                        Course Questions: {{ user_completed_questions }} out of {{ total_lesson_questions }} done!
+                        &#128519;
+                    </span>
+                    <br/>
+                    <span style="font-size: 12px; color: gray; font-weight: 500;">
+                        Keep it up. &#128293;
+                    </span>
+                </h4>
 
+            {% endif %}
 
             <!-- <span>
                 Course Questions: {{ pt_course_code_objects|length }} ouf of {{ total_lesson_questions }} done!
             </span> -->
-
-            <h4 style="text-align: right;">
-                <span style="color: rgb(36, 36, 255);">
-                    Course Questions: {{ user_completed_questions }} out of {{ total_lesson_questions }} done!
-                    &#128519;
-                </span>
-                <br/>
-                <span style="font-size: 12px; color: gray; font-weight: 500;">
-                    Keep it up. &#128293;
-                </span>
-            </h4>
 
             <!-- <div class="ui middle aligned divided list" style="margin-top: 30px; margin-left: 15px;">
 
@@ -267,6 +268,15 @@
                 {% endfor %}
 
             </div> -->
+
+
+            <div style="text-align: right; padding-top: 5px;">
+                <span>
+                    <a href="{% url 'new_course_random_question' %}" style="font-size: 14px; font-weight: 500;">
+                        &#128256; Jump to Random Question
+                    </a>
+                </span>
+            </div>
 
             <div class="v-progress">
 
@@ -339,7 +349,10 @@
 
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong style="color: green;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% if user_session %}
+                                                <strong style="color: green;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% endif %}
+                                                <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
                                         </span>
                                         <!-- <br/> -->
                                     </div>
@@ -460,7 +473,12 @@
         
                                     <div class="list_lesson_description">
                                         <span style="line-height: 1.3em;">
-                                            <strong style="color: red;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% if user_session %}
+                                                <strong style="color: red;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% else %}
+                                                <strong>Number of Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% endif %}
+                                            
                                         </span>
                                         <!-- <br/> -->
                                     </div>

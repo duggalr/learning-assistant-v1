@@ -351,10 +351,10 @@
                                         <span style="line-height: 1.3em;">
                                             {% if user_session %}
                                                 <strong style="color: green;">Exercises Completed: {{ lobj.3 }}</strong> | <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
-                                            {% endif %}
+                                            {% else %}
                                                 <strong>Total Exercises: {{ lobj.1 }}</strong> | <strong>Description:</strong>&nbsp;{{ lobj.0.lesson_description }}
+                                            {% endif %}
                                         </span>
-                                        <!-- <br/> -->
                                     </div>
 
                                 </li>

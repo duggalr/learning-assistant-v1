@@ -714,6 +714,7 @@ mystdout.getvalue()
                     d = {
                         'message': messageText,
                         'user_code': user_code,
+                        'cid': null,
                         'pclid': pclid,
                         'previous_messages': prev_conversation_history_st,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -1164,7 +1165,7 @@ mystdout.getvalue()
                 pcid_associated_dict['user_code'] = user_code;
                 anon_user_localstg_dict[pcqid] = pcid_associated_dict;
                 localStorage.setItem("python_lesson_playground_user_dictionary", JSON.stringify(anon_user_localstg_dict));
-                
+
             }
 
             else {

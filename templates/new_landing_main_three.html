@@ -44,7 +44,7 @@
         #course-section{
             padding-left: 12em;
             padding-right: 12em;
-            padding-top: 3em;
+            padding-top: 4em;
             padding-bottom: 2em;
         }
 
@@ -251,30 +251,26 @@
                         <!-- <p style="line-height: 1.75em; font-size: 16px; padding-top: 10px;"> -->
                         <p id="landing_course_description">
 
-                            Go through our <a href="{% url 'new_course_home' %}">free online course</a>, which is designed to help you learn or hone the Python foundations.
+                            <strong>
+                                Go through our 
+                                <a href="{% url 'new_course_home' %}">
+                                    {{ total_lesson_questions }} exercises
+                                </a>
+                                , which are designed to help you learn or hone the Python foundations.
+                            </strong>
+                            <br/>
+                            If you are looking for a challenge, try the exercises in Lesson 5. &#128521;
+                            <!-- <br/> -->
+                            Feel free to ask your personal AI Tutor questions, as you work through the sections.
+
+                            <!-- Go through our <a href="{% url 'new_course_home' %}">free online course</a>, which is designed to help you learn or hone the Python foundations.
                             <strong>
                                 The course is exercise-heavy.
                             </strong>
                             <br/>
                             Each section includes a short video introducing the relevant concepts, followed by many exercises to practice.
-                            Feel free to ask your personal AI Tutor questions, as you work through the sections.
+                            Feel free to ask your personal AI Tutor questions, as you work through the sections. -->
 
-                            <!-- Learn or Practice Python through our <a href="">free online course</a> that focuses primarily on exercises. 
-                            Each section includes a short video introducing concepts, along with exercises.
-                            You will also have an AI Tutor to help guide you through the video and exercises. -->
-
-                            <!-- <br/><br/>
-                            You can also leverage the AI Tutor to create your own exercises, for concepts you need additional practice on. -->
-
-                            <!-- Learn Python, through a free online course.
-                            <br/>
-                            This course is structured to be exercise heavy, with one brief video introducing the concepts for that
-                            particular section.
-                            <br/>
-                            You will have the AI Tutor with you at all times, to help you go through the video, along with completing the
-                            exercises. -->
-                            <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, tortor aliquet imperdiet sagittis, 
-                            mauris nulla auctor nibh, quis tincidunt tellus ex quis velit. -->
                         </p>
                  
                     </div>
@@ -287,9 +283,28 @@
 
                     <div class="ui styled fluid accordion" id="course_accordion">
                         
-                        <div class="title">
+                        {% for lobj in course_lesson_objects %}
+
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                {{ lobj.0.lesson_title }}
+                            </div>
+                            <div class="content" >
+                                <p>
+                                    {{ lobj.0.lesson_description }}
+                                </p>
+                                <p>
+                                    <strong>
+                                        Number of Exercises: {{ lobj.1 }}
+                                    </strong>
+                                </p>
+                            </div>
+
+                        {% endfor %}
+
+                        <!-- <div class="title">
                             <i class="dropdown icon"></i>
-                            Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
+                            Introduction to Data Types (Strings, Integers, Floats, Boolean), Operators, User Input
                         </div>
                         <div class="content" >
                             <p>
@@ -435,7 +450,7 @@
                                     Number of Exercises: 13
                                 </strong>
                             </p>
-                        </div>
+                        </div> -->
 
                     </div>
 

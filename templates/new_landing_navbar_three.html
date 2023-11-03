@@ -22,22 +22,21 @@
             {% endif %}
 
             <a class="item" href="{% url 'new_course_home' %}">
-                <i class="chess bishop icon"></i>
+                <i class="chess bishop icon" style="font-size: 12px;"></i>
                 Practice Python
             </a>
-            
             <a class="item" href="{% url 'playground' %}">
-                <i class="chess icon"></i>
+                <i class="chess icon" style="font-size: 12px;"></i>
                 AI Playground
             </a>
             <a class="item" href="{% url 'general_cs_tutor' %}" >
-                <i class="chess knight icon"></i>
+                <i class="chess knight icon" style="font-size: 12px;"></i>
                 General Tutor
             </a>
 
             {% if not user_session %}
                 <a class="item" href="{% url 'about' %}">
-                    <i class="chess rook icon"></i>
+                    <i class="chess rook icon" style="font-size: 12px;"></i>
                     About
                 </a>
             {% endif %}

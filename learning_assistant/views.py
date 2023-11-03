@@ -506,8 +506,7 @@ def dashboard(request):
         })
 
 
-    pt_course_code_objects = PythonLessonUserCode.objects.filter(user_auth_obj = user_oauth_obj)
-
+    pt_course_code_objects = PythonLessonUserCode.objects.filter(user_auth_obj = user_oauth_obj).order_by('-created_at')
     
     user_file_objects = UserFiles.objects.filter(
         user_auth_obj = user_oauth_obj
@@ -2447,6 +2446,7 @@ def new_course_playground(request):
     ).order_by('created_at')
 
     print('user_conv_objects:', user_conversation_objects)
+    print('code-id', code_id)
 
     return render(request, 'course_playground_environment_new.html', {
         'user_session': initial_user_session,
@@ -3103,6 +3103,8 @@ import ast
 def new_course_handle_solution_submit(request):
 
     if request.method == 'POST':
+
+        print('POST-DATA:', request.POST)
 
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()

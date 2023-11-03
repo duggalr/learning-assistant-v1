@@ -463,7 +463,7 @@
             let std_question = `{{ pc_question_obj.question_text|safe }}`;
             // console.log('std-question:', std_question)
             // editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
-            editor.setValue(`# If you need any help, ask the AI to provide guidance.\n# If needed, define any helper functions within the primary function.\n\n` + `# Write your code below:\n\n`);
+            editor.setValue(`# If you need any help, ask the AI to provide guidance.\n# If needed, define any helper functions within the primary function.\n\n` + `# Write your code as a function below:\n\n`);
 
         }
 
@@ -1170,6 +1170,7 @@ mystdout.getvalue()
 
             else {
 
+                // TODO: fix bug and go from there
                 let cid = $('#code_obj_id').val();
                 let pclid = $('#course_question_obj_id').val();
 

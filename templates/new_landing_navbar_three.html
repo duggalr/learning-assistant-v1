@@ -21,10 +21,17 @@
                 </a>
             {% endif %}
 
-            <a class="item" href="{% url 'new_course_home' %}">
-                <i class="chess bishop icon" style="font-size: 12px;"></i>
-                Practice Python
-            </a>
+            {% if user_session %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    <i class="chess bishop icon" style="font-size: 12px;"></i>
+                    Python Exercises
+                </a>
+            {% else %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    <i class="chess bishop icon" style="font-size: 12px;"></i>
+                    Practice Python
+                </a>
+            {% endif %}
             <a class="item" href="{% url 'playground' %}">
                 <i class="chess icon" style="font-size: 12px;"></i>
                 AI Playground

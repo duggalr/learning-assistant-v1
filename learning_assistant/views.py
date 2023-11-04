@@ -114,8 +114,6 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
-        # print('input-params', input_param[0], input_param[1])
-        function_output = user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword

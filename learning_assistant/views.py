@@ -108,7 +108,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         try:
             function_output = user_function(input_param[0])
         except: # function execution error
-            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords such as imports or print statements.', 'user_function_output': None}
 
         # if isinstance(function_output, list) and isinstance(output_param, list):
         #     import collections
@@ -132,7 +132,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords such as imports or print statements.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -143,7 +143,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         try:
             function_output = user_function(input_param[0], input_param[1], input_param[2])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords such as imports or print statements.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
@@ -154,7 +154,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         try:
             function_output = user_function(input_param[0], input_param[1], input_param[2], input_param[3])
         except: # function likely named a special python keyword
-            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
+            return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords such as imports or print statements.', 'user_function_output': None}
         
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}

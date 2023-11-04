@@ -42,7 +42,7 @@ if 'PRODUCTION' in os.environ:
     ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app']
 else:
     ALLOWED_HOSTS = ['*']
-    CSRF_TRUSTED_ORIGINS = ['https://6fd8-2607-fea8-4361-be00-42f-2252-18d0-e551.ngrok-free.app']
+    # CSRF_TRUSTED_ORIGINS = ['https://bdcd-2607-fea8-4361-be00-11d3-812b-d5de-e8d9.ngrok-free.app']
 
 
 # Application definition
@@ -227,4 +227,5 @@ if 'PRODUCTION' in os.environ:
 ## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
+
 

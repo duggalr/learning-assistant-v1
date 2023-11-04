@@ -30,7 +30,7 @@ lib-detect-testenv==2.0.8
 loguru==0.7.2
 multidict==6.0.4
 multiprocess==0.70.15
-numpy==1.26.0
+numpy
 openai==0.28.0
 pinecone-client==2.2.4
 prompt-toolkit==3.0.39

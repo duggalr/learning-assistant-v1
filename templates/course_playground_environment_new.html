@@ -959,60 +959,79 @@ mystdout.getvalue()
                         
                         let test_case_list = response['test_case_list']
 
-                        let test_case_message = ''
-                        for (idx = 0; idx <= test_case_list.length-1; idx++){
-                            
-                            let tc_dict = test_case_list[idx]
-                            let tc_val = tc_dict['tc_id_text']
-                            let user_out_id = tc_dict['user_output_id_text']
-                            let tc_status = tc_dict['status']
-                            let user_fnc_output = tc_dict['user_function_output']
+                        let function_timeout_error = response['function_time_out_error']
 
-                            document.getElementById(user_out_id).innerHTML = user_fnc_output
-                            // $('#user_fnc_tb_header').show()
+                        if (function_timeout_error == true){
 
-                            if (tc_status == 1){
+                            document.getElementById('test-case-feedback').innerText = "Function timed out. 5 seconds max."
+
+                        } 
+                        else {
+
+                            let test_case_message = ''
+                            for (idx = 0; idx <= test_case_list.length-1; idx++){
                                 
-                                document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
+                                let tc_dict = test_case_list[idx]
+                                let tc_val = tc_dict['tc_id_text']
+                                let user_out_id = tc_dict['user_output_id_text']
+                                let tc_status = tc_dict['status']
+                                let user_fnc_output = tc_dict['user_function_output']
 
-                            } else {
+                                console.log('user-fnc-output:', user_fnc_output)
 
-                                document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
-                                test_case_message = tc_dict['message']
+                                try{
+                                    if (user_fnc_output.constructor == Object){
+                                        document.getElementById(user_out_id).innerHTML = JSON.stringify(user_fnc_output)
+                                    }
+                                } catch(err){
+                                    document.getElementById(user_out_id).innerHTML = user_fnc_output
+                                }
+                                
+                                // $('#user_fnc_tb_header').show()
+
+                                if (tc_status == 1){
+                                    
+                                    document.getElementById(tc_val).innerHTML = '<i class="check icon" style="color: green;"></i>'
+
+                                } else {
+
+                                    document.getElementById(tc_val).innerHTML = '<i class="x icon" style="color: red;"></i>'
+                                    test_case_message = tc_dict['message']
+
+                                }
 
                             }
 
+
+                            if (response['q_complete_success'] === true){
+                                $('.q_complete_label').show();
+                            }
+
+                            if (test_case_message == ''){
+                                test_case_message = 'All tests ran correctly. Nice Job!'
+                            }
+
+                            if ('cid' in response){
+                                
+                                let saved_cid = response['cid'];
+                                $("#code_obj_id").val(saved_cid);
+
+                            }
+
+                            document.getElementById('test-case-feedback').innerText = test_case_message;
+
                         }
-
-
-                        if (response['q_complete_success'] === true){
-                            $('.q_complete_label').show();
-                        }
-
-                        if (test_case_message == ''){
-                            test_case_message = 'All tests ran correctly. Nice Job!'
-                        }
-
-
-                        if ('cid' in response){
-                            
-                            let saved_cid = response['cid'];
-                            $("#code_obj_id").val(saved_cid);
-
-                        }
-
+                        
                         if (user_session != 'None'){
                             let prev_val = document.getElementById('code_submission_count').innerText
                             let new_subm_val = +prev_val + 1
                             document.getElementById('code_submission_count').innerText = new_subm_val
                         }
 
-                        document.getElementById('test-case-feedback').innerText = test_case_message;
                         $('#py_question_submit_feedback').show();
 
                         $('.solution-submit-button').removeClass('loading');
                         $('.solution-submit-button').removeClass('disabled');
-
 
                         if (initial_user_session == 'None'){
 

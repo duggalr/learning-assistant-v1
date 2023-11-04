@@ -68,6 +68,7 @@ globals_dict.update(
         'isinstance': isinstance,
         'range': range,
         'zip': zip,
+        'sorted': sorted
     }
 )
 
@@ -98,7 +99,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         return {'success': False, 'message': 'Code did not compile. Ensure no print or import statements are present in the code.', 'user_function_output': None}
 
     user_function = restricted_locals[function.name]
-        
+
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
         return {'success': False, 'message': f'The number of the parameters in the function is not correct. The function should have {len(input_param)} params.', 'user_function_output': None}
 
@@ -114,6 +115,7 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
+        user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
@@ -3120,6 +3122,7 @@ def new_course_handle_solution_submit(request):
         pt_q_test_cases = PythonLessonQuestionTestCase.objects.filter(lesson_question_obj = lesson_ques_obj)
         test_case_correct_list = []
         q_complete_success = True
+        function_time_out_error = False
         for qtc_obj in pt_q_test_cases:
             tc_input = qtc_obj.input_param
             tc_output = qtc_obj.correct_output
@@ -3131,11 +3134,17 @@ def new_course_handle_solution_submit(request):
 
             print('tc_input_list', tc_input_list)
 
-            valid_solution_dict = new_question_solution_check(
-                source_code = user_code,
-                input_param = tc_input_list,
-                output_param = tc_output,
-            )
+            try:
+                valid_solution_dict = new_question_solution_check(
+                    source_code = user_code,
+                    input_param = tc_input_list,
+                    output_param = tc_output,
+                )
+            except:
+                valid_solution_dict = {'success': False, 'message': 'Function timed out.', 'user_function_output': None}
+                function_time_out_error = True
+                # q_complete_success = False
+                break
 
             print('valid-solution-dict:', valid_solution_dict)
 
@@ -3162,7 +3171,8 @@ def new_course_handle_solution_submit(request):
 
             return JsonResponse({
                 'success': True, 
-                'test_case_list': test_case_correct_list
+                'test_case_list': test_case_correct_list,
+                'function_time_out_error': function_time_out_error
             })
 
         else:
@@ -3195,7 +3205,8 @@ def new_course_handle_solution_submit(request):
                     'cid': uc_obj.id, 
                     'test_case_list': test_case_correct_list,
                     'q_complete_success': q_complete_success,
-                    'total_q_submissions': total_submissions
+                    'total_q_submissions': total_submissions,
+                    'function_time_out_error': function_time_out_error
                 })
 
             else:
@@ -3228,7 +3239,8 @@ def new_course_handle_solution_submit(request):
                     'cid': uc_obj.id, 
                     'test_case_list': test_case_correct_list,
                     'q_complete_success': q_complete_success,
-                    'total_q_submissions': total_submissions
+                    'total_q_submissions': total_submissions,
+                    'function_time_out_error': function_time_out_error
                 })
 
 

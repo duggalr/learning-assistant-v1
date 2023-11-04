@@ -932,7 +932,6 @@ mystdout.getvalue()
 
         function handleSolutionSubmit(event){
 
-
             $('.solution-submit-button').addClass('loading');
             $('.solution-submit-button').addClass('disabled');
 
@@ -954,7 +953,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    // console.log('res:', response);
+                    console.log('solution-res:', response);
 
                     if (response['success'] == true){
                         
@@ -993,7 +992,14 @@ mystdout.getvalue()
                         if (test_case_message == ''){
                             test_case_message = 'All tests ran correctly. Nice Job!'
                         }
-                        
+
+
+                        if ('cid' in response){
+                            
+                            let saved_cid = response['cid'];
+                            $("#code_obj_id").val(saved_cid);
+
+                        }
 
                         if (user_session != 'None'){
                             let prev_val = document.getElementById('code_submission_count').innerText
@@ -1149,7 +1155,6 @@ mystdout.getvalue()
                 
             });
 
-
         };
 
 
@@ -1170,7 +1175,6 @@ mystdout.getvalue()
 
             else {
 
-                // TODO: fix bug and go from there
                 let cid = $('#code_obj_id').val();
                 let pclid = $('#course_question_obj_id').val();
 

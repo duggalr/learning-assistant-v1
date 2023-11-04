@@ -513,7 +513,8 @@ def dashboard(request):
     ).order_by('-uploaded_at')
     # print(user_file_objects)
 
-    total_lesson_questions = PythonLessonQuestion.objects.count()
+    # total_lesson_questions = PythonLessonQuestion.objects.count()
+    total_lesson_questions = PythonLessonQuestion.objects.exclude(order_number = 1).count()
 
     return render(request, 'new_user_dashboard.html',  {
         'user_session': initial_user_session,

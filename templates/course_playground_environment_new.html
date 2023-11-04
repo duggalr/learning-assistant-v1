@@ -273,7 +273,11 @@
                             {% for tobj in pt_course_test_case_examples %}
 
                                 <tr>
+                                    {% if 'Lesson 5' in tobj.lesson_question_obj.course_lesson_obj.lesson_title %}
+                                    <td data-label="Input">{{ tobj.input_param }}</td>
+                                    {% else %}
                                     <td data-label="Input">{{ tobj.input_param|slice:"1:-1" }}</td>
+                                    {% endif %}
                                     <td data-label="Output">{{ tobj.correct_output }}</td>
                                     <td id="user_output_{{ tobj.id }}" data-label="Function-Output"></td>
                                     <td id="status_{{ tobj.id }}" data-label="Correct"></td>
@@ -982,6 +986,8 @@ mystdout.getvalue()
                                 try{
                                     if (user_fnc_output.constructor == Object){
                                         document.getElementById(user_out_id).innerHTML = JSON.stringify(user_fnc_output)
+                                    } else {
+                                        document.getElementById(user_out_id).innerText = JSON.stringify(user_fnc_output)
                                     }
                                 } catch(err){
                                     document.getElementById(user_out_id).innerHTML = user_fnc_output

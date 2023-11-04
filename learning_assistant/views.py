@@ -68,7 +68,8 @@ globals_dict.update(
         'isinstance': isinstance,
         'range': range,
         'zip': zip,
-        'sorted': sorted
+        'sorted': sorted,
+        'reversed': reversed
     }
 )
 
@@ -103,19 +104,31 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
     if num_inputs != len(input_param):  # user incorrectly specified number of required inputs in their function
         return {'success': False, 'message': f'The number of the parameters in the function is not correct. The function should have {len(input_param)} params.', 'user_function_output': None}
 
-    if num_inputs == 1:
+    if num_inputs == 1:        
         try:
             function_output = user_function(input_param[0])
         except: # function execution error
             return {'success': False, 'message': 'Python compilation error. Ensure your function does not contain any special keywords.', 'user_function_output': None}
-        
+
+        # if isinstance(function_output, list) and isinstance(output_param, list):
+        #     import collections
+        #     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+        #     if compare(function_output, output_param):
+        #         return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        #     else:
+        #         return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+        # else:
+        #     if function_output == output_param:
+        #         return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
+        #     else:
+        #         return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
+
         if function_output == output_param:
             return {'success': True, 'message': 'Test case successfully passed.', 'user_function_output': function_output}
         else:
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
     elif num_inputs == 2:
-        user_function(input_param[0], input_param[1])
         try:
             function_output = user_function(input_param[0], input_param[1])
         except: # function likely named a special python keyword
@@ -148,6 +161,24 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
         else:
             return {'success': False, 'message': 'Function returned wrong output.', 'user_function_output': function_output}
 
+
+
+
+# source_code = """def unique_subsets(input_list):
+#     def backtrack(start, subset): 
+#         subsets.add(tuple(subset))
+        
+#         for i in range(start, len(input_list)):
+#             subset.append(input_list[i])
+#             backtrack(i + 1, subset)
+#             subset.pop()
+
+#     subsets = set()
+#     backtrack(0, [])
+
+#     return [list(subset) for subset in subsets]"""
+
+# print( new_question_solution_check(source_code, [[1, 2, 3]], [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]) )
 
 
 
@@ -3402,6 +3433,15 @@ def new_course_handle_ai_feedback(request):
                 )
                 uc_obj.save()
 
+                ur_obj = PythonLessonConversation.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    code_obj = uc_obj,
+                    question = model_response_dict['question'],
+                    question_prompt = model_response_dict['q_prompt'],
+                    response = model_response_dict['response'],
+                )
+                ur_obj.save()
+
                 return JsonResponse({
                     'success': True, 
                     'cid': uc_obj.id, 
@@ -3420,6 +3460,15 @@ def new_course_handle_ai_feedback(request):
                 uc_obj.lesson_question_obj = lesson_ques_obj
                 uc_obj.user_code = user_code
                 uc_obj.save()
+
+                ur_obj = PythonLessonConversation.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    code_obj = uc_obj,
+                    question = model_response_dict['question'],
+                    question_prompt = model_response_dict['q_prompt'],
+                    response = model_response_dict['response'],
+                )
+                ur_obj.save()
 
                 return JsonResponse({
                     'success': True, 

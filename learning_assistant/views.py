@@ -163,27 +163,6 @@ def new_question_solution_check(source_code, input_param, output_param, mode="ex
 
 
 
-
-# source_code = """def unique_subsets(input_list):
-#     def backtrack(start, subset): 
-#         subsets.add(tuple(subset))
-        
-#         for i in range(start, len(input_list)):
-#             subset.append(input_list[i])
-#             backtrack(i + 1, subset)
-#             subset.pop()
-
-#     subsets = set()
-#     backtrack(0, [])
-
-#     return [list(subset) for subset in subsets]"""
-
-# print( new_question_solution_check(source_code, [[1, 2, 3]], [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]) )
-
-
-
-
-
 def user_authentication_required(view_func, redirect_url="login"):
     """
     decorator ensures that a user is logged in
@@ -195,7 +174,6 @@ def user_authentication_required(view_func, redirect_url="login"):
         else:
             return view_func(request, *args, **kwargs)
     return wrapper
-
 
 
 oauth = OAuth()
@@ -3569,4 +3547,5 @@ def new_course_handle_ai_feedback(request):
 #             student_code = user_code,
 #             previous_chat_history_st = prev_conversation_st
 #         )
+
 

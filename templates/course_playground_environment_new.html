@@ -957,7 +957,7 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('solution-res:', response);
+                    // console.log('solution-res:', response);
 
                     if (response['success'] == true){
                         
@@ -981,7 +981,7 @@ mystdout.getvalue()
                                 let tc_status = tc_dict['status']
                                 let user_fnc_output = tc_dict['user_function_output']
 
-                                console.log('user-fnc-output:', user_fnc_output)
+                                // console.log('user-fnc-output:', user_fnc_output)
 
                                 try{
                                     if (user_fnc_output.constructor == Object){
@@ -1188,7 +1188,7 @@ mystdout.getvalue()
 
             if (initial_user_session == 'None'){
 
-                console.log('saving code.')
+                // console.log('saving code.')
 
                 let user_code = editor.getValue();
 

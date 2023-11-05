@@ -220,7 +220,6 @@ class LandingEmailSubscription(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-
 class PythonLessonVideoConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     course_lesson_obj = models.ForeignKey(PythonCourseLesson, on_delete=models.CASCADE)

@@ -2183,13 +2183,23 @@ def super_user_admin_dashboard(request):
     total_user_code_files = UserCode.objects.all().count()
     total_user_general_conversations = UserGeneralTutorConversation.objects.all().count()
 
+    total_python_user_code_files = PythonLessonUserCode.objects.all().count()
+    total_python_user_code_submissions = PythonLessonQuestionUserSubmission.objects.all().count()
+    total_course_user_conversations = PythonLessonConversation.objects.all().count()
+    new_landing_page_emails = LandingEmailSubscription.objects.all()
+
     return render(request, 'site_admin_dashboard.html', {
         'all_students': final_all_users_rv,
         'all_requested_teachers': requested_teacher_email_objects,
         'registered_teacher_student_list': registered_teacher_student_list,
         'total_user_code_conversations': total_user_code_conversations,
         'total_user_code_files': total_user_code_files,
-        'total_user_general_conversations': total_user_general_conversations
+        'total_user_general_conversations': total_user_general_conversations,
+
+        'total_python_user_code_files': total_python_user_code_files,
+        'total_python_user_code_submissions': total_python_user_code_submissions,
+        'total_course_user_conversations': total_course_user_conversations,
+        'new_landing_page_emails': new_landing_page_emails
     })
 
 

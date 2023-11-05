@@ -34,6 +34,11 @@
                     <i class="users icon" style="font-size: 13px;"></i>
                     Registered Users ({{ all_students|length }})
                 </a>
+
+                <a class="item" id="new_site_stats_tab">
+                    <i class="chart line icon" style="font-size: 13px;"></i>
+                    New Statistics
+                </a>
                 
                 <a class="item" id="requested_teachers_tab">
                     <i class="pencil alternate icon" style="font-size: 13px;"></i>
@@ -45,10 +50,10 @@
                     Registered Teachers and Students
                 </a>
 
-                <a class="item" id="site_stats_tab">
+                <!-- <a class="item" id="site_stats_tab">
                     <i class="chart line icon" style="font-size: 13px;"></i>
-                    Statistics
-                </a>
+                    Old Statistics
+                </a> -->
 
             </div>
 
@@ -207,6 +212,58 @@
             </div>
 
 
+
+            <!-- New Site Statistics -->
+            <div id="new_site_statistics_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 10px; display: none;">
+                
+                <p>
+                    <strong>
+                        Total Registered Users:
+                    </strong>
+                    {{ all_students|length }}
+                </p>
+
+                <p>
+                    <strong>
+                        Total Python User Code Files:
+                    </strong>
+                     {{ total_python_user_code_files }}
+                </p>
+
+                <p>
+                    <strong>
+                        Total Python User Code Submissions:
+                    </strong>
+                    {{ total_python_user_code_submissions }}
+                </p>
+
+                <p>
+                    <strong>
+                        Total Python User Conversations:
+                    </strong>
+                    {{ total_course_user_conversations }}
+                </p>
+
+                <p>
+                    <strong>
+                        Landing Page Email Count:
+                    </strong>
+                    {{ new_landing_page_emails|length }}
+                </p>
+
+
+                <h4>Landing Page Email Signups:</h4>
+                <ul>
+                    {% for lp_email_obj in new_landing_page_emails %}
+                    <li>
+                        {{ lp_email_obj.email }}
+                    </li>    
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+
         </div>
 
         <div class="two wide column"></div>
@@ -225,6 +282,23 @@
             $('#basic_usage_statistics_div').hide();
 
             $('#registered_users_tab').addClass('active');
+            $('#requested_teachers_tab').removeClass('active');
+            $('#registered_teacher_tab').removeClass('active');
+            $('#site_stats_tab').removeClass('active');
+
+        });
+
+        
+        $('#new_site_stats_tab').click(function(){
+
+            $('#new_site_statistics_div').show();
+            $('#primary_all_user_view_div').hide();
+            $('#requested_teachers_view_div').hide();
+            $('#registered_teachers_view_div').hide();
+            $('#basic_usage_statistics_div').hide();
+            
+            $('#new_site_stats_tab').addClass('active');
+            $('#registered_users_tab').removeClass('active');
             $('#requested_teachers_tab').removeClass('active');
             $('#registered_teacher_tab').removeClass('active');
             $('#site_stats_tab').removeClass('active');

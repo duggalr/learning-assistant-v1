@@ -77,11 +77,3 @@ byte_code = compile_restricted(
 exec(byte_code)
 user_function = locals()[function.name]
 print(user_function(3, 4))
-
-# TODO: 
-    # leverage this to get users code / function
-    # safe-execution on server-side <-- eliminate any use of libraries
-    # build out the view for the course and first lesson with the exercise
-        # test this code out and ensure everything works
-        # go from there to building out the lesson-plan and launching
-

@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import uuid
 import json
 import pickle
@@ -15,7 +18,8 @@ from RestrictedPython import compile_restricted
 from RestrictedPython import safe_builtins
 
 
-openai.api_key = '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'
+
+openai.api_key = os.environ['OPENAI_KEY']
 
 
 def get_embedding(text, model="text-embedding-ada-002"):
@@ -189,8 +193,6 @@ def main_handle_question(question, programming_problem, student_code, previous_c
             student_code = student_code
         )
 
-
-    print(q_prompt)
 
     di = {"role": "user", "content": q_prompt}
     messages_list = [di]

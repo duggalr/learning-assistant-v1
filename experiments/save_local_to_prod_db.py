@@ -25,30 +25,28 @@
 #     cl_obj.lesson_video = li[idx]
 #     cl_obj.save()
 
-# TODO: 
-    # record all the lesson videos
-    # record the landing page video
-    # create prod-db-save script
-    # update requirements
-    # push everything to prod
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 import psycopg2
 
 
 # Local database connection parameters
 local_db_params = {
-    'host': 'localhost',
-    'database': 'gpt_learning_assistant_db',
-    'user': 'learning_assistant_user',
-    'password': 'Umakant12!',
+    'host': os.environ['LOCAL_DB_HOST'],
+    'database': os.environ['LOCAL_DB_NAME'],
+    'user': os.environ['LOCAL_DB_HOST_USER'],
+    'password': os.environ['LOCAL_DB_PASSWORD'],
 }
 
 # Production database connection parameters
 prod_db_params = {
-    'host': 'awseb-e-esuxgsyue7-stack-awsebrdsdatabase-xbcizluoa2sz.cbcmd8zcsbai.ca-central-1.rds.amazonaws.com',
-    'database': 'ebdb',
-    'user': 'ebroot',
-    'password': 'Sle8kqb7uxds74dlok402418!',
+    'host': os.environ['RDS_DB_HOST'],
+    'database': os.environ['RDS_DB_NAME'],
+    'user': os.environ['RDS_DB_USERNAME'],
+    'password': os.environ['RDS_DB_PASSWORD'],
 }
 
 prod_conn = psycopg2.connect(**prod_db_params)

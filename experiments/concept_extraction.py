@@ -1,19 +1,22 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import psycopg2
 import psycopg2.extras
 import openai
 
 
 
-openai.api_key = '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'
+openai.api_key = os.environ['OPENAI_KEY']
 
 conn = psycopg2.connect(
-    host = 'awseb-e-esuxgsyue7-stack-awsebrdsdatabase-xbcizluoa2sz.cbcmd8zcsbai.ca-central-1.rds.amazonaws.com',
+    host = os.environ['RDS_DB_HOST'],
     port = '5432',
-    database = 'ebdb',
-    user = 'ebroot',
-    password = 'Sle8kqb7uxds74dlok402418!'
+    database = os.environ['RDS_DB_NAME'],
+    user = os.environ['RDS_DB_USERNAME'],
+    password = os.environ['RDS_DB_PASSWORD']
 )
-# Create a cursor to perform database operations
 cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
 
 sql = """
@@ -70,4 +73,3 @@ Return your answer in a list format.
     f.write('\n')
 
     count += 1
-

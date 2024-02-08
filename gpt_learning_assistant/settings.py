@@ -42,7 +42,6 @@ if 'PRODUCTION' in os.environ:
     ALLOWED_HOSTS = ['codecompanion.app', 'www.codecompanion.app']
 else:
     ALLOWED_HOSTS = ['*']
-    # CSRF_TRUSTED_ORIGINS = ['https://bdcd-2607-fea8-4361-be00-11d3-812b-d5de-e8d9.ngrok-free.app']
 
 
 # Application definition
@@ -162,15 +161,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 EMAIL_USE_TLS = True  
-EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ['SMTP_EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['SMTP_PASSWORD']
 EMAIL_PORT = 587  
 
 ## Celery
 if 'PRODUCTION' in os.environ:
-    CELERY_BROKER_URL = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
-    CELERY_RESULT_BACKEND = "redis://default:W69a6gEdTMH6AKxDnx4lRtZMXbepBjcU@redis-18616.c80.us-east-1-2.ec2.cloud.redislabs.com:18616"
+    CELERY_BROKER_URL = os.environ['REDIS_PROD_BROKER_URL']
+    CELERY_RESULT_BACKEND = os.environ['REDIS_PROD_RESULT_BACKEND']
 else:
     CELERY_BROKER_URL = "redis://localhost:6379"
     CELERY_RESULT_BACKEND = "redis://localhost:6379"
@@ -227,5 +226,4 @@ if 'PRODUCTION' in os.environ:
 ## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
-
 

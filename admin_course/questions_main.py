@@ -4,7 +4,7 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gpt_learning_assistant.settings")
 import django
 django.setup()
-from learning_assistant.models import *
+from learning_assistant.old_models import *
 
 
 

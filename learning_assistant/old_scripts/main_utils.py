@@ -6,8 +6,8 @@ import uuid
 import json
 import pickle
 import datetime
-from pypdf import PdfReader
-import numpy as np
+# from pypdf import PdfReader
+# import numpy as np
 import openai
 import pinecone
 

@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+
+
+        #landing_header:hover{
+            color: black;
+            transform: scale(1.1);
+            transition: all ease 500ms;
+        }
+
+        #demo_link:hover{
+            font-weight: bold;
+        }
+
+    </style>
+
+
+    {% include 'landing_navbar.html' %}
+
+    <!-- Section 1: Landing -->
+    
+    <section>
+
+        <div class="ui two column centered grid">
+            
+            <!-- <div class="column" style="text-align: center; width: 75%; margin-top: 1.5%;"> -->
+            <div class="column" style="text-align: center; width: 100%;  margin-top: 1.5%;">
+
+                <h1 id="landing_header" class="ui header" style="font-size: 32px; font-family: 'Raleway', sans-serif; padding-top: 0px; margin-top: 0px;">
+                    Code Companion
+                </h1>
+    
+                <p style="font-size: 17px; font-family: 'Raleway', sans-serif; padding-top: 5px; line-height: 1.9em;">
+                    <!-- Learn Python Programming with a GPT-4 powered Programming Tutor that helps you at each step along the way.
+                    <br/>
+                    Sign up and start using it in our Playground. 100% Free. -->
+                    
+                    <!-- A GPT-4-based personal tutor, to help you with your programming homework. 100% Free. -->
+                    <!-- A GPT-4-based personal tutor, to help answer your Python Programming Questions. 100% Free. -->
+                    A GPT-4-based Personal Tutor, designed to help answer your Programming Questions. 100% Free.
+                    <br/>
+                    <a class="item" href="{% url 'practice_questions' %}">Learn Python with our exercises</a>, or get help solving your own questions. Create an account and visit our <a href="{% url 'playground' %}">playground</a> to get started.
+                    <!-- It won't solve your homework, but will definitely guide your thinking and help you develop a deeper understanding of the material. -->
+                    <br/>
+                                        
+                    <!-- <a href="{% url 'about' %}">
+                        See a list of our Features
+                    </a> -->
+                </p>
+
+                <div style="padding-bottom: 15px; font-family: 'Raleway', sans-serif;">
+                    <a id="demo_link" style="font-size: 18px;" href="https://www.youtube.com/watch?v=iju3yQSQNF4" target="_blank" rel="noopener noreferrer">
+                        Watch me go through a Python Exercise with Code Companion.
+                    </a>
+                </div>
+
+
+                <div id="main-button-row" style="padding-top: 8px; padding-bottom: 10px;">
+                    
+                    {% if user_session %}
+
+                        <div class="ui animated large black button" tabindex="0" id="dashboard_button">
+                            <div class="visible content">
+                                Your Dashboard
+                            </div>
+                            <div class="hidden content">
+                            <i class="right arrow icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="ui animated large black button" tabindex="0" id="playground_visit_button">
+                            <div class="visible content">
+                                Go to Playground.
+                            </div>
+                            <div class="hidden content">
+                                <i class="code icon"></i>
+                            </div>
+                        </div>
+
+                    {% else %}
+
+                        <div class="ui animated large black button" tabindex="0" id="account_create_button">
+                            <div class="visible content">
+                                Create an Account. 100% Free.
+                            </div>
+                            <div class="hidden content">
+                                <i class="right arrow icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="ui animated large black button" tabindex="0" id="playground_visit_button_two">
+                            <div class="visible content">
+                                Try the AI in our Code Editor Playground.
+                            </div>
+                            <div class="hidden content">
+                                <i class="code icon"></i>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                    
+                </div>
+
+                <!-- <span style="color: gray; font-size: 12px;">
+                    By creating an account, you will be able to save all your previous conversations and code you entered...
+                </span> -->
+    
+                <div style="margin-top: 20px;">
+                    <!-- <iframe width="800" height="500" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
+                    <video id="landing_demo_video" width="1000"  name="Landing Demo" loop="true" autoplay="autoplay" controls muted>
+                        <source src="https://file-app-bucket.s3.ca-central-1.amazonaws.com/landing_demo.mov">
+                    </video>
+                </div>
+
+            </div>
+      
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    {% include 'landing_footer.html' %}
+
+
+    <script>
+
+        var video = document.getElementById('landing_demo_video');
+        video.playbackRate = 4.0;
+
+
+        $('#dashboard_button').click(function(){
+
+            window.location.href = 'dashboard';
+
+        });
+
+
+        $('#account_create_button').click(function(){
+
+            window.location.href = 'login';
+
+        });
+
+        $('#playground_visit_button').click(function(){
+
+            window.location.href = 'playground';
+
+        });
+
+
+        $('#playground_visit_button_two').click(function(){
+
+            window.location.href = 'playground';
+
+        });
+ 
+
+
+    </script>
+
+
+{% endblock %}
+
+

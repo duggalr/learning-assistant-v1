@@ -160,11 +160,11 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_USE_TLS = True  
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ['SMTP_EMAIL']
-EMAIL_HOST_PASSWORD = os.environ['SMTP_PASSWORD']
-EMAIL_PORT = 587  
+# EMAIL_USE_TLS = True  
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = os.environ['SMTP_EMAIL']
+# EMAIL_HOST_PASSWORD = os.environ['SMTP_PASSWORD']
+# EMAIL_PORT = 587  
 
 ## Celery
 if 'PRODUCTION' in os.environ:

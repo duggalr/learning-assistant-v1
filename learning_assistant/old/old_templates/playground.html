@@ -1,0 +1,1150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+
+        #code-column{
+            padding-top: 20px;
+            padding-left: 0px;
+        }
+
+        #output-chat-assistant-column{
+            padding-top: 30px;
+        }
+
+        .code-editor {
+            border: 1px solid #d4d4d5;
+            width: 98%;
+            /* height: 100%; */
+            /* padding-top: 0px;
+            margin-top: 0px; */
+        }
+
+        #code {
+            width: 100%;
+            /* height: auto; */
+            word-break: break-word;
+        }
+
+        #output {
+            width: 100%;
+            /* height: 100%; */
+            height: 100%;
+            border: none; /* Remove border from both code and output textarea */
+            resize: none;
+        }
+        
+        .output-code {
+            /* Add any additional styling for the output segment here */
+            border: 1px solid #d4d4d5;
+            width: 100%;
+            height: 30%;
+        }
+
+
+        h4{
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .chat-container {
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow-y: auto;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 20px;            
+        }
+
+        .input-box {
+            /* flex-grow: 1; */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #edit_filename_span:hover{
+            cursor: pointer;
+        }
+
+        #generate_code_fb_button:hover{
+            cursor: pointer;
+        }
+
+        #clear_output_link{
+            color: #1e70bf;
+            font-size: 14.5px; 
+            font-weight: 500; 
+            padding-left: 5px;
+        }
+
+        #clear_output_link:hover{
+            font-weight: bold;   
+            cursor: pointer;       
+        }
+
+    </style>
+
+
+    
+    {% include 'dashboard_navbar.html' %}
+
+
+    <div class="ui grid container">
+
+        <!-- Code Editor -->
+        <div class="nine wide column" id="code-column">
+
+            {% if lesson_question_object is not None %}
+
+                <!-- <a href="{% url 'practice_questions' %}" > -->
+                <a href="#" onclick="goBackPage();return false;">
+                    <i class="arrow alternate circle left outline icon"></i>
+                    Back
+                </a>
+
+            {% else %}
+
+                {% if user_session is not None %}
+
+                    <!-- <a href="#" onclick="goBackPage();return false;"> -->
+                    <a href="{% url 'dashboard' %}">
+                        <i class="arrow alternate circle left outline icon"></i>
+                        Back to Dashbaord
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'playground' %}">
+                        <!-- <i class="arrow alternate circle left outline icon"></i> -->
+                        <i class="plus icon"></i>
+                        New question
+                    </a>
+
+                {% endif %}
+
+            {% endif %}
+
+            
+            <div style="display: flex; align-items: center; padding-top: 15px;">
+
+                <h4 style="margin: 0;">
+                    
+                    {% if code_id is not None %}
+                        
+                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ uc_obj.code_unique_name }}</span>
+                        {% if user_session is not None %}
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}" style="display: none;">
+                            <button id="file_name_input_submit" style="display: none;">save</button>
+                            &nbsp;
+                            <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+                        {% endif %}
+
+                    {% elif qid is not None  %}
+                        
+                        <span id="code_file_name_text" style="font-size: 16px;">File: {{ lesson_question_object.question_name }}</span>    
+                        {% if user_session is not None %}
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ lesson_question_object.question_name }}" style="display: none;">
+                            <button id="file_name_input_submit" style="display: none;">save</button>
+                            &nbsp;
+                            <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+                        {% endif %}
+
+                    {% elif user_session is not None %}
+
+                    <span id="code_file_name_text" style="font-size: 16px;">File: {{ initial_rnd_file_name }}</span>    
+                    <input type="text" id="file_name_input" name="file_name_input" value="{{ lesson_question_object.question_name }}" style="display: none;">
+                    <button id="file_name_input_submit" style="display: none;">save</button>
+                    &nbsp;
+                    <span id="edit_filename_span" style="font-size: 13px; color: #1e70bf;">change filename</span>
+
+                    {% else %}
+
+                        <i class="code icon"></i>Code Editor
+
+                    {% endif %}
+
+                </h4>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                {% if user_session is not None %}
+                
+                    <div id="save_code_button" class="ui tiny animated primary button" tabindex="0" onclick="saveCode()" style="margin-left: 2%;">
+                        <div class="visible content">Save Code</div>
+                        <div class="hidden content">
+                            <i class="save icon"></i>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+                <span id="save_code_success_text" style="margin-left: 0%; color: green; display: none;">Code Saved!&nbsp;<i class="check icon"></i></span>
+                
+                &nbsp;&nbsp;
+
+                <div class="ui tiny animated primary button" tabindex="0" onclick="evaluatePython()" style="margin-left: 0%;">
+                    <div class="visible content">Run Code</div>
+                    <div class="hidden content">
+                        <i class="play icon"></i>
+                    </div>
+                </div>
+                
+                &nbsp;&nbsp;
+
+                {% if user_session is not None %}
+
+                    <div id="solution_submit_button" class="ui tiny animated positive button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%;">
+                        <div class="visible content">Submit</div>
+                        <div class="hidden content">
+                            <i class="check icon"></i>
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div  id="solution_submit_button" class="ui tiny animated positive disabled button" tabindex="0" onclick="handleSolutionSubmit()" style="margin-left: 0%; display: none;">
+                        <div class="visible content">Submit</div>
+                        <div class="hidden content">
+                            <i class="check icon"></i>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+                {% if user_session is None %}
+
+                    <div class="ui animated tiny black button playground_sign_up_button" tabindex="0">
+                        <div class="visible content">
+                            Sign up to save your code
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right icon"></i>
+                        </div>
+                    </div>
+
+                    <a href="https://www.youtube.com/watch?v=ncAaBK_Iw8E" style="margin-left: 1%; font-size: 13px; padding-top: 5px;" target="_blank" rel="noopener noreferrer">See Demo</a>
+
+                {% endif %}
+                    
+            </div>
+
+            <!-- <div style="display:flex; align-items:baseline; padding-top: 30px; padding-bottom: 0px; margin-bottom: 0px;">
+                <h4>File: {{ uc_obj.code_unique_name }}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>
+                    edit name
+                </span>
+            </div> -->
+            
+            <div class="ui segment code-editor" style="margin-top: 20px;">
+                <textarea id="code"></textarea>
+            </div>
+
+            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+            <input id="lesson_question_obj_id" type="hidden" value="{{ qid }}" />
+
+            <!-- <input id="course_question_obj_id" type="hidden" value="{{ pclid }}" /> -->
+
+            <!-- <button class="ui primary button" onclick="evaluatePython()">
+                <h5>Run</h5>
+            </button> -->
+
+            <!-- <h4>Output</h4>
+            <div class="ui segment output-code ">
+                <textarea id="output" disabled></textarea>
+            </div> -->
+
+        </div>
+
+
+        <!-- Chat Assistant -->
+        <div class="seven wide column" id="output-chat-assistant-column">
+
+            <h4>
+                <i class="bug icon"></i>
+                Output
+                <span id="clear_output_link">
+                Clear Output
+                </span>
+            </h4>
+
+            <div class="ui segment output-code">
+                <textarea id="output" disabled></textarea>
+            </div>
+
+            <!-- <div style="display: flex; justify-content: space-between; padding-top: 10px;">
+                <h4>
+                    <i class="comment icon"></i> Programming Assistant
+                </h4>
+            </div> -->
+            
+
+                <div class="ui tabular menu tab-menu">
+                    
+                    <a class="item active" id="programming_assistant_tab">
+                        <i class="comment icon"></i> Programming Assistant
+                    </a>
+                    
+                    {% if lesson_question_object is not None or teacher_question_object is not None or pt_course_lesson_question_obj is not None %}
+                    
+                        <a class="item" id="example_test_case_tab">
+                            <i class="bug icon"></i> Test Cases
+                        </a>
+
+                    {% else %}
+
+                        <a class="disabled item" id="example_test_case_tab">
+                            <i class="bug icon"></i> Test Cases
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div id="example_test_case_div" style="display: none;">
+                    
+                    <br/>
+
+                    {% if teacher_question_test_cases|length > 0 %}
+
+                        {% for lc_tc_obj in teacher_question_test_cases %}
+
+                            {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
+
+                                <div class="message">
+
+                                    <strong>
+                                        Test Case:
+                                    </strong>
+                                    <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                    <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                                </div>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                    {% elif pt_course_test_case_examples|length > 0 %}
+
+                        {% for lc_tc_obj in pt_course_test_case_examples %}
+
+                            {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
+
+                                <div class="message">
+
+                                    <strong>
+                                        Test Case:
+                                    </strong>
+                                    <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                    <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                                </div>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+                    
+                    {% else %}
+
+                        {% for lc_tc_obj in lesson_question_test_cases %}
+
+                            {% if lc_tc_obj.input_param is not None and lc_tc_obj.input_param|length > 0 %}
+
+                                <div class="message">
+
+                                    <strong>
+                                        Test Case:
+                                    </strong>
+                                    <li>Input: {{ lc_tc_obj.input_param }}</li>
+                                    <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                                </div>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+
+                    {% endif %}
+
+
+                    {% if lesson_question_test_cases|length == 0 %}
+
+                        <p style="color: gray;">
+                            Test Cases available for Lesson Questions only.
+                        </p>
+
+                    {% endif %}
+
+                    <!-- {% for lc_tc_obj in lesson_question_test_cases %}
+                        
+                        <div class="message">
+
+                            <strong>
+                                Test Case:
+                            </strong>
+                            <li>Input: {{ lc_tc_obj.input_param }}</li>
+                            <li>Expected Output: {{ lc_tc_obj.correct_output }}</li>
+
+                        </div>
+
+                    {% endfor %}
+
+                    {% if lesson_question_test_cases|length == 0 %}
+
+                        <p style="color: gray;">
+                            Example Test Cases available for Lesson Questions only.
+                        </p>
+
+                    {% endif %} -->
+                    
+                </div>
+
+                
+                <div id="programming_assistant_div">
+
+                    <!-- <div style="display: flex; justify-content: space-between; padding-top: 10px;">
+                        <h4>
+                            <i class="comment icon"></i> Programming Assistant
+                        </h4>
+                    </div> -->
+                    
+                    <div class="chat-container" id="chat">
+                        
+                        <div class="message">
+                            <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                            I'm Code Companion, your personal programming tutor.
+                            <br/><br/>
+                            If you are running into a problem such as a bug in your code, or need help understanding a concept, ask me and I will be more than happy to help.
+                            <br/><br/>
+                            You can also use me to generate more practice questions for you, for specific concepts you want further review on.
+                            <br/><br/>
+                            I won't give you the answer, but will definitely point you in the right direction! &#128512;
+                            <!-- <br/><br/> -->
+                            <!-- <li>Remember, programming like anything else takes practice and concentration. Use me to help you understand concepts better</li> -->
+                        </div>
+    
+                        <hr>
+    
+                        <br/>
+                        {% for ucs_obj in user_conversation_objects %}
+                        
+                            <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                            <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+    
+                        {% endfor %}
+    
+                    </div>
+                    
+    
+                    {% if user_session is not None %}
+    
+                        <div class="input-container">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div>
+    
+                        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                        </span>
+    
+                    {% else %}
+
+                        <!-- <div style="margin-top: 3%;">
+                            <button class="ui black basic button" id="create_account_button">
+                                Create an account to start asking questions
+                            </button>
+                        </div>
+    
+                        <br/> -->
+
+                        <!-- <div class="input-container" style="display: none;">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div> -->
+
+                        <div class="input-container">
+            
+                            <div class="ui form" style="width: 100%;">
+                                <div class="field">
+                                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                                </div>                    
+                            </div>
+                            &nbsp;
+                            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+    
+                        </div>
+    
+                        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                        </span>
+    
+                    {% endif %}
+
+
+                </div>
+
+
+
+        </div>
+
+    </div>
+
+    <!-- <br/>
+    <br/>
+    <br/>
+    <br/> -->
+    <!-- <br/> -->
+    <!-- <br/> -->
+    <!-- <br/>
+    <br/> -->
+
+    <script>
+
+        $('.tabular.menu .item').tab();
+
+
+        $('#example_test_case_tab').click(function(){
+
+            $('#example_test_case_tab').addClass('active');
+            $('#programming_assistant_tab').removeClass('active');
+
+            $('#example_test_case_div').show();
+            $('#programming_assistant_div').hide();
+
+        });
+
+        
+        $('#programming_assistant_tab').click(function(){
+
+            $('#programming_assistant_tab').addClass('active');
+            $('#example_test_case_tab').removeClass('active');
+
+            $('#programming_assistant_div').show();
+            $('#example_test_case_div').hide();
+
+        });
+
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "python",
+                version: 3,
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "default",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+        editor.setSize(600, 700);
+        
+
+        user_session = '{{ user_session }}';
+        let user_cid = '{{ code_id }}';
+        let lesson_qid = '{{ qid }}';
+        let user_code_obj = '{{ uc_obj }}';
+        let stdqid = '{{ stdqid }}';
+        let teacher_question_object = '{{ teacher_question_object }}';
+
+    
+        if (user_code_obj != 'None'){
+
+            let user_code_st = `{{ uc_obj.user_code|safe }}`;
+            editor.setValue(user_code_st);
+
+        } else if (lesson_qid != 'None'){
+
+            let lesson_question = `{{ lesson_question_object.question_text|safe }}`
+            // console.log('lesson-q:', lesson_question)
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + lesson_question + `\n\n# Write your code below:\n\n`);
+
+        } else if (stdqid != 'None'){
+
+            let std_question = `{{ teacher_question_object.question_text|safe }}`
+            editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+
+        } 
+        else {
+
+            editor.setValue(`# Run the code by clicking the button above\n# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# Write your question here...\n\n# Write your code below:\n\nprint('Hello Code Companion!')`);
+
+        }
+
+
+
+        async function main() {
+            let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+            
+            // console.log('pyodide done.')
+            // $('#loading_dimmer').hide();
+
+            // Pyodide ready
+            output.value += "Ready!\n";
+            return pyodide;
+        };
+
+        let pyodideReadyPromise = main();
+
+
+        function addToOutput(s) {
+            
+            // console.log('code-output:', s);
+
+            try {
+
+                let val_list = s.split("\n");
+                for (i=0; i <= val_list.length-2; i++){
+                    let otv = val_list[i];
+                    output.value += ">>> " + otv + "\n"; 
+                }
+
+                var textarea = document.getElementById('output');
+                textarea.scrollTop = textarea.scrollHeight;
+
+            } catch(err) {
+
+                output.value += ">>> " + s + "\n";
+
+            }
+            
+        }
+            
+
+        async function evaluatePython() {
+            let pyodide = await pyodideReadyPromise;
+            try {
+                let captureOutputCode = `
+import sys
+from io import StringIO
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+
+${editor.getValue()}
+
+sys.stdout = old_stdout
+mystdout.getvalue()
+`;
+
+                let output = pyodide.runPython(captureOutputCode);
+
+                console.log('User Code:', editor.getValue())
+                console.log('CODE OUTPUT:', output);
+
+                addToOutput(output);
+
+                // console.log('user-sessions:', user_session)
+                if (user_session != 'None'){
+                    saveCode();
+                }
+
+            } catch (err) {
+                
+                addToOutput(err);
+
+                // saveCode();
+                if (user_session != 'None'){
+                    saveCode();
+                }
+
+            }
+        }
+
+
+        // Chat Functionality
+        const chat = document.getElementById("chat");
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+
+
+        sendButton.addEventListener("click", sendMessage);
+        chatInput.addEventListener("keydown", (event) => {
+        
+            if (event.keyCode == 13 && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+
+        });
+
+
+        $("#chatInput").on('keyup', function(event) {
+            
+            var currentString = $("#chatInput").val()
+
+            if (currentString.length > 0){
+
+                $('#sendButton').removeClass('disabled');
+                
+            } else {
+                $('#sendButton').addClass('disabled');
+            }
+           
+        });
+
+        // https://stackoverflow.com/questions/11502122/jquery-keypress-event-for-cmds-and-ctrls
+        $(document).keydown(function(event) {
+
+                if((event.ctrlKey || event.metaKey) && event.which == 83) {
+                    // Save Function
+                    event.preventDefault();
+                    saveCode();
+                    return false;
+                };
+            }
+
+        );
+
+        
+        $("#generate_code_fb_button").click(function(){
+
+            $('#chatInput').val('Can you provide feedback on my code? Any advice or suggestions for improvement?');
+
+            $('#sendButton').click();
+            
+            $("#generate_code_fb_button").hide();
+
+        });
+
+
+
+        const initial_user_session = '{{ user_session }}';
+
+        var url_string = window.location.href; 
+        var url = new URL(url_string);
+        var c = url.searchParams.get("lqid");
+        // console.log('lqid', c);
+
+        let anon_user_messages = [];
+        if (initial_user_session == 'None' && c == null){
+
+            let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
+
+            // console.log('tmp-user-messages:', tmp_usr_messages)
+
+            if (tmp_usr_messages != null){
+                anon_user_messages = tmp_usr_messages
+
+                if (anon_user_messages.length > 0){
+
+                    for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
+
+                        // console.log(idx, idx+1)
+
+                        let messageText = anon_user_messages[idx]
+                        let model_response_message = anon_user_messages[idx+1]
+
+                        const message = document.createElement("div");
+                        message.className = "message";
+                        message.innerHTML = "<b>You:</b> " + messageText;
+                        message.style.whiteSpace = 'pre-wrap'
+                        chat.appendChild(message);
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+
+                        // chat.scrollTop = chat.scrollHeight;
+
+                    }
+
+
+                    // localStorage.setItem('anon_playground_user_code', user_code);
+                    let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
+                    // console.log('anon-user-code:', anon_user_code_st);
+                    editor.setValue(anon_user_code_st);
+
+                }
+
+            }
+
+        }
+
+
+        if (c != null){
+            localStorage.removeItem("anon_playround_user_messages");
+            localStorage.removeItem("anon_playground_user_code");
+            // let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
+            // localStorage.getItem('anon_playground_user_code');
+        }
+
+
+
+        function sendMessage() {
+
+            const messageText = chatInput.value.trim();
+
+            if (messageText !== "") {
+
+                // console.log('message-text:', messageText)
+
+                $('#chatInput').prop('disabled', true);
+
+                $('#sendButton').hide();
+                $('#primary_loading_button').show();
+
+                const message = document.createElement("div");
+                message.className = "message";
+                message.innerHTML = "<b>You:</b> " + messageText;
+                message.style.whiteSpace = 'pre-wrap'
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+                
+                chatInput.value = "";
+
+                // let user_code = $('#code').val().trim();
+                let user_code = editor.getValue();
+
+                // console.log('user-code:', user_code)
+
+                let cid = $('#code_obj_id').val();
+                let lqid = $('#lesson_question_obj_id').val();
+                // let pclid = $('#course_question_obj_id').val();
+
+
+                let d = {};
+                if (initial_user_session == 'None'){
+
+                    let prev_conversation_history = []
+                    if (anon_user_messages.length > 0){
+                        
+                        prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+
+                    }
+
+                    let prev_conversation_history_st = ''
+                    if (prev_conversation_history.length > 0){
+                        
+                        prev_conversation_history_st = prev_conversation_history.join('\n');
+                        
+                    }
+
+                    d = {
+                        'message': messageText,
+                        'user_code': user_code,
+                        'previous_messages': prev_conversation_history_st,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+
+                } 
+                else {
+
+                    d = {
+                        'message': messageText,
+                        'user_code': user_code,
+                        'cid': cid,
+                        'lqid': lqid,
+                        // 'pclid': pclid,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    };
+
+                }
+         
+                
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'handle_user_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
+
+                        // console.log('response:', response);
+                        
+                        var model_response_dict = response['response'];
+                        // var model_response_message = model_response_dict['response']
+
+                        // console.log('Response Dict:', model_response_dict)
+
+                        var model_response_message = model_response_dict['response'];
+                        // model_response_message = model_response_message.replaceAll('\n', '<br/><br/>');
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                        // console.log('Response:', model_response_message)
+
+                        var user_question = model_response_dict['question'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+                        
+                        chat.scrollTop = chat.scrollHeight;
+
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
+                        
+
+                        if (initial_user_session == 'None'){
+
+                            var final_question_st = messageText
+                            var final_response_st = model_response_message
+                            anon_user_messages.push(final_question_st)
+                            anon_user_messages.push(final_response_st)
+                            
+                            localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+                            localStorage.setItem('anon_playground_user_code', user_code);
+
+                        } else {
+
+                            let saved_cid = model_response_dict['cid'];
+                            $('#code_obj_id').val(saved_cid);
+
+                        }
+
+                        $('#solution_submit_button').removeClass("disabled");
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+                // const message = document.createElement("div");
+                // message.className = "message";
+                // // message.textContent = "You: " + messageText;
+                // message.innerHTML = "<b>You:</b> " + messageText;
+                // message.style.whiteSpace = 'pre-wrap'
+                // chat.appendChild(message);
+                
+                // chatInput.value = "";
+                
+                // // Replace this with actual LLM interaction
+                // const response = generateLLMResponse(messageText);
+                // const responseMessage = document.createElement("div");
+                // responseMessage.className = "message";
+                // // responseMessage.textContent = "LLM: " + response;
+                // responseMessage.innerHTML = "<b>LLM:</b> " + response;
+                // chat.appendChild(responseMessage);
+                
+                // chat.scrollTop = chat.scrollHeight;
+
+            }
+
+        }
+
+
+
+        function saveCode(){
+
+            // console.log('cid:', $('#code_obj_id').val())
+
+            let cid = $('#code_obj_id').val();
+            let lqid = $('#lesson_question_obj_id').val();
+
+            let user_code = editor.getValue();
+            let d = {
+                'cid': cid,
+                'lqid': lqid,
+                'user_code': user_code,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'save_user_code' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    // console.log('response:', response);
+
+                    if (response['success'] == true){
+
+                        if (cid == 'None'){
+
+                            // window.location.reload();
+                            // window.location.href = ''
+                            var url = new URL(window.location.href);
+                            url.searchParams.set('cid', response['cid']);
+                            window.history.replaceState(null, null, url);
+                            // window.location.href = url;
+                            
+                            // console.log('cid:', response['cid']);
+                            let saved_cid = response['cid'];
+                            $("#code_obj_id").val(saved_cid);
+
+                        } else {
+
+                            let saved_cid = response['cid'];
+                            $('#code_obj_id').val(saved_cid);
+                            
+                            $('#save_code_button').hide().promise().done(function(){
+
+                                $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
+                                    $('#save_code_button').show();
+                                });
+
+                            });
+
+                        }
+
+                    }
+
+                },
+                error: function (response) {}
+                
+            });
+
+        }
+
+
+
+        $('#edit_filename_span').click(function(){
+
+            $('#code_file_name_text').hide();
+            $('#edit_filename_span').hide();
+            
+            $('#file_name_input').show();
+            $('#file_name_input_submit').show();
+
+        });
+
+
+
+        $('#file_name_input_submit').click(function(){
+
+            let new_file_name = $('#file_name_input').val();
+            let cid = $('#code_obj_id').val();
+            let lqid = $('#lesson_question_obj_id').val();
+            let user_code = editor.getValue();
+
+            let d = {
+                'cid': cid, 
+                'lqid': lqid,
+                'user_code': user_code,
+                'new_file_name': new_file_name,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_file_name_change' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    // console.log('response:', response);
+
+                    $('#code_file_name_text').html("File: " + response['new_file_name']);
+                    $('#file_name_input').val(response['new_file_name']);
+
+                    $('#file_name_input').hide();
+                    $('#file_name_input_submit').hide();
+                    $('#code_file_name_text').show();
+                    $('#edit_filename_span').show();
+
+
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('cid', response['cid']);
+                    window.history.replaceState(null, null, url);
+                    
+                    // console.log('cid:', response['cid']);
+                    let saved_cid = response['cid'];
+                    $("#code_obj_id").val(saved_cid);
+
+                },
+                error: function (response) {}
+                
+            });
+
+        })
+
+        
+        function handleSolutionSubmit(){
+
+            $('#chatInput').val('I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?');
+
+            $('#sendButton').click();
+
+            // $("#generate_code_fb_button").hide();
+
+            // setInterval(function() {
+                
+            //     // $('#solution_submit_button').addClass('disabled');
+            //     $('#solution_submit_button').toggleClass("disabled");
+
+            // }, 2000);
+            
+
+        }
+
+
+        
+        $('#create_account_button').click(function(){
+            
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+            window.location.replace(new_url);
+
+        });
+
+
+        $('#clear_output_link').click(function(){
+
+            $('#output').val('');
+
+        });
+        
+
+
+        $('.playground_sign_up_button').click(function(){
+            
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+            window.location.replace(new_url);
+
+        });
+
+
+
+        // Thanks: https://stackoverflow.com/questions/25639290/windows-history-back-location-reload-jquery
+        function goBackPage(event) {
+            if ('referrer' in document) {
+                window.location = document.referrer;
+            } else {
+                window.history.back();
+            }
+        }
+
+
+    </script>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,23 @@
+.landing-navbar-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
+
+.landing-navbar-logo{
+    margin-right: auto;    
+}
+
+.landing-navbar-container .right.menu{
+    margin-left: auto;
+}
+
+/* .ui.secondary.menu.landing-menu .navbar-logo {
+    margin-right: auto;
+}
+.ui.secondary.menu.landing-menu .right.menu {
+    margin-left: auto;
+}
+.ui.secondary.menu.landing-menu .right.menu .item {
+    margin-left: 20px;
+} */

@@ -1,21 +1,8 @@
-:root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-}
-
 body {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-        )
-        rgb(var(--background-start-rgb));
-}
-
-.main-parent-element{
-    padding-top: 1%;
-    padding-left: 5%;
-    padding-right: 5%;
+    height: 100%;
+    width: 100%;
+    /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
 }

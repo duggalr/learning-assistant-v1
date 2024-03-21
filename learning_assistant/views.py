@@ -17,5 +17,3 @@ def landing(request):
 
 def playground(request):
     return render(request, 'playground.html')
-
-

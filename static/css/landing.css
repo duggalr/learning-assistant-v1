@@ -1,0 +1,15 @@
+.parent-landing-grid{
+    padding-top: 3% !important;
+}
+
+.landing-first-column{
+    text-align: center !important;
+}
+
+.landing-header{
+    color: #fafafa !important;
+    font-size: 42px !important;
+    font-family: Inter, sans-serif !important;
+    font-weight: 400 !important;
+    /* letter-spacing: 2px !important; */
+}

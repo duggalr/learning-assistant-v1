@@ -19,8 +19,13 @@
     margin-top: 10%;
 } */
 
+/* TODO: finalize UI of landing */
+
 #landing_header{
-    font-size: 28px; 
+    font-size: 28px;
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
 }
 
 #landing_helper_text{

@@ -8,6 +8,10 @@
     cursor: pointer;
 }
 
+/* .landing-navbar-logo>img{
+    width: 40px;
+} */
+
 .landing-navbar-logo>span{
     color: black; 
     /* padding-left: 10px;  */

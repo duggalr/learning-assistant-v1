@@ -5,7 +5,7 @@
 body {
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 
     /* background-image: url(https://3dicons.co/3d-gradient.svg);
     background-position: top, bottom;

@@ -19,6 +19,10 @@
     margin-top: 10%;
 } */
 
+/* #first_landing_column{
+    padding-right: 30px;
+} */
+
 #landing_header{
     font-size: 30px;
     /* font-family: "Space Grotesk", sans-serif; */
@@ -39,7 +43,7 @@
 #landing_page_description{
     /* color: #36454F; */
     color: gray;
-    font-size: 17px;
+    font-size: 17.5px;
     line-height: 1.8em;
 }
 

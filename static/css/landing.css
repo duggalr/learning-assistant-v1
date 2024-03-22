@@ -1,6 +1,6 @@
 
 .landing-parent-grid {
-    height: 75vh;
+    height: 85vh;
     width: 100%;
 }
 
@@ -43,13 +43,13 @@
 #landing_page_description{
     /* color: #36454F; */
     color: gray;
-    font-size: 17.5px;
+    font-size: 16.5px;
     line-height: 1.8em;
 }
 
-/* #landing_page_button_div{
+#landing_page_button_div{
     margin-top: 30px;
-} */
+}
 
 /* 
 #second_landing_column{

@@ -6,6 +6,9 @@ body {
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+
+    position:fixed;
+    overflow:hidden;
     
     /* c5f3ff */
     /* d7f5fe */

@@ -1,4 +1,9 @@
 
+/* #first_parent_section{
+    position:fixed;
+    overflow:hidden;
+} */
+
 .landing-parent-grid {
     height: 85vh;
     width: 100%;

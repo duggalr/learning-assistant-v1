@@ -324,7 +324,7 @@ def playground(request):
 
     initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
 
-    return render(request, 'new_general_playground.html', {        
+    return render(request, 'playground.html', {        
         'user_session': initial_user_session,
         'code_id': code_id,
         'uc_obj': uc_obj,

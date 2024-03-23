@@ -232,18 +232,18 @@ def logout(request):
 def landing(request):
     initial_user_session = request.session.get("user")
     
-    lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
-    lesson_objects_rv = []
-    total_lesson_questions = 0
-    for lobj in lesson_objects:
-        num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
-        lesson_objects_rv.append([lobj, num_questions])
-        total_lesson_questions += num_questions
+    # lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
+    # lesson_objects_rv = []
+    # total_lesson_questions = 0
+    # for lobj in lesson_objects:
+    #     num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
+    #     lesson_objects_rv.append([lobj, num_questions])
+    #     total_lesson_questions += num_questions
 
-    return render(request, 'new_landing_main_three.html',  {
+    return render(request, 'landing.html',  {
         'user_session': initial_user_session,
-        'course_lesson_objects': lesson_objects_rv,
-        'total_lesson_questions': total_lesson_questions
+        # 'course_lesson_objects': lesson_objects_rv,
+        # 'total_lesson_questions': total_lesson_questions
     })
 
 

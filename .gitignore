@@ -1,7 +1,5 @@
 project_env
 __pycache__
-migrations
-todo.txt
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

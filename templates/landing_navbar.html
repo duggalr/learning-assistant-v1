@@ -1,96 +1,68 @@
+{% load static %}
+
 <!-- Top Navbar -->
-<div class="ui secondary menu" >
+<div class="ui secondary menu landing-navbar-parent">
 
     <div class="ui container">
-        
+
         <div class="item navbar-logo">
-            <!-- <i class="magic icon" style="font-size: 20px;"></i> -->
-            <!-- <img src="{% static 'icon_one.png' %}"> -->
-            Companion
+            <!-- <i class="magic icon" style="font-size: 20px; color: red;"></i> -->
+            <!-- <img src="{% static 'icons/icon_one.png' %}" style="height: 10%; width: 20%;"> -->
+            <span>Companion</span>
         </div>
 
-        <div class="right menu" style="margin-right: 0%;">
-                        
-            <!-- <a class="item" href="">
-                Python Exercises
-            </a> -->
-            <a class="item" href="{% url 'new_course_home' %}">
-                Python Course
-            </a>
-            <a class="item" href="{% url 'playground' %}">
-                AI Tutor Playground
-            </a>
-            <a class="item" href="{% url 'general_cs_tutor' %}" >
-                General Tutor
-            </a>
-            <a class="item" href="{% url 'about' %}">
-                About
-            </a>
-            <!-- <a class="item" href="mailto:rahul@codecompanion.app">
-                Contact
-            </a>             -->
-            
-            {% if request.user.is_superuser %}
-                <a class="item" href="{% url 'super_user_admin_dashboard' %}">
-                    Admin
+        <div id="landing_parent_div" class="right menu nav-links-parent">
+
+            {% if user_session %}
+                <a class="item" href="{% url 'dashboard' %}">
+                    Your Dashboard
                 </a>
             {% endif %}
 
-        </div>
-    
+            {% if user_session %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    <i class="chess bishop icon" style="font-size: 12px;"></i>
+                    Python Exercises
+                </a>
+            {% else %}
+                <a class="item" href="{% url 'new_course_home' %}">
+                    <i class="chess bishop icon" style="font-size: 12px;"></i>
+                    Practice Python
+                </a>
+            {% endif %}
+            <a class="item" href="{% url 'playground' %}">
+                <i class="chess icon" style="font-size: 12px;"></i>
+                AI Playground
+            </a>
+            <a class="item" href="{% url 'general_cs_tutor' %}" >
+                <i class="chess knight icon" style="font-size: 12px;"></i>
+                General Tutor
+            </a>
 
-        {% if user_session %}
+            {% if not user_session %}
+                <a class="item" href="{% url 'about' %}">
+                    <i class="chess rook icon" style="font-size: 12px;"></i>
+                    About
+                </a>
+            {% endif %}
 
-            <div class="right menu">
-                    
-                <div class="item">
-                    <a href="{% url 'dashboard' %}">
-                        Your Dashboard
-                    </a>
-                </div>
+            {% if user_session %}
 
-                <div class="item">
-                    <a href="{% url 'logout' %}">
-                        Logout
-                    </a>
-                </div>
-                
-            </div>
-
-        {% else %}
-
-            {% if not request.user.is_superuser %}
-
-                <div class="right menu">
-                    
-                    <div class="item">
-                        <a class="ui black basic button" href="{% url 'login' %}">Sign Up</a>
-                    </div>
-                    
-                    <div class="item" style="padding-left: 0px;">
-                        <a href="{% url 'login' %}" style="color: #1e70bf;">Log in</a>
-                    </div>
-
-                    <!-- <div class="item" style="padding-left: 0px;">
-                        <a class="ui black basic button" href="{% url 'login' %}" >Log in</a>
-                    </div> -->
-                    
-                </div>
+                <a class="item" href="{% url 'logout' %}">
+                    Logout
+                </a>
 
             {% else %}
 
-                <div class="right menu">
-                    <div class="item">
-                        <a href="{% url 'logout' %}">
-                            Logout
-                        </a>
-                    </div>
-                    
+                <div class="item" style="padding-left: 12px;">
+                    <button class="ui basic black button auth_button">
+                        Signup or Login
+                    </button>
                 </div>
 
             {% endif %}
-
-        {% endif %}
+            
+        </div>
 
     </div>
 
@@ -101,16 +73,9 @@
 
     let user_session = '{{ user_session }}';
 
-    if (user_session != 'None'){
+    console.log('user_session:', user_session)
 
-        $('.navbar-logo').click(function(){
-
-            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
-            window.location.replace(new_url);
-
-        });
-
-    } else {
+    if (user_session == 'None'){
 
         $('.navbar-logo').click(function(){
 
@@ -119,8 +84,22 @@
 
         });
 
+    } else {
+
+        $('.navbar-logo').click(function(){
+
+            let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/dashboard';
+            window.location.replace(new_url);
+
+        });
+
     }
-    
+
+    $('.auth_button').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+        window.location.replace(new_url);
+
+    })
+
 </script>
-
-

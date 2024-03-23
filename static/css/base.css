@@ -1,0 +1,32 @@
+body {
+    height: 100%;
+    width: 100%;
+    
+    /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%); */
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+    /* c5f3ff */
+    /* d7f5fe */
+
+    /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%); */
+    /* background: linear-gradient( to top right, #f9f9f9 0%, #f1f1f1 83%, #edfaff 83%, #a2e4fe 100%); */
+    /* background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%); */
+
+    /* background: linear-gradient( to bottom left, #f9f9f9 0%, #f9f9f9 85%, #edfaff 85%, #b9e8fa 100%); */
+
+    /* background: linear-gradient(to bottom left, #ffffff, #e1f8ff); */
+
+    /* background: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% ); */
+
+    /* background: linear-gradient(to bottom left, #ffffff, #e1f8ff); */
+    /* background: linear-gradient( to bottom left, #ffffff 0%, #e1f8ff 80%, #8edbf2 80%, #9db7f9 100%); */
+    /* background: linear-gradient( to bottom left, #ffffff 0%, #e1f8ff 80%, #8edbf2 80%, #9db7f9 100%); */
+
+    /* background: linear-gradient( to bottom right, #f9f9f9 0%, #f9f9f9 65%, white 65%, white 100%); */
+    /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 90%, #edfaff 90%, #b9e8fa 100%); */
+    /* background: linear-gradient(to bottom right, #ffffff, #87CEEB); */
+    /* background-size: 100% 100%; */
+    /* background-size: 35% 65%; */
+}

@@ -600,47 +600,47 @@
 
         
         
-        // $("#landing_email_submit_icon").click(function(){
-        //     console.log('asdlkajd')
+        // // $("#landing_email_submit_icon").click(function(){
+        // //     console.log('asdlkajd')
             
-        //     $('#email_subscribe_form').submit();
+        // //     $('#email_subscribe_form').submit();
 
-        // })
+        // // })
 
-        $("#email_subscribe_form").submit(function(e){
+        // $("#email_subscribe_form").submit(function(e){
 
-             e.preventDefault();
+        //      e.preventDefault();
             
-            let user_email = $('#user_email_input').val().trim();
+        //     let user_email = $('#user_email_input').val().trim();
 
-            let d = {
-                'user_email': user_email,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            };
+        //     let d = {
+        //         'user_email': user_email,
+        //         csrfmiddlewaretoken: '{{ csrf_token }}'
+        //     };
 
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'landing_email_subscribe_handle' %}",
-                dataType: "json",
-                data: d,
-                success: function (response) {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "",
+        //         dataType: "json",
+        //         data: d,
+        //         success: function (response) {
 
-                    if (response['success'] == true){
+        //             if (response['success'] == true){
 
                         
-                        $('#subscribe_success_message').show();
-                        $('#email_subscribe_form').hide();
+        //                 $('#subscribe_success_message').show();
+        //                 $('#email_subscribe_form').hide();
 
-                    }
+        //             }
 
-                },
+        //         },
 
-                error: function (response) {}
+        //         error: function (response) {}
                 
-            });
+        //     });
 
         
-        });
+        // });
 
 
     </script>

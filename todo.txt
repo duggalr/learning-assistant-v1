@@ -1,0 +1,16 @@
+TODO: 
+- get current version working locally
+    - refactor by removing all unnecessary code
+- based on my usage thus far:
+    - prioritize features
+    - develop distribution strategy
+        - start with creating blog-posts demonstrating different use-cases
+            - develop feature list here
+        - determine how to make marketing video?
+
+
+
+refactoring and getting current version to work
+logging
+experimenting with round buttons
+

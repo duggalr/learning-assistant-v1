@@ -2,6 +2,10 @@
     margin-top: 0px !important;
 } */
 
+
+/* .playground-parent-container{
+} */
+
 .code-editor-parent-column{
     margin-left: -5rem !important;
 }
@@ -18,16 +22,20 @@
 } */
 
 .code_file_name_text{
-    font-size: 16px !important;
+    font-size: 18px !important;
 }
 
 .code_file_name_text>span{
     font-size: 20px !important;
 }
 
-.code_helper_login_text{
+.code_helper_span_div{
+    padding-top: 5px;
+}
+
+.code_helper_span_div>.code_helper_login_text{
     color: gray !important;
-    font-size: 12.5px !important;
+    font-size: 13.5px !important;
 }
 
 .code-editor {
@@ -42,11 +50,15 @@
 
 
 .ai-console-parent-column{
-    margin-left: 50px;
+    margin-left: 40px;
 }
 
 .tab-menu-div{
-    width: 120%;
+    width: 110%;
+}
+
+.tab-menu-div a{
+    font-size: 15px;
 }
 
 

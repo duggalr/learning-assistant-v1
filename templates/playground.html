@@ -5,10 +5,7 @@
 
 {% include 'landing_navbar_two.html' %}
 
-<hr>
-<br/>
-
-<!-- TODO: proceed from here -->
+<!-- <hr style="padding-top: 0px; margin-top: 0px; padding-bottom: 20px;"> -->
 
 <div class="ui grid container playground-parent-container">
     
@@ -21,12 +18,12 @@
                 Your Code
             </span>
 
-            <br/>
+        </div>
 
+        <div class="code_helper_span_div">
             <span class="code_helper_login_text">
                 Make a <a href="{% url 'login' %}">free account</a>, to save all your code and conversations.
             </span>
-
         </div>
 
         <div class="ui segment code-editor">
@@ -35,10 +32,19 @@
 
     </div>
     
-
     <div class="seven wide column ai-console-parent-column">
-        
+
         <div class="ui tabular menu tab-menu-div">
+            <a class="active item">
+                <i class="bug icon"></i> Console
+            </a>
+            <a class="item">
+                <i class="comment icon"></i> AI Tutor
+            </a>
+        </div>
+
+        
+        <!-- <div class="ui tabular menu tab-menu-div">
                 
             <a class="item active" id="lesson_question_tab">
                 <i class="bug icon"></i> Console
@@ -48,10 +54,10 @@
                 <i class="comment icon"></i> AI Tutor 
             </a>
 
-        </div>
+        </div> -->
 
         <!-- Programming Question -->
-        <div id="programming_question_div">
+        <!-- <div id="programming_question_div">
 
             <div style="text-align: left; margin-top: 20px;">
 
@@ -60,12 +66,12 @@
                     <div class="hidden content">
                         <i class="play icon"></i>
                     </div>
-                </div>
+                </div> -->
 
-                &nbsp;&nbsp;
+                <!-- &nbsp;&nbsp;
                 <span style="color: gray; font-size: 12px;">
                     Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
-                </span>
+                </span> -->
 
                 <!-- <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
                     <div class="visible content">Get Feedback</div>
@@ -74,7 +80,7 @@
                     </div>
                 </div> -->
 
-            </div>
+            <!-- </div> -->
 
 
             <!-- <div style="margin-top: 5px;">
@@ -91,13 +97,13 @@
                 Feel free to visit our python exercises, to work on pre-defined problems...
             </p> -->
 
-            <h4 class="ui header" style="padding-top: 0px;">
+            <!-- <h4 class="ui header" style="padding-top: 0px;">
                 Test Cases:
             </h4>
 
             <p style="color: gray; font-size: 13px;">
                 Real soon right here, you will have an AI to help generate test cases for your own questions..
-            </p>
+            </p> -->
 
             <!-- <h4 class="ui header" style="padding-top: 20px; margin-top: 0px;">
                 Programming Problem you are working on:
@@ -159,16 +165,16 @@
             {% endif %} -->
 
 
-            <h4 class="ui header" style="padding-top: 0px;">
+            <!-- <h4 class="ui header" style="padding-top: 0px;">
                 Console Output:
                 <span id="clear_output_link" style="font-size: 14px;">Clear Output</span>
             </h4>
 
             <div class="ui segment output-code">
                 <textarea rows="13" id="output" disabled></textarea>
-            </div>
+            </div> -->
 
-        </div>
+        <!-- </div> -->
 
     </div>
 

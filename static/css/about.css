@@ -1,0 +1,32 @@
+.about-parent-section{
+    color: black;
+    /* padding-top: 10px; */
+    padding-top: 1%;
+}
+
+.about-parent-column-div{
+    width: 70% !important;
+    margin-top: 0%;
+}
+
+.about-segment-div h3{
+    /* font-family: 'Raleway', sans-serif; */
+    font-size: 20px !important;
+    color: black;
+}
+
+.about-segment-div p{
+    color: black !important;
+    font-size: 15.5px !important;
+    line-height: 1.75em !important;
+}
+
+.about-list{
+    color: black !important;
+    font-size: 15.5px !important;;
+    line-height: 1.75em !important;;
+}
+
+.about-list li{
+    line-height: 1.6em !important;;
+}

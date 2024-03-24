@@ -1,8 +1,16 @@
-
 .landing-parent-grid {
-    height: 80vh;
+    height: 75vh;
     width: 100%;
 }
+
+#first_landing_column{
+    margin-left: -1rem !important;
+}
+
+#second_landing_column{
+    /* margin-right: -5rem !important; */
+}
+
 
 #landing_header{
     font-size: 30px;
@@ -31,7 +39,6 @@
 #landing_page_button_div{
     margin-top: 30px;
 }
-
 
 footer{
     position: fixed;

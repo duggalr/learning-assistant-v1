@@ -3,8 +3,9 @@
 } */
 
 
-/* .playground-parent-container{
-} */
+.playground-parent-container{
+    padding-bottom: 20px !important;
+}
 
 .code-editor-parent-column{
     margin-left: -4rem !important;

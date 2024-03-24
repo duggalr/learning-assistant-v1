@@ -7,7 +7,7 @@
 } */
 
 .code-editor-parent-column{
-    margin-left: -5rem !important;
+    margin-left: -4rem !important;
 }
 
 /* .ai-console-parent-column{
@@ -50,7 +50,8 @@
 
 
 .ai-console-tutor-parent-column{
-    margin-left: 40px;
+    /* margin-left: 65px; */
+    margin-left: 55px;
 }
 
 .tab-menu-div{

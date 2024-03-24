@@ -14,8 +14,8 @@
         <div class="code_editor_helper_div">
 
             <span class="code_file_name_text">
-                <span>&#128195;</span>
-                &nbsp;
+                <!-- <span>&#128195;</span>
+                &nbsp; -->
                 Your Code
             </span>
 
@@ -169,142 +169,6 @@
 
     </div>
         
-
-        
-        <!-- <div class="ui tabular menu tab-menu-div">
-                
-            <a class="item active" id="lesson_question_tab">
-                <i class="bug icon"></i> Console
-            </a>                
-
-            <a class="item" id="lesson_ai_tutor_tab">
-                <i class="comment icon"></i> AI Tutor 
-            </a>
-
-        </div> -->
-
-        <!-- Programming Question -->
-        <!-- <div id="programming_question_div">
-
-            <div style="text-align: left; margin-top: 20px;">
-
-                <div class="medium ui animated black button" tabindex="0" onclick="evaluatePython()">
-                    <div class="visible content">Run</div>
-                    <div class="hidden content">
-                        <i class="play icon"></i>
-                    </div>
-                </div>
-
-                &nbsp;&nbsp;
-                <span style="color: gray; font-size: 12px;">
-                    Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
-                </span>
-
-                <div class="small ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
-                    <div class="visible content">Get Feedback</div>
-                    <div class="hidden content">
-                        <i class="check icon"></i>
-                    </div>
-                </div>
-
-            </div> -->
-
-
-            <!-- <div style="margin-top: 5px;">
-                <span style="color: gray; font-size: 12px;">
-                    Ask the AI for advice or help by clicking the 'AI Tutor' tab above.
-                </span>
-            </div> -->
-            
-            <!-- <h4 class="ui header" style="padding-top: 16px; margin-top: 0px;">
-                Question:
-            </h4>
-
-            <p style="color: gray; font-size: 13px;">
-                Feel free to visit our python exercises, to work on pre-defined problems...
-            </p> -->
-
-            <!-- <h4 class="ui header" style="padding-top: 0px;">
-                Test Cases:
-            </h4>
-
-            <p style="color: gray; font-size: 13px;">
-                Real soon right here, you will have an AI to help generate test cases for your own questions..
-            </p> -->
-
-            <!-- <h4 class="ui header" style="padding-top: 20px; margin-top: 0px;">
-                Programming Problem you are working on:
-                <span>
-                    <button>
-                        edit
-                    </button>
-                </span>
-            </h4>
-            
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec turpis ut ipsum fringilla accumsan.
-            </p> -->
-
-            <!-- <h4 class="ui header" style="padding-top: 0px; margin-top: 0px;">
-                Question:
-            </h4>
-
-            <p>
-                {{ pc_question_obj.question_text|linebreaks }}
-            </p>
-
-            <h4 class="ui header" style="padding-top: 0px;">
-                Test Cases:
-            </h4> -->
-
-            <!-- {% if pt_course_test_case_examples|length > 0 %}
-
-                <table class="ui celled table">
-
-                    <thead>
-                        <tr>
-                            <th>Input</th>
-                            <th>Output</th>
-                            <th>Correct</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        {% for tobj in pt_course_test_case_examples %}
-
-                            <tr>
-                                <td data-label="Input">{{ tobj.input_param }}</td>
-                                <td data-label="Output">{{ tobj.correct_output }}</td>
-                                <td id="status_{{ tobj.id }}" data-label="Correct"></td>
-                            </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            {% else %}
-                
-                <p style="color: gray;">No test cases created for this question.</p>
-
-            {% endif %} -->
-
-
-            <!-- <h4 class="ui header" style="padding-top: 0px;">
-                Console Output:
-                <span id="clear_output_link" style="font-size: 14px;">Clear Output</span>
-            </h4>
-
-            <div class="ui segment output-code">
-                <textarea rows="13" id="output" disabled></textarea>
-            </div> -->
-
-        <!-- </div> -->
-
-    <!-- </div> -->
-
 </div>
 
 
@@ -346,7 +210,7 @@
         scrollbarStyle: "null",
         lineWrapping: true,
     });
-    editor.setSize(620, 700);
+    editor.setSize(620, 740);
 
     user_session = '{{ user_session }}';
     let pcqid = '{{ pclid }}';
@@ -374,5 +238,4 @@
 
 
 {% endblock %}
-
 

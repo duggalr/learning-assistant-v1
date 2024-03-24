@@ -5,33 +5,25 @@
 
 {% include 'landing_navbar_two.html' %}
 
-<div class="ui centered grid container">
+<div class="ui centered grid container tutor_chat_parent_container">
 
-    <div class="fourteen wide column" id="code-column">
+    <div class="fifteen wide column">
         
-        <h4 style="font-size: 18px;">
-            <!-- <i class="comments icon"></i> -->
-            <!-- Chat with Code Companion -->
-            <span style="font-size: 21px;">
+        <h3 class="ui header tutor_chat_header">
+            <span>
                 &#128227;
             </span>
             Chat
-        </h4>
+        </h3>
         
-        <span style="font-size: 12px; color: gray;">
-            <!-- My goal is to help you, on your personal lifelong learning journey. -->                
-            Ask questions on any topic you are interested or need help in.
+        <span class="tutor_helper_span">
             Visit our <a href="{% url 'playground' %}">code editor</a>, if you would like to run your code and get help from the AI, as needed.
-            <!-- For programming questions, feel free to visit our <a href="{% url 'playground' %}">code editor</a>, where you can run code and get help, as needed. -->
-            <br/>
-            {% if user_session is None %}
-                <a href="{% url 'login' %}">Signup</a> to save your conversations.
-            {% endif %}
+            <a href="{% url 'login' %}">Signup</a> to save your conversations.
         </span>
 
-        <div class="chat-container" id="chat">
+        <div class="tutor-chat-container">
                         
-            <div class="message">
+            <div class="tutor-chat-message">
 
                 <strong>
                     Welcome! &nbsp; &#128588&nbsp;
@@ -39,26 +31,16 @@
                 </strong>
                 <br/><br/>
                 My goal is to help you on your learning journey, whether you need help with homework or want to explore a new field.
-                <!-- <br/><br/> -->
-                <!-- When it comes to asking me homework questions, I will never provide you with the answer. 
-                Instead, my approach is to guide you like a great tutor, fostering your critical thinking and empowering you to arrive at the answers independently. -->
-
-                <!-- When it comes to asking me homework questions, I will never provide you with the answer. Instead, just like a great tutor, I will
-                guide you, to help you come up with the answer on your own. -->
-
                 <br/><br/>
                 If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
                 learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
-                <br/><br/>
+                <!-- <br/><br/>
                 <strong>
                     Here are some of the things people ask me:
                 </strong>
                 <li>
                     I need to write an essay on Raskolnikov, in Crime and Punishment, specifically about his mental state before and after he committed his crime. I need some guidance
                 </li>
-                <!-- <li>
-                    What's the implementation of calculating __len__ in python, say for a string object? I need to create my own __len__ implementation, and it should be in O(1) time.
-                </li> -->
                 <li>
                     How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work? I need to write my own list class object for my project...
                 </li>
@@ -68,67 +50,27 @@
                 </li>
                 <li>
                     I want to study the history of computers. Can you help develop a syllabus?
-                </li>
-                <!-- <li>
-                    I want to learn Python, specifically for building my own web applications. Can you help me construct a plan on where to start?
                 </li> -->
                 
-                <!-- <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                I'm your personal learning assistant. 
-                <br/><br/>
-                Feel free to ask me for help, on whatever you would like to learn or are currently struggling with.
-                <br/><br/>
-                <strong>
-                    Here are some things people ask me:
-                </strong>
-                <li>
-                    What's the implementation of calculating __len__ in python, say for a string object?
-                </li>
-                <li>
-                    How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work??
-                </li>
-                <li>
-                    I need to write an essay on Raskolnikov, in Crime and Punishment, specifically going through his mental state before and after he committed his crime. I need some guidance
-                </li>
-                <li>
-                    I'm having trouble understanding the concept of tangent lines? Can linear functions have tangent lines?
-                </li>
-                <li>
-                    What if I have a function where if I graph it, it form's an upside down triangle (with no base). So essentially, it's just the 2 straight lines or the sides of the triangle, without the base. Would this be considered linear (since it is straight lines and not curves) or would it be non-linear?
-                </li> -->
-
-                <!-- <br/>
-                My goal is to help you, on your personal, lifelong learning journey. -->
-
-                <!-- I'm Code Companion, your personal programming tutor. -->
-                <!-- <br/><br/>
-                Feel free to ask me programming questions, whether it's providing an explanation
-                on a specific CS concept, helping you debug code, or providing you with questions so 
-                you can develop a deeper understanding of the material.
-                <br/><br/>
-                My goal is to help make it easier for you to learn programming. -->
             </div>
 
             <hr>
-
             <br/>
 
             {% for ucs_obj in user_conversation_objects %}
                     
-                <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
 
             {% endfor %}
 
-            <!-- <input id="uc_parent_obj_id" type="hidden" value="{{ uct_parent_id }}" /> -->
-
         </div>
 
-        <div class="input-container">
+        <div class="tutor-chat-input-container">
 
             <div class="ui form" style="width: 100%;">
                 <div class="field">
-                    <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
+                    <textarea rows="2" id="general_tutor_chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
                 </div>                    
             </div>
             &nbsp;
@@ -141,11 +83,9 @@
             Answer Response usually takes 15-30 seconds. (this will get better soon...)
         </span>
 
-
     </div>
     
 </div>
-
 
 {% endblock %}
 

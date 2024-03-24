@@ -249,9 +249,13 @@ def landing(request):
 
 def about(request):
     initial_user_session = request.session.get("user")
-    return render(request, 'new_about.html', {
+    return render(request, 'about.html', {
         'user_session': initial_user_session
     })
+
+
+def blog(request):
+    return render(request, 'blog.html')
 
 
 def playground(request):
@@ -637,7 +641,7 @@ def general_cs_tutor(request):
             user_auth_obj = user_oauth_obj
         ).order_by('created_at')
 
-    return render(request, 'general_cs_tutor.html', {
+    return render(request, 'general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
         'user_conversation_objects': utc_objects,
     })

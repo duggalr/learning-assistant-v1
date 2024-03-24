@@ -13,9 +13,10 @@ urlpatterns = [
     ## Primary Views
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
+    path("blog", views.blog, name="blog"),
     path("dashboard", views.dashboard, name="dashboard"),
 
-    path("general-tutor", views.general_cs_tutor, name="general_cs_tutor"),
+    path("cs-tutor", views.general_cs_tutor, name="general_cs_tutor"),
     path("handle_general_tutor_user_message", views.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
 
     path("playground", views.playground, name="playground"),

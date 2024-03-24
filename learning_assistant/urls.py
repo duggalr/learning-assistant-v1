@@ -13,7 +13,7 @@ urlpatterns = [
     ## Primary Views
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
-    path("blog", views.blog, name="blog"),
+    # path("blog", views.blog, name="blog"),
     path("dashboard", views.dashboard, name="dashboard"),
 
     path("cs-tutor", views.general_cs_tutor, name="general_cs_tutor"),

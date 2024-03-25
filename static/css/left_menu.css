@@ -1,3 +1,8 @@
 #main_left_menu{
     width: 18em;
 }
+
+#left_sub_menu>button{
+    /* text-align: center; */
+}
+

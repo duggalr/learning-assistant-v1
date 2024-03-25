@@ -1,7 +1,7 @@
 <div class="ui left fixed vertical menu" id="main_left_menu">
 
     <div class="item">
-        <a href="">
+        <a href="{% url 'landing' %}">
             <h3 id="primary_logo_title">
                 Companion
             </h3>
@@ -9,8 +9,17 @@
     </div>
 
     <div class="item">
-        <div class="menu" id="left_sub_menu">
-            <button class="ui button">New Chat</button>
+        <div class="menu" id="left_sub_menu" style="margin-left: 1%;">
+        <!-- <div class="menu" id="left_sub_menu" > -->
+            <!-- <button class="medium ui button" style="font-size: 1.03rem;">New Chat</button> -->
+
+            <div class="ui animated button" tabindex="0" style="font-size: 1.04rem">
+                <div class="visible content"><i class="plus icon"></i> New Chat</div>
+                <div class="hidden content">
+                    <i class="plus icon"></i>
+                </div>
+            </div>
+
         </div>
     </div>
 

@@ -22,23 +22,37 @@
                     <div id="first_landing_column" class="eight wide column" >
 
                         <h1 id="landing_header" class="ui header">
-                            Your Code Companion.
+                            Your <span id="landing-text">Personal Tutor</span>
                             <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
                         </h1>
             
                         <p id="landing_helper_text">
-                            A GPT-4 based programming tutor. 100% Free.
+                            Learn Computer Science Concepts with an AI Tutor.
                         </p>
             
                         <p id="landing_page_description">
-                            Code Companion is a GPT-4 based programming tutor, offering real-time help or feedback.
-                            You can ask Code Companion questions on your own programming challenges, ie. LeetCode problems, 
-                            or work through our <a href="{% url 'new_course_home' %}">curated Python exercises</a> which are designed 
-                            to help you learn or hone your skills. 100% Free. 
-                            <span style="font-size: 17px;">&#127922;</span>
+                            Companion is an AI-based programming tutor, offering real-time help or feedback.
+                            You can rely on Companion for:
+                            <ul class="ui list landing_helper_list">
+                                <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                                <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                                <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                                <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                                <li>&nbsp;&nbsp;&nbsp;Clear explanations and discussions on various Computer Science concepts</li>
+                                <!-- <li>&nbsp;&nbsp;for help on your own programming problems or homework</li>
+                                <li>&nbsp;&nbsp;for help on LeetCode or Project Euler problems</li>
+                                <li>&nbsp;&nbsp;to generate a step-by-step guide on how to learn a new concept, ie. web development</li>
+                                <li>&nbsp;&nbsp;to generate exercises or projects for you, as you learn through new concepts</li>
+                                <li>&nbsp;&nbsp;to explain and discuss specific Computer Science concepts</li> -->
+                            </ul>
                         </p>
+
+                        <!-- <p id="landing_second_helper_text">
+                            Interact with Companion in our Online IDE or through Chat.
+                            Give it a try! It's 100% Free. <span style="font-size: 17px;">&#127922;</span>
+                        </p> -->
             
-                        <div id="landing_page_button_div">
+                        <!-- <div id="landing_page_button_div">
             
                             <div class="ui animated secondary large basic button playground_button" tabindex="0">
                                 <div class="visible content">
@@ -60,7 +74,7 @@
                                 </div>
                             </div>
                             
-                        </div> 
+                        </div>  -->
             
                     </div>
 
@@ -87,5 +101,24 @@
     <p>© Companion</p>
 </footer>
 
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const landingText = document.getElementById('landing-text');
+        const texts = ['Code Companion', 'Algorithm Ally', 'Byte Buddy', 'Code Sensei', 'Personal Tutor'];
+        let index = 0;
+
+        setInterval(() => {
+            landingText.style.opacity = '0';
+            setTimeout(() => {
+            landingText.textContent = texts[index];
+            landingText.style.opacity = '1';
+            index = (index + 1) % texts.length;
+            }, 500);
+        }, 1600);
+    });
+
+</script>
 
 {% endblock %}

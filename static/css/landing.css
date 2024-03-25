@@ -20,6 +20,12 @@
     font-weight: 500;
 }
 
+#landing-text {
+    /* font-size: 36px; */
+    /* color: #333; */
+    transition: opacity 0.5s ease;
+}
+
 #landing_helper_text{
     font-family: "Raleway", sans-serif;
     font-weight: 500; 
@@ -27,6 +33,28 @@
     padding-top: 6px; 
     /* line-height: 1.9em; */
     color: #36454F;
+}
+
+
+.landing_helper_list li::before {
+    content: "💎 " !important;
+    font-size: 19px;
+}
+
+.landing_helper_list li{
+    list-style-position: outside !important;
+    font-size: 15.5px;
+    /* color: gray; */
+    margin: 5px 0;
+    color: #707070;
+    /* color: gray; */
+}
+
+#landing_second_helper_text{
+    font-size: 15px;
+    color: #36454F;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500; 
 }
 
 #landing_page_description{
@@ -166,3 +194,4 @@ footer>p{
 /* #teacher_email_button{
     margin-left: 10px;
 } */
+

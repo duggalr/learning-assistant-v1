@@ -1,6 +1,14 @@
+
 body {
     height: 100%;
     width: 100%;
+
+     /* Gray gradient for majority of the page */
+    /* background: linear-gradient(to bottom, #f0f0f0, #dcdcdc); */
+    /* Gradient mesh of colors */
+    /* background: linear-gradient(to right, #ff7e5f, #feb47b, #ffeda2); */
+
+    /* background: linear-gradient(to bottom right, #d1ecf1, #f8f9fa); */
 
     /* background: linear-gradient( to top right, #f3f3f3 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%);
     margin: 0;
@@ -11,6 +19,12 @@ body {
     background-position: top, bottom;
     background-repeat: no-repeat;
     background-size: 1100px auto; */
+
+    /* background: linear-gradient(to bottom right, #87CEEB, #00BFFF);; */
+    /* background: radial-gradient(circle at bottom, #00BFFF 0%, #ffffff 30%); */
+    
+    /* TODO: start here and finalize UI */
+    background: radial-gradient(circle at top, #86dcf9 0%, #f9f9f9 25%);
 
     /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%); */
 
@@ -37,3 +51,8 @@ body {
     /* background-size: 100% 100%; */
     /* background-size: 35% 65%; */
 }
+
+/* .gradient-top {
+    height: 200px;
+    background: linear-gradient(to right, #ff7e5f, #feb47b, #ffeda2);
+} */

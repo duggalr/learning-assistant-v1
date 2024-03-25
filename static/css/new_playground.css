@@ -15,7 +15,7 @@
 .playground-parent-container{
     position: absolute;
     /* top: 61px; */
-    top: 61px;
+    top: 60.5px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -27,8 +27,9 @@
     position: absolute;
     left: 0;
     /* margin-left: 0.5%; */
-    border: 1px solid #ccc; 
-    box-shadow: 0.5px 0.5px #888888;
+    /* border: 1px solid #ccc;  */
+    border: 1px solid #bcbcbc; 
+    /* box-shadow: 0.5px 0.5px #888888; */
 }
 
 .code-editor-textarea{

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'left_modified_app_menu.html' %}
+{% include 'left_side_bar.html' %}
+
+<div class="ui grid tutor_chat_parent_container">
+
+    <div class="three wide column"></div>
+
+    <div class="eleven wide column">
+        
+        <h3 class="ui header tutor_chat_header">
+            <!-- <span>
+                &#128227;
+            </span> -->
+            Chat
+        </h3>
+        
+        <span class="tutor_helper_span">
+            Visit our <a href="{% url 'playground' %}">code editor</a>, if you would like to run your code and get help from the AI, as needed.
+            <a href="{% url 'login' %}">Signup</a> to save your conversations.
+        </span>
+
+        <div class="tutor-chat-container">
+                        
+            <div class="tutor-chat-message">
+
+                <strong>
+                    Welcome! &nbsp; &#128588&nbsp;
+                    I'm your personal learning assistant. 
+                </strong>
+                <br/><br/>
+                My goal is to help you on your learning journey, whether you need help with homework or want to explore a new field.
+                <br/><br/>
+                If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
+                learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
+                <!-- <br/><br/>
+                <strong>
+                    Here are some of the things people ask me:
+                </strong>
+                <li>
+                    I need to write an essay on Raskolnikov, in Crime and Punishment, specifically about his mental state before and after he committed his crime. I need some guidance
+                </li>
+                <li>
+                    How is the actual list data structure implemented in python? does it use a linked list "under the hood"? How does it actually work? I need to write my own list class object for my project...
+                </li>
+                <li>
+                    I have the following homework question: 
+                    "I have a function where if I graph it, it form's an upside down triangle (with no base). So essentially, it's just the 2 straight lines or the sides of the triangle, without the base. Would this be considered linear (since it is straight lines and not curves) or would it be non-linear?"
+                </li>
+                <li>
+                    I want to study the history of computers. Can you help develop a syllabus?
+                </li> -->
+                
+            </div>
+
+            <hr>
+            <br/>
+
+            {% for ucs_obj in user_conversation_objects %}
+                    
+                <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="tutor-chat-input-container">
+
+            <div class="ui form" style="width: 100%;">
+                <div class="field">
+                    <textarea rows="2" id="general_tutor_chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
+                </div>                    
+            </div>
+            &nbsp;
+            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+        </div>
+
+        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+        </span>
+
+    </div>
+
+    <!-- <div class="two wide column"></div> -->
+
+</div>
+
+{% endblock %}

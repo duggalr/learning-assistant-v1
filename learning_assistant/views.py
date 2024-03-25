@@ -642,7 +642,8 @@ def general_cs_tutor(request):
             user_auth_obj = user_oauth_obj
         ).order_by('created_at')
 
-    return render(request, 'general_cs_tutor_chat.html', {
+    # return render(request, 'general_cs_tutor_chat.html', {
+    return render(request, 'new_general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
         'user_conversation_objects': utc_objects,
     })

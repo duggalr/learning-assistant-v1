@@ -1,5 +1,5 @@
 .landing-parent-grid {
-    height: 75vh;
+    height: 73vh;
     width: 100%;
 }
 
@@ -9,6 +9,7 @@
 
 #second_landing_column{
     /* margin-right: -5rem !important; */
+    margin-top: 1%;
 }
 
 

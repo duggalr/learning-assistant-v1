@@ -9,16 +9,34 @@
     margin: 0;
     padding: 0;
     padding-left: 7%;
-    margin-top: 0.2% !important;
+    margin-top: 1.2% !important;
 }
 
-.navbar-logo{
-    color: black; 
-    padding-left: 10px; 
-    font-size: 28px; 
+/* .navbar-logo{
     font-family: 'Raleway', sans-serif; 
     font-weight: 400; 
-    letter-spacing: 0.5px;
+} */
+
+.navbar-logo>a{
+    font-family: "Indie Flower", cursive;
+    /* font-family: "Space Grotesk", sans-serif; */
+    /* font-weight: 400; */
+    font-style: normal;
+    letter-spacing: 1px;
+    font-size: 38px;
+    color: black !important;
+    /* padding-left: 10px; */
+
+    /* background-image: linear-gradient(to right, #ff4e50, #f9d423); */
+    /* background-image: linear-gradient(to right, #00B4DB, #0083B0); */
+    /* background-image: linear-gradient(to right, #00B4DB, #0086b2); */
+    /* background-image: linear-gradient(to right, #008080, #00CED1); */
+    
+    /* background-image: linear-gradient(to right, #9966CC, #20B2AA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold; */
 }
 
 .navbar-logo:hover{

@@ -25,6 +25,13 @@
     /* font-size: 36px; */
     /* color: #333; */
     transition: opacity 0.5s ease;
+
+    background-image: linear-gradient(to right, #9966CC, #20B2AA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+
 }
 
 #landing_helper_text{

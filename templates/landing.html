@@ -10,7 +10,6 @@
 
 <!-- Section: Main Landing Container -->
 
-
 <section id="first_parent_section">
 
     <div class="ui grid middle aligned landing-parent-grid">
@@ -35,7 +34,7 @@
                         </p>
             
                         <p id="landing_page_description">
-                            Companion is an AI-based programming tutor, offering real-time help or feedback.
+                            Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
                             You can rely on Companion for:
                             <ul class="ui list landing_helper_list">
                                 <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
@@ -45,7 +44,7 @@
                                 <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
                                 <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
                                 <!-- <li>&nbsp;&nbsp;&nbsp;Getting help on your code in our Online IDE</li> -->
-                                <li>&nbsp;&nbsp;&nbsp;<strong>Give it a try... it's 100% free!</strong></li>
+                                <!-- <li>&nbsp;&nbsp;&nbsp;<strong>Give it a try... it's 100% free!</strong></li> -->
                                 <!-- <li>&nbsp;&nbsp;for help on your own programming problems or homework</li>
                                 <li>&nbsp;&nbsp;for help on LeetCode or Project Euler problems</li>
                                 <li>&nbsp;&nbsp;to generate a step-by-step guide on how to learn a new concept, ie. web development</li>
@@ -73,7 +72,7 @@
                                                         
                             &nbsp;&nbsp;
             
-                            <div class="ui animated black large basic button python_course_button" tabindex="0" >
+                            <div class="ui animated black large basic button tutor_chat_button" tabindex="0" >
                                 <div class="visible content">
                                     Chat with the Tutor &#129302;
                                 </div>
@@ -93,7 +92,7 @@
 
                     <div id="second_landing_column" class="seven wide column">
                         <div>
-                            <iframe width="115%" height="370" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                            <iframe width="110%" height="350" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
                         </div>        
                     </div>
 
@@ -130,7 +129,16 @@
         }, 1600);
     });
 
+
+    $('.playground_button').click(function(){
+        window.location.href = 'playground';
+    });
+
+    $('.tutor_chat_button').click(function(){
+        window.location.href = 'cs-tutor';
+    });
+
+    
 </script>
 
 {% endblock %}
-

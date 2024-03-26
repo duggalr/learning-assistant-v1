@@ -19,6 +19,7 @@
 
 .navbar-logo>a{
     font-family: "Indie Flower", cursive;
+
     /* font-family: "Space Grotesk", sans-serif; */
     /* font-weight: 400; */
     font-style: normal;
@@ -115,3 +116,4 @@
     transform: scale(1.1);
     transition: all ease 500ms;
 } */
+

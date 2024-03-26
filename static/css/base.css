@@ -1,7 +1,9 @@
-
 body {
     height: 100%;
     width: 100%;
+
+    background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%);
+
 
      /* Gray gradient for majority of the page */
     /* background: linear-gradient(to bottom, #f0f0f0, #dcdcdc); */
@@ -23,10 +25,9 @@ body {
     /* background: linear-gradient(to bottom right, #87CEEB, #00BFFF);; */
     /* background: radial-gradient(circle at bottom, #00BFFF 0%, #ffffff 30%); */
     
-    /* TODO: start here and finalize UI */
     /* background: radial-gradient(circle at top, #86dcf9 0%, #f9f9f9 25%); */
     /* background: radial-gradient(circle at top, #bffffc 0%, #f9f9f9 20%); */
-    background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%);
+    /* background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%); */
 
     /* background: linear-gradient( to top right, #f9f9f9 0%, #f9f9f9 83%, #edfaff 83%, #b9e8fa 100%); */
 

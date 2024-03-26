@@ -6,7 +6,7 @@
 {% include 'app_menu.html' %}
 
 <div class="ui grid playground-parent-container">
-    
+
     <div class="eight wide column code-editor-parent-column">
 
         <textarea id="code" class="code-editor-textarea"></textarea>
@@ -175,6 +175,8 @@
   
 <script>
 
+    $('body').css('background', '#f9f9f9');
+
     $('.tabular.menu .item').tab();
 
     $('.console-tab').click(function(){
@@ -208,7 +210,7 @@
         indentUnit: 4,
         indentWithTabs: true,
         matchBrackets: true,
-        theme: "eclipse",
+        theme: "duotone-light",
         scrollbarStyle: "null",
         lineWrapping: true,
     });

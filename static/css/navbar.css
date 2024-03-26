@@ -22,9 +22,10 @@
     /* font-family: "Space Grotesk", sans-serif; */
     /* font-weight: 400; */
     font-style: normal;
-    letter-spacing: 1px;
+    letter-spacing: 1.8px;
     font-size: 38px;
     color: black !important;
+    font-weight: 500;
     /* padding-left: 10px; */
 
     /* background-image: linear-gradient(to right, #ff4e50, #f9d423); */

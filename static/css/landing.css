@@ -206,3 +206,28 @@ footer>p{
     margin-left: 10px;
 } */
 
+
+
+
+
+.gradient-button {
+    /* background-image: linear-gradient(to right, #ff4e50, #f9d423) !important; */
+    background-image: linear-gradient(to right, #9966CC, #20B2AA) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease !important;
+}
+  
+.gradient-button:hover {
+    opacity: 0.9 !important;
+    transform: scale(1.05) !important;
+}
+
+.playground_button, .python_course_button{
+    border-radius: 25px !important;
+    font-size: 17px !important;
+}
+

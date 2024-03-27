@@ -13,12 +13,13 @@
 }
 
 #first_landing_column{
-    margin-left: -1rem !important;
+    margin-left: -2rem !important;
 }
 
 #second_landing_column{
     /* margin-right: -5rem !important; */
     margin-top: 3%;
+    margin-left: 20px;
 }
 
 

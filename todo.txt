@@ -23,5 +23,7 @@ create gradients
 
 
 TODO:
+- add icons or some sort of bolding on the top app navbar <-- top to see the individual items at the moment
 - add all functionality
-
+- finalize everything on current view
+- add mobile-responsiveness and then, finalize all locally + production (<-- ensure everything works)

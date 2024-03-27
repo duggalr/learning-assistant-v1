@@ -17,3 +17,7 @@ experimenting with round buttons
 
 create gradients 
 
+<!-- {% include 'left_modified_app_menu.html' %} -->
+{% include 'left_side_bar.html' %}
+{% include 'left_side_bar.html' %}
+

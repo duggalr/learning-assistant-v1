@@ -1,8 +1,19 @@
 #main_left_menu{
-    width: 18em;
+    /* width: 18em; */
+    width: 17em;
 }
 
-#left_sub_menu>button{
+/* #left_sub_menu>button{ */
     /* text-align: center; */
+/* } */
+
+#primary_logo_title{
+    font-family: "Raleway", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: black !important;
 }
 
+#main_left_menu .item:first-child {
+    border-bottom: 1px solid black;
+}

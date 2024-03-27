@@ -43,7 +43,9 @@
 
             <div class="console_button_parent_div">
 
-                <div class="medium ui animated black button" tabindex="0" onclick="evaluatePython()">
+                <!-- <div class="medium ui animated secondary button code_run_button" tabindex="0" onclick="evaluatePython()"> -->
+                    
+                <div class="medium ui animated green basic button code_run_button" tabindex="0" onclick="evaluatePython()">                    
                     <div class="visible content">Run</div>
                     <div class="hidden content">
                         <i class="play icon"></i>
@@ -52,15 +54,16 @@
 
                 &nbsp;
 
-                <div class="medium ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
+                <div class="medium ui animated blue basic button code_feedback_button" tabindex="0" onclick="handleSolutionSubmit()">
                     <div class="visible content">Get Feedback</div>
                     <div class="hidden content">
-                        <i class="check icon"></i>
+                        <!-- <i class="check icon"></i> -->
+                        <i class="hand point right icon"></i>
                     </div>
                 </div>
 
-                <!-- &nbsp; -->
-                <!-- <div class="medium ui animated positive button disabled" tabindex="0" onclick="handleSolutionSubmit()">
+                <!-- &nbsp;
+                <div class="medium ui animated positive button disabled" tabindex="0" onclick="handleSolutionSubmit()">
                     <div class="visible content">Save File</div>
                     <div class="hidden content">
                         <i class="check icon"></i>
@@ -71,6 +74,7 @@
 
             <div class="console_helper_text">
                 <span>
+                    &nbsp;
                     Ask the AI for advice for help by clicking the 'AI Tutor' tab above.
                 </span>
             </div>

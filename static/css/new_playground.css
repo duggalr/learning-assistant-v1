@@ -61,10 +61,15 @@
     width: 110%;
 }
 
+.code_run_button, .code_feedback_button{
+    border-radius: 25px !important;
+    font-size: 16.5px !important;
+}
+
 .console_button_parent_div{
     text-align: left;
-    /* margin-top: 20px; */
     width: 110%;
+    margin-top: 20px;
 }
 
 .console_button_parent_div>.button{
@@ -73,16 +78,16 @@
 
 .console_textarea_parent{
     /* padding-top: 6.5%; */
-    padding-top: 6.5%;
+    padding-top: 5%;
 }
 
 .console_helper_text{
-    padding-top: 8px;
+    padding-top: 10px;
 }
 
 .console_helper_text>span{
     color: gray; 
-    font-size: 13px;
+    font-size: 13.5px;
 }
 
 #clear_output_link{
@@ -127,6 +132,7 @@
     padding: 10px;
     background-color: #f2f2f2;
     border-radius: 10px;
+    font-size: 15px;
 }
 
 .input-container {

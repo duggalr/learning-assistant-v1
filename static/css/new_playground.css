@@ -44,6 +44,10 @@
     margin-top: 10px;
 }
 
+.ui.tabular.menu .active.item{
+    background: #f9f9f9;
+}
+
 .tab-menu-div{
     width: 110%;
 }

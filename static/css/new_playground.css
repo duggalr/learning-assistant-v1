@@ -57,13 +57,13 @@
 }
 
 .console_parent_div{
-    margin-top: 5.5%;
+    margin-top: 4%;
     width: 110%;
 }
 
 .code_run_button, .code_feedback_button{
     border-radius: 25px !important;
-    font-size: 16.5px !important;
+    font-size: 15.5px !important;
 }
 
 .console_button_parent_div{
@@ -78,7 +78,7 @@
 
 .console_textarea_parent{
     /* padding-top: 6.5%; */
-    padding-top: 5%;
+    padding-top: 6%;
 }
 
 .console_helper_text{

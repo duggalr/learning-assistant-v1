@@ -21,3 +21,7 @@ create gradients
 {% include 'left_side_bar.html' %}
 {% include 'left_side_bar.html' %}
 
+
+TODO:
+- add all functionality
+

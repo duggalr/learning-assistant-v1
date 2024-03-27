@@ -17,3 +17,11 @@
 #main_left_menu .item:first-child {
     border-bottom: 1px solid black;
 }
+
+.new_chat_button, .chat_register_account_button{
+    border-radius: 25px !important;
+}
+
+.chat_register_account_button{
+    font-size: 14.5px !important;
+}

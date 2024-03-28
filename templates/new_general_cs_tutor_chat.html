@@ -23,7 +23,7 @@
             <a href="{% url 'login' %}">Signup</a> to save your conversations.
         </span>
 
-        <div class="tutor-chat-container">
+        <div class="tutor-chat-container" id="general-chat-div">
                         
             <div class="tutor-chat-message">
 
@@ -32,7 +32,7 @@
                     I'm your personal learning assistant. 
                 </strong>
                 <br/><br/>
-                My goal is to help you on your learning journey, whether you need help with homework or want to explore a new field.
+                My goal is to help you on your learning journey, whether you need help with homework or want to explore a CS topic.
                 <br/><br/>
                 If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
                 learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
@@ -90,5 +90,192 @@
     <!-- <div class="two wide column"></div> -->
 
 </div>
+
+
+
+<script>
+
+    // Global Vars
+    const initial_user_session = '{{ user_session }}';
+
+
+    // Chat Functionality
+    const chat = document.getElementById("general-chat-div");
+    const chatInput = document.getElementById("general_tutor_chatInput");
+    const sendButton = document.getElementById("sendButton");
+
+    sendButton.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keydown", (event) => {
+    
+        if (event.keyCode == 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+
+    });
+
+    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
+    let anon_user_messages = [];
+    if (initial_user_session == 'None'){
+
+        if (existing_anon_user_id === null){
+            existing_anon_user_id = generateUniqueUserID(30);
+            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
+        };
+
+        let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_user_messages"));
+
+        // console.log('tmp-user-messages:', tmp_usr_messages)
+
+        if (tmp_usr_messages != null){
+            anon_user_messages = tmp_usr_messages
+
+            if (anon_user_messages.length > 0){
+
+                for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
+
+                    let messageText = anon_user_messages[idx]
+                    let model_response_message = anon_user_messages[idx+1]
+
+                    const message = document.createElement("div");
+                    message.className = "message";
+                    message.innerHTML = "<b>You:</b> " + messageText;
+                    message.style.whiteSpace = 'pre-wrap'
+                    chat.appendChild(message);
+
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    chat.appendChild(responseMessage);
+
+                    // chat.scrollTop = chat.scrollHeight;
+
+                }
+
+            }
+
+        }
+
+    };
+
+
+    $("#general_tutor_chatInput").on('keyup', function(event) {
+        
+        var currentString = $("#general_tutor_chatInput").val()
+
+        if (currentString.length > 0){
+
+            $('#sendButton').removeClass('disabled');
+            
+        } else {
+            $('#sendButton').addClass('disabled');
+        }
+        
+    });
+
+
+    function sendMessage() {
+
+        const messageText = chatInput.value.trim();
+
+        if (messageText !== "") {
+
+            $('#general_tutor_chatInput').prop('disabled', true);
+
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            
+            chatInput.value = "";
+
+            let uc_parent_obj_id = $('#uc_parent_obj_id').val();
+            let user_conversation_obj_id = $('#user_conversation_obj_id').val();
+
+            let prev_conversation_history = []
+            if (initial_user_session == 'None'){
+                // anon user, fetch messages from localstorage
+                if (anon_user_messages.length > 0){
+                    prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+                }
+
+            }
+
+            let prev_conversation_history_st = ''
+            if (prev_conversation_history.length > 0){
+                prev_conversation_history_st = prev_conversation_history.join('\n');
+            }
+            
+            let d = {
+                'existing_anon_user_id': existing_anon_user_id,
+                'message': messageText,
+                'prev_conversation_history_st': prev_conversation_history_st,
+                'uc_parent_obj_id': uc_parent_obj_id,
+                'user_ct_obj_id': user_conversation_obj_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_general_tutor_user_message' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    var model_response_dict = response['response'];
+                    // console.log('Response Dict:', model_response_dict)
+
+                    var model_response_message = model_response_dict['response'];
+                    model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                    // console.log('Response:', model_response_message)
+
+                    var user_question = model_response_dict['question'];
+
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                    chat.appendChild(responseMessage);
+                    
+                    chat.scrollTop = chat.scrollHeight;
+
+                    $('#general_tutor_chatInput').prop('disabled', false);
+                    $('#sendButton').show();
+                    $('#primary_loading_button').hide();
+
+
+                    // var final_question_st = "Question: " + messageText
+                    // var final_response_st = "Response: " + model_response_message
+
+                    if (initial_user_session == 'None'){
+                        // var final_question_st = "Question: " + messageText
+                        // var final_response_st = "Response: " + model_response_message
+
+                        var final_question_st = messageText
+                        var final_response_st = model_response_message
+                        anon_user_messages.push(final_question_st)
+                        anon_user_messages.push(final_response_st)
+                        localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+                    }
+
+                },
+
+                error: function (response) {}
+                
+            });
+            
+        }
+
+    };
+
+
+</script>
 
 {% endblock %}

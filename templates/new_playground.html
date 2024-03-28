@@ -192,6 +192,7 @@
     const chat = document.getElementById("chat");
     const chatInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("sendButton");
+    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
 
 
@@ -261,6 +262,12 @@
 
 
     if (initial_user_session == 'None'){
+        
+        if (existing_anon_user_id === null){
+            // let unique_anon_user_id = generateUniqueUserID(30);
+            existing_anon_user_id = generateUniqueUserID(30);
+            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
+        };
 
         let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
 
@@ -304,6 +311,8 @@
         }
 
     }
+
+
     
 
     async function main() {
@@ -411,8 +420,9 @@ mystdout.getvalue()
 
         let user_code = editor.getValue();
         localStorage.setItem('anon_playground_user_code', user_code);
-        
+
         let d = {
+            'existing_anon_user_id': existing_anon_user_id,
             'cid': cid,
             'user_code': user_code,
             csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -598,6 +608,7 @@ mystdout.getvalue()
                 }
 
                 d = {
+                    'existing_anon_user_id': existing_anon_user_id,
                     'message': messageText,
                     'user_code': user_code,
                     'previous_messages': prev_conversation_history_st,
@@ -609,6 +620,7 @@ mystdout.getvalue()
             else {
 
                 d = {
+                    'existing_anon_user_id': existing_anon_user_id,
                     'message': messageText,
                     'user_code': user_code,
                     'cid': cid,

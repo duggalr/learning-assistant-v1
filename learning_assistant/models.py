@@ -29,6 +29,7 @@ class LessonQuestion(models.Model):
 class UserCode(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     lesson_question_obj = models.ForeignKey(LessonQuestion, on_delete=models.CASCADE, blank=True, null=True)
+    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
     code_unique_name = models.CharField(max_length=2000)
     user_code = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -38,6 +39,7 @@ class UserCode(models.Model):
 class UserConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     code_obj = models.ForeignKey(UserCode, on_delete=models.CASCADE)
+    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()
@@ -59,6 +61,7 @@ class LessonQuestionTestCase(models.Model):
 class UserGeneralTutorConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     # gt_parent_obj = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE)
+    user_anon_unique_id = models.CharField(max_length=100, blank=True, null=True)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()

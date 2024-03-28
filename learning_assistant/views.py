@@ -359,6 +359,7 @@ def handle_user_message(request):
 
         # print('form-data:', request.POST)
 
+        existing_anon_user_id = request.POST['existing_anon_user_id'].strip()
         user_question = request.POST['message'].strip()
         user_code = request.POST['user_code'].strip()     
         user_code = user_code.replace('`', '"').strip()
@@ -372,6 +373,7 @@ def handle_user_message(request):
 
                 uc_obj = UserCode.objects.create(
                     user_auth_obj = None,
+                    unique_anon_user_id = existing_anon_user_id,
                     lesson_question_obj = None,
                     code_unique_name = rnd_code_filename,
                     user_code = user_code,
@@ -398,6 +400,7 @@ def handle_user_message(request):
 
             ur_obj = UserConversation.objects.create(
                 user_auth_obj = None,
+                unique_anon_user_id = existing_anon_user_id,
                 code_obj = uc_obj,
                 question = model_response_dict['question'],
                 question_prompt = model_response_dict['q_prompt'],
@@ -512,6 +515,8 @@ def save_user_code(request):
             user_auth_obj = None
             # return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
 
+        
+        user_anon_unique_id = request.POST['existing_anon_user_id'].strip()
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
         cid = request.POST['cid']
@@ -527,10 +532,10 @@ def save_user_code(request):
 
             uc_obj = UserCode.objects.create(
                 user_auth_obj = user_auth_obj,
+                unique_anon_user_id = user_anon_unique_id,
                 code_unique_name = rnd_code_filename,
                 user_code = user_code,
                 lesson_question_obj = None
-                # lesson_question_obj = lesson_ques_obj
             )
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
@@ -657,6 +662,7 @@ def handle_general_tutor_user_message(request):
         #             prev_conversation_history.append(f"Response: { uc_response }")
 
 
+        user_anon_unique_id = request.POST['existing_anon_user_id'].strip()
         user_question = request.POST['message'].strip()
         initial_user_session = request.session.get('user')
 
@@ -664,8 +670,6 @@ def handle_general_tutor_user_message(request):
         user_oauth_obj = None
         if initial_user_session is None:
             user_oauth_obj = None
-            # TODO: start here; get the landing page general-assistant complete; go from there to edit the assistant page
-                # prioritize next eng steps from there (**super important)
             prev_conversation_st = request.POST['prev_conversation_history_st']
 
         else:                
@@ -693,9 +697,18 @@ def handle_general_tutor_user_message(request):
             previous_chat_history_st = prev_conversation_st
         )
 
-        if user_oauth_obj is not None:
+        if user_oauth_obj is not None:  ## regardless of if signed in or anon
             uct_obj = UserGeneralTutorConversation.objects.create(
                 user_auth_obj = user_oauth_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            uct_obj.save()
+        
+        else:
+            uct_obj = UserGeneralTutorConversation.objects.create(
+                unique_anon_user_id = user_anon_unique_id,
                 question = model_response_dict['question'],
                 question_prompt = model_response_dict['q_prompt'],
                 response = model_response_dict['response'],

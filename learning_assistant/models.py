@@ -61,7 +61,7 @@ class LessonQuestionTestCase(models.Model):
 class UserGeneralTutorConversation(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     # gt_parent_obj = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE)
-    user_anon_unique_id = models.CharField(max_length=100, blank=True, null=True)
+    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()

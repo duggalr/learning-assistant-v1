@@ -1,3 +1,4 @@
+
 TODO: 
 - get current version working locally
     - refactor by removing all unnecessary code
@@ -8,22 +9,13 @@ TODO:
             - develop feature list here
         - determine how to make marketing video?
 
-
-
-refactoring and getting current version to work
-logging
-experimenting with round buttons
-
-
-create gradients 
-
-<!-- {% include 'left_modified_app_menu.html' %} -->
-{% include 'left_side_bar.html' %}
-{% include 'left_side_bar.html' %}
-
-
 TODO:
-- add icons or some sort of bolding on the top app navbar <-- top to see the individual items at the moment
 - add all functionality
-- finalize everything on current view
+- finalize everything on current UI/app in local
 - add mobile-responsiveness and then, finalize all locally + production (<-- ensure everything works)
+
+
+Functionality: 
+- start with anon functionality
+    - get everything to work
+    - saving everything in DB <-- want to see what people ask and just basic numbers in easy manner (especially as we increase marketing...)

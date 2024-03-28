@@ -10,6 +10,7 @@
     <div class="eight wide column code-editor-parent-column">
 
         <textarea id="code" class="code-editor-textarea"></textarea>
+        <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
 
     </div>
 
@@ -181,6 +182,19 @@
   
 <script>
 
+    // Global Vars
+    const initial_user_session = '{{ user_session }}';
+    let anon_user_localstg_dict = {};
+    let pcid_associated_dict = {};
+    let pcid_user_messages = [];
+    let anon_user_messages = [];
+    // Chat Functionality
+    const chat = document.getElementById("chat");
+    const chatInput = document.getElementById("chatInput");
+    const sendButton = document.getElementById("sendButton");
+
+
+
     $('body').css('background', '#f9f9f9');
 
     $('.tabular.menu .item').tab();
@@ -241,10 +255,448 @@
 
     } else {
 
-        editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\n\n`);
+        editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\nhello_world()\n\n\n`);
 
     }
+
+
+    if (initial_user_session == 'None'){
+
+        let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
+
+        // console.log('tmp-user-messages:', tmp_usr_messages, tmp_usr_messages == null)
+
+        if (tmp_usr_messages != null){
+
+            anon_user_messages = tmp_usr_messages
+
+            if (anon_user_messages.length > 0){
+
+                for (idx = 0; idx <= anon_user_messages.length-2; idx += 2){
+
+                    // console.log(idx, idx+1)
+
+                    let messageText = anon_user_messages[idx]
+                    let model_response_message = anon_user_messages[idx+1]
+
+                    const message = document.createElement("div");
+                    message.className = "message";
+                    message.innerHTML = "<b>You:</b> " + messageText;
+                    message.style.whiteSpace = 'pre-wrap'
+                    chat.appendChild(message);
+
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                    chat.appendChild(responseMessage);
+                    // chat.scrollTop = chat.scrollHeight;
+
+                }
+
+            }
+
+        }
+
+        let anon_user_code_st = localStorage.getItem('anon_playground_user_code');
+        if (anon_user_code_st != null){
+            editor.setValue(anon_user_code_st);
+        }
+
+    }
+    
+
+    async function main() {
+        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+
+        // Pyodide ready
+        output.value += "Ready!\n";
+
+        // $('#primary_page_loader').hide();
+
+        return pyodide;
+    };
+    
+    let pyodideReadyPromise = main();
+
+    function addToOutput(s) {
+
+        try {
+
+            let val_list = s.split("\n");
+            for (i=0; i <= val_list.length-2; i++){
+                let otv = val_list[i];
+                output.value += ">>> " + otv + "\n"; 
+            }
+
+            var textarea = document.getElementById('output');
+            textarea.scrollTop = textarea.scrollHeight;
+
+        } catch(err) {
+
+            output.value += ">>> " + s + "\n";
+
+        }
+
+    };
+
+    async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+            let captureOutputCode = `
+import sys
+from io import StringIO
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+
+${editor.getValue()}
+
+sys.stdout = old_stdout
+mystdout.getvalue()
+`;
+
+            let output = pyodide.runPython(captureOutputCode);
+
+            // console.log('User Code:', editor.getValue())
+            // console.log('CODE OUTPUT:', output);
+
+            addToOutput(output);
+
+            saveCode();
+            // if (user_session != 'None'){
+            //     saveCode();
+            // }
+
+        } catch (err) {
+            
+            addToOutput(err);
+
+            saveCode();
+            // if (user_session != 'None'){
+            //     saveCode();
+            // }
+
+        }
+    }
+
+
+    sendButton.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keydown", (event) => {
+    
+        if (event.keyCode == 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+
+    });
+
+    $("#chatInput").on('keyup', function(event) {
+        
+        var currentString = $("#chatInput").val()
+
+        if (currentString.length > 0){
+
+            $('#sendButton').removeClass('disabled');
+            
+        } else {
+            $('#sendButton').addClass('disabled');
+        }
+        
+    });
+
+
+    function saveCode(){
+
+        let cid = $('#code_obj_id').val();
+
+        let user_code = editor.getValue();
+        localStorage.setItem('anon_playground_user_code', user_code);
+        
+        let d = {
+            'cid': cid,
+            'user_code': user_code,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+
+        console.log("cid-dict:", d);
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'save_user_code' %}",
+            dataType: "json",
+            data: d,
+            success: function (response) {
+
+                // console.log('response:', response);
+
+                if (response['success'] == true){
+
+                    if (cid == 'None'){
+
+                        // window.location.reload();
+                        // window.location.href = ''
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('cid', response['cid']);
+                        window.history.replaceState(null, null, url);
+                        // window.location.href = url;
+                        
+                        // console.log('cid:', response['cid']);
+                        let saved_cid = response['cid'];
+                        $("#code_obj_id").val(saved_cid);
+
+                    } else {
+
+                        let saved_cid = response['cid'];
+                        $('#code_obj_id').val(saved_cid);
+                        
+                        $('#save_code_button').hide().promise().done(function(){
+
+                            $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
+                                $('#save_code_button').show();
+                            });
+
+                        });
+
+                    }
+
+                }
+
+            },
+            error: function (response) {}
+            
+        });
+
+        // if (initial_user_session == 'None'){
+
+        //     let user_code = editor.getValue();
+        //     // console.log('new-user-code-save:', user_code)
+        //     localStorage.setItem('anon_playground_user_code', user_code);
+
+        // } else {
+
+        //     let cid = $('#code_obj_id').val();
+        //     // let lqid = $('#lesson_question_obj_id').val();
+
+        //     let user_code = editor.getValue();
+        //     let d = {
+        //         'cid': cid,
+        //         // 'lqid': lqid,
+        //         'user_code': user_code,
+        //         csrfmiddlewaretoken: '{{ csrf_token }}'
+        //     };
+
+        //     console.log("cid-dict:", d);
+            
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "{% url 'save_user_code' %}",
+        //         dataType: "json",
+        //         data: d,
+        //         success: function (response) {
+
+        //             // console.log('response:', response);
+
+        //             if (response['success'] == true){
+
+        //                 if (cid == 'None'){
+
+        //                     // window.location.reload();
+        //                     // window.location.href = ''
+        //                     var url = new URL(window.location.href);
+        //                     url.searchParams.set('cid', response['cid']);
+        //                     window.history.replaceState(null, null, url);
+        //                     // window.location.href = url;
+                            
+        //                     // console.log('cid:', response['cid']);
+        //                     let saved_cid = response['cid'];
+        //                     $("#code_obj_id").val(saved_cid);
+
+        //                 } else {
+
+        //                     let saved_cid = response['cid'];
+        //                     $('#code_obj_id').val(saved_cid);
+                            
+        //                     $('#save_code_button').hide().promise().done(function(){
+
+        //                         $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
+        //                             $('#save_code_button').show();
+        //                         });
+
+        //                     });
+
+        //                 }
+
+        //             }
+
+        //         },
+        //         error: function (response) {}
+                
+        //     });
+
+        // }
+
+    };
+
+
+
+    function handleSolutionSubmit(){
+
+        $('#chatInput').val('I believe this is the solution to the problem. Can you provide feedback on my code? Any advice or suggestions for improvement?');
+        
+        $('.tutor-tab').addClass('active');
+        $('.console-tab').removeClass('active');
+
+        $('.console_parent_div').hide();
+        $('.ai_tutor_div').show();
+
+        // $('#sendButton').click();
+
+    };
+
+
+    function sendMessage() {
+
+        const messageText = chatInput.value.trim();
+
+        if (messageText !== "") {
+
+            $('#chatInput').prop('disabled', true);
+
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            
+            chatInput.value = "";
+
+            let user_code = editor.getValue();
+
+            let cid = $('#code_obj_id').val();
+            // let lqid = $('#lesson_question_obj_id').val();
+
+            let d = {};
+            if (initial_user_session == 'None'){
+
+                let prev_conversation_history = []
+                if (anon_user_messages.length > 0){
+                    
+                    prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+
+                }
+
+                let prev_conversation_history_st = ''
+                if (prev_conversation_history.length > 0){
+                    
+                    prev_conversation_history_st = prev_conversation_history.join('\n');
+                    
+                }
+
+                d = {
+                    'message': messageText,
+                    'user_code': user_code,
+                    'previous_messages': prev_conversation_history_st,
+                    'cid': cid,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+
+            } 
+            else {
+
+                d = {
+                    'message': messageText,
+                    'user_code': user_code,
+                    'cid': cid,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+
+            }
+
+            // // console.log('user-message-dict:', d);
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_user_message' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    var model_response_dict = response['response'];
+
+                    var model_response_message = model_response_dict['response'];
+                    model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                    var user_question = model_response_dict['question'];
+
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    chat.appendChild(responseMessage);
+                    
+                    chat.scrollTop = chat.scrollHeight;
+
+                    $('#chatInput').prop('disabled', false);
+                    $('#sendButton').show();
+                    $('#primary_loading_button').hide();
+                    
+                    if (initial_user_session == 'None'){
+
+                        var final_question_st = messageText
+                        var final_response_st = model_response_message
+                        anon_user_messages.push(final_question_st)
+                        anon_user_messages.push(final_response_st)
+                        
+                        localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+                        localStorage.setItem('anon_playground_user_code', user_code);
+
+                    } else {
+
+                        let saved_cid = model_response_dict['cid'];
+                        $('#code_obj_id').val(saved_cid);
+
+                    }
+
+                    $('#solution_submit_button').removeClass("disabled");
+
+                },
+                error: function (response) {}
+                
+            });
+
+        }
+
+    };
+
+
+
+    $('#clear_output_link').click(function(){
+
+        $('#output').val('');
+
+    });
+
+
+
+    // https://stackoverflow.com/questions/11502122/jquery-keypress-event-for-cmds-and-ctrls
+    $(document).keydown(function(event) {
+
+        if((event.ctrlKey || event.metaKey) && event.which == 83) {
+            // Save Function
+            event.preventDefault();
+            saveCode();
+            return false;
+        };
+
+    });
+
+
 
 </script>
 
 {% endblock %}
+

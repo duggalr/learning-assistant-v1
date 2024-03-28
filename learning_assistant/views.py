@@ -231,19 +231,8 @@ def logout(request):
 
 def landing(request):
     initial_user_session = request.session.get("user")
-    
-    # lesson_objects = PythonCourseLesson.objects.all().order_by('order_number')
-    # lesson_objects_rv = []
-    # total_lesson_questions = 0
-    # for lobj in lesson_objects:
-    #     num_questions = PythonLessonQuestion.objects.filter(course_lesson_obj = lobj).count()
-    #     lesson_objects_rv.append([lobj, num_questions])
-    #     total_lesson_questions += num_questions
-
     return render(request, 'landing.html',  {
         'user_session': initial_user_session,
-        # 'course_lesson_objects': lesson_objects_rv,
-        # 'total_lesson_questions': total_lesson_questions
     })
 
 
@@ -269,28 +258,6 @@ def playground(request):
     user_oauth_obj = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-
-    pt_course_lesson_question_obj = None
-    pt_course_test_case_examples = []
-    if pclid is not None:
-        pt_course_lesson_question_obj = get_object_or_404(PythonLessonQuestion, id = pclid)
-        pt_course_test_case_examples = PythonLessonQuestionTestCase.objects.filter(
-            lesson_question_obj = pt_course_lesson_question_obj
-        )
-
-    ls_q_obj = None
-    ls_q_test_case_examples = []
-    if lqid is not None:
-        ls_q_obj = get_object_or_404(LessonQuestion, id = lqid)
-        ls_q_test_case_examples = LessonQuestionTestCase.objects.filter(lesson_question_obj = ls_q_obj)
-
-    student_assigned_qid = request.GET.get('stdqid', None)
-    tq_obj = None
-    tq_obj_test_case_examples = []
-    if student_assigned_qid is not None:
-        tq_obj = get_object_or_404(TeacherQuestion, id = student_assigned_qid)
-        tq_obj_test_case_examples = TeacherQuestionTestCase.objects.filter(teacher_question_obj = tq_obj)
-
         
     user_is_admin = request.user.is_superuser
     if user_is_admin:  # exempt from auth check; has visibility into all user's code
@@ -317,13 +284,6 @@ def playground(request):
             ).order_by('created_at')
     else:
         uc_obj = None
-        if ls_q_obj is not None:
-            lesson_code_objects = UserCode.objects.filter(
-                lesson_question_obj = ls_q_obj,
-                user_auth_obj = user_oauth_obj
-            )
-            if len(lesson_code_objects) == 1:  # should always be 1
-                uc_obj = lesson_code_objects[0]
 
 
     initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
@@ -335,18 +295,10 @@ def playground(request):
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
         'qid': lqid,
-        'lesson_question_object': ls_q_obj,
-        'lesson_question_test_cases': ls_q_test_case_examples,
-        'stdqid': student_assigned_qid,
-        'teacher_question_object': tq_obj,
-        'teacher_question_test_cases': tq_obj_test_case_examples,
         'initial_rnd_file_name': initial_rnd_file_name,
         # 'student_obj': student_obj
 
         'pclid': pclid,
-        'pt_course_lesson_question_obj': pt_course_lesson_question_obj,
-        'pt_course_test_case_examples': pt_course_test_case_examples
-
     })
 
 
@@ -410,120 +362,136 @@ def handle_user_message(request):
         user_question = request.POST['message'].strip()
         user_code = request.POST['user_code'].strip()     
         user_code = user_code.replace('`', '"').strip()
-
+        user_code_obj_id = request.POST['cid']
+        
+        uc_obj = None
         initial_user_session = request.session.get('user')
         if initial_user_session is None:
+            if user_code_obj_id is None:
+                rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
 
-            # TODO: get the messages from localstorage here
+                uc_obj = UserCode.objects.create(
+                    user_auth_obj = None,
+                    lesson_question_obj = None,
+                    code_unique_name = rnd_code_filename,
+                    user_code = user_code,
+                )
+                uc_obj.save()
+
+            else:
+                user_code_objects = UserCode.objects.filter(id = user_code_obj_id)
+                if len(user_code_objects) == 0:
+                    return JsonResponse({'success': False, 'response': 'Could not find associated code object.'})
+                else:
+                    uc_obj = user_code_objects[0]
+
+        
+        if initial_user_session is None:
 
             previous_message_st = request.POST['previous_messages'].strip()
-
             model_response_dict = main_utils.main_handle_question(
                 question = user_question,
                 programming_problem = None,
                 student_code = user_code,
                 previous_chat_history_st = previous_message_st
             )
-            # print('model-response:', model_response_dict)
-            # return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
-            # model_response_dict['cid'] = uc_obj.id
+
+            ur_obj = UserConversation.objects.create(
+                user_auth_obj = None,
+                code_obj = uc_obj,
+                question = model_response_dict['question'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            ur_obj.save()
+
+            model_response_dict['cid'] = uc_obj.id
             return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-        user_cid = request.POST['cid']
-        # user_lqid = request.POST['lqid']
-        # user_pclid = request.POST['pclid']
+        # user_cid = request.POST['cid']
+        # user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        # prev_conversation_history = []
+        # if user_cid != 'None':
 
-        # lesson_ques_obj = None
-        # if user_lqid != 'None':
-        #     lesson_question_objects = LessonQuestion.objects.filter(id = user_lqid)
-        #     if len(lesson_question_objects) > 0:
-        #         lesson_ques_obj = lesson_question_objects[0]
+        #     prev_conversation_messages = UserConversation.objects.filter(
+        #         code_obj_id = user_cid,
+        #         user_auth_obj = user_oauth_obj
+        #     ).order_by('-created_at')
 
+        #     if len(prev_conversation_messages) > 0:
+        #         for uc_obj in prev_conversation_messages[:5]:
+        #             uc_question = uc_obj.question
+        #             uc_response = uc_obj.response
+        #             prev_conversation_history.append(f"Question: { uc_question }")
+        #             prev_conversation_history.append(f"Response: { uc_response }")
 
-        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-        prev_conversation_history = []
-        if user_cid != 'None':
-
-            prev_conversation_messages = UserConversation.objects.filter(
-                code_obj_id = user_cid,
-                user_auth_obj = user_oauth_obj
-            ).order_by('-created_at')
-
-            if len(prev_conversation_messages) > 0:
-                for uc_obj in prev_conversation_messages[:5]:
-                    uc_question = uc_obj.question
-                    uc_response = uc_obj.response
-                    prev_conversation_history.append(f"Question: { uc_question }")
-                    prev_conversation_history.append(f"Response: { uc_response }")
-
-
-        prev_conversation_st = ''
-        if len(prev_conversation_history) > 0:
-            prev_conversation_st = '\n'.join(prev_conversation_history)
+        # prev_conversation_st = ''
+        # if len(prev_conversation_history) > 0:
+        #     prev_conversation_st = '\n'.join(prev_conversation_history)
         
-        # print('Previous Chat String:', prev_conversation_st)
+        # # print('Previous Chat String:', prev_conversation_st)
 
-        model_response_dict = main_utils.main_handle_question(
-            question = user_question,
-            programming_problem = None,
-            student_code = user_code,
-            previous_chat_history_st = prev_conversation_st
-        )
-        # print('model-response:', model_response_dict)
+        # model_response_dict = main_utils.main_handle_question(
+        #     question = user_question,
+        #     programming_problem = None,
+        #     student_code = user_code,
+        #     previous_chat_history_st = prev_conversation_st
+        # )
+        # # print('model-response:', model_response_dict)
 
-        if user_cid == 'None':
+        # if user_cid == 'None':
             
-            # if user_lqid == 'None':
-            #     rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
-            # else:
-            #     rnd_code_filename = lesson_ques_obj.question_name
+        #     # if user_lqid == 'None':
+        #     #     rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+        #     # else:
+        #     #     rnd_code_filename = lesson_ques_obj.question_name
 
-            rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
+        #     rnd_code_filename = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(10)])
 
-            uc_obj = UserCode.objects.create(
-                user_auth_obj = user_oauth_obj,
-                code_unique_name = rnd_code_filename,
-                user_code = user_code,
-                lesson_question_obj = None
-            )
-            uc_obj.save()
+        #     uc_obj = UserCode.objects.create(
+        #         user_auth_obj = user_oauth_obj,
+        #         code_unique_name = rnd_code_filename,
+        #         user_code = user_code,
+        #         lesson_question_obj = None
+        #     )
+        #     uc_obj.save()
             
-            ur_obj = UserConversation.objects.create(
-                user_auth_obj = user_oauth_obj,
-                code_obj = uc_obj,
-                question = model_response_dict['question'],
-                question_prompt = model_response_dict['q_prompt'],
-                response = model_response_dict['response'],
-            )
-            ur_obj.save()
+        #     ur_obj = UserConversation.objects.create(
+        #         user_auth_obj = user_oauth_obj,
+        #         code_obj = uc_obj,
+        #         question = model_response_dict['question'],
+        #         question_prompt = model_response_dict['q_prompt'],
+        #         response = model_response_dict['response'],
+        #     )
+        #     ur_obj.save()
 
-        else:
-            # uc_obj = UserCode.objects.get(id = user_cid)
-            # uc_obj.user_code = user_code
-            # uc_obj.save()
+        # else:
+        #     # uc_obj = UserCode.objects.get(id = user_cid)
+        #     # uc_obj.user_code = user_code
+        #     # uc_obj.save()
 
-            uc_objects = UserCode.objects.filter(id = user_cid, user_auth_obj = user_oauth_obj)
-            if len(uc_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'Object id not found.'})
+        #     uc_objects = UserCode.objects.filter(id = user_cid, user_auth_obj = user_oauth_obj)
+        #     if len(uc_objects) == 0:
+        #         return JsonResponse({'success': False, 'response': 'Object id not found.'})
 
-            uc_obj = uc_objects[0]
-            # uc_obj.lesson_question_obj = lesson_ques_obj
-            uc_obj.user_code = user_code
-            uc_obj.save()
+        #     uc_obj = uc_objects[0]
+        #     # uc_obj.lesson_question_obj = lesson_ques_obj
+        #     uc_obj.user_code = user_code
+        #     uc_obj.save()
 
-            ur_obj = UserConversation.objects.create(
-                user_auth_obj = user_oauth_obj,
-                code_obj = uc_obj,
-                question = model_response_dict['question'],
-                question_prompt = model_response_dict['q_prompt'],
-                response = model_response_dict['response'],
-            )
-            ur_obj.save()
-
+        #     ur_obj = UserConversation.objects.create(
+        #         user_auth_obj = user_oauth_obj,
+        #         code_obj = uc_obj,
+        #         question = model_response_dict['question'],
+        #         question_prompt = model_response_dict['q_prompt'],
+        #         response = model_response_dict['response'],
+        #     )
+        #     ur_obj.save()
     
-        model_response_dict['cid'] = uc_obj.id
-        return JsonResponse({'success': True, 'response': model_response_dict})
+        # model_response_dict['cid'] = uc_obj.id
+        # return JsonResponse({'success': True, 'response': model_response_dict})
+
 
 
 
@@ -533,24 +501,20 @@ def save_user_code(request):
 
     if request.method == 'POST':
 
+        print('save-user-code-POST:', request.POST)
+
         if initial_user_session is not None:
             user_oauth_objects = UserOAuth.objects.filter(email = initial_user_session['userinfo']['email'])
-            if len(user_oauth_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+            user_auth_obj = user_oauth_objects[0]
+        #     if len(user_oauth_objects) == 0:
+        #         return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
         else:
-            return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
+            user_auth_obj = None
+            # return JsonResponse({'success': False, 'response': 'User must be authenticated.'})
 
-        user_auth_obj = user_oauth_objects[0]
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()
         cid = request.POST['cid']
-        # lq_id = request.POST['lqid']
-
-        # lesson_ques_obj = None
-        # if lq_id != 'None':
-        #     lesson_question_objects = LessonQuestion.objects.filter(id = lq_id)
-        #     if len(lesson_question_objects) > 0:
-        #         lesson_ques_obj = lesson_question_objects[0]
 
         if cid == 'None':
             
@@ -578,7 +542,6 @@ def save_user_code(request):
                 return JsonResponse({'success': False, 'response': 'Object id not found.'})
             
             uc_obj = uc_objects[0]
-            # uc_obj.lesson_question_obj = lesson_ques_obj
             uc_obj.user_code = user_code
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})

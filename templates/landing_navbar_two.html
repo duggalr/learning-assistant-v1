@@ -32,7 +32,12 @@
             <!-- <button class="ui basic black button auth_button">
                 Signup or Login
             </button> -->
-            <button class="ui button gradient-button">Signup or Login</button>
+
+            {% if user_session is not none %}
+                <!-- <button class="ui button gradient-button">Visit Your Dashboard</button> -->
+            {% else %}
+                <button class="ui button gradient-button">Signup or Login</button>
+            {% endif %}
             
             <!-- <button class="ui black basic button landing_auth_button">Signup or Login</button> -->
             <!-- <div class="ui animated black basic button landing_auth_button" tabindex="0" > -->

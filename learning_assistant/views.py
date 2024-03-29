@@ -689,16 +689,34 @@ def handle_general_tutor_user_message(request):
 
         user_anon_unique_id = request.POST['existing_anon_user_id'].strip()
         user_question = request.POST['message'].strip()
+        general_cs_chat_parent_obj_id = request.POST['general_cs_chat_parent_obj_id']
+
         initial_user_session = request.session.get('user')
 
+        ut_conv_parent_obj = None
         prev_conversation_st = ''
         user_oauth_obj = None
         if initial_user_session is None:
             user_oauth_obj = None
             prev_conversation_st = request.POST['prev_conversation_history_st']
 
-        else:                
+        else:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+            if general_cs_chat_parent_obj_id == '':
+                
+                # TODO: Names will just be "Conversation {count}" on frontend
+                ut_conv_parent_obj = UserGeneralTutorParent.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                )
+                ut_conv_parent_obj.save()
+
+            else:
+                ut_conv_parent_objects = UserGeneralTutorParent.objects.fitler(id = general_cs_chat_parent_obj_id)
+                if len(ut_conv_parent_objects) == 0:
+                    return JsonResponse({'success': False, 'message': 'object not found.'})
+                else:
+                    ut_conv_parent_obj = ut_conv_parent_objects[0]
 
             ug_tut_cv_objects = UserGeneralTutorConversation.objects.filter(
                 user_auth_obj = user_oauth_obj,
@@ -723,8 +741,11 @@ def handle_general_tutor_user_message(request):
         )
 
         if user_oauth_obj is not None:  ## regardless of if signed in or anon
+
+            # TODO: test and finalize to ensure this works
             uct_obj = UserGeneralTutorConversation.objects.create(
                 user_auth_obj = user_oauth_obj,
+                chat_parent_object = ut_conv_parent_obj,
                 question = model_response_dict['question'],
                 question_prompt = model_response_dict['q_prompt'],
                 response = model_response_dict['response'],
@@ -734,13 +755,15 @@ def handle_general_tutor_user_message(request):
         else:
             uct_obj = UserGeneralTutorConversation.objects.create(
                 unique_anon_user_id = user_anon_unique_id,
+                chat_parent_object = ut_conv_parent_obj,
                 question = model_response_dict['question'],
                 question_prompt = model_response_dict['q_prompt'],
                 response = model_response_dict['response'],
             )
             uct_obj.save()
-            
+
         # model_response_dict['uct_parent_obj_id'] = ugt_parent_obj.id
+        model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 

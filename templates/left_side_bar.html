@@ -25,15 +25,35 @@
 
         <h4>Your Past Conversations:</h4>
             
-            <div style="text-align: center; margin-top: 20px;">
-                <div class="ui black animated button chat_register_account_button" tabindex="0">
-                    <div class="visible content"><i class="sign-in icon"></i>Make an Account</div>
-                    <div class="hidden content">
-                        <i class="arrow right icon"></i>
+            {% if user_session is not none %}
+
+                {% if user_conversation_objects|length > 0 %}
+
+                    <!-- TODO: add "Conversation #{number}" as chat name and go from there; test to ensure all works; fix this and undefined bug -->
+                    {% for ch_obj in user_conversation_objects %}
+
+                        <li>{{ ch_obj.id }}</li>
+
+                    {% endfor %}
+                
+                {% else %}
+
+                    <p style="color: gray;">no past conversations...</p>
+                
+                {% endif %}
+
+            {% else %}
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <div class="ui black animated button chat_register_account_button" tabindex="0">
+                        <div class="visible content"><i class="sign-in icon"></i>Make an Account</div>
+                        <div class="hidden content">
+                            <i class="arrow right icon"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+
+            {% endif %}
 
         </div>
 

@@ -24,7 +24,7 @@
         </span>
 
         <div class="tutor-chat-container" id="general-chat-div">
-                        
+
             <div class="tutor-chat-message">
 
                 <strong>
@@ -78,6 +78,8 @@
             &nbsp;
             <button id="sendButton" class="ui primary button disabled send-button">Send</button>
             <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+            <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
 
         </div>
 
@@ -211,8 +213,12 @@
             if (prev_conversation_history.length > 0){
                 prev_conversation_history_st = prev_conversation_history.join('\n');
             }
+
+            // TODO: check if value will be sent as None to python view
+            let general_cs_chat_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
             
             let d = {
+                'general_cs_chat_parent_obj_id': general_cs_chat_parent_obj_id,
                 'existing_anon_user_id': existing_anon_user_id,
                 'message': messageText,
                 'prev_conversation_history_st': prev_conversation_history_st,
@@ -250,6 +256,7 @@
                     $('#sendButton').show();
                     $('#primary_loading_button').hide();
 
+                    let parent_chat_obj_id = model_response_dict['response']['uct_parent_obj_id'];
 
                     // var final_question_st = "Question: " + messageText
                     // var final_response_st = "Response: " + model_response_message
@@ -263,6 +270,10 @@
                         anon_user_messages.push(final_question_st)
                         anon_user_messages.push(final_response_st)
                         localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+                    } else {
+
+                        $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
+
                     }
 
                 },

@@ -1,10 +1,19 @@
 {% load static %}
 
 <div class="ui secondary pointing menu app-secondary-top-menu">
-    <a class="item app-navbar-logo" href="{% url 'landing' %}">
-        <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
-        <i class="code icon"></i>Companion
-    </a>
+
+    {% if user_session is not none %}
+        <a class="item app-navbar-logo" href="{% url 'dashboard' %}">
+            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
+            <i class="code icon"></i>Companion
+        </a>
+    {% else %}
+        <a class="item app-navbar-logo" href="{% url 'landing' %}">
+            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
+            <i class="code icon"></i>Companion
+        </a>
+    {% endif %}
+    
     <div class="right menu">
         
         {% if user_session is not none %}

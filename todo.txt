@@ -23,3 +23,5 @@ Functionality:
 // TODO: 
     // implement all auth and all functionality for auth <-- finalize and ensure everything works
     // implement mobile responsiveness
+
+<!-- TODO: add all functionality for logged-in users <- get this fully complete before gym and plan out todo for Saturday -->

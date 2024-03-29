@@ -294,7 +294,9 @@ def playground(request):
 
     initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
 
-    current_user_email = initial_user_session['userinfo']['email']
+    current_user_email = None
+    if initial_user_session is not None:
+        current_user_email = initial_user_session['userinfo']['email']
 
     # return render(request, 'playground.html', {
     return render(request, 'new_playground.html', {    
@@ -625,7 +627,9 @@ def general_cs_tutor(request):
         ).order_by('created_at')
 
     
-    current_user_email = initial_user_session['userinfo']['email']
+    current_user_email = None
+    if initial_user_session is not None:
+        current_user_email = initial_user_session['userinfo']['email']
 
     # return render(request, 'general_cs_tutor_chat.html', {
     return render(request, 'new_general_cs_tutor_chat.html', {

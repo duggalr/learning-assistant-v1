@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'app_menu.html' %}
+
+
+<div class="ui grid container">
+        
+    <div class="two wide column"></div>
+
+    <div class="twelve wide column" style="padding-bottom: 40px;">
+
+        <div style="padding-top: 15px;">
+            <h3 class="ui header" id="dashboard_header">
+                &#128216; Dashboard
+            </h3>
+        </div>
+
+        <div class="ui tabular menu" style="padding-top: 12px;">
+
+            <a class="active item tab_header" id="course_questions_tab">
+                <i class="code icon" style="font-size: 13px;"></i>
+                Course Progress
+            </a>
+
+            <a class="item tab_header" id="questions_tab">
+                <i class="code branch icon" style="font-size: 13px;"></i>
+                Your Code Files
+            </a>
+
+            <!-- <a class="disabled item tab_header" id="files_tab">
+                <i class="file pdf icon" style="font-size: 13px;"></i>
+                Saved Files
+            </a> -->
+
+            <div class="right menu">
+                <div class="item">
+                    <a href="{% url 'playground' %}">
+                        <i class="plus icon"></i>
+                        Start a New Question
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

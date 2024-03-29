@@ -9,3 +9,11 @@ function generateUniqueUserID(length) {
     }
     return result;
 };
+
+
+// $('#signup-login-button').click(function(){
+
+//     let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+//     window.location.replace(new_url);
+
+// });

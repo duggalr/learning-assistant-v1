@@ -21,6 +21,5 @@ Functionality:
     - saving everything in DB <-- want to see what people ask and just basic numbers in easy manner (especially as we increase marketing...)
 
 // TODO: 
-    // ensure all anon for playground is good
-    // implement anon for general and ensure good
-    // implement all auth and finalize
+    // implement all auth and all functionality for auth <-- finalize and ensure everything works
+    // implement mobile responsiveness

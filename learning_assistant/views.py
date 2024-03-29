@@ -211,6 +211,12 @@ def login(request):
     )
 
 
+def signup(request):
+    return oauth.auth0.authorize_redirect(
+        request, request.build_absolute_uri(reverse("callback"))
+    )
+
+
 def logout(request):
     request.session.clear()
     return redirect(
@@ -339,7 +345,10 @@ def dashboard(request):
     # total_lesson_questions = PythonLessonQuestion.objects.count()
     total_lesson_questions = PythonLessonQuestion.objects.exclude(order_number = 1).count()
 
-    return render(request, 'new_user_dashboard.html',  {
+    # TODO: start here
+
+    # return render(request, 'new_user_dashboard.html',  {
+    return render(request, 'user_dashboard.html',  {
         'user_session': initial_user_session,
         'user_code_list': final_rv,
         'user_file_objects': user_file_objects,

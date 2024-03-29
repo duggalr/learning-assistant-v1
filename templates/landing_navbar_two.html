@@ -36,7 +36,7 @@
             {% if user_session is not none %}
                 <!-- <button class="ui button gradient-button">Visit Your Dashboard</button> -->
             {% else %}
-                <button class="ui button gradient-button">Signup or Login</button>
+                <button id="signup-login-button" class="ui button gradient-button">Signup or Login</button>
             {% endif %}
             
             <!-- <button class="ui black basic button landing_auth_button">Signup or Login</button> -->
@@ -56,3 +56,15 @@
     </div>
 
 </div>
+
+<script>
+    
+    $('#signup-login-button').click(function(){
+
+        // let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/signup';
+        window.location.replace(new_url);
+
+    });
+
+</script>

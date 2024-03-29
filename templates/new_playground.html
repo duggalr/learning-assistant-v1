@@ -46,11 +46,43 @@
         <!-- Console Output -->
         <div class="console_parent_div">
 
-            <!-- <div>
-                <h3>File Name: Lorem</h3>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique vel mauris at lacinia.</p>
-            </div>
-            <br/> -->
+            {% if uc_obj is not None %}
+
+                <div class="file_name_parent_div">
+                    <h3 id="file_name_header">
+                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                        <span id="edit_filename_span" style="color: blue; font-size: 14px;">change name</span>
+                    </h3>
+
+                    <div id="file_name_change_form" style="display: none;">
+                        <label for="file_name" style="font-size: 16px;"><strong>File Name:</strong></label>&nbsp;
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                        &nbsp;
+                        <button id="file_name_change_btn">Submit</button>
+                    </div>
+                    
+                </div>
+
+            {% else %}
+
+                <div class="file_name_parent_div" style="display: none;">
+                    <h3 id="file_name_header">
+                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                        <span id="edit_filename_span" style="color: blue; font-size: 14px;">change name</span>
+                    </h3>
+
+                    <div id="file_name_change_form" style="display: none;">
+                        <label for="file_name" style="font-size: 16px;"><strong>File Name:</strong></label>&nbsp;
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                        &nbsp;
+                        <button id="file_name_change_btn">Submit</button>
+                    </div>
+                    
+                </div>
+
+            {% endif %}
+
+            <!-- <br/> -->
 
             <div class="console_button_parent_div">
 
@@ -427,7 +459,10 @@ mystdout.getvalue()
         let cid = $('#code_obj_id').val();
 
         let user_code = editor.getValue();
-        localStorage.setItem('anon_playground_user_code', user_code);
+
+        if (initial_user_session == 'None'){
+            localStorage.setItem('anon_playground_user_code', user_code);
+        };
 
         let d = {
             'existing_anon_user_id': existing_anon_user_id,
@@ -436,7 +471,7 @@ mystdout.getvalue()
             csrfmiddlewaretoken: '{{ csrf_token }}'
         };
 
-        console.log("cid-dict:", d);
+        // console.log("cid-dict:", d);
 
         $.ajax({
             type: 'POST',
@@ -451,29 +486,41 @@ mystdout.getvalue()
 
                     if (cid == 'None'){
 
-                        // window.location.reload();
-                        // window.location.href = ''
-                        var url = new URL(window.location.href);
-                        url.searchParams.set('cid', response['cid']);
-                        window.history.replaceState(null, null, url);
-                        // window.location.href = url;
+                        if (initial_user_session == 'None'){} 
+                        else {
+                            var url = new URL(window.location.href);
+                            url.searchParams.set('cid', response['cid']);
+                            window.history.replaceState(null, null, url);
+                        }
+
+                        // // window.location.reload();
+                        // // window.location.href = ''
+                        // var url = new URL(window.location.href);
+                        // url.searchParams.set('cid', response['cid']);
+                        // window.history.replaceState(null, null, url);
+                        // // window.location.href = url;
                         
                         // console.log('cid:', response['cid']);
                         let saved_cid = response['cid'];
                         $("#code_obj_id").val(saved_cid);
+                        
+                        let code_file_name = response['code_file_name'];
+                        $("#code_file_name").text(code_file_name);
+                        $("#file_name_input").val(code_file_name);
+                        $(".file_name_parent_div").show();
 
                     } else {
 
                         let saved_cid = response['cid'];
                         $('#code_obj_id').val(saved_cid);
                         
-                        $('#save_code_button').hide().promise().done(function(){
+                        // $('#save_code_button').hide().promise().done(function(){
 
-                            $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
-                                $('#save_code_button').show();
-                            });
+                        //     $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
+                        //         $('#save_code_button').show();
+                        //     });
 
-                        });
+                        // });
 
                     }
 
@@ -663,7 +710,9 @@ mystdout.getvalue()
                     $('#chatInput').prop('disabled', false);
                     $('#sendButton').show();
                     $('#primary_loading_button').hide();
-                    
+
+                    let saved_cid = model_response_dict['cid'];
+
                     if (initial_user_session == 'None'){
 
                         var final_question_st = messageText
@@ -674,10 +723,22 @@ mystdout.getvalue()
                         localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
                         localStorage.setItem('anon_playground_user_code', user_code);
 
+                        $('#code_obj_id').val(saved_cid);
+
                     } else {
 
-                        let saved_cid = model_response_dict['cid'];
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('cid', response['cid']);
+                        window.history.replaceState(null, null, url);
+
                         $('#code_obj_id').val(saved_cid);
+
+                        // TODO: 
+                        let code_file_name = response['code_file_name'];
+                        $("#code_file_name").text(code_file_name);
+
+                        $("#file_name_input").val(code_file_name);
+                        $(".file_name_parent_div").show();
 
                     }
 
@@ -722,6 +783,121 @@ mystdout.getvalue()
         window.location.replace(new_url);
 
     });
+
+
+    $('#edit_filename_span').click(function(){
+        
+        $('#file_name_header').hide();
+        $('#file_name_change_form').show();
+
+        // $('#code_file_name_text').hide();
+        // $('#edit_filename_span').hide();
+
+        // $('#file_name_input').show();
+        // $('#file_name_input_submit').show();
+
+    });
+
+    $('#file_name_change_btn').click(function(){
+
+        let new_file_name = $('#file_name_input').val();
+        let cid = $('#code_obj_id').val();
+        let user_code = editor.getValue();
+
+        let d = {
+            'cid': cid, 
+            'user_code': user_code,
+            'new_file_name': new_file_name,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'handle_file_name_change' %}",
+            dataType: "json",
+            data: d,
+            success: function (response) {
+
+                $('#code_file_name').text(new_file_name);
+
+                $('#file_name_change_form').hide();
+                $('#file_name_header').show();
+
+                // // console.log('response:', response);
+
+                // $('#code_file_name_text').html("File: " + response['new_file_name']);
+                // $('#file_name_input').val(response['new_file_name']);
+
+                // $('#file_name_input').hide();
+                // $('#file_name_input_submit').hide();
+                // $('#code_file_name_text').show();
+                // $('#edit_filename_span').show();
+
+                // var url = new URL(window.location.href);
+                // url.searchParams.set('cid', response['cid']);
+                // window.history.replaceState(null, null, url);
+                
+                // // console.log('cid:', response['cid']);
+                // let saved_cid = response['cid'];
+                // $("#code_obj_id").val(saved_cid);
+
+            },
+            error: function (response) {}
+            
+        });
+
+    });
+
+
+
+
+// // TODO: modify and fix this
+// $('#file_name_input_submit').click(function(){
+
+// let new_file_name = $('#file_name_input').val();
+// let cid = $('#code_obj_id').val();
+// let user_code = editor.getValue();
+
+// let d = {
+//     'cid': cid, 
+//     'user_code': user_code,
+//     'new_file_name': new_file_name,
+//     csrfmiddlewaretoken: '{{ csrf_token }}'
+// }
+
+// $.ajax({
+//     type: 'POST',
+//     url: "{% url 'handle_file_name_change' %}",
+//     dataType: "json",
+//     data: d,
+//     success: function (response) {
+
+//         // console.log('response:', response);
+
+//         $('#code_file_name_text').html("File: " + response['new_file_name']);
+//         $('#file_name_input').val(response['new_file_name']);
+
+//         $('#file_name_input').hide();
+//         $('#file_name_input_submit').hide();
+//         $('#code_file_name_text').show();
+//         $('#edit_filename_span').show();
+
+
+//         var url = new URL(window.location.href);
+//         url.searchParams.set('cid', response['cid']);
+//         window.history.replaceState(null, null, url);
+        
+//         // console.log('cid:', response['cid']);
+//         let saved_cid = response['cid'];
+//         $("#code_obj_id").val(saved_cid);
+
+//     },
+//     error: function (response) {}
+    
+// });
+
+// })
+
 
 
 </script>

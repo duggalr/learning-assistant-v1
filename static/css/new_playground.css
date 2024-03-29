@@ -69,7 +69,7 @@
 .console_button_parent_div{
     text-align: left;
     width: 110%;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .console_button_parent_div>.button{
@@ -148,7 +148,6 @@
 #edit_filename_span:hover{
     cursor: pointer;
 }
-
 
 
 
@@ -235,3 +234,4 @@
 
 
 
+    

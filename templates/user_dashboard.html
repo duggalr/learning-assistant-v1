@@ -8,24 +8,25 @@
 
 <div class="ui grid container">
         
-    <div class="two wide column"></div>
+    <div class="one wide column"></div>
 
-    <div class="twelve wide column" style="padding-bottom: 40px;">
+    <div class="fourteen wide column">
 
         <div style="padding-top: 15px;">
             <h3 class="ui header" id="dashboard_header">
-                &#128216; Dashboard
+                <!-- &#128216; Dashboard -->
+                Dashboard
             </h3>
         </div>
 
         <div class="ui tabular menu" style="padding-top: 12px;">
 
-            <a class="active item tab_header" id="course_questions_tab">
+            <!-- <a class="active item tab_header" id="course_questions_tab">
                 <i class="code icon" style="font-size: 13px;"></i>
                 Course Progress
-            </a>
+            </a> -->
 
-            <a class="item tab_header" id="questions_tab">
+            <a class="active item tab_header" id="questions_tab">
                 <i class="code branch icon" style="font-size: 13px;"></i>
                 Your Code Files
             </a>
@@ -39,14 +40,39 @@
                 <div class="item">
                     <a href="{% url 'playground' %}">
                         <i class="plus icon"></i>
-                        Start a New Question
+                        Start a New Question in the IDE
                     </a>
                 </div>
+
+                <div class="item">
+                    <a href="{% url 'general_cs_tutor' %}">
+                        <i class="comment icon"></i>
+                        Chat with the Tutor
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ui placeholder segment">
+
+            <div class="ui icon header" style="font-size: 18px; line-height: 1.3em; font-weight: 600;">
+                <i class="code branch icon"></i>
+                No Code Files Saved.
+                <br/><br/>
+                <p style="font-size: 17px;">
+                    You can run your code while asking Code Companion for help in our <a href="{% url 'playground' %}">playground</a>.
+                </p>
             </div>
 
         </div>
 
     </div>
+
+    <div class="one wide column"></div>
+
 
 </div>
 

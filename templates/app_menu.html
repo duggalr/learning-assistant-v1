@@ -6,17 +6,42 @@
         <i class="code icon"></i>Companion
     </a>
     <div class="right menu">
-        <a class="disabled item">
-            Your Dashboard (make an account...)
-        </a>
+        
+        {% if user_session is not none %}
+            <a class="item" href="{% url 'dashboard' %}">
+                <i class="university icon"></i> Your Dashboard
+            </a>
+        {% else %}
+            <a class="disabled item">
+                Your Dashboard (make an account...)
+            </a>
+        {% endif %}
+        &nbsp;
         <a class="item" href="{% url 'playground' %}">
             <i class="code icon"></i> IDE
         </a>
+        &nbsp;
         <a class="item" href="{% url 'general_cs_tutor' %}">
             <i class="comment alternate icon"></i> Chat
         </a>
+        &nbsp;
+        
+        {% if user_session is not none %}
+            <div class="ui item">
+                <i class="user icon"></i>
+                <strong>{{ current_user_email }}</strong>
+            </div>
+            &nbsp;
+            <a class="item" href="{% url 'logout' %}">
+                <i class="sign out alternate icon"></i> logout
+            </a>
+
+        {% else %}
         <a class="ui item">
             <i class="user icon"></i> Signup / Login
         </a>
+        {% endif %}
+
+
     </div>
 </div>

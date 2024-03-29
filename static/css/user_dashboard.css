@@ -1,0 +1,36 @@
+.add_file_icon:hover{
+    cursor: pointer;
+}
+
+.trash_icon:hover{
+    cursor: pointer;
+    color: red;
+}
+
+.file_name_header{
+    color: black;
+    /* font-family: 'Raleway', sans-serif; */
+    font-size: 14.5px;
+}
+
+.file_name_header:hover{
+    cursor: pointer;
+    color: lightblue;
+}
+
+.add_code_icon:hover{
+    cursor: pointer;
+    color: lightblue;
+}
+
+.ui.tabular.menu .active.item {
+    background: #f9f9f9 !important;
+}
+
+#dashboard_header{
+    /* font-family: 'Raleway', sans-serif; */
+}
+
+.tab_header{
+    /* font-family: 'Raleway', sans-serif; */
+}

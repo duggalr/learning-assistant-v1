@@ -25,12 +25,20 @@
             </a>
 
             <div class="right menu">
-                <a class="disabled item">
-                    <i class="plus icon"></i> New File
-                </a>
-                <a class="disabled item">
-                    <i class="save icon"></i> Save File
-                </a>
+
+                {% if user_session is not none %}
+                    <a class="item" id="new_file_link">
+                        <i class="plus icon"></i> New File
+                    </a>
+                {% else %}
+                    <a class="disabled item">
+                        <i class="plus icon"></i> New File
+                    </a>
+                    <a class="disabled item">
+                        <i class="save icon"></i> Save File
+                    </a>
+                {% endif %}
+                
             </div>
 
         </div>
@@ -706,6 +714,14 @@ mystdout.getvalue()
 
     });
 
+
+
+    $('#new_file_link').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+        window.location.replace(new_url);
+
+    });
 
 
 </script>

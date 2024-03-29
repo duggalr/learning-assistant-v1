@@ -294,9 +294,12 @@ def playground(request):
 
     initial_rnd_file_name = ''.join([secrets.choice(string.ascii_lowercase) for idx in range(6)])
 
+    current_user_email = initial_user_session['userinfo']['email']
+
     # return render(request, 'playground.html', {
     return render(request, 'new_playground.html', {    
         'user_session': initial_user_session,
+        'current_user_email': current_user_email,
         'code_id': code_id,
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
@@ -345,15 +348,17 @@ def dashboard(request):
     # total_lesson_questions = PythonLessonQuestion.objects.count()
     total_lesson_questions = PythonLessonQuestion.objects.exclude(order_number = 1).count()
 
-    # TODO: start here
+    print(initial_user_session)
+    current_user_email = initial_user_session['userinfo']['email']
 
     # return render(request, 'new_user_dashboard.html',  {
     return render(request, 'user_dashboard.html',  {
         'user_session': initial_user_session,
+        'current_user_email': current_user_email,
         'user_code_list': final_rv,
         'user_file_objects': user_file_objects,
         'pt_course_code_objects': pt_course_code_objects,
-        'total_lesson_questions': total_lesson_questions
+        'total_lesson_questions': total_lesson_questions,
         # 'user_code_objects': user_code_objects
         # 'user_conversations': user_conversations
     })
@@ -619,11 +624,16 @@ def general_cs_tutor(request):
             user_auth_obj = user_oauth_obj
         ).order_by('created_at')
 
+    
+    current_user_email = initial_user_session['userinfo']['email']
+
     # return render(request, 'general_cs_tutor_chat.html', {
     return render(request, 'new_general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
+        'current_user_email': current_user_email,
         'user_conversation_objects': utc_objects,
     })
+
 
 
 def handle_general_tutor_user_message(request):

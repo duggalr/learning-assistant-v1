@@ -23,18 +23,21 @@
 
     <div class="item" style="padding-top: 20px;">
 
-        <h4>Your Past Conversations:</h4>
+        <h4 class="ui header">Your Past Conversations:</h4>
             
             {% if user_session is not none %}
 
                 {% if user_conversation_objects|length > 0 %}
 
-                    <!-- TODO: add "Conversation #{number}" as chat name and go from there; test to ensure all works; fix this and undefined bug -->
-                    {% for ch_obj in user_conversation_objects %}
-
-                        <li>{{ ch_obj.id }}</li>
-
-                    {% endfor %}
+                    <!-- TODO: test to ensure all works; fix this and undefined bug -->
+                    
+                    <ul class="ui list">
+                        {% for nm in conversation_name_list %}
+                            <li style="padding-top: 15px;">
+                                {{ nm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 
                 {% else %}
 

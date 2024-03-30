@@ -59,6 +59,8 @@
             <hr>
             <br/>
 
+            <!-- TODO: show messages for existing conversation and if brand-new, show nothing; finalize and fix undefined bug -->
+
             {% for ucs_obj in user_conversation_objects %}
                     
                 <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>

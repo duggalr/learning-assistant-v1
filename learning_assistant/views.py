@@ -610,7 +610,31 @@ def handle_file_name_change(request):
 
 def general_cs_tutor(request):
 
-    initial_user_session = request.session.get("user")        
+    # initial_user_session = request.session.get("user")
+
+    # code_id = request.GET.get('cid', None)
+    # lqid = request.GET.get('lqid', None)
+    
+    # pclid = request.GET.get('pclid', None)
+
+    # user_oauth_obj = None
+    # if initial_user_session is not None:
+    #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
+    # user_is_admin = request.user.is_superuser
+    # if user_is_admin:  # exempt from auth check; has visibility into all user's code
+    #     uc_objects = UserCode.objects.filter(
+    #         id = code_id
+    #     )
+    # else:
+    #     uc_objects = UserCode.objects.filter(
+    #         id = code_id,
+    #         user_auth_obj = user_oauth_obj
+    #     )
+
+
+    initial_user_session = request.session.get("user")
+    tchid = request.GET.get('tchid', None)
 
     # general_conv_parent_id = request.GET.get('pid', None)
     # ug_tut_parent_obj = None
@@ -628,16 +652,40 @@ def general_cs_tutor(request):
             user_auth_obj = user_oauth_obj
         ).order_by('created_at')
 
-    
+
+    parent_cv_obj = None
+    past_conv_messages = []
+    if tchid is not None and user_oauth_obj is not None:
+        parent_conv_objects = UserGeneralTutorParent.objects.filter(
+            user_auth_obj = user_oauth_obj,
+            id = tchid
+        )
+        if len(parent_conv_objects) == 0:
+            parent_cv_obj = None
+        else:
+            parent_cv_obj = parent_conv_objects[0]
+            past_conv_messages = UserGeneralTutorConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = parent_cv_obj
+            )
+
     current_user_email = None
     if initial_user_session is not None:
         current_user_email = initial_user_session['userinfo']['email']
+
+    conversation_name_list = []
+    for idx in range(0, len(utc_objects)):
+        conversation_name_list.append(f"Conversation #{idx}")
 
     # return render(request, 'general_cs_tutor_chat.html', {
     return render(request, 'new_general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
         'current_user_email': current_user_email,
         'user_conversation_objects': utc_objects,
+        'conversation_name_list': conversation_name_list,
+
+        'parent_chat_obj': parent_cv_obj,
+        'past_conv_messages': past_conv_messages
     })
 
 

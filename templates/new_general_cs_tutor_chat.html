@@ -59,14 +59,16 @@
             <hr>
             <br/>
 
-            <!-- TODO: show messages for existing conversation and if brand-new, show nothing; finalize -->
+            {% if current_conversation_list|length > 0 %}
 
-            {% for ucs_obj in user_conversation_objects %}
-                    
-                <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                {% for ucs_obj in current_conversation_list %}
+                            
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
 
-            {% endfor %}
+                {% endfor %}
+
+            {% endif %}
 
         </div>
 
@@ -81,7 +83,11 @@
             <button id="sendButton" class="ui primary button disabled send-button">Send</button>
             <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
 
-            <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
+            {% if current_conversation_list|length > 0 %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id" value="{{ current_conversation_parent_object.id }}">
+            {% else %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
+            {% endif %}
 
         </div>
 
@@ -218,7 +224,7 @@
 
             // TODO: check if value will be sent as None to python view
             let general_cs_chat_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
-            
+
             let d = {
                 'general_cs_chat_parent_obj_id': general_cs_chat_parent_obj_id,
                 'existing_anon_user_id': existing_anon_user_id,
@@ -237,7 +243,7 @@
                 success: function (response) {
 
                     var model_response_dict = response['response'];
-                    // console.log('Response Dict:', model_response_dict)
+                    console.log('Response Dict:', model_response_dict)
 
                     var model_response_message = model_response_dict['response'];
                     model_response_message = model_response_message.replaceAll('\n', '<br/>');
@@ -258,7 +264,7 @@
                     $('#sendButton').show();
                     $('#primary_loading_button').hide();
 
-                    let parent_chat_obj_id = model_response_dict['response']['uct_parent_obj_id'];
+                    let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
 
                     // var final_question_st = "Question: " + messageText
                     // var final_response_st = "Response: " + model_response_message
@@ -272,9 +278,29 @@
                         anon_user_messages.push(final_question_st)
                         anon_user_messages.push(final_response_st)
                         localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
+
                     } else {
 
+                        // TODO: 
                         $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
+                                                
+                        // TODO: get current url-param; if null, add the new conversation to the side
+                        let urlParams = new URLSearchParams(window.location.search);
+                        let current_url_tchid_param = urlParams.get('tchid');
+                        
+                        if (current_url_tchid_param === null){
+                            
+                            let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
+                            console.log('current_cv_url:', current_cv_url);
+
+                            let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
+                            $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
+
+                        };
+
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('tchid', parent_chat_obj_id);
+                        window.history.replaceState(null, null, url);
 
                     }
 
@@ -287,6 +313,15 @@
         }
 
     };
+
+
+    
+    $('.new_chat_button').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor';
+        window.location.replace(new_url);
+
+    });
 
 
 </script>

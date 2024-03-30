@@ -11,12 +11,25 @@
     <div class="item">
         <div class="menu" id="left_sub_menu" style="text-align: center;">
 
-            <div class="ui animated disabled button new_chat_button" tabindex="0" style="font-size: 1rem">
-                <div class="visible content"><i class="plus icon"></i> New Chat</div>
-                <div class="hidden content">
-                    <i class="plus icon"></i>
+            {% if user_session is not none %}
+
+                <div class="ui animated button new_chat_button" tabindex="0" style="font-size: 1rem">
+                    <div class="visible content"><i class="plus icon"></i> New Chat</div>
+                    <div class="hidden content">
+                        <i class="plus icon"></i>
+                    </div>
                 </div>
-            </div>
+
+            {% else %}
+
+                <div class="ui animated disabled button new_chat_button" tabindex="0" style="font-size: 1rem">
+                    <div class="visible content"><i class="plus icon"></i> New Chat</div>
+                    <div class="hidden content">
+                        <i class="plus icon"></i>
+                    </div>
+                </div>
+
+            {% endif %}
 
         </div>
     </div>
@@ -27,14 +40,12 @@
             
             {% if user_session is not none %}
 
-                {% if user_conversation_objects|length > 0 %}
+                {% if all_user_conversation_list|length > 0 %}
 
-                    <!-- TODO: test to ensure all works; fix this and undefined bug -->
-                    
-                    <ul class="ui list">
-                        {% for nm in conversation_name_list %}
+                    <ul class="ui list user_past_conversation_list">
+                        {% for li in all_user_conversation_list %}
                             <li style="padding-top: 15px;">
-                                {{ nm }}
+                                <a href="{% url 'general_cs_tutor' %}?tchid={{ li.1.id }}">{{ li.0 }} <span style="color: gray;">({{ li.2|length }})</span></a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -46,6 +57,8 @@
                 {% endif %}
 
             {% else %}
+
+                <ul class="ui list user_past_conversation_list" style="display: none;"></ul>
 
                 <div style="text-align: center; margin-top: 20px;">
                     <div class="ui black animated button chat_register_account_button" tabindex="0">

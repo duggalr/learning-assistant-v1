@@ -610,82 +610,146 @@ def handle_file_name_change(request):
 
 def general_cs_tutor(request):
 
-    # initial_user_session = request.session.get("user")
+    # # initial_user_session = request.session.get("user")
 
-    # code_id = request.GET.get('cid', None)
-    # lqid = request.GET.get('lqid', None)
+    # # code_id = request.GET.get('cid', None)
+    # # lqid = request.GET.get('lqid', None)
     
-    # pclid = request.GET.get('pclid', None)
+    # # pclid = request.GET.get('pclid', None)
+
+    # # user_oauth_obj = None
+    # # if initial_user_session is not None:
+    # #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
+    # # user_is_admin = request.user.is_superuser
+    # # if user_is_admin:  # exempt from auth check; has visibility into all user's code
+    # #     uc_objects = UserCode.objects.filter(
+    # #         id = code_id
+    # #     )
+    # # else:
+    # #     uc_objects = UserCode.objects.filter(
+    # #         id = code_id,
+    # #         user_auth_obj = user_oauth_obj
+    # #     )
+
+
+    # initial_user_session = request.session.get("user")
+    # tchid = request.GET.get('tchid', None)
+
+    # # general_conv_parent_id = request.GET.get('pid', None)
+    # # ug_tut_parent_obj = None
+    # # if general_conv_parent_id is not None:
+    # #     ug_tut_parent_objects = UserGeneralTutorParent.objects.filter(id = general_conv_parent_id)
+    # #     if len(ug_tut_parent_objects) > 0:
+    # #         ug_tut_parent_obj = ug_tut_parent_objects[0]
 
     # user_oauth_obj = None
+    # utc_objects = None
     # if initial_user_session is not None:
     #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-        
-    # user_is_admin = request.user.is_superuser
-    # if user_is_admin:  # exempt from auth check; has visibility into all user's code
-    #     uc_objects = UserCode.objects.filter(
-    #         id = code_id
-    #     )
-    # else:
-    #     uc_objects = UserCode.objects.filter(
-    #         id = code_id,
+
+    #     utc_objects = UserGeneralTutorConversation.objects.filter(
     #         user_auth_obj = user_oauth_obj
+    #     ).order_by('created_at')
+
+
+    # parent_cv_obj = None
+    # past_conv_messages = []
+    # if tchid is not None and user_oauth_obj is not None:
+    #     parent_conv_objects = UserGeneralTutorParent.objects.filter(
+    #         user_auth_obj = user_oauth_obj,
+    #         id = tchid
     #     )
+    #     if len(parent_conv_objects) == 0:
+    #         parent_cv_obj = None
+    #     else:
+    #         parent_cv_obj = parent_conv_objects[0]
+    #         past_conv_messages = UserGeneralTutorConversation.objects.filter(
+    #             user_auth_obj = user_oauth_obj,
+    #             chat_parent_object = parent_cv_obj
+    #         )
+
+    # conversation_name_list = []
+    # for idx in range(0, len(utc_objects)):
+    #     conversation_name_list.append(f"Conversation #{idx}")
 
 
     initial_user_session = request.session.get("user")
     tchid = request.GET.get('tchid', None)
-
-    # general_conv_parent_id = request.GET.get('pid', None)
-    # ug_tut_parent_obj = None
-    # if general_conv_parent_id is not None:
-    #     ug_tut_parent_objects = UserGeneralTutorParent.objects.filter(id = general_conv_parent_id)
-    #     if len(ug_tut_parent_objects) > 0:
-    #         ug_tut_parent_obj = ug_tut_parent_objects[0]
+    
+    current_user_email = None
+    if initial_user_session is not None:
+        current_user_email = initial_user_session['userinfo']['email']
 
     user_oauth_obj = None
-    utc_objects = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
-        utc_objects = UserGeneralTutorConversation.objects.filter(
+
+    # parent_cv_obj = None
+    # # past_conv_messages = []
+    # past_conversation_list = []
+    # if tchid is not None and user_oauth_obj is not None:
+    #     parent_conv_objects = UserGeneralTutorParent.objects.filter(
+    #         user_auth_obj = user_oauth_obj,
+    #         id = tchid
+    #     )
+    #     if len(parent_conv_objects) == 0:
+    #         parent_cv_obj = None
+    #     else:
+    #         parent_cv_obj = parent_conv_objects[0]
+    #         past_conv_messages = UserGeneralTutorConversation.objects.filter(
+    #             user_auth_obj = user_oauth_obj,
+    #             chat_parent_object = parent_cv_obj
+    #         )
+    
+    
+    user_full_conversation_list = []
+    if user_oauth_obj is not None:
+        parent_conv_objects = UserGeneralTutorParent.objects.filter(
             user_auth_obj = user_oauth_obj
-        ).order_by('created_at')
+        )
+        cv_count = 1
+        for pc_obj in parent_conv_objects:
+            past_conv_messages = UserGeneralTutorConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = pc_obj
+            )
+            user_full_conversation_list.append([
+                f"Conversation #{cv_count}",
+                pc_obj,
+                past_conv_messages
+            ])
+            cv_count += 1
 
+    user_full_conversation_list = user_full_conversation_list[::-1]
 
-    parent_cv_obj = None
-    past_conv_messages = []
-    if tchid is not None and user_oauth_obj is not None:
+    current_cid_parent_conv_obj = None
+    current_cid_past_messages = []
+    if tchid is not None:
         parent_conv_objects = UserGeneralTutorParent.objects.filter(
             user_auth_obj = user_oauth_obj,
             id = tchid
         )
         if len(parent_conv_objects) == 0:
-            parent_cv_obj = None
+            current_cid_parent_conv_obj = None
         else:
-            parent_cv_obj = parent_conv_objects[0]
-            past_conv_messages = UserGeneralTutorConversation.objects.filter(
+            current_cid_parent_conv_obj = parent_conv_objects[0]
+            current_cid_past_messages = UserGeneralTutorConversation.objects.filter(
                 user_auth_obj = user_oauth_obj,
-                chat_parent_object = parent_cv_obj
+                chat_parent_object = current_cid_parent_conv_obj
             )
 
-    current_user_email = None
-    if initial_user_session is not None:
-        current_user_email = initial_user_session['userinfo']['email']
-
-    conversation_name_list = []
-    for idx in range(0, len(utc_objects)):
-        conversation_name_list.append(f"Conversation #{idx}")
-
-    # return render(request, 'general_cs_tutor_chat.html', {
     return render(request, 'new_general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
         'current_user_email': current_user_email,
-        'user_conversation_objects': utc_objects,
-        'conversation_name_list': conversation_name_list,
-
-        'parent_chat_obj': parent_cv_obj,
-        'past_conv_messages': past_conv_messages
+        'current_conversation_parent_object': current_cid_parent_conv_obj,
+        'current_conversation_list': current_cid_past_messages,
+        'all_user_conversation_list': user_full_conversation_list
+        # 'user_conversation_objects': utc_objects,
+        # 'conversation_name_list': conversation_name_list,
+        # 'parent_chat_obj': parent_cv_obj,
+        # 'past_conv_messages': past_conv_messages
     })
 
 
@@ -735,6 +799,9 @@ def handle_general_tutor_user_message(request):
         #             prev_conversation_history.append(f"Response: { uc_response }")
 
 
+
+        print('cs-chat-data:', request.POST)
+
         user_anon_unique_id = request.POST['existing_anon_user_id'].strip()
         user_question = request.POST['message'].strip()
         general_cs_chat_parent_obj_id = request.POST['general_cs_chat_parent_obj_id']
@@ -747,12 +814,11 @@ def handle_general_tutor_user_message(request):
         if initial_user_session is None:
             user_oauth_obj = None
             prev_conversation_st = request.POST['prev_conversation_history_st']
-
         else:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
             if general_cs_chat_parent_obj_id == '':
-                
+
                 # TODO: Names will just be "Conversation {count}" on frontend
                 ut_conv_parent_obj = UserGeneralTutorParent.objects.create(
                     user_auth_obj = user_oauth_obj,
@@ -760,7 +826,7 @@ def handle_general_tutor_user_message(request):
                 ut_conv_parent_obj.save()
 
             else:
-                ut_conv_parent_objects = UserGeneralTutorParent.objects.fitler(id = general_cs_chat_parent_obj_id)
+                ut_conv_parent_objects = UserGeneralTutorParent.objects.filter(id = general_cs_chat_parent_obj_id)
                 if len(ut_conv_parent_objects) == 0:
                     return JsonResponse({'success': False, 'message': 'object not found.'})
                 else:
@@ -768,6 +834,7 @@ def handle_general_tutor_user_message(request):
 
             ug_tut_cv_objects = UserGeneralTutorConversation.objects.filter(
                 user_auth_obj = user_oauth_obj,
+                chat_parent_object = ut_conv_parent_obj
             ).order_by('-created_at')
 
             if len(ug_tut_cv_objects) > 0:

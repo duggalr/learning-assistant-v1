@@ -25,3 +25,7 @@ Functionality:
     // implement mobile responsiveness
 
 <!-- TODO: add all functionality for logged-in users <- get this fully complete before gym and plan out todo for Saturday -->
+
+
+<!-- TODO: show messages for existing conversation and if brand-new, show nothing; finalize -->
+

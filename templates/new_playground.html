@@ -694,6 +694,9 @@ mystdout.getvalue()
                 success: function (response) {
 
                     var model_response_dict = response['response'];
+                    
+                    // TODO: fixing undefined bug
+                    console.log('model-res-dict:', model_response_dict);
 
                     var model_response_message = model_response_dict['response'];
                     model_response_message = model_response_message.replaceAll('\n', '<br/>');
@@ -728,12 +731,11 @@ mystdout.getvalue()
                     } else {
 
                         var url = new URL(window.location.href);
-                        url.searchParams.set('cid', response['cid']);
+                        url.searchParams.set('cid', saved_cid);
                         window.history.replaceState(null, null, url);
 
                         $('#code_obj_id').val(saved_cid);
 
-                        // TODO: 
                         let code_file_name = response['code_file_name'];
                         $("#code_file_name").text(code_file_name);
 

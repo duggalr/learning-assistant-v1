@@ -1,3 +1,7 @@
+.dashboard-parent-container{
+    margin-bottom: 10px !important;
+}
+
 .add_file_icon:hover{
     cursor: pointer;
 }
@@ -29,7 +33,9 @@
 }
 
 #dashboard_header{
-    /* font-family: 'Raleway', sans-serif; */
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 19px;
 }
 
 .tab_header{

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'landing_navbar_two.html' %}
+
+
+<section id="first_parent_section">
+
+    <div class="ui grid middle aligned landing-parent-grid">
+    
+        <div class="row">
+            <div class="column">
+                
+                <div class="ui grid container stackable">
+
+                    <div id="first_landing_column" class="sixteen wide mobile eight wide tablet eight wide computer column">
+                        <h1 id="landing_header" class="ui header">
+                            Your <span id="landing-text">Personal Tutor...</span>
+                            <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                        </h1>
+            
+                        <p id="landing_helper_text">
+                            Learn Computer Science Concepts with an AI Tutor.
+                        </p>
+            
+                        <p id="landing_page_description">
+                            Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
+                            You can rely on Companion for:
+                            <ul class="ui list landing_helper_list">
+                                <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                                <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                                <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                                <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                                <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                            </ul>
+                        </p>
+            
+                        <div id="landing_page_button_div">
+            
+                            <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                                <div class="visible content">
+                                    Try the AI in our Online IDE &#128221;
+                                </div>
+                                <div class="hidden content">
+                                    <i class="hand point right outline icon"></i>
+                                </div>
+                            </div>
+                                                        
+                            &nbsp;&nbsp;
+            
+                            <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                                <div class="visible content">
+                                    Chat with the Tutor &#129302;
+                                </div>
+                                <div class="hidden content">
+                                    <i class="hand point right outline icon"></i>
+                                </div>
+                            </div>
+
+
+                            <!-- <button class="ui button gradient-button">Try the AI in our Online IDE</button>
+                            <button class="ui button gradient-button">Chat with the Tutor &#129302;</button> -->
+                            
+                        </div>
+                    </div>
+
+                    <div id="second_landing_column" class="sixteen wide mobile seven wide tablet seven wide computer column">
+                        <div class="ui embed">
+                            <iframe src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                        </div>        
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}
+

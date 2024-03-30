@@ -6,10 +6,9 @@
 {% include 'landing_navbar_two.html' %}
 
 <!-- Github Fork Me Ribbon -->
-<a class="github-fork-ribbon" href="https://url.to-your.repo" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+<!-- <a class="github-fork-ribbon" href="https://github.com/duggalr/learning-assistant-v1" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a> -->
 
 <!-- Section: Main Landing Container -->
-
 <section id="first_parent_section">
 
     <div class="ui grid middle aligned landing-parent-grid">
@@ -17,9 +16,10 @@
         <div class="row">
             <div class="column">
                 
-                <div class="ui grid container">
+                <div class="ui grid container stackable">
 
                     <div id="first_landing_column" class="eight wide column">
+                    <!-- <div id="first_landing_column" class="sixteen wide mobile eight wide tablet eight wide computer column"> -->
 
                         <h1 id="landing_header" class="ui header">
                             <!-- <span id="landing-text">Your Personal Tutor...</span> -->
@@ -60,7 +60,38 @@
             
                         <div id="landing_page_button_div">
             
-                            <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                            <div class="ui two column stackable grid">
+
+                                <div class="column" id="btn_first_column">
+
+                                    <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                                        <div class="visible content">
+                                            Try the AI in our Online IDE &#128221;
+                                            <!-- Try the AI in our Online IDE &#128221; -->
+                                        </div>
+                                        <div class="hidden content">
+                                            <i class="hand point right outline icon"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="column" id="btn_second_column">
+                                    
+                                    <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                                        <div class="visible content">
+                                            Chat with the Tutor &#129302;
+                                        </div>
+                                        <div class="hidden content">
+                                            <i class="hand point right outline icon"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- <div class="ui animated primary basic medium button playground_button" tabindex="0">
                                 <div class="visible content">
                                     Try the AI in our Online IDE &#128221;
                                 </div>
@@ -78,11 +109,8 @@
                                 <div class="hidden content">
                                     <i class="hand point right outline icon"></i>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <!-- <button class="ui button gradient-button">Try the AI in our Online IDE</button>
-                            <button class="ui button gradient-button">Chat with the Tutor &#129302;</button> -->
-                            
                         </div>
             
                     </div>
@@ -91,8 +119,8 @@
 
                     <div id="second_landing_column" class="seven wide column">
                         <div>
-                            <iframe width="110%" height="350" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
-                        </div>        
+                            <iframe id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                        </div>
                     </div>
 
                 </div>
@@ -126,6 +154,7 @@
     });
 
 
+    
     $('.playground_button').click(function(){
         window.location.href = 'playground';
     });

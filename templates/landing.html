@@ -3,20 +3,27 @@
 
 {% block content %}
 
-{% include 'landing_navbar_two.html' %}
-
 <!-- Github Fork Me Ribbon -->
 <!-- <a class="github-fork-ribbon" href="https://github.com/duggalr/learning-assistant-v1" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a> -->
+
+{% include 'landing_navbar_two.html' %}
+
+<!-- 
+    TODO: 
+    - center the row with information
+    - finalize and ensure everything works well with UI (see on multiple laptops + phone)
+    - push to prod
+-->
 
 <!-- Section: Main Landing Container -->
 <section id="first_parent_section">
 
-    <div class="ui grid middle aligned landing-parent-grid">
-    
+    <div class="ui grid middle aligned landing-parent-grid" style="display: none;">
+
         <div class="row">
             <div class="column">
                 
-                <div class="ui grid container stackable" id="landing_parent_container">
+                <div class="ui grid container stackable" id="landing_parent_container" style="display: none;">
 
                     <div id="first_landing_column" class="eight wide column">
                     <!-- <div id="first_landing_column" class="sixteen wide mobile eight wide tablet eight wide computer column"> -->
@@ -144,7 +151,6 @@
 
                 </div>
 
-
                 <!-- mobile_container_grid -->
                 <div class="ui grid container" id="mobile_container_grid" style="display: none;">
 
@@ -255,9 +261,127 @@
 
                 </div>
 
-            </div>
+                <!-- testing small screen display -->
+                <!-- <div id="small_mobile_container_grid">
 
+                    <div id="mobile_first_landing_column" class="sixteen wide column">
+
+                        <h1 id="landing_header" class="ui header" style="width: 200vw;">
+                            Your <span id="landing-text">Personal Tutor...</span>
+                            <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                        </h1>
+            
+                        <p id="landing_helper_text" style="width: 200vw;">
+                            Learn Computer Science Concepts with an AI Tutor.
+                        </p>
+
+                        <p id="landing_page_description" style="text-align: center; width: 200vw;">
+                            Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
+                            <br/><br/>
+                            <strong>You can rely on Companion for:</strong>
+                            <ul class="ui list landing_helper_list" style="text-align: left; width: 200vw;">
+                                <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                                <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                                <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                                <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                                <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                            </ul>
+                        </p>
+
+                        <br/>
+
+                        <div class="ui two column stackable grid" style="width: 200vw;">
+
+                            <div class="column" id="btn_first_column">
+
+                                <div class="ui animated primary basic big button playground_button" tabindex="0">
+                                    <div class="visible content">
+                                        Try the AI in our Online IDE &#128221;
+                                    </div>
+                                    <div class="hidden content">
+                                        <i class="hand point right outline icon"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="column" id="btn_second_column" >
+                                
+                                <div class="ui animated primary basic big button tutor_chat_button" tabindex="0" >
+                                    <div class="visible content">
+                                        Chat with the Tutor &#129302;
+                                    </div>
+                                    <div class="hidden content">
+                                        <i class="hand point right outline icon"></i>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <br/><br/>
+                    <div id="mobile_second_landing_column" class="sixteen wide column">
+
+                        <div>
+                            <iframe style="width: 200vw;" id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                        </div>
+    
+                    </div>
+            
+                </div> -->
+
+            </div>
         </div>
+
+    </div>
+
+    <div class="ui three column doubling stackable grid container small-mobile-landing-parent" style="display: none;">
+        
+        <div class="ui text menu">
+            <div class="item" style="font-size: 20px;">
+                <strong>Companion</strong>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="ui right dropdown item">
+                More
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'about' %}">About</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="column" style="text-align: center;">
+            <h1 id="landing_header" class="ui header">
+                Your <span id="landing-text">Personal Tutor...</span>
+                <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+            </h1>
+
+            <p id="landing_helper_text">
+                Learn Computer Science Concepts with an AI Tutor.
+            </p>
+
+            <p id="landing_page_description" style="text-align: left;">
+                Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
+                You can rely on Companion for:
+                <ul class="ui list landing_helper_list" style="text-align: left;">
+                    <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                    <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                    <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                    <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                    <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                </ul>
+            </p>
+        </div>
+
+        <br/>
+
+        <iframe id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E" width="100%" height="250"></iframe>
+
+        <br/><br/>
 
     </div>
 
@@ -268,6 +392,10 @@
 
 
 <script>
+
+$('.ui.dropdown')
+  .dropdown()
+;
 
     document.addEventListener('DOMContentLoaded', function() {
         const landingText = document.getElementById('landing-text');

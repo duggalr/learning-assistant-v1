@@ -29,3 +29,9 @@ Functionality:
 
 <!-- TODO: show messages for existing conversation and if brand-new, show nothing; finalize -->
 
+/* TODO: complete mobile responsiveness and finalize site; push to production and get it all working/finalized today */
+
+
+{% include 'landing_navbar_two.html' %}
+
+

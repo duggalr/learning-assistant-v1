@@ -2,8 +2,16 @@
     background-color: #333 !important;
 }
 
-
 @media only screen and (min-width: 1200px){
+
+    .landing-parent-grid{
+        display: block !important;
+    }
+
+    #landing_parent_container{
+        display: block !important;
+    }
+
 
     #second_landing_column{
         /* margin-left: 10px !important; */
@@ -35,8 +43,15 @@
 
 }
 
-
 @media only screen and (min-width: 992px) and (max-width: 1199px){
+
+    .landing-parent-grid{
+        display: block !important;
+    }
+
+    #landing_parent_container{
+        display: block !important;
+    }
 
     #landing_video_iframe{
         width: 105%;
@@ -63,8 +78,15 @@
 
 }
 
-
 @media only screen and (min-width: 768px) and (max-width: 991px){
+
+    .landing-parent-grid{
+        display: block !important;
+    }
+
+    .small-mobile-landing-parent{
+        display: none;
+    }
 
     #landing_parent_container{
         display: none;
@@ -107,6 +129,143 @@
     footer{
         display: none;
     }
+
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px){
+
+    #landing-parent-grid{
+        display: none;
+    }
+
+    #landing_parent_container{
+        display: none;
+    }
+
+    #mobile_container_grid{
+        display: block !important;
+        padding-top: 10px;
+    }
+
+    #mobile_first_landing_column{
+        display: block !important;
+        /* width: 200%; */
+        /* padding-left: 100px; */
+        text-align: center;
+    }
+
+    #mobile_second_landing_column{
+        width: 100%;
+        text-align: center;
+    }
+
+    #landing_video_iframe{
+        width: 100%;
+        height: 500px;
+        margin-left: 5%;
+    }
+
+    #landing_page_button_div{
+        padding-top: 15px;
+    }
+
+    .playground_button, .tutor_chat_button{
+        border-radius: 25px !important;
+        font-size: 17.5px !important;
+    }
+
+    footer{
+        display: none;
+    }
+
+}
+
+@media only screen and (max-width: 575px){
+    
+    .landing-navbar-parent{
+        display: none !important;
+    }
+
+    #landing-parent-grid{
+        display: none;
+    }
+
+    #landing_parent_container{
+        display: none;
+    }
+
+    footer{
+        display: none;
+    }
+
+    .small-mobile-landing-parent{
+        display: block !important;
+    }
+
+    /* #small_mobile_container_grid{
+        margin-left: 90px;
+        margin-top: 80px;
+        text-align: center;
+    }
+
+    #landing_video_iframe{
+        height: 400px;
+    } */
+
+    /* #test_mobile_container_grid{
+        display: block;
+        width: 100%;
+    } */
+
+    /* #mobile_container_grid{
+        display: block !important;
+        padding-top: 10px;
+    }
+
+    #mobile_first_landing_column{
+        display: block !important;
+        width: 100%;
+        padding-left: 100px;
+        text-align: center;
+    }
+
+    #mobile_second_landing_column{
+        width: 100%;
+        text-align: center;
+    }
+
+    #landing_video_iframe{
+        width: 100%;
+        height: 500px;
+        margin-left: 5%;
+    }
+
+    #landing_page_button_div{
+        padding-top: 15px;
+    }
+
+    .playground_button, .tutor_chat_button{
+        border-radius: 25px !important;
+        font-size: 17.5px !important;
+    } */
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /* #mobile_first_landing_column{
         display: block !important;
@@ -157,101 +316,6 @@
         padding-left: 40px;
         margin-top: 20px;
     } */
-
-}
-
-
-@media only screen and (min-width: 576px) and (max-width: 767px){
-
-    #landing_parent_container{
-        display: none;
-    }
-
-    #mobile_container_grid{
-        display: block !important;
-        padding-top: 10px;
-    }
-
-    #mobile_first_landing_column{
-        display: block !important;
-        width: 100%;
-        padding-left: 100px;
-        text-align: center;
-    }
-
-    #mobile_second_landing_column{
-        width: 100%;
-        text-align: center;
-    }
-
-    #landing_video_iframe{
-        width: 100%;
-        height: 500px;
-        margin-left: 5%;
-    }
-
-    #landing_page_button_div{
-        padding-top: 15px;
-    }
-
-    .playground_button, .tutor_chat_button{
-        border-radius: 25px !important;
-        font-size: 17.5px !important;
-    }
-
-    footer{
-        display: none;
-    }
-
-}
-
-@media only screen and (max-width: 575px){
- 
-    #landing_parent_container{
-        display: none;
-    }
-
-    #mobile_container_grid{
-        display: block !important;
-        padding-top: 10px;
-    }
-
-    #mobile_first_landing_column{
-        display: block !important;
-        width: 100%;
-        padding-left: 100px;
-        text-align: center;
-    }
-
-    #mobile_second_landing_column{
-        width: 100%;
-        text-align: center;
-    }
-
-    #landing_video_iframe{
-        width: 100%;
-        height: 500px;
-        margin-left: 5%;
-    }
-
-    #landing_page_button_div{
-        padding-top: 15px;
-    }
-
-    .playground_button, .tutor_chat_button{
-        border-radius: 25px !important;
-        font-size: 17.5px !important;
-    }
-
-    footer{
-        display: none;
-    }
-
-}
-
-
-/* TODO: add mobile */
-
 
 
 

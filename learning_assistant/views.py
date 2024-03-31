@@ -237,8 +237,8 @@ def logout(request):
 
 def landing(request):
     initial_user_session = request.session.get("user")
-    return render(request, 'landing.html',  {
-    # return render(request, 'test_landing.html',  {        
+    # return render(request, 'landing.html',  {
+    return render(request, 'landing_new_one.html',  {        
         'user_session': initial_user_session,
     })
 

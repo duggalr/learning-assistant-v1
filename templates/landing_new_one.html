@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'landing_navbar_two.html' %}
+
+<!-- Section: Main Landing Container -->
+<section id="first_parent_section">
+
+    <div class="ui centered middle aligned two column grid landing-parent-grid" style="display: none;">
+        
+        <!-- computer gridview -->
+        <div class="row landing-parent-row">
+
+            <div class="column landing-first-column">
+
+                <h1 id="landing_header" class="ui header">
+                    Your <span id="landing-text">Personal Tutor...</span>
+                    <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                </h1>
+
+                <p id="landing_helper_text">
+                    Learn Computer Science Concepts with an AI Tutor.
+                </p>
+    
+                <p id="landing_page_description">
+                    Companion is an AI-based programming tutor, offering real-time help or feedback, 100% free!
+                    <div>
+                        <span id="landing_page_list_header">
+                            You can rely on Companion for:
+                        </span>
+                        <ul class="ui list landing_helper_list">
+                            <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                            <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                            <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                            <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                            <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                        </ul>
+                    </div>
+                </p>
+
+                <div id="landing_page_button_div">
+
+                    <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                        <div class="visible content">
+                            Try the AI in our Online IDE &#128221;
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div>
+
+                
+                    <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                        <div class="visible content">
+                            Chat with the Tutor &#129302;
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="landing_page_stacked_button_div" style="display: none;">
+
+                    <div class="ui two column stackable grid">
+
+                        <div class="column" id="btn_first_column">
+
+                            <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                                <div class="visible content">
+                                    Try the AI in our Online IDE &#128221;
+                                </div>
+                                <div class="hidden content">
+                                    <i class="hand point right outline icon"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="column" id="btn_second_column">
+                            
+                            <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                                <div class="visible content">
+                                    Chat with the Tutor &#129302;
+                                </div>
+                                <div class="hidden content">
+                                    <i class="hand point right outline icon"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="column landing-second-column">
+                <iframe id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+            </div>
+
+        </div>
+
+
+        <!-- tablet stacked gridview -->
+        <div class="ui grid container" id="mobile_container_grid" style="display: none;">
+
+            <!-- <div class="ui text menu">
+                <div class="item" style="font-size: 20px;">
+                    <strong>Companion</strong>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="ui right dropdown item">
+                    More
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a class="item" href="{% url 'about' %}">About</a>
+                    </div>
+                </div>
+            </div> -->
+
+            <div id="mobile_first_landing_column" class="sixteen wide column">
+
+                <h1 id="landing_header" class="ui header">
+                    <!-- <span id="landing-text">Your Personal Tutor...</span> -->
+                    Your <span id="landing-text">Personal Tutor...</span>
+                    <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+                    <!-- &nbsp;
+                    <span style="font-size: 26px;">100% Free.</span> -->
+                </h1>
+
+                <p id="landing_helper_text">
+                    Learn Computer Science Concepts with an AI Tutor.
+                </p>
+
+                <p id="landing_page_description" style="text-align: left;">
+                    Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
+                    You can rely on Companion for:
+                    <ul class="ui list landing_helper_list" style="text-align: left;">
+                        <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                        <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                        <!-- <li>&nbsp;&nbsp;&nbsp;Personalized Course Generation</li> -->
+                        <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                        <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                        <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                        <!-- <li>&nbsp;&nbsp;&nbsp;Getting help on your code in our Online IDE</li> -->
+                        <!-- <li>&nbsp;&nbsp;&nbsp;<strong>Give it a try... it's 100% free!</strong></li> -->
+                        <!-- <li>&nbsp;&nbsp;for help on your own programming problems or homework</li>
+                        <li>&nbsp;&nbsp;for help on LeetCode or Project Euler problems</li>
+                        <li>&nbsp;&nbsp;to generate a step-by-step guide on how to learn a new concept, ie. web development</li>
+                        <li>&nbsp;&nbsp;to generate exercises or projects for you, as you learn through new concepts</li>
+                        <li>&nbsp;&nbsp;to explain and discuss specific Computer Science concepts</li> -->
+                    </ul>
+                </p>
+
+                <!-- <p id="landing_second_helper_text">
+                    Interact with Companion in our Online IDE or through Chat.
+                    Give it a try! It's 100% Free. <span style="font-size: 17px;">&#127922;</span>
+                </p> -->
+
+
+                <!-- <div class="ui two column stackable grid" id="landing_page_button_div">
+
+                    <div class="column" id="btn_first_column">
+
+                        <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                            <div class="visible content">
+                                Try the AI in our Online IDE &#128221;
+                            </div>
+                            <div class="hidden content">
+                                <i class="hand point right outline icon"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="column" id="btn_second_column">
+                        
+                        <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                            <div class="visible content">
+                                Chat with the Tutor &#129302;
+                            </div>
+                            <div class="hidden content">
+                                <i class="hand point right outline icon"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div> -->
+
+                <div id="landing_page_button_div">
+
+                    <div class="ui animated primary basic medium button playground_button" tabindex="0">
+                        <div class="visible content">
+                            Try the AI in our Online IDE &#128221;
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div>
+
+                    &nbsp;&nbsp;
+
+                    <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0">
+                        <div class="visible content">
+                            Chat with the Tutor &#129302;
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <br/>
+            <div id="mobile_second_landing_column" class="sixteen wide column">
+
+                <div>
+                    <iframe id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- mobile stacked gridview -->
+    <div class="ui three column doubling stackable grid container small-mobile-landing-parent" style="display: none;">
+        
+        <div class="ui text menu">
+            <div class="item" style="font-size: 20px;">
+                <strong>Companion</strong>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="ui right dropdown item">
+                More
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'about' %}">About</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="column" style="text-align: center;">
+            <h1 id="landing_header" class="ui header">
+                Your <span id="landing-text">Personal Tutor...</span>
+                <span style="font-size: 26px;">&#129489;&#8205;&#128187;</span>
+            </h1>
+
+            <p id="landing_helper_text">
+                Learn Computer Science Concepts with an AI Tutor.
+            </p>
+
+            <p id="landing_page_description" style="text-align: left;">
+                Companion is an AI-based programming tutor, offering real-time help or feedback, <strong>100% free!</strong>
+                You can rely on Companion for:
+                <ul class="ui list landing_helper_list" style="text-align: left;">
+                    <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
+                    <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
+                    <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                    <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                    <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
+                </ul>
+            </p>
+        </div>
+
+        <br/>
+
+        <iframe id="landing_video_iframe" src="https://www.youtube.com/embed/ncAaBK_Iw8E" width="100%" height="250"></iframe>
+
+        <br/><br/>
+
+    </div>
+
+
+</section>
+
+<!-- Footer -->
+{% include 'footer.html' %}
+
+
+<script>
+
+    $('.ui.dropdown').dropdown();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const landingText = document.getElementById('landing-text');
+        const texts = ['Code Companion...', 'Algorithm Ally...', 'Code Sensei...', 'Personal Teacher...', 'Byte Buddy...', 'Personal Tutor...'];
+        let index = 0;
+
+        setInterval(() => {
+            landingText.style.opacity = '0';
+            setTimeout(() => {
+            landingText.textContent = texts[index];
+            landingText.style.opacity = '1';
+            index = (index + 1) % texts.length;
+            }, 500);
+        }, 1600);
+    });
+
+    
+    $('.playground_button').click(function(){
+        window.location.href = 'playground';
+    });
+
+    $('.tutor_chat_button').click(function(){
+        window.location.href = 'cs-tutor';
+    });
+
+
+    // Global Vars
+    const initial_user_session = '{{ user_session }}';
+    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
+
+    if (initial_user_session == 'None'){
+
+        if (existing_anon_user_id === null){
+            // let unique_anon_user_id = generateUniqueUserID(30);
+            existing_anon_user_id = generateUniqueUserID(30);
+            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
+        };
+
+    };
+
+</script>
+
+{% endblock %}

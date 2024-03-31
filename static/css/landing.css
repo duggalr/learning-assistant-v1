@@ -2,20 +2,114 @@
     background-color: #333 !important;
 }
 
+#landing_header{
+    font-size: 31px;
+    /* font-family: "Space Grotesk", sans-serif; */
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+}
+
+#landing-text {
+    /* font-size: 36px; */
+    /* color: #333; */
+    
+    font-size: 30px;
+    font-family: "Raleway", sans-serif;
+    transition: opacity 0.5s ease;
+    background-image: linear-gradient(to right, #9966CC, #20B2AA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+}
+
+#landing_helper_text{
+    font-family: "Raleway", sans-serif;
+    font-weight: 500; 
+    font-size: 22px; 
+    padding-top: 6px; 
+    /* line-height: 1.9em; */
+    color: #36454F;
+}
+
+
+.landing_helper_list li::before {
+    content: "💎 " !important;
+    font-size: 19px;
+}
+
+.landing_helper_list li{
+    list-style-position: outside !important;
+    font-size: 16px;
+    /* font-family: "Raleway", sans-serif; */
+    /* color: gray; */
+    margin: 8px 0;
+    color: #707070;
+    /* color: gray; */
+}
+
+#landing_second_helper_text{
+    font-size: 15px;
+    color: #36454F;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500; 
+}
+
+#landing_page_description{
+    /* color: #36454F; */
+    color: gray;
+    font-size: 17px;
+    line-height: 1.8em;
+}
+
+/* #landing_page_button_div{
+    margin-top: 30px;
+} */
+
+/* #landing_video_iframe{
+    width: 100%;
+    height: 350px;
+} */
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /* background-color: #333; */
+    /* color: white; */
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer>p{
+    font-size: 15px;
+}
+
+
 @media only screen and (min-width: 1200px){
 
     .landing-parent-grid{
         display: block !important;
+        height: 77vh !important;
+        width: 100% !important;
     }
 
     #landing_parent_container{
         display: block !important;
+        margin-top: 3%;
     }
 
+    #first_landing_column{
+        margin-left: -2rem !important;
+    }
 
     #second_landing_column{
-        /* margin-left: 10px !important; */
-        padding-left: 30px;
+        margin-top: 2%;
+        padding-left: 60px;
     }
 
     #landing_video_iframe{
@@ -43,6 +137,7 @@
 
 }
 
+
 @media only screen and (min-width: 992px) and (max-width: 1199px){
 
     .landing-parent-grid{
@@ -58,15 +153,18 @@
         height: 320px;
     }
 
-    #second_landing_column{
-        margin-top: 120px !important;
-    }
-
     #first_landing_column{
+        margin-left: -2rem !important;
         padding-left: 40px;
         margin-top: 20px;
     }
 
+    #second_landing_column{
+        padding-left: 30px;
+        margin-top: 11%;
+        /* margin-top: 120px !important; */
+    }
+    
     .playground_button, .tutor_chat_button{
         border-radius: 25px !important;
         font-size: 17.5px !important;
@@ -77,6 +175,7 @@
     }
 
 }
+
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
 
@@ -361,33 +460,33 @@
 
 
 
-.landing-parent-grid {
+/* .landing-parent-grid {
     height: 77vh;
     width: 100%;
-}
+} */
 
-#first_landing_column{
+/* #first_landing_column{
     margin-left: -2rem !important;
-}
+} */
 
-#second_landing_column{
-    /* margin-right: -5rem !important; */
+/* #second_landing_column{
     margin-top: 3%;
     margin-left: 20px;
-}
+} */
 
-#landing_header{
+
+
+
+
+
+/* #landing_header{
     font-size: 31px;
-    /* font-family: "Space Grotesk", sans-serif; */
     font-family: "Raleway", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
-}
+} */
 
-#landing-text {
-    /* font-size: 36px; */
-    /* color: #333; */
-    
+/* #landing-text {
     font-size: 30px;
     font-family: "Raleway", sans-serif;
     transition: opacity 0.5s ease;
@@ -397,19 +496,17 @@
     color: transparent;
     font-weight: 600;
     letter-spacing: 0.7px;
-}
+} */
 
-#landing_helper_text{
+/* #landing_helper_text{
     font-family: "Raleway", sans-serif;
     font-weight: 500; 
     font-size: 22px; 
     padding-top: 6px; 
-    /* line-height: 1.9em; */
     color: #36454F;
-}
+} */
 
-
-.landing_helper_list li::before {
+/* .landing_helper_list li::before {
     content: "💎 " !important;
     font-size: 19px;
 }
@@ -417,14 +514,12 @@
 .landing_helper_list li{
     list-style-position: outside !important;
     font-size: 16px;
-    /* font-family: "Raleway", sans-serif; */
-    /* color: gray; */
+    font-family: "Raleway", sans-serif;
     margin: 8px 0;
     color: #707070;
-    /* color: gray; */
-}
+} */
 
-#landing_second_helper_text{
+/* #landing_second_helper_text{
     font-size: 15px;
     color: #36454F;
     font-family: "Raleway", sans-serif;
@@ -432,11 +527,10 @@
 }
 
 #landing_page_description{
-    /* color: #36454F; */
     color: gray;
     font-size: 17px;
     line-height: 1.8em;
-}
+} */
 
 /* #landing_page_button_div{
     margin-top: 30px;
@@ -447,21 +541,19 @@
     height: 350px;
 } */
 
-footer{
+/* footer{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    /* background-color: #333; */
-    /* color: white; */
     color: black;
     text-align: center;
     padding: 10px 0;
-}
+} */
 
-footer>p{
+/* footer>p{
     font-size: 15px;
-}
+} */
 
 /* .playground_button, .tutor_chat_button{
     border-radius: 25px !important;
@@ -471,9 +563,15 @@ footer>p{
 
 
 
-/* #first_parent_section{
-    background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%);
-} */
+
+
+
+
+
+
+
+
+
 
 /* #first_landing_column{
     width: 100%; 

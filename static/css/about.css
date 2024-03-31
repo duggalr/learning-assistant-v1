@@ -32,3 +32,32 @@
 .about-list li{
     line-height: 1.6em !important;;
 }
+
+
+@media only screen and (max-width: 575px){
+    
+    .landing-navbar-parent{
+        display: none !important;
+    }
+
+    .mobile-about-menu{
+        display: block !important;
+    }
+
+    #landing-parent-grid{
+        display: none;
+    }
+
+    #landing_parent_container{
+        display: none;
+    }
+
+    footer{
+        display: none;
+    }
+
+    .small-mobile-landing-parent{
+        display: block !important;
+    }
+
+}

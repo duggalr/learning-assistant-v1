@@ -90,12 +90,6 @@ footer>p{
 }
 
 
-/* 
-    TODO:
-        - use all responsiveness padding/margin for below
-        - test landing on all mobile + laptops + monitor <- ensure good before continuing
- */
-
 @media only screen and (min-width: 1200px){
 
     /* .landing-parent-grid{

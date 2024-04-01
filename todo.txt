@@ -51,3 +51,11 @@ Functionality:
     <li>&nbsp;&nbsp;to generate exercises or projects for you, as you learn through new concepts</li>
     <li>&nbsp;&nbsp;to explain and discuss specific Computer Science concepts</li> -->
 </ul>
+
+
+/* 
+    TODO:
+        - use all responsiveness padding/margin for below
+        - test landing on all mobile + laptops + monitor <- ensure good before continuing
+ */
+

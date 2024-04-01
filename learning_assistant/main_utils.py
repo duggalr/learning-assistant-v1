@@ -180,7 +180,7 @@ Based on the conversation, try to always ask meaningful follow-up questions to t
 This is a great way to foster a more engaging conversation, and help the individual gain a more deeper understanding of the material they are trying to learn.
 However, if you feel the student has received the information they need and there is no meaningful follow-up question you can think of, please close out the conversation by thanking the student and telling them they can ask any other questions if they wish.
 
-##Previous Chat History with Student: (most recent message at the top)
+##Previous Chat History with Student:
 {previous_chat_history_st}
 
 ##Student Question:

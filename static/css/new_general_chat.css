@@ -15,7 +15,25 @@
     color: gray;
 }
 
-.tutor-chat-container{
+/* .tutor-chat-container{
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-top: 10px;
+} */
+
+.desktop-tutor-chat-container{
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.mobile-tutor-chat-container{
     height: 500px;
     border: 1px solid #ccc;
     border-radius: 10px;

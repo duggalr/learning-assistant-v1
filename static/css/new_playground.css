@@ -22,6 +22,7 @@
     /* overflow: hidden; */
 }
 
+
 .code-editor-parent-column {
     height: 100%;
     position: absolute;
@@ -36,6 +37,7 @@
     word-break: break-word;
 }
 
+.CodeMirror { height: 100% !important; }
 
 .ai-console-tutor-parent-column{
     /* margin-left: 65px; */

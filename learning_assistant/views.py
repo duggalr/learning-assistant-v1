@@ -815,6 +815,10 @@ def handle_general_tutor_user_message(request):
         if initial_user_session is None:
             user_oauth_obj = None
             prev_conversation_st = request.POST['prev_conversation_history_st']
+            ut_conv_parent_obj = UserGeneralTutorParent.objects.create(
+                unique_anon_user_id = user_anon_unique_id,
+            )
+            ut_conv_parent_obj.save()
         else:
             user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 

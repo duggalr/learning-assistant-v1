@@ -260,7 +260,6 @@
     });
 
 
-    // TODO: start here by doing responsive editor size
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: {
             name: "python",
@@ -278,6 +277,7 @@
     });
     // editor.setSize(700, 720);
     // editor.setSize(500, 620)
+    
 
     user_session = '{{ user_session }}';
     let pcqid = '{{ pclid }}';
@@ -487,7 +487,7 @@ mystdout.getvalue()
 
                     if (cid == 'None'){
 
-                        if (initial_user_session == 'None'){} 
+                        if (initial_user_session == 'None'){}
                         else {
                             var url = new URL(window.location.href);
                             url.searchParams.set('cid', response['cid']);
@@ -505,10 +505,12 @@ mystdout.getvalue()
                         let saved_cid = response['cid'];
                         $("#code_obj_id").val(saved_cid);
                         
-                        let code_file_name = response['code_file_name'];
-                        $("#code_file_name").text(code_file_name);
-                        $("#file_name_input").val(code_file_name);
-                        $(".file_name_parent_div").show();
+                        if (initial_user_session != 'None'){
+                            let code_file_name = response['code_file_name'];
+                            $("#code_file_name").text(code_file_name);
+                            $("#file_name_input").val(code_file_name);
+                            $(".file_name_parent_div").show();
+                        }
 
                     } else {
 

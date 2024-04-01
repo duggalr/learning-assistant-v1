@@ -6,6 +6,7 @@
 {% include 'app_menu.html' %}
 {% include 'left_side_bar.html' %}
 
+
 <!-- Desktop Grid View -->
 <div class="ui grid tutor_chat_parent_container" style="display: none;">
 
@@ -24,7 +25,7 @@
             <a href="{% url 'login' %}">Signup</a> to save your conversations.
         </span>
 
-        <div class="tutor-chat-container" id="general-chat-div">
+        <div class="desktop-tutor-chat-container" id="general-chat-div">
 
             <div class="tutor-chat-message">
 
@@ -121,7 +122,7 @@
             <a href="{% url 'login' %}">Signup</a> to save your conversations.
         </span>
 
-        <div class="tutor-chat-container" id="general-chat-div">
+        <div class="mobile-tutor-chat-container" id="general-chat-div">
 
             <div class="tutor-chat-message">
 
@@ -205,6 +206,7 @@
 
     // Chat Functionality
     const chat = document.getElementById("general-chat-div");
+    // const chat = document.getElementsByClassName('tutor-chat-container');
     const chatInput = document.getElementById("general_tutor_chatInput");
     const sendButton = document.getElementById("sendButton");
 
@@ -241,18 +243,34 @@
                     let messageText = anon_user_messages[idx]
                     let model_response_message = anon_user_messages[idx+1]
 
-                    const message = document.createElement("div");
-                    message.className = "message";
-                    message.innerHTML = "<b>You:</b> " + messageText;
-                    message.style.whiteSpace = 'pre-wrap'
-                    chat.appendChild(message);
+                    
+                    const message_one = document.createElement("div");
+                    message_one.className = "message";
+                    message_one.innerHTML = "<b>You:</b> " + messageText;
+                    message_one.style.whiteSpace = 'pre-wrap'
+                    // chat.appendChild(message);
 
-                    const responseMessage = document.createElement("div");
-                    responseMessage.className = "message";
-                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                    chat.appendChild(responseMessage);
+                    const message_two = document.createElement("div");
+                    message_two.className = "message";
+                    message_two.innerHTML = "<b>You:</b> " + messageText;
+                    message_two.style.whiteSpace = 'pre-wrap'
 
-                    // chat.scrollTop = chat.scrollHeight;
+                    document.getElementsByClassName('desktop-tutor-chat-container')[0].appendChild(message_one);
+                    document.getElementsByClassName('mobile-tutor-chat-container')[0].appendChild(message_two);
+
+                    const responseMessage_one = document.createElement("div");
+                    responseMessage_one.className = "message";
+                    responseMessage_one.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    // chat.appendChild(responseMessage);
+
+                    const responseMessage_two = document.createElement("div");
+                    responseMessage_two.className = "message";
+                    responseMessage_two.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+
+                    document.getElementsByClassName('desktop-tutor-chat-container')[0].appendChild(responseMessage_one);
+                    document.getElementsByClassName('mobile-tutor-chat-container')[0].appendChild(responseMessage_two);
+
+                    // // chat.scrollTop = chat.scrollHeight;
 
                 }
 

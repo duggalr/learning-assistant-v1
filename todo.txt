@@ -55,7 +55,7 @@ Functionality:
 
 /* 
     TODO:
-        - use all responsiveness padding/margin for below
-        - test landing on all mobile + laptops + monitor <- ensure good before continuing
+        - Start with IDE
+            - get this to be completely responsivess on sizes I want
+                - proceed from there
  */
-

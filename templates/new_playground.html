@@ -34,9 +34,9 @@
                     <a class="disabled item">
                         <i class="plus icon"></i> New File
                     </a>
-                    <a class="disabled item">
+                    <!-- <a class="disabled item">
                         <i class="save icon"></i> Save File
-                    </a>
+                    </a> -->
                 {% endif %}
                 
             </div>
@@ -235,7 +235,6 @@
     let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
 
-
     $('body').css('background', '#f9f9f9');
 
     $('.tabular.menu .item').tab();
@@ -261,6 +260,7 @@
     });
 
 
+    // TODO: start here by doing responsive editor size
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: {
             name: "python",
@@ -276,7 +276,8 @@
         scrollbarStyle: "null",
         lineWrapping: true,
     });
-    editor.setSize(700, 720);
+    // editor.setSize(700, 720);
+    // editor.setSize(500, 620)
 
     user_session = '{{ user_session }}';
     let pcqid = '{{ pclid }}';

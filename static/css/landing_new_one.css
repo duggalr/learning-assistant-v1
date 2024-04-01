@@ -28,7 +28,7 @@
     font-family: "Raleway", sans-serif;
     font-weight: 500;
     font-size: 22px;
-    padding-top: 6px;
+    padding-top: 1%;
     /* line-height: 1.9em; */
     color: #36454F;
 }
@@ -81,7 +81,8 @@ footer{
     /* color: white; */
     color: black;
     text-align: center;
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    padding: 1% 0;
 }
 
 footer>p{
@@ -89,20 +90,31 @@ footer>p{
 }
 
 
+/* 
+    TODO:
+        - use all responsiveness padding/margin for below
+        - test landing on all mobile + laptops + monitor <- ensure good before continuing
+ */
+
 @media only screen and (min-width: 1200px){
+
+    /* .landing-parent-grid{
+        display: block;
+    } */
 
     .landing-parent-row{
         margin-top: 4%;
     }
 
-    .landing-first-column{
-        /* margin-left: 2%; */
-    }
+    /* .landing-first-column{
+        margin-left: 2%;
+    } */
 
     .landing-second-column{
         height: 100%; 
         margin-right: -10rem;
-        padding-top: 40px;
+        /* padding-top: 40px; */
+        padding-top: 4%;
     }
 
     #landing_video_iframe{
@@ -111,7 +123,8 @@ footer>p{
     }
 
     #landing_page_button_div{
-        padding-top: 10px;
+        /* padding-top: 10px; */
+        padding-top: 2%;
     }
 
     .playground_button, .tutor_chat_button{
@@ -142,9 +155,9 @@ footer>p{
     }
 
     .landing-second-column{
-        height: 90%; 
+        height: 90%;
         margin-right: -10rem;
-        padding-top: 40px;
+        padding-top: 4%;
     }
 
     #landing_video_iframe{
@@ -180,16 +193,16 @@ footer>p{
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
 
+    .landing-parent-grid{
+        display: block !important;
+    }
+
     #signup-login-button{
         font-size: 12.5px !important;
     }
 
     .landing-parent-row{
         display: none !important;
-    }
-
-    .landing-parent-grid{
-        display: block !important;
     }
 
     .small-mobile-landing-parent{
@@ -202,25 +215,26 @@ footer>p{
 
     #mobile_container_grid{
         display: block !important;
-        padding-top: 10px;
+        /* padding-top: 10px; */
+        padding-top: 2%;
     }
 
     #mobile_first_landing_column{
         display: block !important;
         width: 100%;
-        padding-left: 40px;
+        margin-left: 5%;
         text-align: center;
     }
 
     #mobile_second_landing_column{
         width: 100%;
         text-align: center;
+        margin-left: 3%;
     }
 
     #landing_video_iframe{
-        width: 100%;
-        height: 500px;
-        /* margin-left: 5%; */
+        width: 80%;
+        height: 400px !important;
     }
 
     #landing_page_button_div{
@@ -241,12 +255,12 @@ footer>p{
 
 @media only screen and (max-width: 575px){
     
-    .landing-navbar-parent{
+    .landing-parent-grid{
         display: none !important;
     }
 
-    #landing-parent-grid{
-        display: none;
+    .landing-navbar-parent{
+        display: none !important;
     }
 
     #landing_parent_container{

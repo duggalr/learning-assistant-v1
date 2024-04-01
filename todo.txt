@@ -62,3 +62,8 @@ Functionality:
 
 {% include 'left_side_bar.html' %}
 
+TODO: 
+- test site everywhere to ensure good
+- finalize everything in terms of UI + functionality (gradients, fonts, etc.)
+- push to prod (ensure analytics working well + gpt-4 is being used)
+

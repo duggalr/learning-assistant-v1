@@ -64,21 +64,27 @@
 
                         <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
 
-                            <div class="header" style="font-size: 15.5px;">
-                                <a class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}">
+                            <!-- style="font-size: 15.5px;" -->
+                            <div class="header">
+                                <a style="font-size: 15.5px;" class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}">
                                     &#128220; {{ cdi.code_obj.code_unique_name }}
                                 </a>
                             </div>
 
                             <div style="padding-top: 14px;">
-                                <span style="font-size: 12.5px; color: gray; float: left;">
-                                    <i class="clock outline icon"></i>
-                                    Uploaded: {{ cdi.code_obj.created_at|date }}                                
+                                <span style="font-size: 13px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>Last Updated: {{ cdi.code_obj.updated_at|date }}                                
                                 </span>
                                 
-                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">|</span>
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">|&nbsp;&nbsp;</span>
+
+                                <span style="font-size: 13px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>Uploaded: {{ cdi.code_obj.created_at|date }}                                
+                                </span>
+
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">|</span>
                                 
-                                <span style="font-size: 12.5px; color: gray; float: left; padding-left: 8px;">
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">
                                     <i class="hashtag icon"></i>Messages: {{ cdi.user_conv_obj_count }}
                                 </span>
                                 
@@ -119,6 +125,13 @@
     <div class="one wide column"></div>
 
 </div>
+
+
+<script>
+
+    document.body.style.background = "#f9f9f9";
+
+</script>
 
 {% endblock %}
 

@@ -234,8 +234,8 @@
     const sendButton = document.getElementById("sendButton");
     let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
-
-    $('body').css('background', '#f9f9f9');
+    document.body.style.background = "#f9f9f9";
+    // document.body.style.background = "white";
 
     $('.tabular.menu .item').tab();
 
@@ -258,7 +258,6 @@
         $('.console_parent_div').hide();
 
     });
-
 
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: {

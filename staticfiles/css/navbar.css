@@ -1,0 +1,142 @@
+/* .navbar-logo{
+    font-size: 24.5px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+} */
+
+.landing-navbar-parent{
+    /* margin-top: 1% !important; */
+    margin: 0;
+    padding: 0;
+    padding-left: 7%;
+    margin-top: 1.2% !important;
+}
+
+/* .navbar-logo{
+    font-family: 'Raleway', sans-serif; 
+    font-weight: 400; 
+} */
+
+.navbar-logo>a{
+    font-family: "Indie Flower", cursive;
+
+    /* font-family: "Space Grotesk", sans-serif; */
+    /* font-weight: 400; */
+    font-style: normal;
+    letter-spacing: 1.8px;
+    font-size: 35px;
+    color: black !important;
+    font-weight: 500;
+    /* padding-left: 10px; */
+
+    /* background-image: linear-gradient(to right, #ff4e50, #f9d423); */
+    /* background-image: linear-gradient(to right, #00B4DB, #0083B0); */
+    /* background-image: linear-gradient(to right, #00B4DB, #0086b2); */
+    /* background-image: linear-gradient(to right, #008080, #00CED1); */
+    
+    /* background-image: linear-gradient(to right, #9966CC, #20B2AA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold; */
+}
+
+.navbar-logo:hover{
+    cursor: pointer;
+}
+
+.nav-links-parent{
+    /* margin-right: 0%; */
+    padding-right: 130px;
+}
+
+/* #landing_parent_div .item{ */
+.nav-links-parent .item{
+    /* color: #000000; */
+    /* background: #000000; */
+    color: #000000;
+}
+
+/* #landing_parent_div .item:hover{ */
+/* .nav-links-parent .item:hover{
+    transform: scale(1.1);
+    transition: all ease 500ms;
+} */
+
+.nav-links-parent a{
+    /* font-family: 'Raleway', sans-serif; */
+    font-size: 15.5px;
+    color: black;
+}
+
+.landing_auth_button{
+    border-radius: 25px !important;
+    font-size: 16px !important;
+}
+
+
+.gradient-button {
+    background-image: linear-gradient(to right, #9966CC, #20B2AA) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease !important;
+}
+  
+.gradient-button:hover {
+    opacity: 0.9 !important;
+    transform: scale(1.05) !important;
+}
+
+
+
+/* .nav-links-parent a:hover{
+    color: lightblue;
+} */
+
+/* .right.menu a{
+    font-family: 'Raleway', sans-serif;
+    font-size: 14.5px;
+    color: black;
+}
+
+.right.menu a:hover{
+    color: lightblue;
+} */
+
+
+/* #dashboard_email{
+    font-family: 'Raleway', sans-serif;
+    color: black;
+}
+
+#dashboard_email:hover{
+    color: lightblue;
+} */
+
+/* .footer.segment{
+    background-color: black; 
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+#primary_footer_list .item{
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+#primary_footer_list .item:hover{
+    color: black;
+    transform: scale(1.1);
+    transition: all ease 500ms;
+} */
+
+/* .item.navbar-logo:hover{
+    transform: scale(1.1);
+    transition: all ease 500ms;
+} */
+

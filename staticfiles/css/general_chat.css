@@ -1,0 +1,45 @@
+.tutor_chat_parent_container{
+    padding-bottom: 2.5% !important;
+}
+
+.tutor_chat_header{
+    font-size: 21px !important;
+}
+
+.tutor_chat_header>span{
+    font-size: 21px;
+}
+
+.tutor_helper_span{
+    font-size: 14px;
+    color: gray;
+}
+
+.tutor-chat-container{
+    height: 500px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.tutor-chat-message{
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.tutor-chat-input-container{
+    display: flex;
+    margin-top: 20px;
+}
+
+/* .tutor-chat-input-container>textarea{ */
+#general_tutor_chatInput{    
+    resize: vertical !important;
+    min-height: 60px !important;
+}
+

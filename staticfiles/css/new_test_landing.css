@@ -1,0 +1,14 @@
+#first_landing_column, #second_landing_column {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#first_landing_column {
+    margin-bottom: 30px;
+}
+
+@media only screen and (max-width: 767px) {
+    #first_landing_column, #second_landing_column {
+        width: 100% !important;
+    }
+}

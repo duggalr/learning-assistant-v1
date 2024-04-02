@@ -1,0 +1,34 @@
+#main_left_menu{
+    /* width: 18em; */
+    /* width: 17em; */
+    
+    width: 16em;
+    /* background-color: #faf8f5 !important; */
+    background-color: #f9f9f9 !important;
+    /* background-color: #fbfbfb !important; */
+    /* background-color: #f9f9f9 !important; */
+    /* background-color: #cccccc !important; */
+}
+
+/* #left_sub_menu>button{ */
+    /* text-align: center; */
+/* } */
+
+#primary_logo_title{
+    font-family: "Raleway", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: black !important;
+}
+
+#main_left_menu .item:first-child {
+    border-bottom: 1px solid black;
+}
+
+.new_chat_button, .chat_register_account_button{
+    border-radius: 25px !important;
+}
+
+.chat_register_account_button{
+    font-size: 14.5px !important;
+}

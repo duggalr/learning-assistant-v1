@@ -29,7 +29,7 @@ openai==1.14.1
 pinecone-client==3.1.0
 prompt-toolkit==3.0.43
 psutil==5.9.8
-psycopg2==2.9.9
+psycopg2-binary==2.9.6
 pycparser==2.21
 pydantic==2.6.4
 pydantic_core==2.16.3

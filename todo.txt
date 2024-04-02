@@ -1,4 +1,3 @@
-{% include 'landing_navbar_two.html' %}
 
 <ul class="ui list landing_helper_list">
     <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>

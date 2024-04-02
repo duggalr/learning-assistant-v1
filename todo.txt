@@ -15,3 +15,15 @@
     <li>&nbsp;&nbsp;to explain and discuss specific Computer Science concepts</li> -->
 </ul>
 
+
+/* body{
+    background: radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%) !important;
+    margin: 0 !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+} */
+
+TODO:
+- add google analytics tag back
+- plan out next steps and go from there
+

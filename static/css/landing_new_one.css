@@ -92,13 +92,6 @@ footer>p{
 
 @media only screen and (min-width: 1200px){
 
-    body{
-        background: radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%) !important;
-        margin: 0 !important;
-        background-repeat: no-repeat !important;
-        background-attachment: fixed !important;
-    }
-
     /* .landing-parent-grid{
         display: block;
     } */
@@ -277,44 +270,4 @@ footer>p{
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* .video-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.video-wrapper iframe {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-} */
-
-/* #landing_video_iframe { */
-    /* height: 50vh; */
-    /* width: 80%;
-    height: 120%; */
-    /* max-width: 100%; */
-    /* max-height: 100%; */
-    /* width: auto;
-    height: auto; */
-/* } */
 

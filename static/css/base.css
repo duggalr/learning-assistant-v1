@@ -4,8 +4,12 @@ body {
 
     /* position: fixed; */
     
+    /* background: radial-gradient(ellipse at bottom left, #abf5f2 0%, #f9f9f9 35%); */
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     /* background: radial-gradient(circle at top right, #a6fcf8 0%, #f9f9f9 30%); */
-
     /* background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%); */
 
      /* Gray gradient for majority of the page */

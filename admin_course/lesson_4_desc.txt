@@ -1,4 +1,0 @@
-Lesson 4: Lists
-Description:
-In this lesson, you will learn the fundamental operations of lists.
-Lists: https://www.w3schools.com/python/python_lists.asp

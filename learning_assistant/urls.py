@@ -25,9 +25,11 @@ urlpatterns = [
     path("save_user_code", views.save_user_code, name="save_user_code"),
     path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
 
-    ## Admin Views
-    path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
-    path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
+    # ## Admin Views
+    # path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
+    # path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
+
+
 
     ## Custom Learning Views
     # path("super_user_motivation_prompt", views.super_user_motivation_prompt, name="super_user_motivation_prompt"),

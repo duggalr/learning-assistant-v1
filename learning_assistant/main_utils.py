@@ -1,25 +1,11 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
-
-import uuid
-import json
-import pickle
-import datetime
 from openai import OpenAI
-
-from dotenv import load_dotenv, find_dotenv
-
-from operator import getitem
-from RestrictedPython import compile_restricted
-from RestrictedPython import safe_builtins
 
 
 API_KEY = os.environ['OPENAI_API_KEY']
 client = OpenAI(
     api_key = API_KEY,
 )
-
 
 def main_handle_question(question, programming_problem, student_code, previous_chat_history_st):
 
@@ -213,5 +199,4 @@ However, if you feel the student has received the information they need and ther
         'response': response_message,
     }
     return final_dict_rv 
-
 

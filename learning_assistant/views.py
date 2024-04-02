@@ -1,16 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse
-from django import forms
-from django.template.loader import render_to_string
-from django.contrib.auth.hashers import make_password, check_password
-from django.forms.models import model_to_dict
-from django.contrib.sites.shortcuts import get_current_site
-from django.conf import settings
 from urllib.parse import quote_plus, urlencode
 
 import os
-import uuid
 import time
 import functools
 import secrets
@@ -19,18 +12,15 @@ import datetime
 from dotenv import load_dotenv, find_dotenv
 from operator import itemgetter
 from authlib.integrations.django_client import OAuth
-import pinecone
 
-from gpt_learning_assistant.settings import MAX_FILE_SIZE
 from .models import *
 from . import main_utils
-
 
 
 if 'PRODUCTION' not in os.environ:
     dot_env_file = find_dotenv()
     load_dotenv(dot_env_file)
-
+    
 
 globals_dict = {}
 globals_dict.update(
@@ -168,7 +158,6 @@ oauth.register(
     server_metadata_url=f"https://{os.environ['AUTH0_DOMAIN']}/.well-known/openid-configuration",
 )
 
-
 ## Auth0 Authentication Functions ##
 
 def callback(request):
@@ -229,8 +218,6 @@ def logout(request):
             quote_via=quote_plus,
         ),
     )
-
-
 
 
 ## Primary View Functions ##
@@ -369,7 +356,6 @@ def dashboard(request):
     })
 
 
-
 def handle_user_message(request):
 
     initial_user_session = request.session.get("user")
@@ -385,8 +371,6 @@ def handle_user_message(request):
         user_code_obj_id = request.POST['cid']
 
         # print('user-code-obj-id:', user_code_obj_id, user_code_obj_id == 'None', user_code_obj_id is None)
-
-        # # TODO: check the type of the user_code_obj_id**
 
         uc_obj = None
         initial_user_session = request.session.get('user')
@@ -516,7 +500,6 @@ def handle_user_message(request):
             return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-
 def save_user_code(request):
     
     initial_user_session = request.session.get("user")
@@ -571,7 +554,6 @@ def save_user_code(request):
             return JsonResponse({'success': True, 'cid': uc_obj.id})
 
 
-
 def handle_file_name_change(request):
     
     initial_user_session = request.session.get("user")
@@ -608,72 +590,7 @@ def handle_file_name_change(request):
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 
 
-
 def general_cs_tutor(request):
-
-    # # initial_user_session = request.session.get("user")
-
-    # # code_id = request.GET.get('cid', None)
-    # # lqid = request.GET.get('lqid', None)
-    
-    # # pclid = request.GET.get('pclid', None)
-
-    # # user_oauth_obj = None
-    # # if initial_user_session is not None:
-    # #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-        
-    # # user_is_admin = request.user.is_superuser
-    # # if user_is_admin:  # exempt from auth check; has visibility into all user's code
-    # #     uc_objects = UserCode.objects.filter(
-    # #         id = code_id
-    # #     )
-    # # else:
-    # #     uc_objects = UserCode.objects.filter(
-    # #         id = code_id,
-    # #         user_auth_obj = user_oauth_obj
-    # #     )
-
-
-    # initial_user_session = request.session.get("user")
-    # tchid = request.GET.get('tchid', None)
-
-    # # general_conv_parent_id = request.GET.get('pid', None)
-    # # ug_tut_parent_obj = None
-    # # if general_conv_parent_id is not None:
-    # #     ug_tut_parent_objects = UserGeneralTutorParent.objects.filter(id = general_conv_parent_id)
-    # #     if len(ug_tut_parent_objects) > 0:
-    # #         ug_tut_parent_obj = ug_tut_parent_objects[0]
-
-    # user_oauth_obj = None
-    # utc_objects = None
-    # if initial_user_session is not None:
-    #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-
-    #     utc_objects = UserGeneralTutorConversation.objects.filter(
-    #         user_auth_obj = user_oauth_obj
-    #     ).order_by('created_at')
-
-
-    # parent_cv_obj = None
-    # past_conv_messages = []
-    # if tchid is not None and user_oauth_obj is not None:
-    #     parent_conv_objects = UserGeneralTutorParent.objects.filter(
-    #         user_auth_obj = user_oauth_obj,
-    #         id = tchid
-    #     )
-    #     if len(parent_conv_objects) == 0:
-    #         parent_cv_obj = None
-    #     else:
-    #         parent_cv_obj = parent_conv_objects[0]
-    #         past_conv_messages = UserGeneralTutorConversation.objects.filter(
-    #             user_auth_obj = user_oauth_obj,
-    #             chat_parent_object = parent_cv_obj
-    #         )
-
-    # conversation_name_list = []
-    # for idx in range(0, len(utc_objects)):
-    #     conversation_name_list.append(f"Conversation #{idx}")
-
 
     initial_user_session = request.session.get("user")
     tchid = request.GET.get('tchid', None)
@@ -685,25 +602,6 @@ def general_cs_tutor(request):
     user_oauth_obj = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-
-
-    # parent_cv_obj = None
-    # # past_conv_messages = []
-    # past_conversation_list = []
-    # if tchid is not None and user_oauth_obj is not None:
-    #     parent_conv_objects = UserGeneralTutorParent.objects.filter(
-    #         user_auth_obj = user_oauth_obj,
-    #         id = tchid
-    #     )
-    #     if len(parent_conv_objects) == 0:
-    #         parent_cv_obj = None
-    #     else:
-    #         parent_cv_obj = parent_conv_objects[0]
-    #         past_conv_messages = UserGeneralTutorConversation.objects.filter(
-    #             user_auth_obj = user_oauth_obj,
-    #             chat_parent_object = parent_cv_obj
-    #         )
-    
     
     user_full_conversation_list = []
     if user_oauth_obj is not None:
@@ -747,60 +645,13 @@ def general_cs_tutor(request):
         'current_conversation_parent_object': current_cid_parent_conv_obj,
         'current_conversation_list': current_cid_past_messages,
         'all_user_conversation_list': user_full_conversation_list
-        # 'user_conversation_objects': utc_objects,
-        # 'conversation_name_list': conversation_name_list,
-        # 'parent_chat_obj': parent_cv_obj,
-        # 'past_conv_messages': past_conv_messages
     })
-
 
 
 def handle_general_tutor_user_message(request):
     initial_user_session = request.session.get("user")
 
-    if request.method == 'POST':        
-        # if initial_user_session is None:
-        #     return JsonResponse({'success': False, 'message': 'user is not authenticated.'})
-                
-        # uc_parent_obj_id = request.POST['uc_parent_obj_id']
-        # # user_ct_obj_id = request.POST['user_ct_obj_id']
-
-        # user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-        # ugt_parent_obj = None
-        # if uc_parent_obj_id is None:
-        #     ugt_parent_obj = UserGeneralTutorParent.objects.create(
-        #         user_auth_obj = user_oauth_obj
-        #     )
-        #     ugt_parent_obj.sav()
-
-        # else:
-        #     ugt_parent_objects = UserGeneralTutorParent.objects.filter(
-        #         id = uc_parent_obj_id,
-        #         user_auth_obj = user_oauth_obj
-        #     )
-        #     if len(ugt_parent_objects) == 0:
-        #         return JsonResponse({'success': False, 'message': 'Conversation not found.'})                
-        #     else:
-        #         ugt_parent_obj = ugt_parent_objects[0]
-
-
-        # # prev_conversation_history = []
-        # if uc_parent_obj_id != 'None':
-
-        #     prev_conversation_messages = UserGeneralTutorConversation.objects.filter(
-        #         user_auth_obj = user_oauth_obj,
-        #         # gt_parent_obj = ugt_parent_obj
-        #     ).order_by('created_at')
-
-        #     if len(prev_conversation_messages) > 0:
-        #         for uc_obj in prev_conversation_messages[:5]:
-        #             uc_question = uc_obj.question
-        #             uc_response = uc_obj.response
-        #             prev_conversation_history.append(f"Question: { uc_question }")
-        #             prev_conversation_history.append(f"Response: { uc_response }")
-
-
-
+    if request.method == 'POST':
         print('cs-chat-data:', request.POST)
 
         user_anon_unique_id = request.POST['existing_anon_user_id'].strip()

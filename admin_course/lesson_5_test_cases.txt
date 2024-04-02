@@ -1,2 +1,0 @@
-Question: Character Frequency
-s = 'helllo' --> {'h': 1, 'e': 1, 'l': 3, 'o': 1}

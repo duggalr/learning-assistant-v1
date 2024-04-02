@@ -1,6 +1,0 @@
-Lesson 3: Strings
-Write a program that calculates and prints the length of a user-input string without using the built-in len() function. (Define count variable and use for loop to count letters in string)
-Given a string, write a program to count and display the number of vowels (both lowercase and uppercase) in the string. (vowel is when character is: 'a, e, i, o, u')
-Write a program that counts and displays the number of words in a user-input sentence. (using split function)
-Create a program that capitalizes the first letter of each sentence.
-Design a program that validates whether an input string is a valid email address. (hint: first step is to think through what an email address contains, and what you need to check for. This will require split, in, if/else, for loop)

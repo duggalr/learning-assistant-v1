@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 
-
 class UserOAuth(models.Model):
     auth_type = models.CharField(max_length=500)
     email = models.EmailField()

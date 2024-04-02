@@ -1,4 +1,0 @@
-Lesson 3: Strings
-Description:
-In this lesson, you will learn the fundamental operations of strings, and apply previous concepts such as for/while loops, to solve problems associated with strings.
-Strings: https://www.w3schools.com/python/python_strings.asp

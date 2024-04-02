@@ -1,40 +1,4 @@
-
-TODO: 
-- get current version working locally
-    - refactor by removing all unnecessary code
-- based on my usage thus far:
-    - prioritize features
-    - develop distribution strategy
-        - start with creating blog-posts demonstrating different use-cases
-            - develop feature list here
-        - determine how to make marketing video?
-
-TODO:
-- add all functionality
-- finalize everything on current UI/app in local
-- add mobile-responsiveness and then, finalize all locally + production (<-- ensure everything works)
-
-
-Functionality: 
-- start with anon functionality
-    - get everything to work
-    - saving everything in DB <-- want to see what people ask and just basic numbers in easy manner (especially as we increase marketing...)
-
-// TODO: 
-    // implement all auth and all functionality for auth <-- finalize and ensure everything works
-    // implement mobile responsiveness
-
-<!-- TODO: add all functionality for logged-in users <- get this fully complete before gym and plan out todo for Saturday -->
-
-
-<!-- TODO: show messages for existing conversation and if brand-new, show nothing; finalize -->
-
-/* TODO: complete mobile responsiveness and finalize site; push to production and get it all working/finalized today */
-
-
 {% include 'landing_navbar_two.html' %}
-
-
 
 <ul class="ui list landing_helper_list">
     <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
@@ -53,17 +17,7 @@ Functionality:
 </ul>
 
 
-/* 
-    TODO:
-        - Start with IDE
-            - get this to be completely responsivess on sizes I want
-                - proceed from there
- */
-
-{% include 'left_side_bar.html' %}
-
 TODO: 
-- test site everywhere to ensure good
-- finalize everything in terms of UI + functionality (gradients, fonts, etc.)
 - push to prod (ensure analytics working well + gpt-4 is being used)
+
 

@@ -1,0 +1,54 @@
+Description: This course outline is designed to introduce the student to basic ciphers, specifically focusing on substitution ciphers, to aid in the encryption and decryption of messages. The student's goal is to eventually create a program that can encrypt messages to be sent via a URL, which only the student can decrypt. The course will be structured in a way that progresses at a reasonable pace, considering the student's comfort level with Python and eagerness to learn despite not having strong mathematical skills. The outline can be adjusted based on the student's progress and interests throughout the duration. 
+
+["Week 1: Introduction to Cryptography and Ciphers",
+- Overview of basic cryptographic concepts
+- Introduction to substitution ciphers
+- Understanding the Caesar cipher
+]
+
+["Week 2: Implementation of Substitution Ciphers in Python",
+- Coding a simple Caesar cipher program in Python
+- Testing the encryption and decryption functionalities
+- Discussing limitations of the Caesar cipher
+]
+
+["Week 3: Exploring Advanced Substitution Ciphers",
+- Learning about different types of substitution ciphers (e.g., Atbash, Keyword)
+- Implementing a Keyword cipher in Python
+]
+
+["Week 4: Strengthening Encryption with Multiple Ciphers",
+- Understanding the concept of polyalphabetic ciphers
+- Implementing a Vigenère cipher in Python
+- Comparing the Vigenère cipher with basic substitution ciphers
+]
+
+["Week 5: Practical Applications of Substitution Ciphers",
+- Discussing the importance of key management 
+- Building a simple encryption program with multiple substitution ciphers
+- Testing the program with various messages
+]
+
+["Week 6: Project Development Phase 1 - Brainstorming and Design",
+- Planning the program structure for message encryption
+- Designing the flow of data between encryption and decryption functions
+- Setting up a basic user interface for the program
+]
+
+["Week 7: Project Development Phase 2 - Implementation",
+- Writing the encryption and decryption functions in Python
+- Incorporating error handling for input validation
+- Conducting testing to ensure the program works as intended
+]
+
+["Week 8: Project Development Phase 3 - Refinement and Security Measures",
+- Reviewing the code for optimizations and improvements
+- Implementing additional security measures (e.g., input sanitization)
+- Exploring ways to enhance the user experience
+]
+
+["Week 9-10: Final Testing, Debugging, and Completion",
+- Comprehensive testing to identify and resolve any issues
+- Debugging the program to ensure smooth functionality
+- Finalizing the project and preparing for deployment
+]

@@ -1,0 +1,10 @@
+["The student wants to learn about symmetric cryptography and cryptographic hash functions. Their primary purpose is to understand how to programmatically encrypt and decrypt messages with different ciphers using Python. They are primarily interested in constructing simpler encryption and hash algorithms from scratch, aiming to comprehend these topics thoroughly by challenging themselves. While the student does not aim to apply these skills in a specific context right now, they are driven by a curiosity to understand these devices at a fundamental level. They don't currently plan to progress onto complicated aspects of cryptography, but this could potentially change as they delve deeper into the subject. Regarding their background, the student has a good grasp of Python programming and holds fundamental knowledge of mathematics and statistics, which would aid in comprehending cryptographic algorithms and hash functions. The student expects to dedicate 5 weeks to learning this material and will be working a few days a day."]
+
+TODO:
+- need to add duration/weeks as requirement for AI to know
+- given the above:
+    - have AI generate outline of the course in weeks + detailed description of what each week will consist of 
+    - have the AI choose which material is needed for first week
+        - pass in the material + outline to AI
+        - have it generate course materials 
+            - ^test for 1 week first and refine extensively

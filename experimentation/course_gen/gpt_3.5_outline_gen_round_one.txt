@@ -1,0 +1,59 @@
+["Week 1: Introduction to Symmetric Cryptography", 
+"     - Overview of symmetric cryptography",
+"     - Understanding key concepts such as plaintext, ciphertext, key, and encryption/decryption processes",
+"     - Examples of popular symmetric encryption algorithms like Caesar cipher and Vigenère cipher",
+"Week 2: Implementation of Basic Ciphers in Python",
+"     - Implementing Caesar cipher in Python",
+"     - Implementing Vigenère cipher in Python",
+"     - Testing encryption and decryption processes for the implemented ciphers",
+"Week 3: Introduction to Cryptographic Hash Functions",
+"     - Explanation of cryptographic hash functions",
+"     - Understanding properties of hash functions (such as determinism, pre-image resistance, collision resistance)",
+"     - Examples of commonly used hash functions like MD5 and SHA-256",
+"Week 4: Implementing Hash Functions in Python",
+"     - Implementing a basic hash function in Python",
+"     - Testing the hash function for different inputs",
+"     - Discussing the importance of hash functions in cryptography",
+"Week 5: Constructing a Simple Encryption Algorithm",
+"     - Designing a simple encryption algorithm using Python",
+"     - Incorporating key generation and encryption processes",
+"     - Testing the encryption algorithm with sample messages",
+"Week 6: Combining Symmetric Encryption and Hash Functions",
+"     - Understanding the role of hash functions in encryption",
+"     - Implementing a combined encryption and hashing process in Python",
+"     - Discussing the advantages of using hash functions in encryption",
+"Week 7: Advanced Topics in Symmetric Cryptography",
+"     - Exploring block ciphers and stream ciphers",
+"     - Understanding modes of operation like ECB, CBC, and CTR",
+"     - Implementing a more complex symmetric encryption algorithm in Python",
+]
+
+
+
+ ["Week 1: Introduction to Cryptography and Symmetric Encryption"]
+   - Introduction to cryptography basics
+   - Understanding the principles of symmetric encryption
+   - Introduction to Caesar Cipher and its implementation in Python
+
+- ["Week 2: Advanced Symmetric Encryption Techniques"]
+   - Exploring substitution ciphers
+   - Understanding transposition ciphers
+   - Implementing Vigenère Cipher in Python
+
+- ["Week 3: Cryptographic Hash Functions"]
+   - Introduction to hash functions
+   - Properties of cryptographic hash functions
+   - Implementing a basic hash function in Python
+
+- ["Week 4: Building Simple Cryptographic Algorithms"]
+   - Combining encryption and hash functions
+   - Implementing a simple encryption algorithm in Python
+   - Putting together basic cryptographic systems
+
+- ["Week 5: Practical Applications and Project Work"]
+   - Exploring real-world applications of symmetric cryptography
+   - Developing a small project to encrypt and decrypt messages
+   - Finalizing understanding of symmetric cryptography and cryptographic hash functions
+
+Note: This outline is designed to cater to the student's interest in constructing simpler algorithms from scratch and gaining an in-depth understanding of symmetric cryptography and hash functions. The weekly topics are structured to gradually build upon each other, ensuring a comprehensive learning experience within the 5-week timeframe specified by the student.
+

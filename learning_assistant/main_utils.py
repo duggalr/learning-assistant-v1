@@ -120,8 +120,8 @@ You are on the right track. Pay close attention to the operation you are perform
     messages_list = [di]
     chat_completion = client.chat.completions.create(
         messages = messages_list,
-        # model = "gpt-4",
-        model = "gpt-3.5-turbo-0125",
+        model = "gpt-4",
+        # model = "gpt-3.5-turbo-0125",
     )
 
     response_message = chat_completion.choices[0].message.content
@@ -187,8 +187,8 @@ However, if you feel the student has received the information they need and ther
     messages_list = [di]
     chat_completion = client.chat.completions.create(
         messages = messages_list,
-        # model = "gpt-4",
-        model = "gpt-3.5-turbo-0125",
+        model = "gpt-4",
+        # model = "gpt-3.5-turbo-0125",
     )
 
     response_message = chat_completion.choices[0].message.content

@@ -1,0 +1,13 @@
+1. What the student wants to learn:                                                                                                                                                                       
+    - The student is interested in learning about encryption and decryption techniques specifically for messages, with a focus on understanding how to encrypt and decrypt messages.                      
+                                                                                                                                                                                                          
+2. The student's ideal/end state:                                                                                                                                                                         
+    - The student aims to gain knowledge and proficiency in encryption and decryption techniques for messages, particularly in symmetric and asymmetric encryption algorithms like AES and RSA. Further, t
+he student may be interested in exploring common cryptographic tools, libraries, and potentially engaging in hands-on exercises to reinforce learning.                                                    
+                                                                                                                                                                                                          
+3. The student's skill level or background:                                                                                                                                                               
+    - The student has a background in calculus and is proficient in Python, indicating a strong foundation in mathematics and programming that can be leveraged to understand cryptographic concepts and p
+otentially implement practical solutions.                                                                                                                                                                 
+                                                                                                                                                                                                          
+Based on this information, we can tailor a course module that covers encryption algorithms, key management, hands-on exercises, and practical applications using Python to enhance your understanding and 
+skills in encryption and decryption techniques for messages. Let's kickstart this learning journey together!

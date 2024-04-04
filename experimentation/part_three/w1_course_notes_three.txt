@@ -1,0 +1,39 @@
+["Course Notes: Understanding Symmetric Cryptography",
+
+"**Week 1 Objective**: Our goal this week is to lay a solid foundation of understanding symmetric cryptography, focusing on its definition, purpose, applications, and delving into the workings of symmetric key algorithms such as Data Encryption Standard (DES) and Advanced Encryption Standard (AES). Through this week's study, students will gain insight into the encryption and decryption processes in symmetric cryptography and understand how symmetric key algorithms serve in secure communication protocols.",
+
+"### Definition of Symmetric Cryptography",
+"Symmetric Cryptography, also known as symmetric-key encryption, involves the use of a single key for both encryption and decryption processes. This means that both the sender and receiver must possess the same key, and keep it secret, to successfully decrypt the encrypted message.",
+
+"### Purpose and Application",
+"The primary purpose of symmetric cryptography is to ensure confidentiality encryption provides. It is widely used in various areas such as securing the connection between web servers and clients (SSL/TLS), encryption of data at rest (file or database encryption), and in the banking sector for PIN and ATM encryption. Symmetric encryption algorithms are generally faster and less complex than their asymmetric counterparts, making them suitable for encrypting large volumes of data.",
+
+"### Popular Symmetric Key Algorithms",
+"1. **Data Encryption Standard (DES)**: Developed in the early 1970s, DES was among the first standard symmetric encryption algorithms. DES encrypts data in 64-bit blocks using a 56-bit key. Despite its wide use historically, DES's shorter key length makes it vulnerable to brute-force attacks today.",
+"2. **Advanced Encryption Standard (AES)**: AES, selected by NIST in 2001, replaced DES as the standard for symmetric key encryption. AES is more secure than DES, supporting key lengths of 128, 192, and 256 bits and encrypting data in 128-bit blocks. Due to its security and efficiency, AES is used globally to protect sensitive information.",
+
+"### Understanding Encryption and Decryption in Symmetric Cryptography",
+"In symmetric cryptography, encryption and decryption involve processing the plaintext and ciphertext with the same secret key. The process can be boiled down to mathematical functions and algorithms that convert plaintext into ciphertext (encryption) and back into plaintext (decryption), using the symmetric key. The security of symmetric encryption lies in the secrecy of the symmetric key.",
+
+"**Encryption Process**:",
+"1. Plaintext is input into the encryption algorithm along with the symmetric key.",
+"2. The algorithm performs a series of complex computations and transformations on the plaintext.",
+"3. The output is the encrypted data, known as ciphertext.",
+
+"**Decryption Process**:",
+"1. Ciphertext is input into the decryption algorithm along with the same symmetric key used for encryption.",
+"2. The algorithm reverses the encryption processes and computations.",
+"3. The output is the original plaintext.",
+
+"**Key Points to Remember**:",
+"- The security of symmetric encryption heavily relies on the secrecy of the key.",
+"- Key management is crucial; securely exchanging and storing the symmetric key is a major concern.",
+"- Symmetric algorithms are generally faster than asymmetric algorithms and are suited for encrypting large amounts of data.",
+
+"### Conclusion",
+"This week's study establishes a basic understanding of symmetric cryptography, covering its purpose, application, and the inner workings of DES and AES. Asymmetric cryptography and cryptographic hash functions will be explored in the coming weeks, further enriching the student's knowledge in the field of cryptography.",
+
+"**Next Week's Focus**: Introduction to Asymmetric Cryptography and Public Key Infrastructure (PKI) - understanding the differences between symmetric and asymmetric cryptography, exploring RSA and ECC algorithms, and learning about digital signatures and certificates."
+
+]
+

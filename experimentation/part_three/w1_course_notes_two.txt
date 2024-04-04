@@ -1,0 +1,57 @@
+["Course Notes: Week 1 - Understanding Symmetric Cryptography"]                                                                                                                                 
+                                                                                                                                                                                                          
+Welcome to Week 1 of your cryptographic journey! This week, we'll immerse ourselves in the world of symmetric cryptography. Aimed at providing a solid foundation, our focus will be to understand the def
+inition, purpose, and application of symmetric cryptography, explore popular symmetric key algorithms like DES and AES, and grasp the mechanisms of encryption and decryption within this context. Armed w
+ith your Python skills and an enthusiasm for cryptography, let’s unravel the mysteries of symmetric encryption together!
+                                                                                                                                                                                                          
+### I. Introduction to Symmetric Cryptography
+
+#### 1. Definition                                                                                                                                                                                        
+Symmetric cryptography is a type of encryption where the same key is used for both encryption of plaintext and decryption of ciphertext. This shared secret key is used by both the sender and receiver to
+ encode and decode messages, ensuring that the communication remains confidential.                                                                                                                        
+
+#### 2. Purpose and Applications                                                                                                                                                                          
+The main purpose of symmetric cryptography is to secure data transmission over untrusted networks. It ensures that sensitive information remains confidential between the communicating entities. Applicat
+ions include securing file transfers, encrypting databases, and protecting data at rest.            
+                                                                                                    
+### II. Encryption and Decryption Mechanisms                                                        
+                                                                                                                                                                                                          
+#### 1. Encrypting a Message                                                                                                                                                                              
+Encryption transforms the original information (plaintext) into an unreadable format (ciphertext) using a cryptographic key. The process involves mathematical algorithms that alter the plaintext using t
+he key, making it indecipherable to anyone who does not possess the key.                                                                                                                                  
+                                                                                                     
+- **Example:** Suppose Alice wants to send a secure message to Bob. She uses a symmetric key known to both of them and encrypts her message. The encrypted message (now ciphertext) is what gets transmitt
+ed over the network.                                                                                 
+
+#### 2. Decrypting a Message
+Decryption is the reverse process of encryption, wherein the ciphertext is converted back to plaintext using the same cryptographic key.
+
+- **Example:** When Bob receives the encrypted message from Alice, he uses the same symmetric key to decrypt the ciphertext, retrieving the original plaintext message.
+
+### III. Popular Symmetric Key Algorithms
+
+#### 1. Data Encryption Standard (DES)
+- **Introduction:** DES is an older symmetric key encryption algorithm that encrypts data in 64-bit blocks using a 56-bit key. It was widely used but is now considered to be insecure for many applicatio
+ns due to the relatively short key length.        
+
+#### 2. Advanced Encryption Standard (AES)
+- **Introduction:** AES is a more modern encryption standard approved by the National Institute of Standards and Technology (NIST). It's used worldwide and encrypts data in 128-bit blocks, supporting ke
+y sizes of 128, 192, and 256 bits, making it significantly more secure than DES.                     
+
+- **Strength:** AES is resistant to known attacks, including brute force, making it a preferred choice for government, financial institutions, and other entities requiring high levels of security.
+
+### IV. Hands-On: Symmetric Encryption with Python
+
+This week, we'll also start our practical journey. By implementing basic versions of symmetric encryption algorithms in Python, we’ll get hands-on experience with the internal workings of these cryptographic systems.
+
+- **Task 1:** Implement a simple symmetric encryption algorithm using Python. Focus on the process of turning plaintext into ciphertext and then decrypting it back into plaintext using the same key.
+  
+- **Task 2:** Explore Python's `Cryptography` library to understand how AES is implemented. Attempt to encrypt and decrypt a message using AES.
+
+- **Further Reading:** To deepen your understanding, explore the mathematical principles behind algorithms like DES and AES. Understanding concepts like substitution, permutation, and how keys are expanded can be incredibly enlightening.
+
+### V. Closing Remarks
+
+This week's goal is to provide a robust introduction to symmetric cryptography, laying the groundwork for more advanced topics in the weeks to come. Take this time to experiment with Python, play with the encryption and decryption processes, and begin to think critically about the security implications of the algorithms we use.
+
+Next week, we will delve deeper into asymmetric cryptography, exploring the nuances that distinguish it from the symmetric techniques we've learned thus far. Happy encrypting!

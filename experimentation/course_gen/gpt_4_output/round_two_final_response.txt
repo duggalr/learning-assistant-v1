@@ -1,0 +1,9 @@
+Based on the details you've provided: 
+
+1. You want to learn about internet protocols such as SMTP, with the specific objective to build an SMTP server from scratch. You wish to implement this first in Python due to your comfort level with the language. 
+
+2. Your goal with this learning endeavor is mainly to get a better understanding of the SMTP protocol and to challenge yourself. 
+
+3. You have prior programming experience in Python and Rust. However, your familiarity with basic internet functionalities like IP/TCP protocols is limited.
+
+Given this, our course module would start with a foundational understanding of how the internet works, including the basics of IP and TCP, before diving into SMTP and other related protocols. The practical aspect of the course would involve creating an SMTP server using Python for a hands-on understanding of the protocol. As we progress, we'll tap into your knowledge of Python and Rust to ensure a smooth learning journey.

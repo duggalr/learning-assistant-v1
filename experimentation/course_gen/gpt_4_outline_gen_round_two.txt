@@ -1,0 +1,26 @@
+["This course on symmetric cryptography and cryptographic hash functions has been curated to enable clear understanding and practical applications of these concepts using Python programing language. The course spans over 5 weeks, providing ample time to grasp the concepts, build and test encryption and decryption functions. It begins with an introduction to cryptography, various encryption and hashing algorithms and then goes on to allow the student to build their own cryptographic algorithms and hash functions. The structure of the course has been crafted to ensure a smooth learning curve.", 
+
+"Week 1: Introduction to Cryptography and Symmetric Cryptography
+    - Day 1-2: Basics of cryptography and its applications
+    - Day 3-4: Overview of symmetric cryptography
+    - Day 5: Practical examples and uses of symmetric cryptography", 
+
+"Week 2: Symmetric Ciphers and Python Implementation
+    - Day 1-2: Detailed study of various symmetric ciphers (Caesar, Atbash, ADFGX, etc.)
+    - Day 3-4: Implementation of symmetric ciphers in python 
+    - Day 5: Coding challenges on symmetric ciphers",
+
+"Week 3: Introduction to Cryptographic Hash Functions
+    - Day 1-2: What is hashing, its significance and applications
+    - Day 3-4: Introduction to various cryptographic hash functions (MD5, SHA-1, SHA-2, etc.)
+    - Day 5: Use case examples of cryptographic hash functions",
+
+"Week 4: Python Implementation of Cryptographic Hash Functions
+    - Day 1-2: Implementation of various cryptographic hash functions using Python
+    - Day 3-4: Hands-on exercises on cryptographic hash functions in Python
+    - Day 5: Coding challenges on cryptographic hash functions",
+
+"Week 5: Building Encryption and Hash Algorithms from Scratch and Revise
+    - Day 1-3: Building your own encryption algorithm 
+    - Day 4: Building your own hash function 
+    - Day 5: Revising cryptographic concepts and functions and performing self-testing exercises"]

@@ -1,0 +1,36 @@
+"Course Notes: Week 1: Understanding Symmetric Cryptography",
+
+"1. Introduction to Symmetric Cryptography:",
+"- At its core, symmetric cryptography involves using the same key for both encryption and decryption of messages.",
+"- This method is beneficial for scenarios where secure and private communication is required between two entities that share a common secret key.",
+"- It contrasts with asymmetric (public-key) encryption, where different keys are used for encryption and decryption.",
+
+"2. Purpose and Application:",
+"- Symmetric cryptography is fundamental for ensuring the confidentiality of digital data.",
+"- It is widely applied in various fields such as online banking, secure communications, and data protection on storage devices.",
+"- One of its main advantages is efficiency, making it suitable for encrypting large volumes of data at high speed.",
+
+"3. Basic Principles:",
+"- Encryption transforms readable data (plaintext) into an unreadable format (ciphertext) using a cipher and a secret key.",
+"- Decryption reverses this process, converting the ciphertext back into plaintext, again using the same secret key.",
+"- The key must be known and kept secret by both the sender and the receiver.",
+
+"4. Popular Symmetric Key Algorithms:",
+"- Data Encryption Standard (DES) and Advanced Encryption Standard (AES) are among the most known and used symmetric cryptography algorithms.",
+"- DES has been largely phased out due to vulnerabilities related to its shorter key length, making it susceptible to brute-force attacks.",
+"- AES, approved by NIST, uses key lengths of 128, 192, or 256 bits, providing robust security against brute-force attacks and is currently the gold standard in encryption.",
+
+"5. How Encryption and Decryption Works:",
+"- Symmetric-key encryption can operate in two modes: stream ciphers and block ciphers.",
+"- Stream ciphers encrypt the digital data one bit or byte at a time, ideal for applications requiring real-time processing.",
+"- Block ciphers, like AES, encrypt data in fixed-size blocks (e.g., 128 bits for AES), providing a higher level of security but requiring padding for data that doesn't fit perfectly into a block.",
+
+"6. Challenges and Considerations:",
+"- The necessity for both parties to securely share and maintain the secrecy of the key is a significant challenge.",
+"- Managing and distributing keys in a secure manner is crucial and often achieved through methods like Diffie-Hellman key exchange in a public-key infrastructure environment.",
+"- Key management protocols and practices play a critical role in maintaining the effectiveness and security of symmetric cryptography systems.",
+
+"Conclusion:",
+"Understanding the fundamentals of symmetric cryptography provides a solid foundation for anyone looking to delve into the field of cryptography. It plays a crucial role in securing digital information,
+ making it an essential element of modern data protection strategies. Throughout this week, focus on grasping these basic concepts, which will be instrumental in navigating more complex topics in crypto
+graphic studies."

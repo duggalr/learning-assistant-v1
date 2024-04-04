@@ -1,0 +1,1 @@
+["You're comfortable with Python programming and prefer hands-on learning and video tutorials, but are not familiar with networking concepts. You want to expound on your knowledge of internet protocols, specifically, you desire to implement a Simple Mail Transfer Protocol (SMTP) server from scratch to better understand how it works."]

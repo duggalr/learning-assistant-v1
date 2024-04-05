@@ -15,6 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
+from .scripts.personal_course_gen import a_student_description_generation
 
 
 if 'PRODUCTION' not in os.environ:
@@ -639,6 +640,8 @@ def general_cs_tutor(request):
                 chat_parent_object = current_cid_parent_conv_obj
             )
 
+
+
     return render(request, 'new_general_cs_tutor_chat.html', {
         'user_session': initial_user_session,
         'current_user_email': current_user_email,
@@ -739,10 +742,142 @@ def handle_general_tutor_user_message(request):
 
 
 
+# from scripts.personal_course_gen import a_student_description_generation
+
 ## Personal Course Gen - Views ##
 def personal_course_gen_sb_chat(request):
-    return render(request, 'personal_course_gen_sb_chat.html')
+    
+    initial_user_session = request.session.get("user")
+    pbg_id = request.GET.get('pgid', None)
+    
+    current_user_email = None
+    if initial_user_session is not None:
+        current_user_email = initial_user_session['userinfo']['email']
 
+    user_oauth_obj = None
+    if initial_user_session is not None:
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+
+    student_background_full_conversation_list = []
+    if user_oauth_obj is not None:
+        parent_conv_objects = UserBackgroundParent.objects.filter(
+            user_auth_obj = user_oauth_obj
+        )
+        cv_count = 1
+        for pc_obj in parent_conv_objects:
+            past_conv_messages = UserBackgroundConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = pc_obj
+            )
+            student_background_full_conversation_list.append([
+                f"Conversation #{cv_count}",
+                pc_obj,
+                past_conv_messages
+            ])
+            cv_count += 1
+
+    student_background_full_conversation_list = student_background_full_conversation_list[::-1]
+
+    current_cid_parent_conv_obj = None
+    current_cid_past_messages = []
+    if pbg_id is not None:
+
+        ub_parent_objects = UserBackgroundParent.objects.fitler(
+            user_auth_obj = user_oauth_obj,
+            id = pbg_id
+        )
+        if len(ub_parent_objects) == 0:
+            current_cid_parent_conv_obj = None
+        else:
+            current_cid_parent_conv_obj = ub_parent_objects[0]
+            current_cid_past_messages = UserBackgroundConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = current_cid_parent_conv_obj
+            )
+
+    return render(request, 'personal_course_gen_sb_chat.html', {
+        'user_session': initial_user_session,
+        'current_user_email': current_user_email,
+        'current_conversation_parent_object': current_cid_parent_conv_obj,
+        'current_conversation_list': current_cid_past_messages,
+        'all_user_conversation_list': student_background_full_conversation_list
+    })
+
+
+# TODO: 
+
+def handle_student_background_chat_message(request):
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+        print('cs-chat-data:', request.POST)
+
+        initial_user_session = request.session.get('user')
+        user_question = request.POST['message'].strip()
+        user_background_parent_obj_id = request.POST['user_background_parent_obj_id']
+
+        if initial_user_session is None:
+            return JsonResponse({'success': False, 'message': 'Not Authenticated.'})
+
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        prev_conversation_st = ''
+        if user_background_parent_obj_id == '':
+            ut_conv_parent_obj = UserBackgroundParent.objects.create(
+                user_auth_obj = user_oauth_obj
+            )
+            ut_conv_parent_obj.save()
+        else:
+            ut_conv_parent_objects = UserBackgroundParent.objects.filter(
+                id = user_background_parent_obj_id
+            )
+            if len(ut_conv_parent_objects) == 0:
+                return JsonResponse({'success': False, 'message': 'object not found.'})
+            else:
+                ut_conv_parent_obj = ut_conv_parent_objects[0]
+
+            ug_tut_cv_objects = UserBackgroundConversation.objects.filter(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = ut_conv_parent_obj
+            ).order_by('-created_at')
+
+            if len(ug_tut_cv_objects) > 0:
+                prev_conversation_history = []
+                for uc_tut_obj in ug_tut_cv_objects[:3]:
+                    uc_question = uc_tut_obj.question
+                    uc_response = uc_tut_obj.response
+                    prev_conversation_history.append(f"Question: { uc_question }")
+                    prev_conversation_history.append(f"Response: { uc_response }")
+
+                prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+
+        # TODO:
+            # need to push changes to github so update local profile first**
+            # from there, work on the gpt-function-call as that is what we will need
+                # or json-response and have 'complete' for final json-response
+            # ^work on above and add to site; go from there
+
+        print('PREVIOUS CONV:', prev_conversation_st)
+
+        model_response_dict = a_student_description_generation.generate_answer(
+            student_response = user_question,
+            prev_chat_history = prev_conversation_st
+        )
+
+        uct_obj = UserBackgroundConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            chat_parent_object = ut_conv_parent_obj,
+            question = model_response_dict['student_response'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response'],
+        )
+        uct_obj.save()
+
+        model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
+        return JsonResponse({'success': True, 'response': model_response_dict})
+
+        # TODO: test and ensure above works
 
 
 

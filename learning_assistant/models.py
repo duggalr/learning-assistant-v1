@@ -56,8 +56,7 @@ class LessonQuestionTestCase(models.Model):
 #     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
 #     created_at = models.DateTimeField(auto_now_add=True)
 
-# TODO: 
-    # will be one to many --> all gt-conv will link to this (even for case of anon)
+# will be one to many --> all gt-conv will link to this (even for case of anon)
 class UserGeneralTutorParent(models.Model):
     user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
     unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
@@ -73,6 +72,39 @@ class UserGeneralTutorConversation(models.Model):
     question_prompt = models.TextField()
     response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+
+## Personal Course Gen Models
+class ChatParent(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class ChatConversation(models.Model):
+    user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
+    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
+    question = models.CharField(max_length=3000)
+    question_prompt = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class UserBackgroundParent(ChatParent):
+    final_response = models.TextField(blank=True, null=True)
+
+class UserBackgroundConversation(ChatConversation):
+    chat_parent_object = models.ForeignKey(UserBackgroundParent, on_delete=models.CASCADE, blank=True, null=True)
+
+
+
+
+
+
 
 
 ## Teacher-Student Models

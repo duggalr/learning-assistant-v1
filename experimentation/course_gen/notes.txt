@@ -29,3 +29,13 @@ Thus, ensure your course notes are as detailed and complete as possible.
     # implement V0 of the new course-gen
         # have CLI demo + site UI walkthrough at bare minimum ready for AGI meeting
             # Ideally --> V0 of the course-gen is complete as well and ready to show**
+
+TODO: 
+    # need to use UUID's on all ID's
+
+# TODO:
+    # set github to my personal profile
+    # start here by saving sb-parent-object and conversation
+    # get this implemented and working today
+    # work on getting 'function' for marking sb-completion
+

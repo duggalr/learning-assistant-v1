@@ -28,6 +28,8 @@ urlpatterns = [
     ## Personal Course Gen Stuff
     # TODO: start here
     path("personal_course_gen_sb_chat", views.personal_course_gen_sb_chat, name="personal_course_gen_sb_chat"),
+    path("handle_student_background_chat_message", views.handle_student_background_chat_message, name="handle_student_background_chat_message"),
+
 
     # ## Admin Views
     # path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),

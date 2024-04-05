@@ -12,3 +12,10 @@ Please ensure your course notes for the week are as DETAILED AS POSSIBLE. The mo
 Please understand that your course notes will be the primary resource for the student, as they are learning the topics for that given week.
 Thus, ensure your course notes are as detailed and complete as possible.
 
+
+# TODO: 
+    # Keep experimenting here and main_four
+        # generation of the course notes + quiz/exercises <-- **need more relevant resources for course-note and quiz/exercise gen**
+        # once I have intuitive feel that this is good V1
+            # implement in app and literally use it to learn something
+            # go from there...

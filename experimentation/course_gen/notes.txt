@@ -26,8 +26,6 @@ Thus, ensure your course notes are as detailed and complete as possible.
         # can just do module-1, module-2, etc.
 
 # TODO: 
-    # fix site
     # implement V0 of the new course-gen
         # have CLI demo + site UI walkthrough at bare minimum ready for AGI meeting
             # Ideally --> V0 of the course-gen is complete as well and ready to show**
-

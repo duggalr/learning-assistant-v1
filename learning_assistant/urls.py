@@ -25,10 +25,13 @@ urlpatterns = [
     path("save_user_code", views.save_user_code, name="save_user_code"),
     path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
 
+    ## Personal Course Gen Stuff
+    # TODO: start here
+    path("personal_course_gen_sb_chat", views.personal_course_gen_sb_chat, name="personal_course_gen_sb_chat"),
+
     # ## Admin Views
     # path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
     # path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
-
 
 
     ## Custom Learning Views

@@ -739,6 +739,14 @@ def handle_general_tutor_user_message(request):
 
 
 
+## Personal Course Gen - Views ##
+def personal_course_gen_sb_chat(request):
+    return render(request, 'personal_course_gen_sb_chat.html')
+
+
+
+
+
 ### Super User Admin Dashboard - Views ###
 
 def super_user_admin_dashboard(request):

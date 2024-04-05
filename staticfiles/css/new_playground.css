@@ -47,7 +47,7 @@
 }
 
 .ui.tabular.menu .active.item{
-    background: #f9f9f9;
+    background: #f9f9f9 !important;
 }
 
 .tab-menu-div{

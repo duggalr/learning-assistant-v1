@@ -28,8 +28,8 @@
 }
 
 .ui.tabular.menu .active.item {
-    /* background: #f9f9f9 !important; */
-    background: white !important;
+    background: #f9f9f9 !important;
+    /* background: white !important; */
 }
 
 #dashboard_header{

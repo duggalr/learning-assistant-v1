@@ -2,8 +2,19 @@ body {
     height: 100%;
     width: 100%;
 
-    /* position: fixed; */
+    margin: 0 !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
 
+    /* position: fixed; */
+    
+    /* background: radial-gradient(ellipse at bottom, #a6fcf8 0%, #f9f9f9 40%);
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
+    
+    
+    /* background: radial-gradient(circle at top right, #a6fcf8 0%, #f9f9f9 30%); */
     /* background: radial-gradient(circle at top, #a6fcf8 0%, #f9f9f9 20%); */
 
      /* Gray gradient for majority of the page */

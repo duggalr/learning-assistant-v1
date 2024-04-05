@@ -19,3 +19,9 @@ Thus, ensure your course notes are as detailed and complete as possible.
         # once I have intuitive feel that this is good V1
             # implement in app and literally use it to learn something
             # go from there...
+
+# TODO: 
+    # for course notes, ask the AI to display them in markdown <-- render as markdown on the html
+    # potentially no need to split course outline by weeks
+        # can just do module-1, module-2, etc.
+

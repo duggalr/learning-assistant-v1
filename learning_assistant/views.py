@@ -899,10 +899,11 @@ def handle_student_background_chat_message(request):
             ucourse_obj.save()
             # return JsonResponse({'success': True, 'response': model_response_dict})
 
-            # TODO:
-            return redirect()
+            # TODO: need to pass associated created course-id (along with doing regular auth checks on the course-outline-page)
+            return redirect('student_course_outline')
             
 
+# TODO: fetch and display the relevant information (initially for testing , will just be one)
 # def student_course_outline(request, cid):
 def student_course_outline(request):
     # course_obj = get_object_or_404(UserCourse, cid)

@@ -14,6 +14,10 @@ client = OpenAI(
 )
 
 def generate_course_outline(student_response, student_info, previous_student_chat_history):
+    # - "name"
+    #     - The value will be the course name.
+    # - "description"
+    #     - The value will be the description you generate for the student's course outline.
     q_prompt = """##Instructions:
 Below, you will given a description of a student, specifically what they want to learn, why they want to learn it, and their background on that topic.
 
@@ -33,13 +37,15 @@ You will also be given any past chat history with the student, along with a curr
 The student may provide feedback for the course outline you generate.
 Please incorporate this feedback, as you generate the course outline.
 
-Your response MUST BE IN JSON FORMAT, containing the following 3 keys:
+Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following 3 keys:
 - "name"
-    - The value will be the course name.
+    - This value will be the name of the course.
 - "description"
-    - The value will be the description you generate for the student's course outline.
+    - This value will be the description of the course.
 - "outline"
-    - The value will be a string, containing the course outline IN MARKDOWN FORMAT, which will be presented to the student.
+    - This will be the course outline IN MARKDOWN FORMAT, which will be presented to the student.
+        - Please ensure at the beginning of your markdown, you include the Course Name and Description, before you include your outline.
+        - The Course Name and Course Description must be included in our generated Course Outline Markdown, at the top.
 
 ##Student Information
 {student_info}
@@ -65,15 +71,19 @@ Your response MUST BE IN JSON FORMAT, containing the following 3 keys:
 
     di = {"role": "user", "content": q_prompt}
     messages_list = [di]
+
     chat_completion = client.chat.completions.create(
         messages = messages_list,
         # model = "gpt-4",
         model = "gpt-3.5-turbo-0125",
+        response_format={ "type": "json_object" }
     )
 
+    # TODO: add the response_format above to all completion calls
+
     response_message_json_str = chat_completion.choices[0].message.content
+    # print(response_message_json_str)
     
-    # TODO: assume it's always a JSON? potentially re-generate if it is not?
     response_message_json_data = json.loads(response_message_json_str)
 
     final_dict_rv = {
@@ -82,4 +92,14 @@ Your response MUST BE IN JSON FORMAT, containing the following 3 keys:
         'response': response_message_json_data,
     }
     return final_dict_rv
+
+
+
+# desc = "The student wants to implement their own simple SMTP server."
+# student_course_outline = generate_course_outline(
+#     student_response = '', 
+#     student_info = desc, 
+#     previous_student_chat_history = ''
+# )
+# print(student_course_outline['response'])
 

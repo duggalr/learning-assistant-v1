@@ -112,7 +112,6 @@ class UserCourse(models.Model):
 class UserCourseOutlineConversation(ChatConversation):
     course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
 
-# TODO: given this model format, add in code and go from there
 
 
 

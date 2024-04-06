@@ -126,6 +126,7 @@ Below, you are given the current student response, along with any previous conve
         messages = messages_list,
         # model = "gpt-4",
         model = "gpt-3.5-turbo-0125",
+        response_format={ "type": "json_object" }
     )
 
     response_message_json_str = chat_completion.choices[0].message.content

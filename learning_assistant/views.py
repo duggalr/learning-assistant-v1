@@ -912,8 +912,8 @@ def handle_student_background_chat_message(request):
 # def student_course_outline(request, cid):
 def student_course_outline(request):
     # course_obj = get_object_or_404(UserCourse, cid)
-
-    course_object = UserCourse.objects.all()[1]
+    all_course_objects = UserCourse.objects.all()
+    course_object = all_course_objects[len(all_course_objects)-1]
     return render(request, 'student_course_outline.html', {
         'course_object': course_object
     })

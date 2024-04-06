@@ -805,7 +805,6 @@ def personal_course_gen_sb_chat(request):
     })
 
 
-# TODO: 
 
 def handle_student_background_chat_message(request):
     initial_user_session = request.session.get("user")
@@ -880,16 +879,39 @@ def handle_student_background_chat_message(request):
             ut_conv_parent_obj.final_response = model_response_message_str
             ut_conv_parent_obj.save()
             
-            initial_student_course_outline_response_json = b_student_course_outline_generation.generate_course_outline(
+            initial_student_course_outline_response_dict = b_student_course_outline_generation.generate_course_outline(
                 student_response = '',
                 student_info = model_response_message_str,
                 previous_student_chat_history = ''
             )
+
+            initial_student_course_outline_response_json = initial_student_course_outline_response_dict['response']
+            initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
+            initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
+            initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
+
+            ucourse_obj = UserCourse.objects.create(
+                initial_background_object = ut_conv_parent_obj,
+                name = initial_student_course_name,
+                description = initial_student_course_description,
+                outline = initial_student_course_outline,
+            )
+            ucourse_obj.save()
+            # return JsonResponse({'success': True, 'response': model_response_dict})
+
+            # TODO:
+            return redirect()
             
-            initial_student_course_outline_response_json
+
+# def student_course_outline(request, cid):
+def student_course_outline(request):
+    # course_obj = get_object_or_404(UserCourse, cid)
+
+    return render(request, 'student_course_outline.html', {
+        # 'course_object': course_obj
+    })
 
 
-        # TODO: test and ensure above works
 
 
 

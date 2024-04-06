@@ -100,13 +100,17 @@ class UserBackgroundParent(ChatParent):
 class UserBackgroundConversation(ChatConversation):
     chat_parent_object = models.ForeignKey(UserBackgroundParent, on_delete=models.CASCADE, blank=True, null=True)
 
-class UserCourseOutlineParent(ChatParent):
-    # linked to course?
-    final_response = models.TextField(blank=True, null=True)
+class UserCourse(models.Model):
+    initial_background_object = models.ForeignKey(UserBackgroundParent, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=3000)
+    description = models.TextField()
+    outline = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class UserCourseOutlineConversation(ChatConversation):
-    pass
+    course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
 
+# TODO: given this model format, add in code and go from there
 
 
 

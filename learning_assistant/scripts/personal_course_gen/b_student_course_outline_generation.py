@@ -22,18 +22,22 @@ The course outline should be split by a modular basis.
 Each module will represent a specific topic that the student will learn.
 Ensure each module does not cover too much information but at the same time, it doesn't cover too little information either.
 Each module should contain sub-topics, to provide more clarity for the student on what will be covered.
-Also, in the beginning of your answer, please add a brief description describing what the course outline entails and why you set it up this way.
+Please also add a name for the course.
+Please also add a brief description describing what the course outline entails and why you set it up this way.
 This course outline is dynamic and can change, depending on the student's progress and interests so please do mention that in your description.
 
+The course outline MUST BE GENERATED in Markdown Format.
 You will also be given any past chat history with the student, along with a current student response (if any).
 The student may provide feedback for the course outline you generate.
 Please incorporate this feedback, as you generate the course outline.
 
-Your response MUST BE IN JSON FORMAT, containing the following 2 keys:
-- "Description"
+Your response MUST BE IN JSON FORMAT, containing the following 3 keys:
+- "name"
+    - The value will be the course name.
+- "description"
     - The value will be the description you generate for the student's course outline.
-- "Outline"
-    - The value will be a string, containing the course outline, which will be presented to the student.
+- "outline"
+    - The value will be a string, containing the course outline IN MARKDOWN FORMAT, which will be presented to the student.
 
 ##Student Information
 {student_info}

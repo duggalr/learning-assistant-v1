@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation
+from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation
 
 
 if 'PRODUCTION' not in os.environ:
@@ -852,12 +852,6 @@ def handle_student_background_chat_message(request):
                 prev_conversation_st = '\n'.join(prev_conversation_history).strip()
 
 
-        # TODO:
-            # need to push changes to github so update local profile first**
-            # from there, work on the gpt-function-call as that is what we will need
-                # or json-response and have 'complete' for final json-response
-            # ^work on above and add to site; go from there
-
         print('PREVIOUS CONV:', prev_conversation_st)
 
         model_response_dict = a_student_description_generation.generate_answer(
@@ -865,17 +859,35 @@ def handle_student_background_chat_message(request):
             prev_chat_history = prev_conversation_st
         )
 
-        uct_obj = UserBackgroundConversation.objects.create(
-            user_auth_obj = user_oauth_obj,
-            chat_parent_object = ut_conv_parent_obj,
-            question = model_response_dict['student_response'],
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response'],
-        )
-        uct_obj.save()
+        model_response_json = model_response_dict['response']
+        model_response_final_message = model_response_json['final_message']
+        model_response_message_str = model_response_json['response'].strip()
 
-        model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
-        return JsonResponse({'success': True, 'response': model_response_dict})
+        if model_response_final_message is False:
+            uct_obj = UserBackgroundConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = ut_conv_parent_obj,
+                question = model_response_dict['student_response'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+            )
+            uct_obj.save()
+
+            model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
+            return JsonResponse({'success': True, 'response': model_response_dict})
+
+        else: # save 
+            ut_conv_parent_obj.final_response = model_response_message_str
+            ut_conv_parent_obj.save()
+            
+            initial_student_course_outline_response_json = b_student_course_outline_generation.generate_course_outline(
+                student_response = '',
+                student_info = model_response_message_str,
+                previous_student_chat_history = ''
+            )
+            
+            initial_student_course_outline_response_json
+
 
         # TODO: test and ensure above works
 

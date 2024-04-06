@@ -100,8 +100,12 @@ class UserBackgroundParent(ChatParent):
 class UserBackgroundConversation(ChatConversation):
     chat_parent_object = models.ForeignKey(UserBackgroundParent, on_delete=models.CASCADE, blank=True, null=True)
 
+class UserCourseOutlineParent(ChatParent):
+    # linked to course?
+    final_response = models.TextField(blank=True, null=True)
 
-
+class UserCourseOutlineConversation(ChatConversation):
+    pass
 
 
 

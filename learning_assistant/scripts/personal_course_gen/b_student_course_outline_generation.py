@@ -27,6 +27,8 @@ Please also add a brief description describing what the course outline entails a
 This course outline is dynamic and can change, depending on the student's progress and interests so please do mention that in your description.
 
 The course outline MUST BE GENERATED in Markdown Format.
+For your markdown course outline, please include the name of the course and description at the top (in markdown), before the remaining outline.
+
 You will also be given any past chat history with the student, along with a current student response (if any).
 The student may provide feedback for the course outline you generate.
 Please incorporate this feedback, as you generate the course outline.

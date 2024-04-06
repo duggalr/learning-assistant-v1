@@ -98,6 +98,8 @@ class UserBackgroundParent(ChatParent):
     final_response = models.TextField(blank=True, null=True)
 
 class UserBackgroundConversation(ChatConversation):
+    model_response_is_final_message = models.BooleanField(default=False)
+    model_response_text = models.TextField(blank=True, null=True)
     chat_parent_object = models.ForeignKey(UserBackgroundParent, on_delete=models.CASCADE, blank=True, null=True)
 
 class UserCourse(models.Model):

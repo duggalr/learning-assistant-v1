@@ -783,7 +783,7 @@ def personal_course_gen_sb_chat(request):
     current_cid_past_messages = []
     if pbg_id is not None:
 
-        ub_parent_objects = UserBackgroundParent.objects.fitler(
+        ub_parent_objects = UserBackgroundParent.objects.filter(
             user_auth_obj = user_oauth_obj,
             id = pbg_id
         )
@@ -801,7 +801,8 @@ def personal_course_gen_sb_chat(request):
         'current_user_email': current_user_email,
         'current_conversation_parent_object': current_cid_parent_conv_obj,
         'current_conversation_list': current_cid_past_messages,
-        'all_user_conversation_list': student_background_full_conversation_list
+        'all_user_conversation_list': student_background_full_conversation_list,
+        'personal_course_student_background': True
     })
 
 
@@ -862,20 +863,22 @@ def handle_student_background_chat_message(request):
         model_response_final_message = model_response_json['final_message']
         model_response_message_str = model_response_json['response'].strip()
 
+        uct_obj = UserBackgroundConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            chat_parent_object = ut_conv_parent_obj,
+            question = model_response_dict['student_response'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response'],
+            model_response_is_final_message = model_response_final_message,
+            model_response_text = model_response_message_str
+        )
+        uct_obj.save()
+
         if model_response_final_message is False:
-            uct_obj = UserBackgroundConversation.objects.create(
-                user_auth_obj = user_oauth_obj,
-                chat_parent_object = ut_conv_parent_obj,
-                question = model_response_dict['student_response'],
-                question_prompt = model_response_dict['q_prompt'],
-                response = model_response_dict['response'],
-            )
-            uct_obj.save()
-
             model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
-            return JsonResponse({'success': True, 'response': model_response_dict})
+            return JsonResponse({'success': True, 'response': model_response_dict, 'final_message': False})
 
-        else: # save 
+        else: # conversation is complete, redirect to course outline page
             ut_conv_parent_obj.final_response = model_response_message_str
             ut_conv_parent_obj.save()
             
@@ -899,8 +902,10 @@ def handle_student_background_chat_message(request):
             ucourse_obj.save()
             # return JsonResponse({'success': True, 'response': model_response_dict})
 
-            # TODO: need to pass associated created course-id (along with doing regular auth checks on the course-outline-page)
-            return redirect('student_course_outline')
+            return JsonResponse({'success': True, 'response': model_response_dict, 'final_message': True, 'new_course_object_id': ucourse_obj.id})
+
+            # # TODO: need to pass associated created course-id (along with doing regular auth checks on the course-outline-page)
+            # return redirect('student_course_outline')
             
 
 # TODO: fetch and display the relevant information (initially for testing , will just be one)
@@ -908,8 +913,9 @@ def handle_student_background_chat_message(request):
 def student_course_outline(request):
     # course_obj = get_object_or_404(UserCourse, cid)
 
+    course_object = UserCourse.objects.all()[1]
     return render(request, 'student_course_outline.html', {
-        # 'course_object': course_obj
+        'course_object': course_object
     })
 
 

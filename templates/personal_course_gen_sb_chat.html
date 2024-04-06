@@ -48,7 +48,7 @@
                 {% for ucs_obj in current_conversation_list %}
                             
                     <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.model_response_text | safe }}</div>
 
                 {% endfor %}
 
@@ -159,7 +159,6 @@
             
             console.log('data:', d);
 
-            TODO:
             $.ajax({
                 type: 'POST',
                 url: "{% url 'handle_student_background_chat_message' %}",
@@ -167,56 +166,62 @@
                 data: d,
                 success: function (response) {
 
-                    var model_response_dict = response['response'];
-                    console.log('Response Dict:', model_response_dict)
+                    console.log('sb-response:', response)
 
-                    // var model_response_message = model_response_dict['response'];
-                    // model_response_message = model_response_message.replaceAll('\n', '<br/>');
-                    var model_response_message_text = model_response_dict['response']['response'];
-                    console.log('Response:', model_response_message_text)
+                    if (response['final_message'] == true){
 
-                    const responseMessage = document.createElement("div");
-                    responseMessage.className = "message";
-                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                    // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
-                    chat.appendChild(responseMessage);
-                    
-                    chat.scrollTop = chat.scrollHeight;
+                        // TODO: add thew new-course-obj-id to the get-param
+                        let new_course_obj_id = response['new_course_object_id'];
+                        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/student_course_outline';
+                        window.location.replace(new_url);
 
-                    $('#general_tutor_chatInput').prop('disabled', false);
-                    $('#sendButton').show();
-                    $('#primary_loading_button').hide();
+                    } else {
 
-                    let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
+                        var model_response_dict = response['response'];
+                        console.log('Response Dict:', model_response_dict)
 
-                    // var final_question_st = "Question: " + messageText
-                    // var final_response_st = "Response: " + model_response_message
+                        // var model_response_message = model_response_dict['response'];
+                        // model_response_message = model_response_message.replaceAll('\n', '<br/>');
+                        var model_response_message_text = model_response_dict['response']['response'];
+                        console.log('Response:', model_response_message_text)
 
-                    // TODO: 
-                    $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
-                                            
-                    // TODO: get current url-param; if null, add the new conversation to the side
-                    let urlParams = new URLSearchParams(window.location.search);
-                    let current_url_tchid_param = urlParams.get('pgid');
-                    
-                    if (current_url_tchid_param === null){
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message_text;
+                        // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
                         
-                        let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
-                        console.log('current_cv_url:', current_cv_url);
+                        chat.scrollTop = chat.scrollHeight;
 
-                        let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
-                        $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
+                        $('#general_tutor_chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
-                    };
+                        let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
 
-                    var url = new URL(window.location.href);
-                    url.searchParams.set('pgid', parent_chat_obj_id);
-                    window.history.replaceState(null, null, url);
+                        // var final_question_st = "Question: " + messageText
+                        // var final_response_st = "Response: " + model_response_message
 
-                    // TODO: 
-                        // start here by completing this implementation and ensuring everything works; go from there
-                            // student-background-generation
-                            // course-outline-generation
+                        $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
+                                                
+                        let urlParams = new URLSearchParams(window.location.search);
+                        let current_url_tchid_param = urlParams.get('pgid');
+                        
+                        if (current_url_tchid_param === null){
+                            
+                            let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
+                            console.log('current_cv_url:', current_cv_url);
+
+                            let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
+                            $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
+
+                        };
+
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('pgid', parent_chat_obj_id);
+                        window.history.replaceState(null, null, url);
+
+                    }
 
                 },
 
@@ -228,9 +233,7 @@
 
     };
 
-
 </script>
-
 
 {% endblock %}
 

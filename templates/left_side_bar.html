@@ -36,11 +36,23 @@
 
     <div class="item" style="padding-top: 20px;">
 
-        <h4 class="ui header">Your Past Conversations:</h4>
+        <h4 class="ui header">Your Past Conversations: {{ personal_course_student_background }}</h4>
             
             {% if user_session is not none %}
 
                 {% if all_user_conversation_list|length > 0 %}
+
+                    {% if personal_course_student_background %}
+
+                    <ul class="ui list user_past_conversation_list">
+                        {% for li in all_user_conversation_list %}
+                            <li style="padding-top: 15px;">
+                                <a href="{% url 'personal_course_gen_sb_chat' %}?pgid={{ li.1.id }}">{{ li.0 }} <span style="color: gray;">({{ li.2|length }})</span></a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    {% else %}
 
                     <ul class="ui list user_past_conversation_list">
                         {% for li in all_user_conversation_list %}
@@ -49,6 +61,8 @@
                             </li>
                         {% endfor %}
                     </ul>
+
+                    {% endif %}
                 
                 {% else %}
 

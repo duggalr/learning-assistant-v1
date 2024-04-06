@@ -58,8 +58,8 @@
                     <br/>
                     {% for ucs_obj in user_conversation_objects %}
                     
-                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.0 | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.1 | safe }}</div>
 
                     {% endfor %}
 
@@ -116,8 +116,108 @@
 
 <script>
 
+    
+    let course_outline_object_id = '{{ course_object.id }}';
+    // console.log('cobj-id', course_outline_object_id)
     let course_outline_md = `{{ course_object.outline|safe }}`;
     document.getElementById('content').innerHTML = marked.parse(course_outline_md);
+
+    // Global Vars
+    const initial_user_session = '{{ user_session }}';
+    const chat = document.getElementById("chat");
+    const chatInput = document.getElementById("chatInput");
+    const sendButton = document.getElementById("sendButton");
+
+
+    $("#chatInput").on('keyup', function(event) {
+        
+        var currentString = $("#chatInput").val()
+
+        if (currentString.length > 0){
+
+            $('#sendButton').removeClass('disabled');
+            
+        } else {
+            $('#sendButton').addClass('disabled');
+        }
+        
+    });
+
+    sendButton.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keydown", (event) => {
+    
+        if (event.keyCode == 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+
+    });
+
+    function sendMessage() {
+
+        const messageText = chatInput.value.trim();
+
+        if (messageText !== "") {
+
+            $('#chatInput').prop('disabled', true);
+
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            
+            chatInput.value = "";
+
+            let d = {
+                'course_outline_object_id': course_outline_object_id,
+                'message': messageText,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'student_course_outline_handle_message' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    console.log('model-response:', response);
+
+                    // TODO: display initial message history first before proceeding and then, test below again
+                    if (response['success'] == true){
+
+                        let model_response_dict = response['response'];
+                        let course_outline_text_md = model_response_dict['response']['outline'];
+                        let model_response_text = model_response_dict['response']['message_to_student'];
+
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text ;
+                        chat.appendChild(responseMessage);
+    
+                        chat.scrollTop = chat.scrollHeight;
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
+                        document.getElementById('content').innerHTML = marked.parse(course_outline_text_md);
+
+                    }
+
+                },
+                error: function (response) {}
+                
+            });
+
+        }
+
+    };
+
 
 </script>
 

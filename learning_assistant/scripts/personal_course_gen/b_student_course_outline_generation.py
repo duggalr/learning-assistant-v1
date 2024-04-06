@@ -36,6 +36,7 @@ For your markdown course outline, please include the name of the course and desc
 You will also be given any past chat history with the student, along with a current student response (if any).
 The student may provide feedback for the course outline you generate.
 Please incorporate this feedback, as you generate the course outline.
+If there is a student response and you want to respond back, you can add that response to the "message_to_student" key in your JSON output below.
 
 Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following 3 keys:
 - "name"
@@ -46,6 +47,8 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following 3 keys:
     - This will be the course outline IN MARKDOWN FORMAT, which will be presented to the student.
         - Please ensure at the beginning of your markdown, you include the Course Name and Description, before you include your outline.
         - The Course Name and Course Description must be included in our generated Course Outline Markdown, at the top.
+- "message_to_student"
+    - This value will be where you can respond to the student, if they have sent any current question/response.
 
 ##Student Information
 {student_info}

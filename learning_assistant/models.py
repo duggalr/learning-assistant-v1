@@ -108,6 +108,7 @@ class UserCourse(models.Model):
     description = models.TextField()
     outline = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class UserCourseOutlineConversation(ChatConversation):
     course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)

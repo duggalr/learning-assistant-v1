@@ -914,9 +914,79 @@ def student_course_outline(request):
     # course_obj = get_object_or_404(UserCourse, cid)
     all_course_objects = UserCourse.objects.all()
     course_object = all_course_objects[len(all_course_objects)-1]
+
+    course_user_conversation_objects = UserCourseOutlineConversation.objects.filter(
+        course_parent_object = course_object
+    )
+    user_conversation_rv = []
+    for cv_obj in course_user_conversation_objects:
+        # print(cv_obj.response['message_to_student'])
+        cv_di = ast.literal_eval(cv_obj.response)
+        user_conversation_rv.append([cv_obj.question, cv_di['message_to_student']])
+        # user_conversation_rv.append(cv_di['message_to_student'])
+
     return render(request, 'student_course_outline.html', {
-        'course_object': course_object
+        'course_object': course_object,
+        'user_conversation_objects': user_conversation_rv
     })
+
+
+
+def student_course_outline_handle_message(request):
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+        print('cs-chat-data:', request.POST)
+
+        initial_user_session = request.session.get('user')
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        parent_course_obj_id = request.POST['course_outline_object_id']
+        user_message = request.POST['message'].strip()
+
+        course_obj = UserCourse.objects.get(id = parent_course_obj_id)
+        initial_student_background = course_obj.initial_background_object.final_response
+
+        past_user_conversation_objects = UserCourseOutlineConversation.objects.filter(course_parent_object = course_obj)
+        prev_conversation_history = []
+        for uc_obj in past_user_conversation_objects[:3]:
+            uc_question = uc_obj.question
+            uc_response = uc_obj.response
+            prev_conversation_history.append(f"Question: { uc_question }")
+            prev_conversation_history.append(f"Response: { uc_response }")
+
+        prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+        new_course_outline_model_response_dict = b_student_course_outline_generation.generate_course_outline(
+            student_response = user_message,
+            student_info = initial_student_background,
+            previous_student_chat_history = prev_conversation_st
+        )
+
+        new_student_course_outline_response_json = new_course_outline_model_response_dict['response']
+        new_student_course_name = new_student_course_outline_response_json['name'].strip()
+        new_student_course_description = new_student_course_outline_response_json['description'].strip()
+        new_student_course_outline = new_student_course_outline_response_json['outline'].strip()
+
+        course_obj.name = new_student_course_name
+        course_obj.description = new_student_course_description
+        course_obj.outline = new_student_course_outline
+        course_obj.save()
+
+        uc_outline_obj = UserCourseOutlineConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            course_parent_object = course_obj,
+            question = user_message,
+            question_prompt = new_course_outline_model_response_dict['q_prompt'],
+            response = new_course_outline_model_response_dict['response']
+        )
+        uc_outline_obj.save()
+
+        return JsonResponse({
+            'success': True, 
+            'response': new_course_outline_model_response_dict, 
+            'course_object_id': course_obj.id
+        })
+
 
 
 

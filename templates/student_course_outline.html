@@ -14,7 +14,7 @@
             {{ course_object.description }}
         </p> -->
         
-        <div class="ui basic segment">
+        <div class="ui segment" style="padding-left: 20px; background-color: #f9f9f9;">
             <div id="content"></div>
         </div>
         
@@ -22,7 +22,92 @@
 
     <div class="seven wide column ai-chat-course-outline-parent-column">
 
-        <!-- TODO: -->
+        <div class="ui tabular menu tab-menu-div">
+
+            <a class="active item tutor-tab">
+                <i class="comment icon"></i> Any Changes?
+            </a>
+
+            <a class="item" style="color: green;">
+                All Good, Proceed to Course &nbsp;&nbsp;<i class="arrow right icon"></i>
+            </a>
+                
+
+        </div>
+
+        <!-- AI Chat -->
+        <div class="ai_tutor_div" >
+
+            <!-- Programming Assistant Tab -->
+            <div id="programming_assistant_div">
+                
+                <div class="chat-container" id="chat">
+                    
+                    <div class="message">
+                        So, on the right, I'm presenting a Course Outline, which I specifically generated for you,
+                        based on your goals and background.
+                        <br/><br/>
+                        If everything looks alright, click the button above which saved "Proceed to Course".
+                        <br/><br/>
+                        If you want to make speciifc changes to the outline, let me know and I'd be happy
+                        to make those changes!
+                    </div>
+
+                    <hr>
+
+                    <br/>
+                    {% for ucs_obj in user_conversation_objects %}
+                    
+                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% if user_session is not None %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% else %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
 
     </div>
 

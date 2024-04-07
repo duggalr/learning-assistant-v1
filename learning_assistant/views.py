@@ -1127,10 +1127,6 @@ def student_course_outline_handle_message(request):
 
 # TODO: 
 def course_note_generation(request):
-    # TODO: 
-        # course-outline-object-id passed
-        # week-0 will be passed
-        # generate
 
     pass
 

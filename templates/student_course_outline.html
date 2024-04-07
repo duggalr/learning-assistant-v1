@@ -14,9 +14,9 @@
             {{ course_object.description }}
         </p>
 
-        <ul class="ui list course-module-list">
+        <ul class="ui list course-module-list" style="padding-top: 10px;">
             {% for md_obj in course_module_list %}
-                <li>
+                <li style="padding-bottom: 25px;">
                     <strong>
                         Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
                     </strong>
@@ -233,13 +233,9 @@
                                 let md_description = cm_di['module_description'];
 
                                 let md_description_ul_elem = document.createElement("ul");
-                                md_description_ul_elem.className = "ui list module-sub-topic-list"
-                                // md_description_list_elem
+                                md_description_ul_elem.className = "ui list module-sub-topic-list";
+                                md_description_ul_elem.style.paddingTop = '10px';
 
-                                // TODO: 
-                                    // append and format correctly
-                                    // test on few different cases
-                                    // go from there
                                 for (y = 0; y <= md_description.length-1; y++){
 
                                     let md_desc_li_elem = document.createElement("li");
@@ -249,8 +245,13 @@
                                 }
 
                                 let parent_md_topic_li_elem = document.createElement("li");
-                                parent_md_topic_li_elem.innerText = md_topic;
-
+                                let tmp_strong_elm = document.createElement('strong');
+                                tmp_strong_elm.innerText = "Module " + md_num + ': ' + md_topic;
+                                parent_md_topic_li_elem.appendChild(tmp_strong_elm);
+                                parent_md_topic_li_elem.style.paddingBottom = '25px';
+                                // parent_md_topic_li_elem.innerText = "Module " + md_num + ': ' + md_topic;
+                                // // parent_md_topic_li_elem.style.fontWeight = 'bold';
+                                // // parent_md_topic_li_elem.style.paddingBottom = '25px';
                                 parent_md_topic_li_elem.appendChild(md_description_ul_elem);
 
                                 $('.course-module-list').append(parent_md_topic_li_elem);

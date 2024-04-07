@@ -120,6 +120,7 @@ class UserCourseNote(models.Model):
             # modules will need to be in json format output and saved separately in db
                 # need to link course notes to module
     # module_number = models.?
+    # TODO: need to implement the module-JSON approach; go from there
 
 
 

@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation
+from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new
 
 
 if 'PRODUCTION' not in os.environ:
@@ -879,25 +879,42 @@ def handle_student_background_chat_message(request):
             ut_conv_parent_obj.final_response = model_response_message_str
             ut_conv_parent_obj.save()
             
-            initial_student_course_outline_response_dict = b_student_course_outline_generation.generate_course_outline(
+            initial_student_course_outline_response_dict = b_student_course_outline_generation_new.generate_course_outline(
                 student_response = '',
                 student_info = model_response_message_str,
+                student_course_outline = '',
                 previous_student_chat_history = ''
             )
 
             initial_student_course_outline_response_json = initial_student_course_outline_response_dict['response']
             initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
             initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
-            initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
+            # initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
+            initial_student_course_modules = initial_student_course_outline_response_json['modules']
+            initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
+            print(f"Course Modules List: {initial_student_course_modules_list}")
 
             ucourse_obj = UserCourse.objects.create(
                 initial_background_object = ut_conv_parent_obj,
                 name = initial_student_course_name,
                 description = initial_student_course_description,
-                outline = initial_student_course_outline,
+                module_list = initial_student_course_modules
             )
             ucourse_obj.save()
-            # return JsonResponse({'success': True, 'response': model_response_dict})
+            
+            for module_dict in initial_student_course_modules_list:
+
+                md_topic = module_dict['module_topic']
+                md_description = module_dict['module_description']
+                print('md-desc:', md_description)
+                md_description_str = '\n'.join(md_description)
+
+                md_obj = UserCourseModules.objects.create(
+                    parent_course_object = ucourse_obj,
+                    module_topic = md_topic,
+                    module_description = md_description_str,
+                )
+                md_obj.save()
 
             return JsonResponse({'success': True, 'response': model_response_dict, 'final_message': True, 'new_course_object_id': ucourse_obj.id})
 
@@ -953,9 +970,10 @@ def student_course_outline_handle_message(request):
 
         prev_conversation_st = '\n'.join(prev_conversation_history).strip()
 
-        new_course_outline_model_response_dict = b_student_course_outline_generation.generate_course_outline(
+        new_course_outline_model_response_dict = b_student_course_outline_generation_new.generate_course_outline(
             student_response = user_message,
             student_info = initial_student_background,
+            student_course_outline = '',
             previous_student_chat_history = prev_conversation_st
         )
 

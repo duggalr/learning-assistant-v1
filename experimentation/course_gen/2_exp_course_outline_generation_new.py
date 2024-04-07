@@ -131,7 +131,3 @@ Output Format: Your response must be outputted in JSON FORMAT, containing the fo
     f = open(tmp_fp, 'w')
     f.write(response_message)
     f.close()
-
-# TODO: 
-    # Test this in app
-    # recreate db schema

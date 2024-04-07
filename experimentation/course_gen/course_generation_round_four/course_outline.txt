@@ -1,0 +1,33 @@
+{
+    "name": "",
+    "description": "",
+    "modules": [
+        {
+            "module_topic": "Module 1: Introduction to Networking and SMTP",
+            "module_description": [
+                "- Understanding the Basics of Networking",
+                "- OSI Model and TCP/IP Protocol Suite",
+                "- Introduction to SMTP (Simple Mail Transfer Protocol)",
+                "- Functions and Importance of SMTP in Email Communication"
+            ]
+        },
+        {
+            "module_topic": "Module 2: SMTP Servers and Configuration",
+            "module_description": [
+                "- Setting up an SMTP Server",
+                "- Configuring SMTP Server Settings",
+                "- Troubleshooting Common SMTP Server Issues",
+                "- Ensuring Email Deliverability"
+            ]
+        },
+        {
+            "module_topic": "Module 3: Network Security and SMTP",
+            "module_description": [
+                "- Email Security Protocols (SSL/TLS)",
+                "- Best Practices for Securing SMTP Servers",
+                "- Protecting Against Email Threats (Spam, Phishing, etc.)"
+            ]
+        }
+    ],
+    "message_to_student": ""
+}

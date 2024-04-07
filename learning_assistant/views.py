@@ -742,8 +742,6 @@ def handle_general_tutor_user_message(request):
 
 
 
-# from scripts.personal_course_gen import a_student_description_generation
-
 ## Personal Course Gen - Views ##
 def personal_course_gen_sb_chat(request):
     
@@ -757,7 +755,6 @@ def personal_course_gen_sb_chat(request):
     user_oauth_obj = None
     if initial_user_session is not None:
         user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
-
 
     student_background_full_conversation_list = []
     if user_oauth_obj is not None:

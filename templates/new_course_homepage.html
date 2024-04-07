@@ -43,7 +43,7 @@
                         <strong>
                             Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
                         </strong>
-                        <button class="tiny ui button" style="float: right;">Generate Notes/Quiz/Exercises</button>
+                        <button class="tiny ui button module-note-quiz-generation" style="float: right;">Generate Notes/Quiz/Exercises</button>
                         <ul class="ui list module-sub-topic-list">
                             {% for d in md_obj.1 %}
                             <li>
@@ -66,4 +66,18 @@
 </div>
 
 
+<script>
+
+
+    $('.module-note-quiz-generation').click(function(){
+
+        // TODO:
+
+    });
+
+
+</script>
+
+
 {% endblock %}
+

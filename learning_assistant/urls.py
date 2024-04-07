@@ -31,7 +31,7 @@ urlpatterns = [
     path("handle_student_background_chat_message", views.handle_student_background_chat_message, name="handle_student_background_chat_message"),
     path("student_course_outline", views.student_course_outline, name="student_course_outline"),
     path("student_course_outline_handle_message", views.student_course_outline_handle_message, name="student_course_outline_handle_message"),
-    path("course_note_generation", views.course_note_generation, name="course_note_generation"),
+    path("personal_course_homepage", views.personal_course_homepage, name="personal_course_homepage"),
     
     
 

@@ -1126,7 +1126,7 @@ def student_course_outline_handle_message(request):
 
 
 # TODO: 
-def course_note_generation(request):
+def personal_course_homepage(request):
 
     all_course_objects = UserCourse.objects.all().order_by('-created_at')
     course_object = all_course_objects[0]

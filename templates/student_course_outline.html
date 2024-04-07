@@ -298,7 +298,10 @@
 
 
     $('#course_proceed_link').click(function(){
-        // TODO: implement
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/personal_course_homepage';
+        window.location.replace(new_url);
+
     });
     
 </script>

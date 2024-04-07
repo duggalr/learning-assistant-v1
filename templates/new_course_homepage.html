@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'app_menu.html' %}
+
+<div class="ui grid container dashboard-parent-container">
+        
+    <div class="one wide column"></div>
+
+    <div class="fourteen wide column">
+
+        <div style="padding-top: 25px;">
+            <h3 class="ui header" id="dashboard_header">
+                &#128216; {{ course_object.name }}
+            </h3>
+            <p>
+                {{ course_object.description }}
+            </p>
+        </div>
+
+        <div class="ui tabular menu" style="padding-top: 12px;">
+
+            <!-- <a class="active item tab_header" id="course_questions_tab">
+                <i class="code icon" style="font-size: 13px;"></i>
+                Course Progress
+            </a> -->
+
+            <a class="active item tab_header" id="questions_tab">
+                <i class="code branch icon" style="font-size: 13px;"></i>
+                Your Code Files
+            </a>
+
+        </div>
+
+        <!-- Main Code Div -->
+        <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+
+            <ul class="ui list course-module-list" style="padding-top: 10px;">
+                {% for md_obj in course_module_list %}
+                    <li style="padding-bottom: 25px;">
+                        <strong>
+                            Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
+                        </strong>
+                        <button class="tiny ui button" style="float: right;">Generate Notes/Quiz/Exercises</button>
+                        <ul class="ui list module-sub-topic-list">
+                            {% for d in md_obj.1 %}
+                            <li>
+                                {{ d }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <!-- <br/> -->
+                {% endfor %}
+            </ul>
+
+        </div>
+
+
+    </div>
+
+    <div class="one wide column"></div>
+
+</div>
+
+
+{% endblock %}

@@ -1128,7 +1128,20 @@ def student_course_outline_handle_message(request):
 # TODO: 
 def course_note_generation(request):
 
-    pass
+    all_course_objects = UserCourse.objects.all().order_by('-created_at')
+    course_object = all_course_objects[0]
+
+    course_module_list = UserCourseModules.objects.filter(
+        parent_course_object = course_object
+    ).order_by('module_number')
+    course_module_list_rv = []
+    for md_obj in course_module_list:
+        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description)])
+
+    return render(request, 'new_course_homepage.html', {
+        'course_object': course_object,
+        'course_module_list': course_module_list_rv,
+    })
 
 
 

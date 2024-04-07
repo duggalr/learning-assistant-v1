@@ -39,6 +39,8 @@ Output Format: Your response must be outputted in JSON FORMAT, containing the fo
 - "modules"
     - This value will be populated based on the format described below, if the task on hand requires you to generate a course outline.
         - This value will be a list of dictionaries (in JSON FORMAT), where each dictionary will contain:
+            - "module_number": this will be a number of the module which will be used to order the modules, when presenting to user
+                - 1 --> First Module, 2 --> Second Module, ...
             - "module_topic": this will be the primary topic the module will cover
             - "module_description": this will be a list, where each value in the list will be a string representing a sub-topic the module will cover
     - Leave value blank if unchanged or not required

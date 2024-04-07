@@ -904,6 +904,7 @@ def handle_student_background_chat_message(request):
             
             for module_dict in initial_student_course_modules_list:
 
+                md_num = module_dict['module_number']
                 md_topic = module_dict['module_topic']
                 md_description = module_dict['module_description']
                 print('md-desc:', md_description)
@@ -911,6 +912,7 @@ def handle_student_background_chat_message(request):
 
                 md_obj = UserCourseModules.objects.create(
                     parent_course_object = ucourse_obj,
+                    module_number = md_num,
                     module_topic = md_topic,
                     module_description = md_description,
                 )
@@ -926,8 +928,12 @@ def handle_student_background_chat_message(request):
 # def student_course_outline(request, cid):
 def student_course_outline(request):
     # course_obj = get_object_or_404(UserCourse, cid)
-    all_course_objects = UserCourse.objects.all()
-    course_object = all_course_objects[len(all_course_objects)-1]
+    # all_course_objects = UserCourse.objects.all()
+    # # course_object = all_course_objects[len(all_course_objects)-1]
+    # course_object = all_course_objects[5]
+
+    all_course_objects = UserCourse.objects.all().order_by('-created_at')
+    course_object = all_course_objects[0]
 
     course_module_list = UserCourseModules.objects.filter(
         parent_course_object = course_object
@@ -939,6 +945,8 @@ def student_course_outline(request):
     course_user_conversation_objects = UserCourseOutlineConversation.objects.filter(
         course_parent_object = course_object
     )
+    print(f"User Conversation Objects: {course_user_conversation_objects}")
+
     user_conversation_rv = []
     for cv_obj in course_user_conversation_objects:
         # print(cv_obj.response['message_to_student'])
@@ -1002,28 +1010,30 @@ def student_course_outline_handle_message(request):
             course_obj.module_list = updated_course_module_list
             course_obj.save()
 
+            uc_outline_obj = UserCourseOutlineConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                course_parent_object = course_obj,
+                question = user_message,
+                question_prompt = new_course_outline_model_response_dict['q_prompt'],
+                response = new_course_outline_model_response_dict['response']
+            )
+            uc_outline_obj.save()
+        
             UserCourseModules.objects.filter(parent_course_object = course_obj).delete()
 
             for module_dict in updated_course_module_list:
+                md_num = module_dict['module_number']
                 md_topic = module_dict['module_topic']
                 md_description = module_dict['module_description']
 
                 md_obj = UserCourseModules.objects.create(
                     parent_course_object = course_obj,
+                    module_number = md_num,
                     module_topic = md_topic,
                     module_description = md_description,
                 )
                 md_obj.save()
 
-                uc_outline_obj = UserCourseOutlineConversation.objects.create(
-                    user_auth_obj = user_oauth_obj,
-                    course_parent_object = course_obj,
-                    question = user_message,
-                    question_prompt = new_course_outline_model_response_dict['q_prompt'],
-                    response = new_course_outline_model_response_dict['response']
-                )
-                uc_outline_obj.save()
-            
         else:
             uc_outline_obj = UserCourseOutlineConversation.objects.create(
                 user_auth_obj = user_oauth_obj,

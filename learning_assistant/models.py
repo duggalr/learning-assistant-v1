@@ -113,6 +113,7 @@ class UserCourse(models.Model):
 
 class UserCourseModules(models.Model):
     parent_course_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
+    module_number = models.IntegerField(blank=True, null=True)
     module_topic = models.TextField()
     module_description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

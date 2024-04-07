@@ -43,7 +43,7 @@
         <div class="ui tabular menu tab-menu-div">
 
             <a class="active item tutor-tab">
-                <i class="comment icon"></i> Any Changes?
+                <i class="comment icon"></i> Any Changes? (Course Object ID: {{ course_object.id }})
             </a>
 
             <!-- TODO: start here to implement this -->
@@ -252,6 +252,13 @@
                                 // course-module-list
 
                             };
+
+                            let model_response_text = model_response_dict['response']['message_to_student'];
+                            const responseMessage = document.createElement("div");
+                            responseMessage.className = "message";
+                            responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text;
+                            chat.appendChild(responseMessage);
+
 
         //                     <h4 class="course-outline-name">{{ course_object.name }}</h4>
         // <p class="course-outline-description"

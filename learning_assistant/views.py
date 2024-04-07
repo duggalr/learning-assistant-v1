@@ -890,15 +890,15 @@ def handle_student_background_chat_message(request):
             initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
             initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
             # initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
-            initial_student_course_modules = initial_student_course_outline_response_json['modules']
-            initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
-            print(f"Course Modules List: {initial_student_course_modules_list}")
+            initial_student_course_modules_list = initial_student_course_outline_response_json['modules']
+            # initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
+            print(f"Course Modules List: {initial_student_course_modules_list} | TYPE OF COURSE MODULES: {type(initial_student_course_modules_list)}")
 
             ucourse_obj = UserCourse.objects.create(
                 initial_background_object = ut_conv_parent_obj,
                 name = initial_student_course_name,
                 description = initial_student_course_description,
-                module_list = initial_student_course_modules
+                module_list = initial_student_course_modules_list
             )
             ucourse_obj.save()
             
@@ -907,12 +907,12 @@ def handle_student_background_chat_message(request):
                 md_topic = module_dict['module_topic']
                 md_description = module_dict['module_description']
                 print('md-desc:', md_description)
-                md_description_str = '\n'.join(md_description)
+                # md_description_str = '\n'.join(md_description)
 
                 md_obj = UserCourseModules.objects.create(
                     parent_course_object = ucourse_obj,
                     module_topic = md_topic,
-                    module_description = md_description_str,
+                    module_description = md_description,
                 )
                 md_obj.save()
 
@@ -929,6 +929,13 @@ def student_course_outline(request):
     all_course_objects = UserCourse.objects.all()
     course_object = all_course_objects[len(all_course_objects)-1]
 
+    course_module_list = UserCourseModules.objects.filter(
+        parent_course_object = course_object
+    )
+    course_module_list_rv = []
+    for md_obj in course_module_list:
+        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description)])
+
     course_user_conversation_objects = UserCourseOutlineConversation.objects.filter(
         course_parent_object = course_object
     )
@@ -941,6 +948,7 @@ def student_course_outline(request):
 
     return render(request, 'student_course_outline.html', {
         'course_object': course_object,
+        'course_module_list': course_module_list_rv,
         'user_conversation_objects': user_conversation_rv
     })
 
@@ -976,33 +984,138 @@ def student_course_outline_handle_message(request):
             student_course_outline = '',
             previous_student_chat_history = prev_conversation_st
         )
-
+  
         new_student_course_outline_response_json = new_course_outline_model_response_dict['response']
-        new_student_course_name = new_student_course_outline_response_json['name'].strip()
-        new_student_course_description = new_student_course_outline_response_json['description'].strip()
-        new_student_course_outline = new_student_course_outline_response_json['outline'].strip()
+        course_outline_generation = new_student_course_outline_response_json['outline_generation']
+        
+        print(f"JSON DATA: {new_student_course_outline_response_json}")
+        print()
+        print(f"COURSE OUTLINE GENERATION: {course_outline_generation}")
 
-        course_obj.name = new_student_course_name
-        course_obj.description = new_student_course_description
-        course_obj.outline = new_student_course_outline
-        course_obj.save()
+        if course_outline_generation:  # new/updated course outline
+            updated_course_name = new_student_course_outline_response_json['name']
+            updated_course_description = new_student_course_outline_response_json['description']
+            updated_course_module_list = new_student_course_outline_response_json['modules']
+            
+            course_obj.name = updated_course_name
+            course_obj.description = updated_course_description
+            course_obj.module_list = updated_course_module_list
+            course_obj.save()
 
-        uc_outline_obj = UserCourseOutlineConversation.objects.create(
-            user_auth_obj = user_oauth_obj,
-            course_parent_object = course_obj,
-            question = user_message,
-            question_prompt = new_course_outline_model_response_dict['q_prompt'],
-            response = new_course_outline_model_response_dict['response']
-        )
-        uc_outline_obj.save()
+            UserCourseModules.objects.filter(parent_course_object = course_obj).delete()
+
+            for module_dict in updated_course_module_list:
+                md_topic = module_dict['module_topic']
+                md_description = module_dict['module_description']
+
+                md_obj = UserCourseModules.objects.create(
+                    parent_course_object = course_obj,
+                    module_topic = md_topic,
+                    module_description = md_description,
+                )
+                md_obj.save()
+
+                uc_outline_obj = UserCourseOutlineConversation.objects.create(
+                    user_auth_obj = user_oauth_obj,
+                    course_parent_object = course_obj,
+                    question = user_message,
+                    question_prompt = new_course_outline_model_response_dict['q_prompt'],
+                    response = new_course_outline_model_response_dict['response']
+                )
+                uc_outline_obj.save()
+            
+        else:
+            uc_outline_obj = UserCourseOutlineConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                course_parent_object = course_obj,
+                question = user_message,
+                question_prompt = new_course_outline_model_response_dict['q_prompt'],
+                response = new_course_outline_model_response_dict['response']
+            )
+            uc_outline_obj.save()
+
 
         return JsonResponse({
             'success': True, 
-            'response': new_course_outline_model_response_dict, 
+            'new_course_outline_generation': course_outline_generation,
+            'response': new_course_outline_model_response_dict,
             'course_object_id': course_obj.id
         })
 
+        # new_student_course_name = new_student_course_outline_response_json['name'].strip()
+        # new_student_course_description = new_student_course_outline_response_json['description'].strip()
+        # new_course_modules_list = new_student_course_outline_response_json['modules']
 
+        # course_obj.name = new_student_course_name
+        # course_obj.description = new_student_course_description
+        # course_obj.outline = new_student_course_outline
+        # course_obj.save()
+
+        # initial_student_course_outline_response_dict = b_student_course_outline_generation_new.generate_course_outline(
+        #     student_response = '',
+        #     student_info = model_response_message_str,
+        #     student_course_outline = '',
+        #     previous_student_chat_history = ''
+        # )
+
+        # initial_student_course_outline_response_json = initial_student_course_outline_response_dict['response']
+        # initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
+        # initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
+        # # initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
+        # initial_student_course_modules_list = initial_student_course_outline_response_json['modules']
+        # # initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
+        # print(f"Course Modules List: {initial_student_course_modules_list} | TYPE OF COURSE MODULES: {type(initial_student_course_modules_list)}")
+
+        # ucourse_obj = UserCourse.objects.create(
+        #     initial_background_object = ut_conv_parent_obj,
+        #     name = initial_student_course_name,
+        #     description = initial_student_course_description,
+        #     module_list = initial_student_course_modules_list
+        # )
+        # ucourse_obj.save()
+        
+        # for module_dict in initial_student_course_modules_list:
+
+        #     md_topic = module_dict['module_topic']
+        #     md_description = module_dict['module_description']
+        #     print('md-desc:', md_description)
+        #     # md_description_str = '\n'.join(md_description)
+
+        #     md_obj = UserCourseModules.objects.create(
+        #         parent_course_object = ucourse_obj,
+        #         module_topic = md_topic,
+        #         module_description = md_description,
+        #     )
+        #     md_obj.save()
+  
+        # new_student_course_outline_response_json = new_course_outline_model_response_dict['response']
+        # new_student_course_name = new_student_course_outline_response_json['name'].strip()
+        # new_student_course_description = new_student_course_outline_response_json['description'].strip()
+        # new_student_course_outline = new_student_course_outline_response_json['outline'].strip()
+
+        # course_obj.name = new_student_course_name
+        # course_obj.description = new_student_course_description
+        # course_obj.outline = new_student_course_outline
+        # course_obj.save()
+
+        # uc_outline_obj = UserCourseOutlineConversation.objects.create(
+        #     user_auth_obj = user_oauth_obj,
+        #     course_parent_object = course_obj,
+        #     question = user_message,
+        #     question_prompt = new_course_outline_model_response_dict['q_prompt'],
+        #     response = new_course_outline_model_response_dict['response']
+        # )
+        # uc_outline_obj.save()
+
+        # return JsonResponse({
+        #     'success': True, 
+        #     'response': new_course_outline_model_response_dict, 
+        #     'course_object_id': course_obj.id
+        # })
+
+
+
+# TODO: 
 def course_note_generation(request):
     # TODO: 
         # course-outline-object-id passed

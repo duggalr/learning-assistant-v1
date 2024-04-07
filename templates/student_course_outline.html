@@ -7,16 +7,34 @@
 
 <div class="ui grid course-outline-parent-container">
 
-    <div class="eight wide column course-outline-parent-column">
+    <div class="eight wide column course-outline-parent-column" style="padding-left: 35px; padding-top: 20px;">
 
-        <!-- <h4>{{ course_object.name }}</h4>
-        <p>
+        <h4 class="course-outline-name">{{ course_object.name }}</h4>
+        <p class="course-outline-description">
             {{ course_object.description }}
-        </p> -->
+        </p>
+
+        <ul class="ui list course-module-list">
+            {% for md_obj in course_module_list %}
+                <li>
+                    <strong>
+                        {{ md_obj.0.module_topic }}
+                    </strong>
+                    <ul class="ui list module-sub-topic-list">
+                        {% for d in md_obj.1 %}
+                        <li>
+                            {{ d }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!-- <br/> -->
+            {% endfor %}
+        </ul>
         
-        <div class="ui segment" style="padding-left: 20px; background-color: #f9f9f9;">
+        <!-- <div class="ui segment" style="padding-left: 20px; background-color: #f9f9f9;">
             <div id="content"></div>
-        </div>
+        </div> -->
         
     </div>
 
@@ -120,7 +138,7 @@
     let course_outline_object_id = '{{ course_object.id }}';
     // console.log('cobj-id', course_outline_object_id)
     let course_outline_md = `{{ course_object.outline|safe }}`;
-    document.getElementById('content').innerHTML = marked.parse(course_outline_md);
+    // document.getElementById('content').innerHTML = marked.parse(course_outline_md);
 
     // Global Vars
     const initial_user_session = '{{ user_session }}';
@@ -189,23 +207,80 @@
 
                     console.log('model-response:', response);
 
-                    // TODO: display initial message history first before proceeding and then, test below again
                     if (response['success'] == true){
 
                         let model_response_dict = response['response'];
-                        let course_outline_text_md = model_response_dict['response']['outline'];
-                        let model_response_text = model_response_dict['response']['message_to_student'];
+                        let new_course_outline_generation = response['new_course_outline_generation'];
+                        if (new_course_outline_generation == true){
 
-                        const responseMessage = document.createElement("div");
-                        responseMessage.className = "message";
-                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text ;
-                        chat.appendChild(responseMessage);
+                            let course_outline_text_md = model_response_dict['response']['modules'];
+                            let course_outline_name = model_response_dict['response']['name'];
+                            let course_outline_description = model_response_dict['response']['description'];
+
+                            $('.course-outline-name').html(course_outline_name);
+                            $('.course-outline-description').html(course_outline_description);
+                            
+                            let course_outline_module_list = model_response_dict['response']['modules'];
+                            console.log('module-list:', course_outline_module_list);
+
+                            $('.course-module-list').empty();
+
+                            for(i = 0; i <= course_outline_module_list.length-1; i++){
+
+                                let cm_di = course_outline_module_list[i];
+                                let md_topic = cm_di['module_topic'];
+                                let md_description = cm_di['module_description'];
+
+                                let md_description_ul_elem = document.createElement("ul");
+                                md_description_ul_elem.className = "ui list module-sub-topic-list"
+                                // md_description_list_elem
+
+                                for (y = 0; y <= md_description.length-1; y++){
+
+                                    let md_desc_li_elem = document.createElement("li");
+                                    md_desc_li_elem.innerText = md_description[y];
+                                    md_description_ul_elem.appendChild(md_desc_li_elem);
+
+                                }
+
+                                let parent_md_topic_li_elem = document.createElement("li");
+                                parent_md_topic_li_elem.innerText = md_topic;
+
+                                parent_md_topic_li_elem.appendChild(md_description_ul_elem);
+
+                                $('.course-module-list').append(parent_md_topic_li_elem);
+                                // course-module-list
+
+                            };
+
+        //                     <h4 class="course-outline-name">{{ course_object.name }}</h4>
+        // <p class="course-outline-description"
+
+                        } else {
+
+                            let model_response_text = model_response_dict['response']['message_to_student'];
+
+                            const responseMessage = document.createElement("div");
+                            responseMessage.className = "message";
+                            responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text;
+                            chat.appendChild(responseMessage);
+
+                        }
+
+                        // let model_response_dict = response['response'];
+                        // let course_outline_text_md = model_response_dict['response']['outline'];
+                        // let model_response_text = model_response_dict['response']['message_to_student'];
+
+                        // const responseMessage = document.createElement("div");
+                        // responseMessage.className = "message";
+                        // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text ;
+                        // chat.appendChild(responseMessage);
     
-                        chat.scrollTop = chat.scrollHeight;
-                        $('#chatInput').prop('disabled', false);
-                        $('#sendButton').show();
-                        $('#primary_loading_button').hide();
-                        document.getElementById('content').innerHTML = marked.parse(course_outline_text_md);
+                        // chat.scrollTop = chat.scrollHeight;
+                        // $('#chatInput').prop('disabled', false);
+                        // $('#sendButton').show();
+                        // $('#primary_loading_button').hide();
+                        // document.getElementById('content').innerHTML = marked.parse(course_outline_text_md);
 
                     }
 
@@ -220,13 +295,10 @@
 
 
     $('#course_proceed_link').click(function(){
-
-        
-
+        // TODO: implement
     });
     
 </script>
 
 {% endblock %}
-
 

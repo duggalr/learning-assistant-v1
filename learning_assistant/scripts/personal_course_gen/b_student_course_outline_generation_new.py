@@ -46,6 +46,7 @@ Output Format: Your response must be outputted in JSON FORMAT, containing the fo
     - Leave value blank if unchanged or not required
 - "message_to_student"
     - This value will be where you can respond to the student, if they have sent any current question/response. (leave value blank if unchanged or not required)
+        - If you have generated a new course outline, add a short response here, summarizing what changes you made.
 
 ##Student Information
 {student_info}

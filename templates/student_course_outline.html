@@ -18,7 +18,7 @@
             {% for md_obj in course_module_list %}
                 <li>
                     <strong>
-                        {{ md_obj.0.module_topic }}
+                        Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
                     </strong>
                     <ul class="ui list module-sub-topic-list">
                         {% for d in md_obj.1 %}
@@ -228,6 +228,7 @@
                             for(i = 0; i <= course_outline_module_list.length-1; i++){
 
                                 let cm_di = course_outline_module_list[i];
+                                let md_num = cm_di['module_number'];
                                 let md_topic = cm_di['module_topic'];
                                 let md_description = cm_di['module_description'];
 
@@ -235,6 +236,10 @@
                                 md_description_ul_elem.className = "ui list module-sub-topic-list"
                                 // md_description_list_elem
 
+                                // TODO: 
+                                    // append and format correctly
+                                    // test on few different cases
+                                    // go from there
                                 for (y = 0; y <= md_description.length-1; y++){
 
                                     let md_desc_li_elem = document.createElement("li");
@@ -274,20 +279,10 @@
 
                         }
 
-                        // let model_response_dict = response['response'];
-                        // let course_outline_text_md = model_response_dict['response']['outline'];
-                        // let model_response_text = model_response_dict['response']['message_to_student'];
-
-                        // const responseMessage = document.createElement("div");
-                        // responseMessage.className = "message";
-                        // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text ;
-                        // chat.appendChild(responseMessage);
-    
-                        // chat.scrollTop = chat.scrollHeight;
-                        // $('#chatInput').prop('disabled', false);
-                        // $('#sendButton').show();
-                        // $('#primary_loading_button').hide();
-                        // document.getElementById('content').innerHTML = marked.parse(course_outline_text_md);
+                        chat.scrollTop = chat.scrollHeight;
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
                     }
 

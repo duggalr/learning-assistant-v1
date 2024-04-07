@@ -937,7 +937,7 @@ def student_course_outline(request):
 
     course_module_list = UserCourseModules.objects.filter(
         parent_course_object = course_object
-    )
+    ).order_by('module_number')
     course_module_list_rv = []
     for md_obj in course_module_list:
         course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description)])

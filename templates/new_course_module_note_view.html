@@ -17,14 +17,18 @@
                 Course Progress
             </a> -->
 
-            <a class="active item tab_header" id="questions_tab">
+            <a class="active item tab_header" id="notes_tab">
                 Notes
             </a>
-            <a class="item tab_header" id="questions_tab">
+            <a class="item tab_header" id="quiz_tab">
                 Quiz
             </a>
-            <a class="item tab_header" id="questions_tab">
+            <a class="disabled item tab_header" id="exercises_tab">
                 Exercises
+            </a>
+
+            <a class="item tab_header" href="{% url 'personal_course_homepage' course_obj.id %}">
+                Home
             </a>
 
         </div>
@@ -39,10 +43,14 @@
         </div>
 
         <div id="course-quiz-questions" style="display: none;">
-            <ul class="ui list">
+            <ul class="ui list" style="padding-top: 10px;">
                 {% for li in quiz_questions %}
-                    <li>{{ li.0.question_number }}. {{ li.0.question }}</li>
-                    <ul>
+                    <li style="padding-bottom: 5px;">
+                        <strong>
+                            {{ li.0.question_number }}. {{ li.0.question }}
+                        </strong>
+                    </li>
+                    <ul style="padding-bottom: 20px;">
                         {% for mc_option in li.1 %}
                             <li>{{ mc_option }}</li>
                         {% endfor %}
@@ -136,12 +144,25 @@
     let course_note_md = `{{ module_note_obj.notes_md|safe }}`;
     document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
 
-    // TODO:
-        // tonight:
-            // implement all functionality of course-notes and get everything from sb-gen to cn-gen/view & chat working
-            // prepare for demo tomorrow and next steps
-    // generate_module_notes
+    $('#notes_tab').click(function(){
+        
+        $('#notes_tab').addClass('active');
+        $('#quiz_tab').removeClass('active');
 
+        $('#course-notes-tab').show();
+        $('#course-quiz-questions').hide();
+
+    });
+
+    $('#quiz_tab').click(function(){
+        
+        $('#quiz_tab').addClass('active');
+        $('#notes_tab').removeClass('active');
+
+        $('#course-quiz-questions').show();
+        $('#course-notes-tab').hide();
+
+    });
 
 </script>
 

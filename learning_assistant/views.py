@@ -1125,19 +1125,43 @@ def student_course_outline_handle_message(request):
 
 
 
-# TODO: 
-def personal_course_homepage(request):
 
-    all_course_objects = UserCourse.objects.all().order_by('-created_at')
-    course_object = all_course_objects[0]
+
+def all_student_courses(request):
+    initial_user_session = request.session.get("user")    
+    user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+    
+    user_course_objects = UserCourse.objects.filter(
+        initial_background_object__user_auth_obj = user_oauth_obj
+    ).order_by('-updated_at')
+    # print(user_course_objects)
+
+    return render(request, 'new_course_all_list.html', {
+        'user_course_objects': user_course_objects
+    })
+
+
+def personal_course_homepage(request, cid):
+
+    course_object = get_object_or_404(UserCourse, id = cid)
+    # all_course_objects = UserCourse.objects.all().order_by('-created_at')
+    # course_object = all_course_objects[0]
 
     course_module_list = UserCourseModules.objects.filter(
         parent_course_object = course_object
     ).order_by('module_number')
+
     course_module_list_rv = []
     for md_obj in course_module_list:
-        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description)])
-
+        c_md_note_objects = UserCourseModuleNote.objects.filter(
+            course_module_object = md_obj
+        )
+        c_md_note_obj = None
+        if len(c_md_note_objects) > 0:
+            c_md_note_obj = c_md_note_objects[0]
+        
+        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description), c_md_note_obj])
+    
     return render(request, 'new_course_homepage.html', {
         'course_object': course_object,
         'course_module_list': course_module_list_rv,
@@ -1273,6 +1297,7 @@ def course_module_notes_view(request, mid):
         note_quiz_objects_list.append([qz_obj, mc_option_list])
 
     return render(request, 'new_course_module_note_view.html', {
+        'course_obj': course_module_obj.course_module_object.parent_course_object,
         'user_oauth_obj': user_oauth_obj,
         'module_note_obj': course_module_obj,
         # 'quiz_questions': note_quiz_question_objects

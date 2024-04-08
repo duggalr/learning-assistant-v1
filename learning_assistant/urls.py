@@ -26,12 +26,12 @@ urlpatterns = [
     path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
 
     ## Personal Course Gen Stuff
-    # TODO: start here
+    path("all_student_courses", views.all_student_courses, name="all_student_courses"),
     path("personal_course_gen_sb_chat", views.personal_course_gen_sb_chat, name="personal_course_gen_sb_chat"),
     path("handle_student_background_chat_message", views.handle_student_background_chat_message, name="handle_student_background_chat_message"),
     path("student_course_outline", views.student_course_outline, name="student_course_outline"),
     path("student_course_outline_handle_message", views.student_course_outline_handle_message, name="student_course_outline_handle_message"),
-    path("personal_course_homepage", views.personal_course_homepage, name="personal_course_homepage"),
+    path("personal_course_homepage/<int:cid>", views.personal_course_homepage, name="personal_course_homepage"),
     path("generate_module_notes", views.generate_module_notes, name="generate_module_notes"),
     path("course_module_notes_view/<int:mid>", views.course_module_notes_view, name="course_module_notes_view"),
 

@@ -32,6 +32,10 @@
                 Your Code Files
             </a>
 
+            <a class="item tab_header" href="{% url 'all_student_courses' %}">
+                Home
+            </a>
+
         </div>
 
         <!-- Main Code Div -->
@@ -40,10 +44,19 @@
             <ul class="ui list course-module-list" style="padding-top: 10px;">
                 {% for md_obj in course_module_list %}
                     <li style="padding-bottom: 25px;">
+                        
                         <strong>
                             Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
                         </strong>
-                        <button class="tiny ui button module-note-quiz-generation" style="float: right;">Generate Notes/Quiz/Exercises</button>
+
+                        {% if md_obj.2 is none %}
+                            <button class="tiny ui button module-note-quiz-generation" style="float: right;">Generate Notes/Quiz/Exercises</button>
+                        {% else %}
+                            <a href="{% url 'course_module_notes_view' md_obj.2.id %}" style="float: right;">
+                                View Notes
+                            </a>
+                        {% endif %}
+
                         <input type="hidden" value="{{ md_obj.0.id }}" id="course_module_object_id">
                         <ul class="ui list module-sub-topic-list">
                             {% for d in md_obj.1 %}
@@ -52,8 +65,8 @@
                             </li>
                             {% endfor %}
                         </ul>
+
                     </li>
-                    <!-- <br/> -->
                 {% endfor %}
             </ul>
 

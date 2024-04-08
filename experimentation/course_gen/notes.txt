@@ -34,6 +34,7 @@ TODO:
     # need to use UUID's on all ID's
 
 # TODO:
+test
     # set github to my personal profile
     # play around with current version (set demo for tomorrow)
         # really try a lot of different cases (non-cs as well)

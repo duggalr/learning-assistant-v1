@@ -79,8 +79,8 @@ Output Format: Your response must be outputted in JSON FORMAT, containing the fo
 
     chat_completion = client.chat.completions.create(
         messages = messages_list,
-        model = "gpt-4-0125-preview",
-        # model = "gpt-3.5-turbo-0125",
+        # model = "gpt-4-0125-preview",
+        model = "gpt-3.5-turbo-0125",
         response_format={ "type": "json_object" }
     )
 

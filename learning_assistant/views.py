@@ -840,7 +840,8 @@ def handle_student_background_chat_message(request):
 
             if len(ug_tut_cv_objects) > 0:
                 prev_conversation_history = []
-                for uc_tut_obj in ug_tut_cv_objects[:3]:
+                # for uc_tut_obj in ug_tut_cv_objects[:3]:
+                for uc_tut_obj in ug_tut_cv_objects:
                     uc_question = uc_tut_obj.question
                     uc_response = uc_tut_obj.response
                     prev_conversation_history.append(f"Question: { uc_question }")

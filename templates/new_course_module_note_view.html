@@ -141,7 +141,7 @@
 <script>
 
     let course_note_object_id = '{{ module_note_obj.id }}';
-    let course_note_md = `{{ module_note_obj.notes_md|safe }}`;
+    let course_note_md = `{{ module_note_obj.notes_md|escapejs }}`;
     document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
 
     $('#notes_tab').click(function(){

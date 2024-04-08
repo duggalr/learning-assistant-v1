@@ -298,7 +298,7 @@
 
     $('#course_proceed_link').click(function(){
 
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/personal_course_homepage';
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/personal_course_homepage/' + course_outline_object_id;
         window.location.replace(new_url);
 
     });

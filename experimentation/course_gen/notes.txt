@@ -34,7 +34,7 @@ TODO:
     # need to use UUID's on all ID's
 
 # TODO:
-    # play around with current version (set demo for tomorrow)
+    # play around with current version ALOT (have demo conversation to show and maybe live demo)
         # really try a lot of different cases (non-cs as well)
         # take notes and base next steps from there
             # have this version up-and-working and do new changes in new branch

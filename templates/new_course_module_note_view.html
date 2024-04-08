@@ -32,13 +32,13 @@
         <!-- <h4 id="course-outline-name">
             Module #{{ module_note_obj.course_module_object.module_number }}: {{ module_note_obj.course_module_object.module_topic }}
         </h4> -->
-        <div id="course-notes-tab" style="display: none;">
+        <div id="course-notes-tab" >
             <p id="course-outline-description" style="padding-top: 10px;">
                 {{ module_note_obj.notes_md }}
             </p>
         </div>
-        
-        <div id="course-quiz-questions">
+
+        <div id="course-quiz-questions" style="display: none;">
             <ul class="ui list">
                 {% for li in quiz_questions %}
                     <li>{{ li.0.question_number }}. {{ li.0.question }}</li>

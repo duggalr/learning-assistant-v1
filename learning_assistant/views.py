@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new, c_student_course_note_generation_new
+from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
 
 
 if 'PRODUCTION' not in os.environ:
@@ -1227,8 +1227,24 @@ def generate_module_notes(request):
             )
             uc_md_note_obj.save()
 
+            quiz_note_response_dict = d_student_course_note_quiz_generation.generate_quiz(
+                student_info = student_background_info,
+                course_notes = course_notes_text,
+            )
+
+            quiz_response_json_list = quiz_note_response_dict['response']['quiz']
+            for qdi in quiz_response_json_list:
+                md_question_obj = UserCourseModuleNoteQuestion.objects.create(
+                    course_note_object = uc_md_note_obj,
+                    question_number = qdi['question_number'],
+                    question = qdi['question'],
+                    multiple_choice_options = qdi['multiple_choice_options'],
+                    answer = qdi['answer'],
+                )
+                md_question_obj.save()
+
         else:
-            uc_md_note_obj = UserCourseModuleNote.objects.gett(course_module_object = c_module_obj)
+            uc_md_note_obj = UserCourseModuleNote.objects.get(course_module_object = c_module_obj)
 
         uc_md_cv_obj = UserCourseModuleConversation.objects.create(
             user_auth_obj = user_oauth_obj,
@@ -1247,9 +1263,20 @@ def course_module_notes_view(request, mid):
     initial_user_session = request.session.get('user')
     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
+    note_quiz_question_objects = UserCourseModuleNoteQuestion.objects.filter(
+        course_note_object = course_module_obj
+    ).order_by('question_number')
+
+    note_quiz_objects_list = []
+    for qz_obj in note_quiz_question_objects:
+        mc_option_list = ast.literal_eval(qz_obj.multiple_choice_options)
+        note_quiz_objects_list.append([qz_obj, mc_option_list])
+
     return render(request, 'new_course_module_note_view.html', {
         'user_oauth_obj': user_oauth_obj,
-        'module_note_obj': course_module_obj
+        'module_note_obj': course_module_obj,
+        # 'quiz_questions': note_quiz_question_objects
+        'quiz_questions': note_quiz_objects_list
     })
 
 

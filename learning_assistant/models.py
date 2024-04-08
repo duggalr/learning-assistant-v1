@@ -129,7 +129,13 @@ class UserCourseModuleNote(models.Model):
 class UserCourseModuleConversation(ChatConversation):
     course_module_object = models.ForeignKey(UserCourseModules, on_delete=models.CASCADE, blank=True, null=True)
 
-
+class UserCourseModuleNoteQuestion(models.Model):
+    course_note_object = models.ForeignKey(UserCourseModuleNote, on_delete=models.CASCADE, blank=True, null=True)
+    question_number = models.IntegerField()
+    question = models.TextField()
+    multiple_choice_options = models.TextField(blank=True, null=True)
+    answer = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 

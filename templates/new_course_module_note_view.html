@@ -8,21 +8,53 @@
 <div class="ui grid course-outline-parent-container">
 
     <!-- Course Notes Column -->
-    <div class="eight wide column course-outline-parent-column" style="padding-left: 35px; padding-top: 20px;">
+    <div class="eight wide column course-outline-parent-column" style="padding-left: 35px;">
+
+        <div class="ui tabular menu" style="padding-top: 12px;">
+
+            <!-- <a class="active item tab_header" id="course_questions_tab">
+                <i class="code icon" style="font-size: 13px;"></i>
+                Course Progress
+            </a> -->
+
+            <a class="active item tab_header" id="questions_tab">
+                Notes
+            </a>
+            <a class="item tab_header" id="questions_tab">
+                Quiz
+            </a>
+            <a class="item tab_header" id="questions_tab">
+                Exercises
+            </a>
+
+        </div>
 
         <!-- <h4 id="course-outline-name">
             Module #{{ module_note_obj.course_module_object.module_number }}: {{ module_note_obj.course_module_object.module_topic }}
         </h4> -->
-        <p id="course-outline-description">
-            {{ module_note_obj.notes_md }}
-        </p>
+        <div id="course-notes-tab" style="display: none;">
+            <p id="course-outline-description" style="padding-top: 10px;">
+                {{ module_note_obj.notes_md }}
+            </p>
+        </div>
+        
+        <div id="course-quiz-questions">
+            <ul class="ui list">
+                {% for li in quiz_questions %}
+                    <li>{{ li.0.question_number }}. {{ li.0.question }}</li>
+                    <ul>
+                        {% for mc_option in li.1 %}
+                            <li>{{ mc_option }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        </div>
 
     </div>
 
-    <!-- TODO: make prompt changes for note-gen and go from there -->
-
     <!-- AI Chat -->
-    <div class="seven wide column ai-chat-course-outline-parent-column">
+    <div class="seven wide column ai-chat-course-outline-parent-column" style="margin-left: 40px;">
 
         <!-- Programming Assistant Tab -->
         <div id="programming_assistant_div">

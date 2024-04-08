@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new
+from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new, c_student_course_note_generation_new
 
 
 if 'PRODUCTION' not in os.environ:
@@ -1142,6 +1142,116 @@ def personal_course_homepage(request):
         'course_object': course_object,
         'course_module_list': course_module_list_rv,
     })
+
+
+def generate_module_notes(request):
+    initial_user_session = request.session.get("user")
+
+    if request.method == 'POST':
+        print('cs-chat-data:', request.POST)
+
+        initial_user_session = request.session.get('user')
+        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
+        course_module_object_id = request.POST['module_object_id']
+        student_response = request.POST['student_response']
+
+        prev_conversation_history = ''
+        past_user_conversation_objects = UserCourseModuleConversation.objects.filter(course_module_object = course_module_object_id)
+        prev_conversation_history = []
+        for uc_obj in past_user_conversation_objects[:3]:
+            uc_question = uc_obj.question
+            uc_response = uc_obj.response
+            prev_conversation_history.append(f"Question: { uc_question }")
+            prev_conversation_history.append(f"Response: { uc_response }")
+
+        prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+        c_module_objects = UserCourseModules.objects.filter(
+            id = course_module_object_id
+        )
+        if len(c_module_objects) == 0:
+            return JsonResponse({'success': False, 'message': "Module not found."})
+        
+        c_module_obj = c_module_objects[0]
+
+        module_name = f"Module #{c_module_obj.module_number}: {c_module_obj.module_topic}"
+        module_desc_list = ast.literal_eval(c_module_obj.module_description)
+        module_desc_full_str = '\n'.join(module_desc_list)
+        
+        # UserCourseModuleNote
+        # UserCourseModuleConversation
+
+        student_background_info = c_module_obj.parent_course_object.initial_background_object.final_response
+        
+        course_outline_str = c_module_obj.parent_course_object.module_list
+        course_outline_dict = ast.literal_eval(course_outline_str)
+        course_outline_final_str = ""
+        for mdi in course_outline_dict:
+            md_full_name = f"Module #{mdi['module_number']}: {mdi['module_topic']}\n"
+            md_description_str = '\n'.join(mdi['module_description'])
+            mstr = md_full_name + '\n' + md_description_str + '\n'
+            course_outline_final_str += mstr
+        
+        
+        module_course_note_objects = UserCourseModuleNote.objects.filter(
+            course_module_object = course_module_object_id
+        )
+        if len(module_course_note_objects) == 0:
+            course_module_notes_str = ""
+        else:
+            course_module_notes_str = module_course_note_objects[0].notes_md
+
+        current_module_info = f"Module #{c_module_obj.module_number}: {c_module_obj.module_topic}\n{'\n'.join(c_module_obj.module_description)}"
+        
+        current_module_note_response_dict = c_student_course_note_generation_new.generate_course_notes(
+            student_info = student_background_info,
+            course_outline = course_outline_final_str,
+            current_module_information = current_module_info,
+            current_week_course_notes = course_module_notes_str,
+            student_response = student_response,
+            previous_conversation_history = prev_conversation_st,
+        )
+
+        current_module_note_response_json = current_module_note_response_dict['response']
+        
+        cn_generation = current_module_note_response_json['course_note_generation']
+        if cn_generation:
+
+            UserCourseModuleNote.objects.filter(course_module_object = course_module_object_id).delete()
+
+            course_notes_text = current_module_note_response_json['course_notes'].strip()
+            uc_md_note_obj = UserCourseModuleNote.objects.create(
+                course_module_object = c_module_obj,
+                notes_md = course_notes_text
+            )
+            uc_md_note_obj.save()
+
+        else:
+            uc_md_note_obj = UserCourseModuleNote.objects.gett(course_module_object = c_module_obj)
+
+        uc_md_cv_obj = UserCourseModuleConversation.objects.create(
+            user_auth_obj = user_oauth_obj,
+            course_module_object = c_module_obj,
+            question = student_response,
+            question_prompt = current_module_note_response_dict['q_prompt'],
+            response = current_module_note_response_dict['response']['model_response']
+        )
+        uc_md_cv_obj.save()
+        
+        return JsonResponse({'success': True, 'module_note_obj_id': uc_md_note_obj.id})
+
+
+def course_module_notes_view(request, mid):
+    course_module_obj = get_object_or_404(UserCourseModuleNote, id = mid)
+    initial_user_session = request.session.get('user')
+    user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+
+    return render(request, 'new_course_module_note_view.html', {
+        'user_oauth_obj': user_oauth_obj,
+        'module_note_obj': course_module_obj
+    })
+
 
 
 

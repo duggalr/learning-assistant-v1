@@ -32,8 +32,8 @@ urlpatterns = [
     path("student_course_outline", views.student_course_outline, name="student_course_outline"),
     path("student_course_outline_handle_message", views.student_course_outline_handle_message, name="student_course_outline_handle_message"),
     path("personal_course_homepage", views.personal_course_homepage, name="personal_course_homepage"),
-    
-    
+    path("generate_module_notes", views.generate_module_notes, name="generate_module_notes"),
+    path("course_module_notes_view/<int:mid>", views.course_module_notes_view, name="course_module_notes_view"),
 
     # ## Admin Views
     # path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),

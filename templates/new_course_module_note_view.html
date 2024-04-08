@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'app_menu.html' %}
+
+<div class="ui grid course-outline-parent-container">
+
+    <!-- Course Notes Column -->
+    <div class="eight wide column course-outline-parent-column" style="padding-left: 35px; padding-top: 20px;">
+
+        <!-- <h4 id="course-outline-name">
+            Module #{{ module_note_obj.course_module_object.module_number }}: {{ module_note_obj.course_module_object.module_topic }}
+        </h4> -->
+        <p id="course-outline-description">
+            {{ module_note_obj.notes_md }}
+        </p>
+
+    </div>
+
+
+    <!-- AI Chat -->
+    <div class="seven wide column ai-chat-course-outline-parent-column">
+
+        <!-- Programming Assistant Tab -->
+        <div id="programming_assistant_div">
+            
+            <div class="chat-container" id="chat">
+                
+                <div class="message">
+                    So, on the right, I'm presenting a Course Outline, which I specifically generated for you,
+                    based on your goals and background.
+                    <br/><br/>
+                    If everything looks alright, click the button above which saved "Proceed to Course".
+                    <br/><br/>
+                    If you want to make speciifc changes to the outline, let me know and I'd be happy
+                    to make those changes!
+                </div>
+
+                <hr>
+
+                <br/>
+                {% for ucs_obj in user_conversation_objects %}
+                
+                    <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.0 | safe }}</div>
+                    <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.1 | safe }}</div>
+
+                {% endfor %}
+
+            </div>
+
+            {% if user_session is not None %}
+
+                <div class="input-container">
+    
+                    <div class="ui form" style="width: 100%;">
+                        <div class="field">
+                            <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                        </div>
+                    </div>
+                    &nbsp;
+                    <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                    <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                </div>
+
+                <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                    Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                </span>
+
+            {% else %}
+
+                <div class="input-container">
+    
+                    <div class="ui form" style="width: 100%;">
+                        <div class="field">
+                            <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                        </div>                    
+                    </div>
+                    &nbsp;
+                    <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                    <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                </div>
+
+                <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                    Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                </span>
+
+            {% endif %}
+
+        </div>        
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let course_note_object_id = '{{ module_note_obj.id }}';
+    let course_note_md = `{{ module_note_obj.notes_md|safe }}`;
+    document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
+
+    // TODO:
+        // tonight:
+            // implement all functionality of course-notes and get everything from sb-gen to cn-gen/view & chat working
+            // prepare for demo tomorrow and next steps
+    // generate_module_notes
+
+
+</script>
+
+
+{% endblock %}
+

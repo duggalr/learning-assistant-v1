@@ -121,14 +121,16 @@ class UserCourseModules(models.Model):
 class UserCourseOutlineConversation(ChatConversation):
     course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
 
-class UserCourseNote(models.Model):
-    course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
-    # TODO: 
-        # since this is dynamic
-            # modules will need to be in json format output and saved separately in db
-                # need to link course notes to module
-    # module_number = models.?
-    # TODO: need to implement the module-JSON approach; go from there
+class UserCourseModuleNote(models.Model):
+    course_module_object = models.ForeignKey(UserCourseModules, on_delete=models.CASCADE, blank=True, null=True)
+    notes_md = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class UserCourseModuleConversation(ChatConversation):
+    course_module_object = models.ForeignKey(UserCourseModules, on_delete=models.CASCADE, blank=True, null=True)
+
+
+
 
 
 

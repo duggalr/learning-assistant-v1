@@ -13,29 +13,11 @@ Please understand that your course notes will be the primary resource for the st
 Thus, ensure your course notes are as detailed and complete as possible.
 
 
-# TODO: 
-    # Keep experimenting here and main_four
-        # generation of the course notes + quiz/exercises <-- **need more relevant resources for course-note and quiz/exercise gen**
-        # once I have intuitive feel that this is good V1
-            # implement in app and literally use it to learn something
-            # go from there...
-
-# TODO: 
-    # for course notes, ask the AI to display them in markdown <-- render as markdown on the html
-    # potentially no need to split course outline by weeks
-        # can just do module-1, module-2, etc.
-
-# TODO: 
-    # implement V0 of the new course-gen
-        # have CLI demo + site UI walkthrough at bare minimum ready for AGI meeting
-            # Ideally --> V0 of the course-gen is complete as well and ready to show**
-
 TODO: 
     # need to use UUID's on all ID's
 
 # TODO:
-    # play around with current version ALOT (have demo conversation to show and maybe live demo)
-        # really try a lot of different cases (non-cs as well)
-        # take notes and base next steps from there
-            # have this version up-and-working and do new changes in new branch
-                # reason is, I want to demo this to MIT kids
+    # Focus on improvement in Course Outline + Notes <-- external DB
+    # **work out of branches**
+        # now I can't push changes into main/eb...
+

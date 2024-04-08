@@ -35,7 +35,9 @@ TODO:
 
 # TODO:
     # set github to my personal profile
-    # start here by saving sb-parent-object and conversation
-    # get this implemented and working today
-    # work on getting 'function' for marking sb-completion
+    # play around with current version (set demo for tomorrow)
+        # really try a lot of different cases (non-cs as well)
+        # take notes and base next steps from there
+            # have this version up-and-working and do new changes in new branch
+                # reason is, I want to demo this to MIT kids
 

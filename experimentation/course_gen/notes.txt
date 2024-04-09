@@ -2,8 +2,6 @@ Your goal is to determine what the student wants to learn and their background.
 The course outline should be split scheduled for a weekly basis dependent upon the student's timeline.
 Feel free to add sub-topics under a week, to provide more clarity for the user on what will be covered.
 
-
-
 Your goal is to generate course notes which the student will use, to help them understand the material for the specific week.
 The goal here is to generate course notes, specific for the student, given their goals and background.
 
@@ -20,4 +18,38 @@ TODO:
     # Focus on improvement in Course Outline + Notes <-- external DB
     # **work out of branches**
         # now I can't push changes into main/eb...
+
+AI:
+- Machine Learning (SVM, Naive Bayes, etc.)
+- Deep Learning (DNN's, LLM's)
+    - Computer Vision
+    - NLP
+    - ...
+- AI Applications with GPT-API
+- Mathematical Properties of DNN's
+- Bayesian Deep Learning
+- Graph Neural Networks
+- Non Backprop AI Approaches
+- ...
+
+^Just focusing on above:
+- how to collect data to build the outline/note-generation we want?
+
+
+"I want to learn AI, specifically how large language models work/trained, and then, use the GPT API to build some interactive projects."
+"I want to learn AI, specifically NLP. I want to learn all the current models that are used for language understanding and generation."
+"I want to learn AI, specifically CV. I want to learn the current different approaches that are used for generation of computer vision images, etc."
+
+
+For above:
+- Model should fetch top-k most relevant course outlines (ensure course outlines are split by modules containing topic and sub-topics)
+    - Craft it's course outline accordingly
+        - More recent models or information may be contained in the course outlines which is why this is important
+            - Experiment with citations being provided for the course outline generation 
+
+- After course outline is generated, for each sub-topic in module:
+    - Model fetch top-k most relevant notes from the courses
+        - Model will use that information to generate the course notes <-- should be very detailed + citations provided
+            - Have the note-gen focus on specific topic
+                - Generate example and detail for that
 

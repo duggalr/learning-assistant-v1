@@ -28,11 +28,13 @@ def get_top_k_supplementary_material(embd, k = 3):
     for idx in I[0]:
         file_dict = final_file_list[idx]
         # fp = file_dict['file_path']
+        f = open(f'tmp_{idx}.txt', 'w')
+        f.write(f"{file_dict['file_path']}\n\n | {file_dict['batch_text']}")
+        f.close()
         batch_text = file_dict['batch_text'].strip()
         rv.append(batch_text)
     return rv
 
-    
 
 def generate_note(note_info_dict):
     q_prompt = """##Instructions:
@@ -82,30 +84,28 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
         supplementary_material = note_info_dict['supplementary_material'],
     )
 
-    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen'
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/two'
     tmp_fp = os.path.join(output_dir_fp, f"q_prompt.txt")
     f = open(tmp_fp, 'w')
     f.write(q_prompt)
     f.close()
 
-    # di = {"role": "user", "content": q_prompt}
-    # messages_list = [di]
-    # chat_completion = client.chat.completions.create(
-    #     messages = messages_list,
-    #     model = "gpt-4-0125-preview",
-    #     # model = "gpt-3.5-turbo-0125",
-    # )    
+    di = {"role": "user", "content": q_prompt}
+    messages_list = [di]
+    chat_completion = client.chat.completions.create(
+        messages = messages_list,
+        model = "gpt-4-0125-preview",
+        # model = "gpt-3.5-turbo-0125",
+    )    
 
-    # response_message = chat_completion.choices[0].message.content
-    # # # print(f"Response: {response_message}")
+    response_message = chat_completion.choices[0].message.content
+    # # print(f"Response: {response_message}")
 
-    # output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen'
-    # tmp_fp = os.path.join(output_dir_fp, f"course_notes_gpt_4.txt")
-    # f = open(tmp_fp, 'w')
-    # f.write(response_message)
-    # f.close()
-
-
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/two'
+    tmp_fp = os.path.join(output_dir_fp, f"course_notes_gpt_4.txt")
+    f = open(tmp_fp, 'w')
+    f.write(response_message)
+    f.close()
 
 
 
@@ -160,6 +160,8 @@ Module 6: Building AI Applications with GPT API
     index_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/scripts/embedding.index'
     index = faiss.read_index(index_fp)
     
+    print(f"Index ntotal: {index.ntotal}")
+
     current_week_info_embedding = get_embedding(
         text = current_week_information,
     )
@@ -183,57 +185,15 @@ Module 6: Building AI Applications with GPT API
         'supplementary_material': supplementary_material_str
     }
 
-    generate_note(note_dict)
+    # generate_note(note_dict)
 
 
-    # supplementary_material = ""
-    # supp_material_dir = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/supplementary_material/second/pdf_files'
-    # supp_material_files = os.listdir(supp_material_dir)
-
-    # final_supplementary_material_string = ""
-    # for fn in supp_material_files:
-    #     if '.txt' in fn:
-    #         print(fn)
-    #         # text_file_name_list.append(os.path.join(supp_material_dir, fn))
-    #         fn_text = open(os.path.join(supp_material_dir, fn), 'r').read().strip()
-    #         final_supplementary_material_string += fn_text
-
-    # # print(final_supplementary_material_string)
-    # print(f"length of string: {len(final_supplementary_material_string)}")
-
-    # # q_prompt = q_prompt.format(
-    # #     student_info = student_info_text,
-    # #     week_information = week_information_text,
-    # #     next_week_information = next_week_information_text,
-    # #     supplementary_material = final_supplementary_material_string,
-    # # )
-
-    # q_prompt = q_prompt.format(
-    #     student_info = student_background,
-    #     course_outline = course_outline,
-    #     week_information = current_week_information,
-    #     supplementary_material = final_supplementary_material_string,
-    # )
-    # print(f"Total length of prompt: {len(q_prompt)}")
-    # # print(q_prompt)
-
-    # di = {"role": "user", "content": q_prompt}
-    # messages_list = [di]
-    # chat_completion = client.chat.completions.create(
-    #     messages = messages_list,
-    #     model = "gpt-4-0125-preview",
-    #     # model = "gpt-3.5-turbo-0125",
-    # )
-
-    # response_message = chat_completion.choices[0].message.content
-    # # # print(f"Response: {response_message}")
-
-    # output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/course_gen/course_generation_round_three'
-    # # tmp_fp = os.path.join(output_dir_fp, f"week_one_full_course_notes.txt")
-    # tmp_fp = os.path.join(output_dir_fp, f"course_notes_module_one.txt")
-    # f = open(tmp_fp, 'w')
-    # f.write(response_message)
-    # f.close()
+# TODO: 
+    # modify prompt and tell it to not provide any references as we will do that instead
+        # add links as references to the end of the note generation
+    # continue testing on all the modules in the course-outline above
+        # first 'what is AI' subtopic is good
+        # test all the remaining and continue adding to the knowledge-base <-- need to ensure it is retrieving correctly and it helps
 
 
 

@@ -1,0 +1,259 @@
+/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files/Artificial intelligence - Wikipedia.txt
+
+ | dwritten digits, the first of
+many successful applications of neural networks.[273]
+
+AI gradually restored its reputation in the late 1990s and early 21st century by exploiting formal
+mathematical methods and by finding specific solutions to specific problems. This "narrow" and
+"formal" focus allowed researchers to produce verifiable results and collaborate with other fields (such
+as statistics, economics and mathematics).[274] By 2000, solutions developed by AI researchers were
+being widely used, although in the 1990s they were rarely described as "artificial intelligence".[275]
+
+However, several academic researchers became concerned that AI was no longer pursuing its original
+goal of creating versatile, fully intelligent machines. Beginning around 2002, they founded the
+subfield of artificial general intelligence (or "AGI"), which had several well-funded institutions by the
+2010s.[14]
+
+Deep learning began to dominate industry benchmarks in 2012 and was adopted throughout the
+field.[11] For many specific tasks, other methods were abandoned.[x] Deep learning's success was based
+on both hardware improvements (faster computers,[277] graphics processing units, cloud
+computing[278]) and access to large amounts of data[279] (including curated datasets,[278] such as
+ImageNet). Deep learning's success led to an enormous increase in interest and funding in AI.[y] The
+amount of machine learning research (measured by total publications) increased by 50% in the years
+2015–2019.[239]
+
+In 2016, issues of fairness and the misuse of technology were catapulted into center stage at machine
+learning conferences, publications vastly increased, funding became available, and many researchers
+re-focussed their careers on these issues. The alignment problem became a serious field of academic
+study.[224]
+
+In the late teens and early 2020s, AGI companies began to deliver programs that created enormous
+interest. In 2015, AlphaGo, developed by DeepMind, beat the world champion Go player. The program
+was taught only the rules of the game and developed strategy by itself. GPT-3 is a large language
+model that was released in 2020 by OpenAI and is capable of generating high-quality human-like
+text.[280] These programs, and others, inspired an aggressive AI boom, where large companies began
+investing billions in AI research. According to 'AI Impacts', about $50 billion annually was invested in
+"AI" around 2022 in the U.S. alone and about 20% of new US Computer Science PhD graduates have
+specialized in "AI".[281] About 800,000 "AI"-related US job openings existed in 2022.[282]
+
+Alan Turing wrote in 1950 "I propose to consider the question 'can machines think'?"[283] He advised
+changing the question from whether a machine "thinks", to "whether or not it is possible for
+machinery to show intelligent behaviour".[283] He devised the Turing test, which measures the ability
+
+Philosophy
+
+Defining artificial intelligence
+
+https://en.wikipedia.org/wiki/Judea_Pearl
+https://en.wikipedia.org/wiki/Lofti_Zadeh
+https://en.wikipedia.org/wiki/Connectionism
+https://en.wikipedia.org/wiki/Geoffrey_Hinton
+https://en.wikipedia.org/wiki/Yann_LeCun
+https://en.wikipedia.org/wiki/Convolutional_neural_networks
+https://en.wikipedia.org/wiki/Narrow_AI
+https://en.wikipedia.org/wiki/Statistics
+https://en.wikipedia.org/wiki/Economics
+https://en.wikipedia.org/wiki/Mathematical_optimization
+https://en.wikipedia.org/wiki/Artificial_general_intelligence
+https://en.wikipedia.org/wiki/Deep_learning
+https://en.wikipedia.org/wiki/Moore%27s_law
+https://en.wikipedia.org/wiki/Graphics_processing_unit
+https://en.wikipedia.org/wiki/Cloud_computing
+https://en.wikipedia.org/wiki/Cloud_computing
+https://en.wikipedia.org/wiki/Big_data
+https://en.wikipedia.org/wiki/ImageNet
+https://en.wikipedia.org/wiki/Algorithmic_fairness
+https://en.wikipedia.org/wiki/AI_alignment
+https://en.wikipedia.org/wiki/Artificial_general_intelligence
+https://en.wikipedia.org/wiki/AlphaGo
+https://en.wikipedia.org/wiki/DeepMind
+https://en.wikipedia.org/wiki/Go_player
+https://en.wikipedia.org/wiki/GPT-3
+https://en.wikipedia.org/wiki/Large_language_model
+https://en.wikipedia.org/wiki/Large_language_model
+https://en.wikipedia.org/wiki/OpenAI
+https://en.wikipedia.org/wiki/AI_boom
+https://en.wikipedia.org/wiki/Alan_Turing
+https://en.wikipedia.org/wiki/Alan_Turing
+
+
+4/9/24, 10:28 AM Artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Artificial_intelligence 21/56
+
+of a machine to simulate human conversation.[253] Since we can only observe the behavior of the
+machine, it does not matter if it is "actually" thinking or literally has a "mind". Turing notes that we
+can not determine these things about other people but "it is usual to have a polite convention that
+everyone thinks"[284]
+
+Russell and Norvig agree with Turing that intelligence must be defined in terms of external behavior,
+not internal structure.[1] However, they are critical that the test requires the machine to imitate
+humans. "Aeronautical engineering texts," they wrote, "do not define the goal of their field as making
+'machines that fly so exactly like pigeons that they can fool other pigeons.' "[285] AI founder John
+McCarthy agreed, writing that "Artificial intelligence is not, by definition, simulation of human
+intelligence".[286]
+
+McCarthy defines intelligence as "the computational part of the ability to achieve goals in the
+world."[287] Another AI founder, Marvin Minsky similarly describes it as "the ability to solve hard
+problems".[288] The leading AI textbook defines it as the study of agents that perceive their
+environment and take actions that maximize their chances of achieving defined goals.[289] These
+definitions view intelligence in terms of well-defined problems with well-defined solutions, where
+both the difficulty of the problem and the performance of the program are direct measures of the
+"intelligence" of the machine—and no other philosophical discussion is required, or may not even be
+possible.
+
+Another definition has been adopted by Google,[290] a major practitioner in the field of AI. This
+definition stipulates the ability of systems to synthesize information as the manifestation of
+intelligence, similar to the way it is defined in biological intelligence.
+
+No established unifying theory or paradigm has guided AI research for most of its history.[z] The
+unprecedented success of statistical machine learning in the 2010s eclipsed all other approaches (so
+much so that some sources, especially in the business world, use the term "artificial intelligence" to
+mean "machine learning with neural networks"). This approach is mostly sub-symbolic, soft and
+narrow (see below). Critics argue that these questions may have to be revisited by future generations
+of AI researchers.
+
+Symbolic AI (or "GOFAI")[292] simulated the high-level conscious reasoning that people use when
+they solve puzzles, express legal reasoning and do mathematics. They were highly successful at
+"intelligent" tasks such as algebra or IQ tests. In the 1960s, Newell and Simon proposed the physical
+symbol systems hypothesis: "A physical symbol system has the necessary and sufficient means of
+general intelligent action."[293]
+
+However, the symbolic approach failed on many tasks that humans solve easily, such as learning,
+recognizing an object or commonsense reasoning. Moravec's paradox is the discovery that high-level
+"intelligent" tasks were easy for AI, but low level "instinctive" tasks were extremely difficult.[294]
+
+Philosopher Hubert Dreyfus had argued since the 1960s that human expertise depends on
+
+Evaluating approaches to AI
+
+Symbolic AI and its limits
+
+https://en.wikipedia.org/wiki/Problem_of_other_minds
+https://en.wikipedia.org/wiki/Problem_of_other_minds
+https://en.wikipedia.org/wiki/Stuart_J._Russell
+https://en.wikipedia.org/wiki/Peter_Norvig
+https://en.wikipedia.org/wiki/Aeronautics
+https://en.wikipedia.org/wiki/Pigeon
+https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)
+https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)
+https://en.wikipedia.org/wiki/Marvin_Minsky
+https://en.wikipedia.org/wiki/Paradigm
+https://en.wikipedia.org/wiki/Sub-symbolic
+https://en.wikipedia.org/wiki/Soft_computing
+https://en.wikipedia.org/wiki/Artificial_general_intelligence
+https://en.wikipedia.org/wiki/Symbolic_artificial_intelligence
+https://en.wikipedia.org/wiki/GOFAI
+https://en.wikipedia.org/wiki/Physical_symbol_systems_hypothesis
+https://en.wikipedia.org/wiki/Physical_symbol_systems_hypothesis
+https://en.wikipedia.org/wiki/Moravec%27s_paradox
+https://en.wikipedia.org/wiki/Hubert_Dreyfus
+https://en.wikipedia.org/wiki/Dreyfus%27_critique_of_AI
+
+
+4/9/24, 10:28 AM Artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Artificial_intelligence 22/56
+
+unconscious instinct rather than conscious symbol manipulation, and on having a "feel" for the
+situation, rather than explicit symbolic knowledge.[295] Although his arguments had been ridiculed
+and ignored when they were first presented, eventually, AI research came to agree with him.[aa][19]
+
+The issue is not resolved: sub-symbolic reasoning can make many of the same inscrutable mistakes
+that human intuition does, such as algorithmic bias. Critics such as Noam Chomsky argue continuing
+research into symbolic AI will still be necessary to attain general intelligence,[297][298] in part because
+sub-symbolic AI is a move away from explainable AI: it can be difficult or impossible to understand
+why a modern statistical AI program made a particular decision. The emerging field of neuro-symbolic
+artificial intelligence attempts to bridge the two approaches.
+
+"Neats" hope that intelligent behavior is described using simple, elegant principles (such as logic,
+optimization, or neural networks). "Scruffies" expect that it necessarily requires solving a large
+number of unrelated problems. Neats defend their programs with theoretical rigor, scruffies rely
+mainly on incremental testing to see if they work. This issue was actively discussed in the 1970s and
+1980s,[299] but eventually was seen as irrelevant. Modern AI has elements of both.
+
+Finding a provably correct or optimal solution is intractable for many important problems.[18] Soft
+computing is a set of techniques, including genetic algorithms, fuzzy logic and neural networks, that
+are tolerant of imprecision, uncertainty, partial truth and approximation. Soft computing was
+introduced in the late 1980s and most successful AI programs in the 21st century are examples of soft
+computing with neural networks.
+
+AI researchers are divided as to whether to pursue the goals of artificial general intelligence and
+superintelligence directly or to solve as many specific problems as possible (narrow AI) in hopes these
+solutions will lead indirectly to the field's long-term goals.[300][301] General intelligence is difficult to
+define and difficult to measure, and modern AI has had more verifiable successes by focusing on
+specific problems with specific solutions. The experimental sub-field of artificial general intelligence
+studies this area exclusively.
+
+The philosophy of mind does not know whether a machine can have a mind, consciousness and
+mental states, in the same sense that human beings do. This issue considers the internal experiences
+of the machine, rather than its external behavior. Mainstream AI research considers this issue
+irrelevant because it does not affect the goals of the field: to build machines that can solve problems
+using intelligence. Russell and Norvig add that "[t]he additional project of making a machine
+
+Neat vs. scruffy
+
+Soft vs. hard computing
+
+Narrow vs. general AI
+
+Machine consciousness, sentience and mind
+
+https://en.wikipedia.org/wiki/Sub-symbolic
+https://en.wikipedia.org/wiki/Algorithmic_bias
+https://en.wikipedia.org/wiki/Noam_Chomsky
+https://en.wikipedia.org/wiki/Explainable_AI
+https://en.wikipedia.org/wiki/Neuro-symbolic_AI
+https://en.wikipedia.org/wiki/Neuro-symbolic_AI
+https://en.wikipedia.org/wiki/Logic
+https://en.wikipedia.org/wiki/Optimization_(mathematics)
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Intractability_(complexity)
+https://en.wikipedia.org/wiki/Genetic_algorithms
+https://en.wikipedia.org/wiki/Fuzzy_logic
+https://en.wikipedia.org/wiki/Superintelligence
+https://en.wikipedia.org/wiki/Philosophy_of_mind
+https://en.wikipedia.org/wiki/Mind
+https://en.wikipedia.org/wiki/Consciousness
+https://en.wikipedia.org/wiki/Philosophy_of_mind
+https://en.wikipedia.org/wiki/Stuart_J._Russell
+https://en.wikipedia.org/wiki/Peter_Norvig
+https://en.wikipedia.org/wiki/Philosophy_of_mind
+https://en.wikipedia.org/wiki/Mind
+https://en.wikipedia.org/wiki/Consciousness
+https://en.wikipedia.org/wiki/Philosophy_of_mind
+https://en.wikipedia.org/wiki/Stuart_J._Russell
+https://en.wikipedia.org/wiki/Peter_Norvig
+
+
+4/9/24, 10:28 AM Artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Artificial_intelligence 23/56
+
+conscious in exactly the way humans are is not one that we are equipped to take on."[302] However,
+the question has become central to the philosophy of mind. It is also typically the central question at
+issue in artificial intelligence in fiction.
+
+David Chalmers identified two problems in understanding the mind, which he named the "hard" and
+"easy" problems of consciousness.[303] The easy problem is understanding how the brain processes
+signals, makes plans and controls behavior. The hard problem is explaining how this feels or why it
+should feel like anything at all, assuming we are right in thinking that it truly does feel like something
+(Dennett's consciousness illusionism says this is an illusion). Human information processing is easy to
+explain, however, human subjective experience is difficult to explain. For example, it is easy to
+imagine a color-blind person who has learned to identify which objects in their field of view are red,
+but it is not clear what would be required for the person to know what red looks like.[304]
+
+Computationalism is the position in the philosophy of mind that the human mind is an information
+processing system and that thinking is a form of computing. Computationalism argues that the
+relationship between mind and body is similar or identical to the relationship between software and
+hardware and thus may be a solution to the mind–body problem. This philosophical position was
+inspired by the work of AI researchers and cognitive scientists in the 1960s and was originally
+proposed by philosophers Jerry Fodor and Hilary Putnam.[305]
+
+Philosopher John Searle characterized this position as "strong AI": "The appropriately programmed
+computer with the right inputs and outputs would thereby have a mind in exactly the same sense
+human beings have minds."[ab] Searle counters this assertion with his Chinese room argument, which
+attempts to show that, even if a machine perfectly simulates human behavior, there is still no reason
+to suppose it also has a mind.[309]
+
+It is di

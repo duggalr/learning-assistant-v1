@@ -11,3 +11,6 @@ media/documents
 companion-venv
 text_files
 experimentation/new_knowledge_base/stanford
+*.pkl
+*.index
+companion_experimentation_venv

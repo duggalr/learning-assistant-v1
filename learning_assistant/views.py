@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
+from .scripts.personal_course_gen import bing_search_new, a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
 
 
 if 'PRODUCTION' not in os.environ:
@@ -886,7 +886,7 @@ def handle_student_background_chat_message(request):
                 student_course_outline = '',
                 previous_student_chat_history = ''
             )
-
+            
             initial_student_course_outline_response_json = initial_student_course_outline_response_dict['response']
             initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
             initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
@@ -894,6 +894,14 @@ def handle_student_background_chat_message(request):
             initial_student_course_modules_list = initial_student_course_outline_response_json['modules']
             # initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
             print(f"Course Modules List: {initial_student_course_modules_list} | TYPE OF COURSE MODULES: {type(initial_student_course_modules_list)}")
+
+
+            # TODO: 
+
+            bing_course_outline_query = initial_student_course_name
+            bing_results_rv = bing_search_new.get_bing_results(
+                query = bing_course_outline_query
+            )
 
             ucourse_obj = UserCourse.objects.create(
                 initial_background_object = ut_conv_parent_obj,
@@ -918,6 +926,16 @@ def handle_student_background_chat_message(request):
                     module_description = md_description,
                 )
                 md_obj.save()
+
+
+            for bg_rs_dict in bing_results_rv:
+                cm_br_obj = UserCourseModulesBingResult.objects.create(
+                    parent_course_object = ucourse_obj,
+                    name = bg_rs_dict['name'],
+                    url = bg_rs_dict['url'],
+                    snippet = bg_rs_dict['snippet'],
+                )
+                cm_br_obj.save()
 
             return JsonResponse({'success': True, 'response': model_response_dict, 'final_message': True, 'new_course_object_id': ucourse_obj.id})
 
@@ -955,10 +973,14 @@ def student_course_outline(request):
         user_conversation_rv.append([cv_obj.question, cv_di['message_to_student']])
         # user_conversation_rv.append(cv_di['message_to_student'])
 
+    bing_result_objects = UserCourseModulesBingResult.objects.filter(parent_course_object = course_object)
+
+    # TODO: 
     return render(request, 'student_course_outline.html', {
         'course_object': course_object,
         'course_module_list': course_module_list_rv,
-        'user_conversation_objects': user_conversation_rv
+        'user_conversation_objects': user_conversation_rv,
+        'bing_result_objects': bing_result_objects
     })
 
 
@@ -1163,9 +1185,12 @@ def personal_course_homepage(request, cid):
         
         course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description), c_md_note_obj])
     
+    bing_result_objects = UserCourseModulesBingResult.objects.filter(parent_course_object = course_object)
+
     return render(request, 'new_course_homepage.html', {
         'course_object': course_object,
         'course_module_list': course_module_list_rv,
+        'bing_result_objects': bing_result_objects
     })
 
 

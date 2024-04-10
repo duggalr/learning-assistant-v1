@@ -14,6 +14,14 @@
             {{ course_object.description }}
         </p>
 
+        {% for br_obj in bing_result_objects %}
+
+            <li>
+                <a href="{{ br_obj.url }}">{{ br_obj.name }}</a>
+            </li>
+
+        {% endfor %}
+
         <ul class="ui list course-module-list" style="padding-top: 10px;">
             {% for md_obj in course_module_list %}
                 <li style="padding-bottom: 25px;">

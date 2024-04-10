@@ -14,7 +14,8 @@ subscription_key = os.environ['BING_SEARCH_V7_SUBSCRIPTION_KEY']
 endpoint = os.environ['BING_SEARCH_V7_ENDPOINT'] + "/v7.0/search"
 
 # Query term(s) to search for. 
-query = "functional programming vs object oriented programming"
+# query = "functional programming vs object oriented programming"
+query = 'Introduction to Functional Programming with a Gateway to Lisp'
 
 # Construct a request
 mkt = 'en-US'

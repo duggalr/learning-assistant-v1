@@ -118,6 +118,15 @@ class UserCourseModules(models.Model):
     module_description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+class UserCourseModulesBingResult(models.Model):
+    parent_course_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.TextField()
+    url = models.TextField()
+    snippet = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class UserCourseOutlineConversation(ChatConversation):
     course_parent_object = models.ForeignKey(UserCourse, on_delete=models.CASCADE, blank=True, null=True)
 

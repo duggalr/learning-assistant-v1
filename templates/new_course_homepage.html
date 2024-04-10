@@ -20,6 +20,14 @@
             </p>
         </div>
 
+        {% for br_obj in bing_result_objects %}
+
+            <li>
+                <a href="{{ br_obj.url }}">{{ br_obj.name }}</a>
+            </li>
+
+        {% endfor %}
+
         <div class="ui tabular menu" style="padding-top: 12px;">
 
             <!-- <a class="active item tab_header" id="course_questions_tab">

@@ -87,8 +87,8 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following 3 keys:
     messages_list = [di]
     chat_completion = client.chat.completions.create(
         messages = messages_list,
-        # model = "gpt-4-0125-preview",
-        model = "gpt-3.5-turbo-0125",
+        model = "gpt-4-0125-preview",
+        # model = "gpt-3.5-turbo-0125",
         response_format={ "type": "json_object" }
     )
     response_message_json_str = chat_completion.choices[0].message.content

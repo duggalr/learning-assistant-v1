@@ -1,0 +1,10 @@
+Name: 15 Best Lisp Courses to Take in 2024 — Class Central | Url: https://www.classcentral.com/report/best-lisp-courses
+Name: Functional Programming - University of Maryland, Baltimore County | Url: https://www.csee.umbc.edu/courses/331/resources/lisp/onLisp/03functionalProgramming.pdf
+Name: “Lisp: Pioneering the Path of Programming Languages and Beyond” | Url: https://medium.com/@faneelaansari/lisp-pioneering-the-path-of-programming-languages...
+Name: Introduction to LISP - University of Pittsburgh | Url: https://people.cs.pitt.edu/~milos/courses/cs2740/Lectures/LispTutorial.pdf
+Name: CMPSC 461, Functional Programming, Part 1 - cse.psu.edu | Url: https://www.cse.psu.edu/~deh25/cmpsc461/notes/FunctionalProgramming-1.html
+Name: Exploring Lisp: A Comprehensive Overview - Studycoding | Url: https://www.studycoding.co.uk/functional-languages-lisp
+Name: Functional Programming in Scheme and Lisp - University of Maryland ... | Url: https://www.csee.umbc.edu/courses/undergraduate/CMSC331/fall17/park/notes/L14-fp_in...
+Name: Functional Programming and Lisp - University of Maryland, Baltimore County | Url: https://www.csee.umbc.edu/courses/undergraduate/CMSC331/fall02/0101/notes/pdf/23lambda.pdf
+Name: LISP - math-cs.gordon.edu | Url: https://www.math-cs.gordon.edu/courses/cs323/LISP/lisp.html
+Name: Chapter 2 | Url: https://redirect.cs.umbc.edu/courses/331/spring14/01/notes/02/pl10ch2.pdf

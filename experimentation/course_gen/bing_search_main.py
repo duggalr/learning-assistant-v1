@@ -15,7 +15,8 @@ endpoint = os.environ['BING_SEARCH_V7_ENDPOINT'] + "/v7.0/search"
 
 # Query term(s) to search for. 
 # query = "functional programming vs object oriented programming"
-query = 'Introduction to Functional Programming with a Gateway to Lisp'
+# query = 'Introduction to Functional Programming with a Gateway to Lisp'
+query = "Exploring Lisp: The Path to Functional Programming Course Notes"
 
 # Construct a request
 mkt = 'en-US'

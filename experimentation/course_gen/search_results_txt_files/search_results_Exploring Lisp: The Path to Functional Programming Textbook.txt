@@ -1,0 +1,10 @@
+Name: Common Lisp Books | Common Lisp | Url: https://lisp-lang.org/books
+Name: “Lisp: Pioneering the Path of Programming Languages and Beyond” | Url: https://medium.com/@faneelaansari/lisp-pioneering-the-path-of-programming-languages...
+Name: documentation.html - Common Lisp | Url: https://common-lisp.net/documentation
+Name: COMMON LISP: A Gentle Introduction to Symbolic Computation | Url: https://www.cs.cmu.edu/~dst/LispBook/book.pdf
+Name: Which book should I choose to get into the Lisp World? | Url: https://cseducators.stackexchange.com/questions/7478/which-book-should-i-choose-to-get...
+Name: 15 Best Lisp Courses to Take in 2024 — Class Central | Url: https://www.classcentral.com/report/best-lisp-courses
+Name: On Lisp | Url: https://www.paulgraham.com/onlisp.html
+Name: Functional Primer, Part 4 - Ideas for Practicing & Exploring - Atomic Spin | Url: https://spin.atomicobject.com/functional-programming-practice
+Name: Functional Programming: A PragPub Anthology - The Pragmatic Programmer | Url: https://pragprog.com/titles/ppanth
+Name: Exploring Functional Programming - Manning Publications | Url: https://www.manning.com/books/exploring-functional-programming

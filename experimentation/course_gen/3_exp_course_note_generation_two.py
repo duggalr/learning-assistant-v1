@@ -51,6 +51,8 @@ As mentioned below, to help you generate detailed notes, you will be given addit
 Please use this supplementary material for your course note generation.
 Please note that your course notes will be the primary resource for the student, so ensure they are very detailed, rich with examples.
 
+DO NOT PROVIDE ANY REFERENCES OR CITATIONS FOR YOUR COURSE NOTES. Simply generate detailed, relevant notes for the student.
+
 Below, you will be given 4 critical pieces of information:
 - The student's goals, what they want to learn, and their background.
 - The outline of the course the student is currently taking.
@@ -84,7 +86,7 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
         supplementary_material = note_info_dict['supplementary_material'],
     )
 
-    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/two'
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/three'
     tmp_fp = os.path.join(output_dir_fp, f"q_prompt.txt")
     f = open(tmp_fp, 'w')
     f.write(q_prompt)
@@ -101,7 +103,7 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
     response_message = chat_completion.choices[0].message.content
     # # print(f"Response: {response_message}")
 
-    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/two'
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/three'
     tmp_fp = os.path.join(output_dir_fp, f"course_notes_gpt_4.txt")
     f = open(tmp_fp, 'w')
     f.write(response_message)
@@ -147,7 +149,7 @@ Module 6: Building AI Applications with GPT API
 - Developing a simple application using GPT API
 """
     current_week_information = """Module 1: Introduction to Artificial Intelligence
-- What is Artificial Intelligence?"""
+- Overview of AI applications"""
 
 
     print(f"Opening all Pickle Files...")
@@ -170,30 +172,20 @@ Module 6: Building AI Applications with GPT API
     print(current_week_info_embedding)
     print(current_week_info_embedding.shape)
 
-    supplementary_material_list = get_top_k_supplementary_material(
-        embd = current_week_info_embedding,
-        k = 3
-    )
+    # supplementary_material_list = get_top_k_supplementary_material(
+    #     embd = current_week_info_embedding,
+    #     k = 3
+    # )
 
-    supplementary_material_str = '\n'.join(supplementary_material_list)
-    print(f"Total length of supplementary material: {len(supplementary_material_str)}")
+    # supplementary_material_str = '\n'.join(supplementary_material_list)
+    # print(f"Total length of supplementary material: {len(supplementary_material_str)}")
     
-    note_dict = {
-        'student_info': student_background,
-        'course_outline': course_outline,
-        'week_information': current_week_information,
-        'supplementary_material': supplementary_material_str
-    }
+    # note_dict = {
+    #     'student_info': student_background,
+    #     'course_outline': course_outline,
+    #     'week_information': current_week_information,
+    #     'supplementary_material': supplementary_material_str
+    # }
 
     # generate_note(note_dict)
-
-
-# TODO: 
-    # modify prompt and tell it to not provide any references as we will do that instead
-        # add links as references to the end of the note generation
-    # continue testing on all the modules in the course-outline above
-        # first 'what is AI' subtopic is good
-        # test all the remaining and continue adding to the knowledge-base <-- need to ensure it is retrieving correctly and it helps
-
-
 

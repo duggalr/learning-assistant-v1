@@ -53,3 +53,9 @@ For above:
             - Have the note-gen focus on specific topic
                 - Generate example and detail for that
 
+# TODO: 
+    # modify prompt and tell it to not provide any references as we will do that instead
+        # add links as references to the end of the note generation
+    # continue testing on all the modules in the course-outline above
+        # first 'what is AI' subtopic is good
+        # test all the remaining and continue adding to the knowledge-base <-- need to ensure it is retrieving correctly and it helps

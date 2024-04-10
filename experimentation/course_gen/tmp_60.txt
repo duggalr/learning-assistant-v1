@@ -1,0 +1,287 @@
+/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files/Applications of artificial intelligence - Wikipedia.txt
+
+ | Applications of artificial intelligence - Wikipedia
+
+4/9/24, 7:50 PM Applications of artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Applications_of_artificial_intelligence 1/51
+
+Applications of artificial intelligence
+Artificial intelligence (AI) has been used in applications throughout industry and academia. Similar to
+electricity or computers, AI serves as a general-purpose technology that has numerous applications. Its
+applications span language translation, image recognition, decision-making,[1] credit scoring, e-commerce and
+various other domains.[2]
+
+A recommendation system predicts the rating or preference a user would give to an item.[3][4] Artificial
+intelligence recommendation systems are designed to offer suggestions based on previous behavior. These
+systems have been used by companies such as Netflix, Amazon, and YouTube, where they generate personalized
+playlists, product suggestions, and video recommendations.[5][6]
+
+Machine learning is also used in web feeds such as for determining which posts should show up in social media
+feeds.[7][8] Various types of social media analysis also make use of machine learning[9][10] and there is research
+into its use for (semi-)automated tagging/enhancement/correction of online misinformation and related filter
+bubbles.[11][12][13]
+
+AI is used to target web advertisements to those most likely to click or engage in them. It is also used to increase
+time spent on a website by selecting attractive content for the viewer. It can predict or generalize the behavior of
+customers from their digital footprints.[14] Both AdSense and Facebook[15] use AI for advertising.
+
+Online gambling companies use AI to improve customer targeting.[16]
+
+Personality computing AI models add psychological targeting to more traditional social demographics or
+behavioral targeting.[17] AI has been used to customize shopping options and personalize offers.[18]
+
+Intelligent personal assistants use AI to understand many natural language requests in other ways than
+rudimentary commands. Common examples are Apple's Siri, Amazon's Alexa, and a more recent AI, ChatGPT
+by OpenAI.[19]
+
+Search engines that use artificial intelligence include Google Search[20] and Bing Chat.
+
+Internet and e-commerce
+
+Recommendation systems
+
+Web feeds and posts
+
+Targeted advertising and increasing internet engagement
+
+Virtual assistants
+
+Search engines
+
+Spam filtering
+
+https://en.wikipedia.org/wiki/Main_Page
+https://en.wikipedia.org/wiki/Artificial_intelligence
+https://en.wikipedia.org/wiki/Computer
+https://en.wikipedia.org/wiki/Artificial_intelligence
+https://en.wikipedia.org/wiki/General-purpose_technology
+https://en.wikipedia.org/wiki/Machine_translation
+https://en.wikipedia.org/wiki/Image_recognition
+https://en.wikipedia.org/wiki/Decision-making
+https://en.wikipedia.org/wiki/Credit_score
+https://en.wikipedia.org/wiki/E-commerce
+https://en.wikipedia.org/wiki/Netflix
+https://en.wikipedia.org/wiki/Amazon_(company)
+https://en.wikipedia.org/wiki/YouTube
+https://en.wikipedia.org/wiki/Web_feed
+https://en.wikipedia.org/wiki/Social_media_analysis
+https://en.wikipedia.org/wiki/Misinformation
+https://en.wikipedia.org/wiki/Filter_bubble
+https://en.wikipedia.org/wiki/Filter_bubble
+https://en.wikipedia.org/wiki/Digital_footprints
+https://en.wikipedia.org/wiki/AdSense
+https://en.wikipedia.org/wiki/Facebook
+https://en.wikipedia.org/wiki/Personality_computing
+https://en.wikipedia.org/wiki/Intelligent_personal_assistant
+https://en.wikipedia.org/wiki/Search_engine
+https://en.wikipedia.org/wiki/Google_Search
+https://en.wikipedia.org/wiki/Bing_Chat
+
+
+4/9/24, 7:50 PM Applications of artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Applications_of_artificial_intelligence 2/51
+
+Machine learning can be used to fight against spam, scams, and phishing. It can scrutinize the contents of spam
+and phishing attacks to identify any malicious elements.[21] Numerous models built on machine learning
+algorithms exhibit exceptional performance with accuracies over 90% in distinguishing between spam and
+legitimate emails.[22]
+
+AI has been used to automatically translate spoken language and textual content, in products such as Microsoft
+Translator, Google Translate and DeepL Translator.[23] Additionally, research and development are in progress
+to decode and conduct animal communication.[24][25]
+
+AI has been used in facial recognition systems, with a 99% accuracy rate. Some examples are Apple's Face ID
+and Android's Face Unlock, which are used to secure mobile devices.[26]
+
+Image labeling has been used by Google to detect products in photos and to allow people to search based on a
+photo. Image labeling has also been demonstrated to generate speech to describe images to blind people. [27]
+
+Facebook's DeepFace identifies human faces in digital images.
+
+Games have been a major application of AI's capabilities since the 1950s. In the 21st century, AIs have beaten
+human players in many games, including chess (Deep Blue), Jeopardy! (Watson),[28] Go
+(AlphaGo),[29][30][31][32][33][34][35] poker (Pluribus[36] and Cepheus),[37] E-sports (StarCraft),[38][39] and
+general game playing (AlphaZero[40][41][42] and MuZero).[43][44][45][46] AI has replaced hand-coded algorithms
+in most chess programs.[47] Unlike go or chess, poker is an imperfect-information game, so a program that
+plays poker has to reason under uncertainty. The general game players work using feedback from the game
+system, without knowing the rules.
+
+AI for Good is an ITU initiative supporting institutions employing AI to tackle some of the world's greatest
+economic and social challenges. For example, the University of Southern California launched the Center for
+Artificial Intelligence in Society, with the goal of using AI to address problems such as homelessness. At
+Stanford, researchers use AI to analyze satellite images to identify high poverty areas.[48]
+
+In agriculture, AI has helped farmers identify areas that need irrigation, fertilization, pesticide treatments or
+increasing yield.[49] Agronomists use AI to conduct research and development. AI has been used to predict the
+ripening time for crops such as tomatoes,[50] monitor soil moisture, operate agricultural robots, conduct
+predictive analytics,[51][52] classify livestock pig call emotions,[24] automate greenhouses,[53] detect diseases and
+pests,[54][55] and save water.[56]
+
+Cyber security companies are adopting neural networks, machine learning, and natural language processing to
+improve their systems.[57]
+
+Applications of AI in cyber security include:
+
+Language translation
+
+Facial recognition and image labeling
+
+Games
+
+Economic and social challenges
+
+Agriculture
+
+Cyber security
+
+https://en.wikipedia.org/wiki/Phishing
+https://en.wikipedia.org/wiki/Microsoft_Translator
+https://en.wikipedia.org/wiki/Microsoft_Translator
+https://en.wikipedia.org/wiki/Google_Translate
+https://en.wikipedia.org/wiki/DeepL_Translator
+https://en.wikipedia.org/wiki/Facial_recognition_system
+https://en.wikipedia.org/wiki/Face_ID
+https://en.wikipedia.org/wiki/Face_Unlock
+https://en.wikipedia.org/wiki/Google_Image_Labeler
+https://en.wikipedia.org/wiki/DeepFace
+https://en.wikipedia.org/wiki/Computer_chess
+https://en.wikipedia.org/wiki/IBM_Deep_Blue
+https://en.wikipedia.org/wiki/Jeopardy!
+https://en.wikipedia.org/wiki/Watson_(artificial_intelligence_software)
+https://en.wikipedia.org/wiki/Go_(game)
+https://en.wikipedia.org/wiki/AlphaGo
+https://en.wikipedia.org/wiki/Poker
+https://en.wikipedia.org/wiki/Pluribus_(poker_bot)
+https://en.wikipedia.org/wiki/Cepheus_(poker_bot)
+https://en.wikipedia.org/wiki/Esports
+https://en.wikipedia.org/wiki/StarCraft
+https://en.wikipedia.org/wiki/General_game_playing
+https://en.wikipedia.org/wiki/AlphaZero
+https://en.wikipedia.org/wiki/MuZero
+https://en.wikipedia.org/wiki/Go_(game)
+https://en.wikipedia.org/wiki/Chess
+https://en.wikipedia.org/wiki/Imperfect_information
+https://en.wikipedia.org/wiki/ITU_AI_for_Good
+https://en.wikipedia.org/wiki/University_of_Southern_California
+https://en.wikipedia.org/wiki/Artificial_intelligence
+https://en.wikipedia.org/wiki/Agricultural_robot
+https://en.wikipedia.org/wiki/Predictive_analytics
+https://en.wikipedia.org/wiki/Animal_welfare#Farmed_animals
+https://en.wikipedia.org/wiki/Greenhouse
+https://en.wikipedia.org/wiki/Computer_security
+https://en.wikipedia.org/wiki/Neural_network
+https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Natural_language_processing
+
+
+4/9/24, 7:50 PM Applications of artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Applications_of_artificial_intelligence 3/51
+
+Network protection: Machine learning improves intrusion detection systems by broadening the search
+beyond previously identified threats.
+Endpoint protection: Attacks such as ransomware can be thwarted by learning typical malware behaviors.
+Application security: can help counterattacks such as server-side request forgery, SQL injection, cross-site
+scripting, and distributed denial-of-service.
+Suspect user behavior: Machine learning can identify fraud or compromised applications as they occur.[58]
+
+Google fraud czar Shuman Ghosemajumder has said that AI will be used to completely automate most cyber
+security operations over time.[59]
+
+AI tutors such as Khanmigo and Duolingo allow students to get one-on-one help.[60] They can reduce anxiety
+and stress for students stemming from tutor labs or human tutors.[61]
+
+AI applications that hinder students' ability to stay on task, such as recommender systems, can create a
+dysfunctional environment, sometimes with revenge effects.[62][63] AI can be also used to provide early
+prediction of student success in a virtual learning environment (VLE) such as Moodle.[64]
+
+In the education process, students can personalize their training with the help of artificial intelligence. And for
+teaching professionals, the technology provided by AI can improve the quality of the educational process and
+teaching skills.[65]
+
+Since the launch of OpenAI's API in 2022, some students have used the software to generate their essay
+assignments.[66] AI text detectors can be used to scan essays generated by artificial intelligence in order to try to
+establish genuine authorship. However, a study found that seven of the most used of these detectors often
+wrongly flagged articles written by those whose first language was not English as AI-generated, thus
+discriminating against so called 'non-native' English speakers.[67]
+
+Financial institutions have long used artificial neural network systems to detect charges or claims outside of the
+norm, flagging these for human investigation. The use of AI in banking began in 1987 when Security Pacific
+National Bank launched a fraud prevention taskforce to counter the unauthorized use of debit cards.[68] Kasisto
+and Moneystream use AI.
+
+Banks use AI to organize operations, for bookkeeping, investing in stocks, and managing properties. AI can
+react to changes when business is not taking place.[69] AI is used to combat fraud and financial crimes by
+monitoring behavioral patterns for any abnormal changes or anomalies.[70][71][72]
+
+The use of AI in applications such as online trading and decision making has changed major economic
+theories.[73] For example, AI-based buying and selling platforms estimate individualized demand and supply
+curves and thus enable individualized pricing. AI machines reduce information asymmetry in the market and
+thus make markets more efficient.[74] The application of artificial intelligence in the financial industry can
+alleviate the financing constraints of non-state-owned enterprises. Especially for smaller and more innovative
+enterprises.[75]
+
+Algorithmic trading involves the use of AI systems to make trading decisions at speeds orders of magnitude
+greater than any human is capable of, making millions of trades in a day without human intervention. Such
+high-frequency trading represents a fast-growing sector. Many banks, funds, and proprietary trading firms now
+
+Education
+
+Finance
+
+Trading and investment
+
+https://en.wikipedia.org/wiki/Intrusion_detection_system
+https://en.wikipedia.org/wiki/Ransomware
+https://en.wikipedia.org/wiki/Server-side_request_forgery
+https://en.wikipedia.org/wiki/SQL_injection
+https://en.wikipedia.org/wiki/Cross-site_scripting
+https://en.wikipedia.org/wiki/Cross-site_scripting
+https://en.wikipedia.org/wiki/Distributed-denial-of-service
+https://en.wikipedia.org/wiki/Shuman_Ghosemajumder
+https://en.wikipedia.org/wiki/AI_tutor
+https://en.wikipedia.org/wiki/Khanmigo
+https://en.wikipedia.org/wiki/Duolingo
+https://en.wikipedia.org/wiki/Artificial_intelligence_content_detection
+https://en.wikipedia.org/wiki/Financial_institution
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Banking
+https://en.wikipedia.org/wiki/Security_Pacific_National_Bank
+https://en.wikipedia.org/wiki/Security_Pacific_National_Bank
+https://en.wikipedia.org/wiki/Artificial_intelligence_in_fraud_detection
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Information_asymmetry
+https://en.wikipedia.org/wiki/Efficient_market_hypothesis
+https://en.wikipedia.org/wiki/Algorithmic_trading
+https://en.wikipedia.org/wiki/High-frequency_trading
+
+
+4/9/24, 7:50 PM Applications of artificial intelligence - Wikipedia
+
+https://en.wikipedia.org/wiki/Applications_of_artificial_intelligence 4/51
+
+have entire portfolios that are AI-managed. Automated trading systems are typically used by large institutional
+investors but include smaller firms trading with their own AI systems.[76]
+
+Large financial institutions use AI to assist with their investment practices. BlackRock's AI engine, Aladdin, is
+used both within the company and by clients to help with investment decisions. Its functions include the use of
+natural language processing to analyze text such as news, broker reports, and social media feeds. It then gauges
+the sentiment on the companies mentioned and assigns a score. Banks such as UBS and Deutsche Bank use
+SQREEM (Sequential Quantum Reduction and Extraction Model) to mine data to develop consumer profiles
+and match them with wealth management products.[77]
+
+Online lender Upstart uses machine learning for underwriting.[78]
+
+ZestFinance's Zest Automated Machine Learning (ZAML) platform is used for credit underwriting. This
+platform uses machine learning to analyze data including purchase transactions and how a customer fills out a
+form to score borrowers. The platform is particularly useful to assign credit scores to those with limited credit
+histories.[79]
+
+AI makes continuous auditing possible. Potential benefits include reducing audit risk, increasing the level of
+assurance, and reducing audit duration.[80]
+
+AI software, such as LaundroGraph which uses contemporary suboptimal datasets, could be used for anti-
+money laundering (AML).[81][82] AI can be used to "develop the AML pipeline into a robust, scalable solution
+with a reduced false p

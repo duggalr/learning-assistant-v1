@@ -26,11 +26,11 @@ def get_embedding(text, model="text-embedding-3-small"):
     return client.embeddings.create(input = [text], model=model).data[0].embedding
 
 
-bsize = 15000
-text_file_path_list = [
-    '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/text_files',
-    '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files'
-]
+# bsize = 15000
+# text_file_path_list = [
+#     '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/text_files',
+#     '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files'
+# ]
 
 # final_file_list = []
 # final_file_embedding_list = []
@@ -70,20 +70,20 @@ text_file_path_list = [
 #     pickle.dump(final_file_list, f)
 
 
-print(f"Opening all Pickle Files...")
+# print(f"Opening all Pickle Files...")
 
-with open('final_file_list.pkl', 'rb') as f:
-    final_file_list = pickle.load(f)
+# with open('final_file_list.pkl', 'rb') as f:
+#     final_file_list = pickle.load(f)
 
-with open('final_file_embedding_list.pkl', 'rb') as f:
-    final_file_embedding_list = pickle.load(f)
+# with open('final_file_embedding_list.pkl', 'rb') as f:
+#     final_file_embedding_list = pickle.load(f)
 
-np_embedding_list = np.array(final_file_embedding_list)
-embedding_dimension = np_embedding_list[0].shape[0]
-index = faiss.IndexFlatL2(embedding_dimension)
-index.add(np_embedding_list)
-print(index.ntotal)
-faiss.write_index(index, 'embedding.index')
+# np_embedding_list = np.array(final_file_embedding_list)
+# embedding_dimension = np_embedding_list[0].shape[0]
+# index = faiss.IndexFlatL2(embedding_dimension)
+# index.add(np_embedding_list)
+# print(index.ntotal)
+# faiss.write_index(index, 'embedding.index')
 
 
 

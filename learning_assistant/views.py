@@ -15,7 +15,7 @@ from authlib.integrations.django_client import OAuth
 
 from .models import *
 from . import main_utils
-from .scripts.personal_course_gen import a_student_description_generation, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
+from .scripts.personal_course_gen import a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
 
 
 if 'PRODUCTION' not in os.environ:
@@ -852,7 +852,7 @@ def handle_student_background_chat_message(request):
 
         print('PREVIOUS CONV:', prev_conversation_st)
 
-        model_response_dict = a_student_description_generation.generate_answer(
+        model_response_dict = a_student_description_generation_new.generate_answer(
             student_response = user_question,
             prev_chat_history = prev_conversation_st
         )

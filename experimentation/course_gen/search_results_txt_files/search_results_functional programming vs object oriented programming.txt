@@ -1,0 +1,10 @@
+Name: Functional programming vs OOP: Which paradigm to use - Educative | Url: https://www.educative.io/blog/functional-programming-vs-oop
+Name: Difference between Functional Programming and Object Oriented ... | Url: https://www.geeksforgeeks.org/difference-between-functional-programming-and-object...
+Name: oop - Functional programming vs Object Oriented programming - Stack ... | Url: https://stackoverflow.com/questions/2078978
+Name: Functional vs Object Oriented Programming | Url: https://betterprogramming.pub/functional-vs-object-oriented-programming-e5939c8105ff
+Name: Object-oriented vs. functional programming explained | Url: https://www.techtarget.com/.../tip/Functional-vs-object-oriented-programming-The-basics
+Name: Functional Programming vs Object-Oriented Programming in ... - DataCamp | Url: https://www.datacamp.com/tutorial/functional-programming-vs-object-oriented-programming
+Name: The Complete Coder's Guide to Functional Programming vs OOP - CareerFoundry | Url: https://careerfoundry.com/en/blog/web-development/functional-programming-vs-oop
+Name: Object- and function-oriented programming concepts and principles | Url: https://developer.ibm.com/tutorials/oo-v-functional-programming
+Name: OOP vs. Functional Programming — Which Is Better? | Url: https://betterprogramming.pub/oop-vs-functional-programming-which-is-better-4f0dd89b7987
+Name: Functional vs Object-Oriented Programming: 8 Key Differences | Url: https://axiomq.com/blog/functional-vs-object-oriented-programming-8-key-differences

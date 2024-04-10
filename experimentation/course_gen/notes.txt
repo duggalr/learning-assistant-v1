@@ -59,3 +59,9 @@ For above:
     # continue testing on all the modules in the course-outline above
         # first 'what is AI' subtopic is good
         # test all the remaining and continue adding to the knowledge-base <-- need to ensure it is retrieving correctly and it helps
+
+
+TODO:
+- add bing search api to course outline + notes
+    - for the notes, having the chat interface to create exercises, further examples, + modifications will be helpful
+

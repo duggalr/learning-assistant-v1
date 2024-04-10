@@ -65,3 +65,15 @@ TODO:
 - add bing search api to course outline + notes
     - for the notes, having the chat interface to create exercises, further examples, + modifications will be helpful
 
+TODO:
+- For Course Outline:
+    - Add 3 results from:
+        - Bing Regular
+        - Bing TB
+        - Bing Course Notes
+
+- For Module Course Note:
+    - Split generation by sub-topic
+        - Generate notes
+            - Version 1 --> No Supp-material
+            - Version 2 --> Supp-material (<-- bing may be useful here initially to dynamically fetch and pass to prompt?)

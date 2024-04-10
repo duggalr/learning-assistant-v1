@@ -1,0 +1,1280 @@
+##Instructions:
+You will be given a student's course outline, along with the specific module the student is currently working on.
+Your goal is to generate course notes ONLY ON THE CURRENT MODULE the student is working on.
+The goal of the course notes will be to help the student develop a strong understanding of that topic.
+
+Your course notes must be generated such that it is specific for the student, given their goals and background.
+The notes should be generated such that, it is very engaging and easy for the student to understand the material.
+Please ensure your course notes for the module are as DETAILED AS POSSIBLE. The more detail, the better for the student.
+
+DO NOT GENERATE ANY NOTES FOR FUTURE MODULES. ONLY FOCUS ON THE CURRENT MODULE.
+As mentioned below, to help you generate detailed notes, you will be given additional, relevant supplementary material from different textbooks and wikipedia.
+Please use this supplementary material for your course note generation.
+Please note that your course notes will be the primary resource for the student, so ensure they are very detailed, rich with examples.
+
+DO NOT PROVIDE ANY REFERENCES OR CITATIONS FOR YOUR COURSE NOTES. Simply generate detailed, relevant notes for the student.
+
+Below, you will be given 4 critical pieces of information:
+- The student's goals, what they want to learn, and their background.
+- The outline of the course the student is currently taking.
+- The specific topic to focus your course notes on.
+- Additional supplementary material on that topic, which you can leverage to help you generate the course notes.
+
+Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
+- "course_notes"
+    - This will be the course notes IN MARKDOWN FORMAT, which will be presented to the student.
+    - Please ensure at the beginning of your markdown, you include the Current Module Name and SubTopics that will be covered, before you include your notes.
+
+##Student Goals/Background Information
+The student wants to learn the foundations of AI, specifically Machine Learning and Deep Learning. They also want to apply this knowledge to real-world applications using LLMs such as GPT.
+
+##Course Outline
+Course Name:
+Introduction to Artificial Intelligence and Machine Learning
+
+Course Description:
+Module 1: Introduction to Artificial Intelligence
+- What is Artificial Intelligence?
+- Overview of AI applications
+- Ethics and impact of AI
+
+Module 2: Fundamentals of Machine Learning
+- Introduction to machine learning
+- Supervised, unsupervised, and reinforcement learning
+- Training and testing models
+
+Module 3: Neural Networks and Deep Learning
+- Understanding neural networks
+- Deep learning concepts
+- Building and training neural networks
+
+Module 4: AI Applications
+- Real-world applications of AI
+- Case studies
+- Project planning
+
+Module 5: Large Language Models and GPT
+- Overview of large language models like GPT
+- Understanding GPT-3
+- Practical applications of GPT
+
+Module 6: Building AI Applications with GPT API
+- Introduction to GPT API
+- Implementing GPT API in projects
+- Developing a simple application using GPT API
+
+
+##Current Week Topic Information
+Fundamentals of Machine Learning
+- Supervised, unsupervised, and reinforcement learning
+
+##Supplementary Material
+f (previously) unknown properties in the data (this is the
+analysis step of knowledge discovery in databases). Data mining uses many machine learning
+methods, but with different goals; on the other hand, machine learning also employs data mining
+methods as "unsupervised learning" or as a preprocessing step to improve learner accuracy. Much of
+the confusion between these two research communities (which do often have separate conferences
+and separate journals, ECML PKDD being a major exception) comes from the basic assumptions they
+work with: in machine learning, performance is usually evaluated with respect to the ability to
+reproduce known knowledge, while in knowledge discovery and data mining (KDD) the key task is the
+discovery of previously unknown knowledge. Evaluated with respect to known knowledge, an
+uninformed (unsupervised) method will easily be outperformed by other supervised methods, while in
+a typical KDD task, supervised methods cannot be used due to the unavailability of training data.
+
+Machine learning also has intimate ties to optimization: many learning problems are formulated as
+minimization of some loss function on a training set of examples. Loss functions express the
+discrepancy between the predictions of the model being trained and the actual problem instances (for
+example, in classification, one wants to assign a label to instances, and models are trained to correctly
+predict the pre-assigned labels of a set of examples).[35]
+
+The difference between optimization and machine learning arises from the goal of generalization:
+while optimization algorithms can minimize the loss on a training set, machine learning is concerned
+with minimizing the loss on unseen samples. Characterizing the generalization of various learning
+algorithms is an active topic of current research, especially for deep learning algorithms.
+
+Machine learning and statistics are closely related fields in terms of methods, but distinct in their
+principal goal: statistics draws population inferences from a sample, while machine learning finds
+generalizable predictive patterns.[36] According to Michael I. Jordan, the ideas of machine learning,
+from methodological principles to theoretical tools, have had a long pre-history in statistics.[37] He
+also suggested the term data science as a placeholder to call the overall field.[37]
+
+Conventional statistical analyses require the a priori selection of a model most suitable for the study
+data set. In addition, only significant or theoretically relevant variables based on previous experience
+are included for analysis. In contrast, machine learning is not built on a pre-structured model; rather,
+
+Data mining
+
+Generalization
+
+Statistics
+
+https://en.wikipedia.org/wiki/Large_language_model
+https://en.wikipedia.org/wiki/DeepMind
+https://en.wikipedia.org/wiki/Portable_Network_Graphics
+https://en.wikipedia.org/wiki/Free_Lossless_Audio_Codec
+https://en.wikipedia.org/wiki/Data_mining
+https://en.wikipedia.org/wiki/Data_mining
+https://en.wikipedia.org/wiki/Discovery_(observation)
+https://en.wikipedia.org/wiki/Knowledge_discovery
+https://en.wikipedia.org/wiki/Data_mining
+https://en.wikipedia.org/wiki/Unsupervised_learning
+https://en.wikipedia.org/wiki/ECML_PKDD
+https://en.wikipedia.org/wiki/Mathematical_optimization
+https://en.wikipedia.org/wiki/Loss_function
+https://en.wikipedia.org/wiki/Generalization_(learning)
+https://en.wikipedia.org/wiki/Deep_learning
+https://en.wikipedia.org/wiki/Statistics
+https://en.wikipedia.org/wiki/Statistical_inference
+https://en.wikipedia.org/wiki/Sample_(statistics)
+https://en.wikipedia.org/wiki/Michael_I._Jordan
+https://en.wikipedia.org/wiki/Data_science
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 5/38
+
+the data shape the model by detecting underlying patterns. The more variables (input) used to train
+the model, the more accurate the ultimate model will be.[38]
+
+Leo Breiman distinguished two statistical modeling paradigms: data model and algorithmic model,[39]
+
+wherein "algorithmic model" means more or less the machine learning algorithms like Random
+Forest.
+
+Some statisticians have adopted methods from machine learning, leading to a combined field that they
+call statistical learning.[40]
+
+Analytical and computational techniques derived from deep-rooted physics of disordered systems can
+be extended to large-scale problems, including machine learning, e.g., to analyze the weight space of
+deep neural networks.[41] Statistical physics is thus finding applications in the area of medical
+diagnostics.[42]
+
+A core objective of a learner is to generalize from its experience.[6][43] Generalization in this context is
+the ability of a learning machine to perform accurately on new, unseen examples/tasks after having
+experienced a learning data set. The training examples come from some generally unknown
+probability distribution (considered representative of the space of occurrences) and the learner has to
+build a general model about this space that enables it to produce sufficiently accurate predictions in
+new cases.
+
+The computational analysis of machine learning algorithms and their performance is a branch of
+theoretical computer science known as computational learning theory via the Probably Approximately
+Correct Learning (PAC) model. Because training sets are finite and the future is uncertain, learning
+theory usually does not yield guarantees of the performance of algorithms. Instead, probabilistic
+bounds on the performance are quite common. The bias–variance decomposition is one way to
+quantify generalization error.
+
+For the best performance in the context of generalization, the complexity of the hypothesis should
+match the complexity of the function underlying the data. If the hypothesis is less complex than the
+function, then the model has under fitted the data. If the complexity of the model is increased in
+response, then the training error decreases. But if the hypothesis is too complex, then the model is
+subject to overfitting and generalization will be poorer.[44]
+
+In addition to performance bounds, learning theorists study the time complexity and feasibility of
+learning. In computational learning theory, a computation is considered feasible if it can be done in
+polynomial time. There are two kinds of time complexity results: Positive results show that a certain
+class of functions can be learned in polynomial time. Negative results show that certain classes cannot
+be learned in polynomial time.
+
+Statistical physics
+
+Theory
+
+Approaches
+
+https://en.wikipedia.org/wiki/Leo_Breiman
+https://en.wikipedia.org/wiki/Random_forest
+https://en.wikipedia.org/wiki/Random_forest
+https://en.wikipedia.org/wiki/Deep_neural_network
+https://en.wikipedia.org/wiki/Medical_diagnostics
+https://en.wikipedia.org/wiki/Medical_diagnostics
+https://en.wikipedia.org/wiki/Theoretical_computer_science
+https://en.wikipedia.org/wiki/Computational_learning_theory
+https://en.wikipedia.org/wiki/Probably_approximately_correct_learning
+https://en.wikipedia.org/wiki/Probably_approximately_correct_learning
+https://en.wikipedia.org/wiki/Bias%E2%80%93variance_decomposition
+https://en.wikipedia.org/wiki/Errors_and_residuals
+https://en.wikipedia.org/wiki/Overfitting
+https://en.wikipedia.org/wiki/Time_complexity#Polynomial_time
+https://en.wikipedia.org/wiki/Time_complexity
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 6/38
+
+A support-vector machine is a
+supervised learning model that
+divides the data into regions
+separated by a linear boundary.
+Here, the linear boundary divides
+the black circles from the white.
+
+Machine learning approaches are traditionally divided into three broad categories, which correspond
+to learning paradigms, depending on the nature of the "signal" or "feedback" available to the learning
+system:
+
+Supervised learning: The computer is presented with example inputs and their desired outputs,
+given by a "teacher", and the goal is to learn a general rule that maps inputs to outputs.
+Unsupervised learning: No labels are given to the learning algorithm, leaving it on its own to find
+structure in its input. Unsupervised learning can be a goal in itself (discovering hidden patterns in
+data) or a means towards an end (feature learning).
+Reinforcement learning: A computer program interacts with a dynamic environment in which it
+must perform a certain goal (such as driving a vehicle or playing a game against an opponent). As
+it navigates its problem space, the program is provided feedback that's analogous to rewards,
+which it tries to maximize.[6]
+
+Although each algorithm has advantages and limitations, no single algorithm works for all
+problems.[45][46][47]
+
+Supervised learning algorithms build a mathematical model of a
+set of data that contains both the inputs and the desired
+outputs.[48] The data is known as training data, and consists of a
+set of training examples. Each training example has one or more
+inputs and the desired output, also known as a supervisory signal.
+In the mathematical model, each training example is represented
+by an array or vector, sometimes called a feature vector, and the
+training data is represented by a matrix. Through iterative
+optimization of an objective function, supervised learning
+algorithms learn a function that can be used to predict the output
+associated with new inputs.[49] An optimal function allows the
+algorithm to correctly determine the output for inputs that were
+not a part of the training data. An algorithm that improves the
+accuracy of its outputs or predictions over time is said to have
+learned to perform that task.[19]
+
+Types of supervised-learning algorithms include active learning,
+classification and regression.[50] Classification algorithms are used
+when the outputs are restricted to a limited set of values, and
+regression algorithms are used when the outputs may have any numerical value within a range. As an
+example, for a classification algorithm that filters emails, the input would be an incoming email, and
+the output would be the name of the folder in which to file the email.
+
+Supervised learning
+
+https://en.wikipedia.org/wiki/File:Svm_max_sep_hyperplane_with_margin.png
+https://en.wikipedia.org/wiki/File:Svm_max_sep_hyperplane_with_margin.png
+https://en.wikipedia.org/wiki/Support-vector_machine
+https://en.wikipedia.org/wiki/Linear_classifier
+https://en.wikipedia.org/wiki/Supervised_learning
+https://en.wikipedia.org/wiki/Map_(mathematics)
+https://en.wikipedia.org/wiki/Unsupervised_learning
+https://en.wikipedia.org/wiki/Feature_learning
+https://en.wikipedia.org/wiki/Reinforcement_learning
+https://en.wikipedia.org/wiki/Autonomous_car
+https://en.wikipedia.org/wiki/Training_data
+https://en.wikipedia.org/wiki/Array_data_structure
+https://en.wikipedia.org/wiki/Feature_vector
+https://en.wikipedia.org/wiki/Matrix_(mathematics)
+https://en.wikipedia.org/wiki/Mathematical_optimization#Computational_optimization_techniques
+https://en.wikipedia.org/wiki/Mathematical_optimization#Computational_optimization_techniques
+https://en.wikipedia.org/wiki/Loss_function
+https://en.wikipedia.org/wiki/Active_learning_(machine_learning)
+https://en.wikipedia.org/wiki/Statistical_classification
+https://en.wikipedia.org/wiki/Regression_analysis
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 7/38
+
+Clustering via Large Indel Permuted Slopes, CLIPS, turns the alignment image into a
+learning regression problem. The varied slope (b) estimates between each pair of DNA
+segments enables to identify segments sharing the same set of indels.
+
+Similarity learning is an area of supervised machine learning closely related to regression and
+classification, but the goal is to learn from examples using a similarity function that measures how
+similar or related two objects are. It has applications in ranking, recommendation systems, visual
+identity tracking, face verification, and speaker verification.
+
+Unsupervised learning algorithms find structures in data that has not been labeled, classified or
+categorized. Instead of responding to feedback, unsupervised learning algorithms identify
+commonalities in the data and react based on the presence or absence of such commonalities in each
+new piece of data. Central applications of unsupervised machine learning include clustering,
+dimensionality reduction,[8] and density estimation.[51] Unsupervised learning algorithms also
+streamlined the process of identifying large indel based haplotypes of a gene of interest from pan-
+genome.[52]
+
+Cluster analysis is the assignment of a set of observations into subsets (called clusters) so that
+observations within the same cluster are similar according to one or more predesignated criteria,
+while observations drawn from different clusters are dissimilar. Different clustering techniques make
+different assumptions on the structure of the data, often defined by some similarity metric and
+evaluated, for example, by internal compactness, or the similarity between members of the same
+cluster, and separation, the difference between clusters. Other methods are based on estimated
+density and graph connectivity.
+
+Semi-supervised learning falls between unsupervised learning (without any labeled training data) and
+supervised learning (with completely labeled training data). Some of the training examples are
+missing training labels, yet many machine-learning researchers have found that unlabeled data, when
+used in conjunction with a small amount of labeled data, can produce a considerable improvement in
+learning accuracy.
+
+In weakly supervised learning, the training labels are noisy, limited, or imprecise; however, these
+labels are often cheaper to obtain, resulting in larger effective training sets.[53]
+
+Unsupervised learning
+
+Semi-supervised learning
+
+Reinforcement learning
+
+https://en.wikipedia.org/wiki/File:CLIPS.jpg
+https://en.wikipedia.org/wiki/File:CLIPS.jpg
+https://doi.org/10.1101/2023.02.11.527743
+https://en.wikipedia.org/wiki/Similarity_learning
+https://en.wikipedia.org/wiki/Ranking
+https://en.wikipedia.org/wiki/Recommender_system
+https://en.wikipedia.org/wiki/Dimensionality_reduction
+https://en.wikipedia.org/wiki/Density_estimation
+https://en.wikipedia.org/wiki/Indel
+https://en.wikipedia.org/wiki/Haplotype
+https://en.wikipedia.org/wiki/Pan-genome
+https://en.wikipedia.org/wiki/Pan-genome
+https://en.wikipedia.org/wiki/Unsupervised_learning
+https://en.wikipedia.org/wiki/Supervised_learning
+https://en.wikipedia.org/wiki/Weak_supervision
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 8/38
+
+Reinforcement learning is an area of machine learning concerned with how software agents ought to
+take actions in an environment so as to maximize some notion of cumulative reward. Due to its
+generality, the field is studied in many other disciplines, such as game theory, control theory,
+operations research, information theory, simulation-
+y,
+asymmetric.
+
+3-layers:
+asymmetric
+weights. 2
+networks
+combined into
+1.
+
+3-layers. The input
+is considered a
+layer even though
+it has no inbound
+weights. recurrent
+layers for NLP.
+feedforward
+convolutions for
+vision. input &
+output have the
+same neuron
+counts.
+
+3-layers: input,
+encoder,
+distribution sampler
+decoder. the
+sampler is not
+considered a layer
+
+Inference &
+energy
+
+Energy is given by Gibbs
+probability measure :
+
+← same ← same minimize KL
+divergence
+
+inference is only
+feed-forward.
+previous UL
+networks ran
+forwards AND
+backwards
+
+minimize error =
+reconstruction error
+- KLD
+
+Training Δwij = si*sj, for +1/-1 neuron
+
+Δwij = e*(pij - p'ij).
+This is derived
+from minimizing
+KLD. e = learning
+rate, p' = predicted
+and p = actual
+distribution.
+
+Δwij = e*( < vi hj
+>data - < vi hj
+>equilibrium ).
+This is a form of
+contrastive
+divergence w/
+Gibbs Sampling.
+"<>" are
+expectations.
+
+← similar. train
+1-layer at a
+time.
+approximate
+equilibrium
+state with a 3-
+segment pass.
+no back
+propagation.
+
+wake-sleep 2
+phase
+training
+
+back propagate the
+reconstruction
+error
+
+reparameterize
+hidden state for
+backprop
+
+Strength resembles physical systems so it
+inherits their equations
+
+← same. hidden
+neurons act as
+internal
+representatation of
+the external world
+
+faster more
+practical training
+scheme than
+Boltzmann
+machines
+
+trains quickly.
+gives
+hierarchical
+layer of features
+
+mildly
+anatomical.
+analyzable w/
+information
+theory &
+statistical
+mechanics
+
+Weakness hard to train due to
+lateral connections
+
+equilibrium
+requires too
+many iterations
+
+integer & real-
+valued neurons
+are more
+complicated.
+
+The classical example of unsupervised learning in the study of neural networks is Donald Hebb's principle, that is, neurons that fire together wire
+together.[4] In Hebbian learning, the connection is reinforced irrespective of an error, but is exclusively a function of the coincidence between action
+potentials between the two neurons.[5] A similar version that modifies synaptic weights takes into account the time between the action potentials
+(spike-timing-dependent plasticity or STDP). Hebbian Learning has been hypothesized to underlie a range of cognitive functions, such as pattern
+recognition and experiential learning.
+
+Comparison of networks
+
+Hebbian Learning, ART, SOM
+
+https://en.wikipedia.org/wiki/Donald_Hebb
+https://en.wikipedia.org/wiki/Hebbian_learning
+https://en.wikipedia.org/wiki/Spike-timing-dependent_plasticity
+https://en.wikipedia.org/wiki/Pattern_recognition
+https://en.wikipedia.org/wiki/Pattern_recognition
+
+
+4/9/24, 8:12 PM Unsupervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Unsupervised_learning 5/6
+
+Among neural network models, the self-organizing map (SOM) and adaptive resonance theory (ART) are commonly used in unsupervised learning
+algorithms. The SOM is a topographic organization in which nearby locations in the map represent inputs with similar properties. The ART model
+allows the number of clusters to vary with problem size and lets the user control the degree of similarity between members of the same clusters by
+means of a user-defined constant called the vigilance parameter. ART networks are used for many pattern recognition tasks, such as automatic
+target recognition and seismic signal processing.[6]
+
+Two of the main methods used in unsupervised learning are principal component and cluster analysis. Cluster analysis is used in unsupervised
+learning to group, or segment, datasets with shared attributes in order to extrapolate algorithmic relationships.[7] Cluster analysis is a branch of
+machine learning that groups the data that has not been labelled, classified or categorized. Instead of responding to feedback, cluster analysis
+identifies commonalities in the data and reacts based on the presence or absence of such commonalities in each new piece of data. This approach
+helps detect anomalous data points that do not fit into either group.
+
+A central application of unsupervised learning is in the field of density estimation in statistics,[8] though unsupervised learning encompasses many
+other domains involving summarizing and explaining data features. It can be contrasted with supervised learning by saying that whereas supervised
+learning intends to infer a conditional probability distribution conditioned on the label of input data; unsupervised learning intends to infer an a
+priori probability distribution .
+
+Some of the most common algorithms used in unsupervised learning include: (1) Clustering, (2) Anomaly detection, (3) Approaches for learning
+latent variable models. Each approach uses several methods as follows:
+
+Clustering methods include: hierarchical clustering,[9] k-means,[10] mixture models, model-based clustering, DBSCAN, and OPTICS algorithm
+Anomaly detection methods include: Local Outlier Factor, and Isolation Forest
+Approaches for learning latent variable models such as Expectation–maximization algorithm (EM), Method of moments, and Blind signal
+separation techniques (Principal component analysis, Independent component analysis, Non-negative matrix factorization, Singular value
+decomposition)
+
+One of the statistical approaches for unsupervised learning is the method of moments. In the method of moments, the unknown parameters (of
+interest) in the model are related to the moments of one or more random variables, and thus, these unknown parameters can be estimated given the
+moments. The moments are usually estimated from samples empirically. The basic moments are first and second order moments. For a random
+vector, the first order moment is the mean vector, and the second order moment is the covariance matrix (when the mean is zero). Higher order
+moments are usually represented using tensors which are the generalization of matrices to higher orders as multi-dimensional arrays.
+
+In particular, the method of moments is shown to be effective in learning the parameters of latent variable models. Latent variable models are
+statistical models where in addition to the observed variables, a set of latent variables also exists which is not observed. A highly practical example
+of latent variable models in machine learning is the topic modeling which is a statistical model for generating the words (observed variables) in the
+document based on the topic (latent variable) of the document. In the topic modeling, the words in the document are generated according to
+different statistical parameters when the topic of the document is changed. It is shown that method of moments (tensor decomposition techniques)
+consistently recover the parameters of a large class of latent variable models under some assumptions.[11]
+
+The Expectation–maximization algorithm (EM) is also one of the most practical methods for learning latent variable models. However, it can get
+stuck in local optima, and it is not guaranteed that the algorithm will converge to the true unknown parameters of the model. In contrast, for the
+method of moments, the global convergence is guaranteed under some conditions.
+
+Automated machine learning
+Cluster analysis
+Model-based clustering
+Anomaly detection
+Expectation–maximization algorithm
+Generative topographic map
+Meta-learning (computer science)
+Multivariate analysis
+Radial basis function network
+
+Probabilistic methods
+
+Approaches
+
+Method of moments
+
+See also
+
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Self-organizing_map
+https://en.wikipedia.org/wiki/Adaptive_resonance_theory
+https://en.wikipedia.org/wiki/Automatic_target_recognition
+https://en.wikipedia.org/wiki/Automatic_target_recognition
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Labeled_data
+https://en.wikipedia.org/wiki/Density_estimation
+https://en.wikipedia.org/wiki/Statistics
+https://en.wikipedia.org/wiki/Conditional_probability_distribution
+https://en.wikipedia.org/wiki/A_priori_probability
+https://en.wikipedia.org/wiki/A_priori_probability
+https://en.wikipedia.org/wiki/Data_clustering
+https://en.wikipedia.org/wiki/Hierarchical_clustering
+https://en.wikipedia.org/wiki/K-means
+https://en.wikipedia.org/wiki/Mixture_models
+https://en.wikipedia.org/wiki/Model-based_clustering
+https://en.wikipedia.org/wiki/DBSCAN
+https://en.wikipedia.org/wiki/OPTICS_algorithm
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Local_Outlier_Factor
+https://en.wikipedia.org/wiki/Isolation_Forest
+https://en.wikipedia.org/wiki/Latent_variable_model
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Method_of_moments_(statistics)
+https://en.wikipedia.org/wiki/Blind_signal_separation
+https://en.wikipedia.org/wiki/Blind_signal_separation
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Independent_component_analysis
+https://en.wikipedia.org/wiki/Non-negative_matrix_factorization
+https://en.wikipedia.org/wiki/Singular_value_decomposition
+https://en.wikipedia.org/wiki/Singular_value_decomposition
+https://en.wikipedia.org/wiki/Method_of_moments_(statistics)
+https://en.wikipedia.org/wiki/Mean
+https://en.wikipedia.org/wiki/Covariance_matrix
+https://en.wikipedia.org/wiki/Tensors
+https://en.wikipedia.org/wiki/Latent_variable_model
+https://en.wikipedia.org/wiki/Topic_modeling
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Automated_machine_learning
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Model-based_clustering
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Generative_topographic_map
+https://en.wikipedia.org/wiki/Meta-learning_(computer_science)
+https://en.wikipedia.org/wiki/Multivariate_analysis
+https://en.wikipedia.org/wiki/Radial_basis_function_network
+
+
+4/9/24, 8:12 PM Unsupervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Unsupervised_learning 6/6
+
+Weak supervision
+
+1. Hinton, G. (2012). "A Practical Guide to Training Restricted
+Boltzmann Machines" (http://www.cs.utoronto.ca/~hinton/absps/guid
+eTR.pdf) (PDF). Neural Networks: Tricks of the Trade. Lecture Notes
+in Computer Science. Vol. 7700. Springer. pp. 599–619.
+doi:10.1007/978-3-642-35289-8_32 (https://doi.org/10.1007%2F978-
+3-642-35289-8_32). ISBN 978-3-642-35289-8.
+
+2. Hinton, Geoffrey (September 2009). "Deep Belief Nets" (https://video
+lectures.net/mlss09uk_hinton_dbn) (video).
+
+3. Peter, Dayan; Hinton, Geoffrey E.; Neal, Radford M.; Zemel, Richard
+S. (1995). "The Helmholtz machine". Neural Computation. 7 (5):
+889–904. doi:10.1162/neco.1995.7.5.889 (https://doi.org/10.1162%2
+Fneco.1995.7.5.889). hdl:21.11116/0000-0002-D6D3-E (https://hdl.h
+andle.net/21.11116%2F0000-0002-D6D3-E). PMID 7584891 (https://
+pubmed.ncbi.nlm.nih.gov/7584891). S2CID 1890561 (https://api.sem
+anticscholar.org/CorpusID:1890561). 
+
+4. Buhmann, J.; Kuhnel, H. (1992). "Unsupervised and supervised data
+clustering with competitive neural networks". [Proceedings 1992]
+IJCNN International Joint Conference on Neural Networks. Vol. 4.
+IEEE. pp. 796–801. doi:10.1109/ijcnn.1992.227220 (https://doi.org/1
+0.1109%2Fijcnn.1992.227220). ISBN 0780305590. S2CID 62651220
+(https://api.semanticscholar.org/CorpusID:62651220).
+
+5. Comesaña-Campos, Alberto; Bouza-Rodríguez, José Benito (June
+2016). "An application of Hebbian learning in the design process
+decision-making". Journal of Intelligent Manufacturing. 27 (3): 487–
+506. doi:10.1007/s10845-014-0881-z (https://doi.org/10.1007%2Fs1
+0845-014-0881-z). ISSN 0956-5515 (https://www.worldcat.org/issn/0
+956-5515). S2CID 207171436 (https://api.semanticscholar.org/Corpu
+sID:207171436).
+
+6. Carpenter, G.A. & Grossberg, S. (1988). "The ART of adaptive
+pattern recognition by a self-organizing neural network" (https://web.
+archive.org/web/20180516131553/http://www.cns.bu.edu/Profiles/Gr
+ossberg/CarGro1988Computer.pdf) (PDF). Computer. 21 (3): 77–88.
+doi:10.1109/2.33 (https://doi.org/10.1109%2F2.33). S2CID 14625094
+(https://api.semanticscholar.org/CorpusID:14625094). Archived from
+the original (http://www.cns.bu.edu/Profiles/Grossberg/CarGro1988C
+omputer.pdf) (PDF) on 2018-05-16. Retrieved 2013-09-16.
+
+7. Roman, Victor (2019-04-21). "Unsupervised Machine Learning:
+Clustering Analysis" (https://towardsdatascience.com/unsupervised-
+machine-learning-clustering-analysis-d40f2b34ae7e). Medium.
+Retrieved 2019-10-01.
+
+8. Jordan, Michael I.; Bishop, Christopher M. (2004). "7. Intelligent
+Systems §Neural Networks". In Tucker, Allen B. (ed.). Computer
+Science Handbook (https://www.taylorfrancis.com/books/mono/10.12
+01/9780203494455/computer-science-handbook-allen-tucker)
+(2nd ed.). Chapman & Hall/CRC Press. doi:10.1201/9780203494455
+(https://doi.org/10.1201%2F9780203494455). ISBN 1-58488-360-X.
+
+9. Hastie, Tibshirani & Friedman 2009, pp. 485–586
+10. Garbade, Dr Michael J. (2018-09-12). "Understanding K-means
+
+Clustering in Machine Learning" (https://towardsdatascience.com/un
+derstanding-k-means-clustering-in-machine-learning-6a6e67336aa
+1). Medium. Retrieved 2019-10-31.
+
+11. Anandkumar, Animashree; Ge, Rong; Hsu, Daniel; Kakade, Sham;
+Telgarsky, Matus (2014). "Tensor Decompositions for Learning
+Latent Variable Models" (http://www.jmlr.org/papers/volume15/anand
+kumar14b/anandkumar14b.pdf) (PDF). Journal of Machine Learning
+Research. 15: 2773–2832. arXiv:1210.7559 (https://arxiv.org/abs/12
+10.7559). Bibcode:2012arXiv1210.7559A (https://ui.adsabs.harvard.
+edu/abs/2012arXiv1210.7559A).
+
+Bousquet, O.; von Luxburg, U.; Raetsch, G., eds. (2004). Advanced Lectures on Machine Learning (https://archive.org/details/springer_10.1007
+-b100712). Springer. ISBN 978-3540231226.
+Duda, Richard O.; Hart, Peter E.; Stork, David G. (2001). "Unsupervised Learning and Clustering". Pattern classification (2nd ed.). Wiley.
+ISBN 0-471-05669-3.
+Hastie, Trevor; Tibshirani, Robert; Friedman, Jerome (2009). "Unsupervised Learning" (https://link.springer.com/chapter/10.1007/978-0-387-848
+58-7_14). The Elements of Statistical Learning: Data mining, Inference, and Prediction. Springer. pp. 485–586. doi:10.1007/978-0-387-84858-
+7_14 (https://doi.org/10.1007%2F978-0-387-84858-7_14). ISBN 978-0-387-84857-0.
+Hinton, Geoffrey; Sejnowski, Terrence J., eds. (1999). Unsupervised Learning: Foundations of Neural Computation. MIT Press. ISBN 0-262-
+58168-X.
+Weak supervision - Wikipedia
+
+4/9/24, 8:12 PM Weak supervision - Wikipedia
+
+https://en.wikipedia.org/wiki/Weak_supervision 1/8
+
+Tendency for a task to employ supervised vs.
+unsupervised methods. Task names straddling
+circle boundaries is intentional. It shows that the
+classical division of imaginative tasks (left)
+employing unsupervised methods is blurred in
+today's learning schemes.
+
+Weak supervision
+(Redirected from Semi-supervised learning)
+Weak supervision is a paradigm in machine learning, the relevance and notability of which
+increased with the advent of large language models due to large amount of data required to train
+them. It is characterized by using a combination of a small amount of human-labeled data (exclusively
+used in more expensive and time-consuming supervised learning paradigm), followed by a large
+amount of unlabeled data (used exclusively in unsupervised learning paradigm). In other words, the
+desired output values are provided only for a subset of the training data. The remaining data is
+unlabeled or imprecisely labeled. Intuitively, it can be seen as an exam and labeled data as sample
+problems that the teacher solves for the class as an aid in solving another set of problems. In the
+transductive setting, these unsolved problems act as exam questions. In the inductive setting, they
+become practice problems of the sort that will make up the exam. Technically, it could be viewed as
+performing clustering and then labeling the clusters with the labeled data, pushing the decision
+boundary away from high-density regions, or learning an underlying one-dimensional manifold where
+the data reside.
+
+The acquisition of labeled data for a learning problem
+often requires a skilled human agent (e.g. to transcribe
+an audio segment) or a physical experiment (e.g.
+determining the 3D structure of a protein or
+determining whether there is oil at a particular
+location). The cost associated with the labeling process
+thus may render large, fully labeled training sets
+infeasible, whereas acquisition of unlabeled data is
+relatively inexpensive. In such situations, semi-
+supervised learning can be of great practical value.
+Semi-supervised learning is also of theoretical interest
+in machine learning and as a model for human
+learning.
+
+More formally, semi-supervised learning assumes a set
+of  independently identically distributed examples
+
+ with corresponding labels  and  unlabeled examples
+ are processed. Semi-supervised learning combines this information to surpass
+
+the classification performance that can be obtained either by discarding the unlabeled data and doing
+supervised learning or by discarding the labels and doing unsupervised learning.
+
+Problem
+
+Technique
+
+https://en.wikipedia.org/wiki/File:Task-guidance.png
+https://en.wikipedia.org/wiki/File:Task-guidance.png
+https://en.wikipedia.org/wiki/Main_Page
+https://en.wikipedia.org/w/index.php?title=Semi-supervised_learning&redirect=no
+https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Large_language_model
+https://en.wikipedia.org/wiki/Labeled_data
+https://en.wikipedia.org/wiki/Supervised_learning
+https://en.wikipedia.org/wiki/Unsupervised_learning
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Independent_identically_distributed
+https://en.wikipedia.org/wiki/Statistical_classification
+
+
+4/9/24, 8:12 PM Weak supervision - Wikipedia
+
+https://en.wikipedia.org/wiki/Weak_supervision 2/8
+
+An example of the influence of
+unlabeled data in semi-
+supervised learning. The top
+panel shows a decision
+boundary we might adopt after
+seeing only one positive (white
+circle) and one negative (black
+circle) example. The bottom
+panel shows a decision
+boundary we might adopt if, in
+addition to the two labeled
+examples, we were given a
+collection of unlabeled data
+(gray circles).
+
+Semi-supervised learning may refer to either transductive learning or
+inductive learning.[1] The goal of transductive learning is to infer the
+correct labels for the given unlabeled data  only. The
+goal of inductive learning is to infer the correct mapping from  to .
+
+It is unnecessary (and, according to Vapnik's principle, imprudent) to
+perform transductive learning by way of inferring a classification rule
+over the entire input space; however, in practice, algorithms formally
+designed for transduction or induction are often used
+interchangeably.
+
+In order to make any use of unlabeled data, some relationship to the
+underlying distribution of data must exist. Semi-supervised learning
+algorithms make use of at least one of the following assumptions:[2]
+
+Points that are close to each other are more likely to share a label.
+This is also generally assumed in supervised learning and yields a
+preference for geometrically simple decision boundaries. In the case of
+semi-supervised learning, the smoothness assumption additionally
+yields a preference for decision boundaries in low-density regions, so
+few points are close to each other but in different classes.[3]
+
+The data tend to form discrete clusters, and points in the same cluster are more likely to share a
+label (although data that shares a label may spread across multiple clusters). This is a special case of
+the smoothness assumption and gives rise to feature learning with clustering algorithms.
+
+The data lie approximately on a manifold of much lower dimension than the input space. In this case
+learning the manifold using both the labeled and unlabeled data can avoid the curse of dimensionality.
+Then learning can proceed using distances and densities defined on the manifold.
+
+The manifold assumption is practical when high-dimensional data are generated by some process that
+may be hard to model directly, but which has only a few degrees of freedom. For instance, human
+voice is controlled by a few vocal folds,[4] and images of various facial expressions are controlled by a
+few muscles. In these cases, it is better to consider distances and smoothness in the natural space of
+the generating problem, rather than in the space of all possible acoustic waves or images, respectively.
+
+Assumptions
+
+Continuity / smoothness assumption
+
+Cluster assumption
+
+Manifold assumption
+
+History
+
+https://en.wikipedia.org/wiki/File:Example_of_unlabeled_data_in_semisupervised_learning.png
+https://en.wikipedia.org/wiki/File:Example_of_unlabeled_data_in_semisupervised_learning.png
+https://en.wikipedia.org/wiki/Transduction_(machine_learning)
+https://en.wikipedia.org/wiki/Inductive_reasoning
+https://en.wikipedia.org/wiki/Vapnik%27s_principle
+https://en.wikipedia.org/wiki/Decision_boundary
+https://en.wikipedia.org/wiki/Feature_learning
+https://en.wikipedia.org/wiki/Manifold
+https://en.wikipedia.org/wiki/Curse_of_dimensionality
+
+
+4/9/24, 8:12 PM Weak supervision - Wikipedia
+
+https://en.wikipedia.org/wiki/Weak_supervision 3/8
+
+The heuristic approach of self-training (also known as self-learning or self-labeling) is historically the
+oldest approach to semi-supervised learning,[2] with examples of applications starting in the 1960s.[5]
+
+The transductive learning framework was formally introduced by Vladimir Vapnik in the 1970s.[6]
+
+Interest in inductive learning using generative models also began in the 1970s. A probably
+approximately correct learning bound for semi-supervised learning of a Gaussian mixture was
+demonstrated by Ratsaby and Venkatesh in 1995.[7]
+
+Generative approaches to statistical learning first seek to estimate , the distribution of data
+points belonging to each class. The probability  that a given point  has label  is then
+proportional to  by Bayes' rule. Semi-supervised learning with generative models can be
+viewed either as an extension of supervised learning (classification plus information about ) or as
+an extension of unsupervised learning (clustering plus some labels).
+
+Generative models assume that the distributions take some particular form  parameterized
+by the vector . If these assumptions are incorrect, the unlabeled data may actually decrease the
+accuracy of the solution relative to what would have been obtained from labeled data alone.[8]
+
+However, if the assumptions are correct, then the unlabeled data necessarily improves performance.[7]
+
+The unlabeled data are distributed according to a mixture of individual-class distributions. In order to
+learn the mixture distribution from the unlabeled data, it must be identifiable, that is, different
+parameters must yield different summed distributions. Gaussian mixture distributions are identifiable
+and commonly used for generative models.
+
+The parameterized joint distribution can be written as  by using the chain
+rule. Each parameter vector  is associated with a decision function . The
+
+parameter is then chosen based on fit to both the labeled and unlabeled data, weighted by :
+
+[9]
+
+Another major class of methods attempts to place boundaries in regions with few data points (labeled
+or unlabeled). One of the most commonly used algorithms is the transductive support vector machine,
+or TSVM (which, despite its name, may be used for inductive learning as well). Whereas support
+vector machines for supervised learning seek a decision boundary with maximal margin over the
+labeled data, the goal of TSVM is a labeling of the unlabeled data such that the decision boundary has
+maximal margin over all of the data. In addition to the standard hinge loss  for labeled
+
+Methods
+
+Generative models
+
+Low-density separation
+
+https://en.wikipedia.org/wiki/Vladimir_Vapnik
+https://en.wikipedia.org/wiki/Probably_approximately_correct_learning
+https://en.wikipedia.org/wiki/Probably_approximately_correct_learning
+https://en.wikipedia.org/wiki/Gaussian
+https://en.wikipedia.org/wiki/Bayes%27_theorem
+https://en.wikipedia.org/wiki/Generative_model
+https://en.wikipedia.org/wiki/Joint_distribution
+https://en.wikipedia.org/wiki/Chain_rule_(probability)
+https://en.wikipedia.org/wiki/Chain_rule_(probability)
+https://en.wikipedia.org/wiki/Support_vector_machine#Transductive_support_vector_machines
+https://en.wikipedia.org/wiki/Support_vector_machines
+https://en.wikipedia.org/wiki/Support_vector_machines
+https://en.wikipedia.org/wiki/Margin_(machine_learning)
+https://en.wikipedia.org/wiki/Hinge_loss
+
+
+4/9/24, 8:12 PM Weak supervision - Wikipedia
+
+https://en.wikipedia.org/wiki/Weak_supervision 4/8
+
+data, a loss function  is introduced over the unlabeled data by letting .
+TSVM then selects  from a reproducing kernel Hilbert space  by minimizing the
+regularized empirical risk:
+
+An exact solution is intractable due to the non-convex term , so research focuses on
+useful approximations.[9]
+
+Other approaches that implement low-density separation include Gaussian process models,
+information regularization, and entropy minimization (of which TSVM is a special case).
+
+Laplacian regularization has been historically approached through graph-Laplacian. Graph-based
+methods for semi-supervised learning use a graph representation of the data, with a node for each
+labeled and unlabeled example. The graph may be constructed using domain knowledge or similarity
+of examples; two common methods are to connect each data point to its  nearest neighbors or to
+examples within some distance . The weight  of an edge between  and  is then set to
+
+.
+
+Within the framework of manifold regularization,[10][11] the graph serves as a proxy for the manifold.
+A term is added to the standard Tikhonov regularization problem to enforce smoothness of the
+solution relative to the manifold (in the intrinsic space of the problem) as well as relative to the
+ambient input space. The minimization problem becomes
+
+[9]
+
+where  is a reproducing kernel Hilbert space and  is the manifold on which the data lie. The
+regularization parameters  and  control smoothness in the ambient and intrinsic spaces
+respectively. The graph is used to approximate the intrinsic regularization term. Defining the graph
+
+Laplacian  where  and  is the vector , we have
+
+.
+
+The graph-based approach to Laplacian regularization is to put in relation with finite difference
+method.
+
+Laplacian regularization
+
+https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space
+https://en.wikipedia.org/wiki/Regularization_(mathematics)
+https://en.wikipedia.org/wiki/Empirical_risk_minimization
+https://en.wikipedia.org/wiki/Convex_function
+https://en.wikipedia.org/wiki/Manifold_regularization
+https://en.wikipedia.org/wiki/Tikhonov_regularization
+https://en.wikipedia.org/wiki/Hilbert_space
+https://en.wikipedia.org/wiki/Laplacian_matrix
+https://en.wikipedia.org/wiki/Laplacian_matrix
+https://en.wikipedia.org/wiki/Finite_difference_method
+https://en.wikipedia.org/wiki/Finite_difference_method
+
+
+4/9/24, 8:12 PM Weak supervision - Wikipedia
+
+https://en.wikipedia.org/wiki/Weak_supervision 5/8
+
+The Laplacian can also be used to extend the supervised learning algorithms: regularized least squares
+and support vector machines (SVM) to semi-supervised versions Laplacian regularized least squares
+and Laplacian SVM.
+
+Some methods for semi-supervised learning are not intrinsically geared to learning from both
+unlabeled and labeled data, but instead make use of unlabeled data within a supervised learning
+framework. For instance, the labeled and unlabeled examples  may inform a choice of
+representation, distance metric, or kernel for the data in an unsupervised first step. Then supervised
+learning proceeds from only the labeled examples. In this vein, some methods learn a low-
+dimensional representation using the supervised data and then apply either low-density separation or
+graph-based methods to the learned representation.[12][13] Iteratively refining the representation and
+then performing semi-supervised learning on said representation may further improve performance.
+
+Self-training is a wrapper method for semi-supervised learning.[14] First a supervised learning
+algorithm is trained based on the labeled data only. This classifier is then applied to the unlabeled
+data to generate more labeled examples as input for the supervised learning algorithm. Generally only
+the labels the classifier is most confident in are added at each step.[15] In natural language processing,
+a common self-training algorithm is the Yarowsky algorithm for problems like word sense
+disambiguation, accent restoration, and spelling correction.[16]
+
+Co-training is an extension of self-training in which multiple classifiers are trained on different
+(ideally disjoint) sets of features and generate labeled examples for one another.[17]
+
+Human responses to formal semi-supervised learning problems have yielded varying conclusions
+about the degree of influence of the unlabeled data.[18] More natural learning problems may also be
+viewed as instances of semi-supervised learning. Much of human concept learning involves a small
+amount of direct instruction (e.g. parental labeling of objects during childhood) combined with large
+amounts of unlabeled experience (e.g. observation of objects without naming or counting them, or at
+least without fee
+Supervised learning - Wikipedia
+
+4/9/24, 8:12 PM Supervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Supervised_learning 1/8
+
+Tendency for a task to employ supervised vs.
+unsupervised methods. Task names straddling
+circle boundaries is intentional. It shows that the
+classical division of imaginative tasks (left)
+employing unsupervised methods is blurred in
+today's learning schemes.
+
+Supervised learning
+Supervised learning (SL) is a paradigm in machine learning where input objects (for example, a
+vector of predictor variables) and a desired output value (also known as human-labeled supervisory
+signal) train a model. The training data is processed, building a function that maps new data on
+expected output values.[1] An optimal scenario will allow for the algorithm to correctly determine
+output values for unseen instances. This requires the learning algorithm to generalize from the
+training data to unseen situations in a "reasonable" way (see inductive bias). This statistical quality of
+an algorithm is measured through the so-called generalization error.
+
+To solve a given problem of supervised learning, one
+has to perform the following steps:
+
+1. Determine the type of training examples. Before doing
+anything else, the user should decide what kind of data
+is to be used as a training set. In the case of
+handwriting analysis, for example, this might be a
+single handwritten character, an entire handwritten
+word, an entire sentence of handwriting or perhaps a
+full paragraph of handwriting.
+
+2. Gather a training set. The training set needs to be
+representative of the real-world use of the function.
+Thus, a set of input objects is gathered and
+corresponding outputs are also gathered, either from
+human experts or from measurements.
+
+3. Determine the input feature representation of the
+learned function. The accuracy of the learned function
+depends strongly on how the input object is
+
+represented. Typically, the input object is transformed into a feature vector, which contains a
+number of features that are descriptive of the object. The number of features should not be too
+large, because of the curse of dimensionality; but should contain enough information to accurately
+predict the output.
+
+4. Determine the structure of the learned function and corresponding learning algorithm. For
+example, the engineer may choose to use support-vector machines or decision trees.
+
+5. Complete the design. Run the learning algorithm on the gathered training set. Some supervised
+learning algorithms require the user to determine certain control parameters. These parameters
+may be adjusted by optimizing performance on a subset (called a validation set) of the training set,
+or via cross-validation.
+
+6. Evaluate the accuracy of the learned function. After parameter adjustment and learning, the
+performance of the resulting function should be measured on a test set that is separate from the
+training set.
+
+Steps to follow
+
+Algorithm choice
+
+https://en.wikipedia.org/wiki/File:Task-guidance.png
+https://en.wikipedia.org/wiki/File:Task-guidance.png
+https://en.wikipedia.org/wiki/Main_Page
+https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Inductive_bias
+https://en.wikipedia.org/wiki/Generalization_error
+https://en.wikipedia.org/wiki/Handwriting_analysis
+https://en.wikipedia.org/wiki/Training_set
+https://en.wikipedia.org/wiki/Feature_(machine_learning)
+https://en.wikipedia.org/wiki/Feature_vector
+https://en.wikipedia.org/wiki/Curse_of_dimensionality
+https://en.wikipedia.org/wiki/Support-vector_machine
+https://en.wikipedia.org/wiki/Decision_tree_learning
+https://en.wikipedia.org/wiki/Hyperparameter_(machine_learning)
+https://en.wikipedia.org/wiki/Validation_set
+https://en.wikipedia.org/wiki/Cross-validation_(statistics)
+https://en.wikipedia.org/wiki/Test_set
+
+
+4/9/24, 8:12 PM Supervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Supervised_learning 2/8
+
+A wide range of supervised learning algorithms are available, each with its strengths and weaknesses.
+There is no single learning algorithm that works best on all supervised learning problems (see the No
+free lunch theorem).
+
+There are four major issues to consider in supervised learning:
+
+A first issue is the tradeoff between bias and variance.[2] Imagine that we have available several
+different, but equally good, training data sets. A learning algorithm is biased for a particular input  if,
+when trained on each of these data sets, it is systematically incorrect when predicting the correct
+output for . A learning algorithm has high variance for a particular input  if it predicts different
+output values when trained on different training sets. The prediction error of a learned classifier is
+related to the sum of the bias and the variance of the learning algorithm.[3] Generally, there is a
+tradeoff between bias and variance. A learning algorithm with low bias must be "flexible" so that it can
+fit the data well. But if the learning algorithm is too flexible, it will fit each training data set differently,
+and hence have high variance. A key aspect of many supervised learning methods is that they are able
+to adjust this tradeoff between bias and variance (either automatically or by providing a bias/variance
+parameter that the user can adjust).
+
+The second issue is of the amount of training data available relative to the complexity of the "true"
+function (classifier or regression function). If the true function is simple, then an "inflexible" learning
+algorithm with high bias and low variance will be able to learn it from a small amount of data. But if
+the true function is highly complex (e.g., because it involves complex interactions among many
+different input features and behaves differently in different parts of the input space), then the function
+will only be able to learn with a large amount of training data paired with a "flexible" learning
+algorithm with low bias and high variance.
+
+A third issue is the dimensionality of the input space. If the input feature vectors have large
+dimensions, learning the function can be difficult even if the true function only depends on a small
+number of those features. This is because the many "extra" dimensions can confuse the learning
+algorithm and cause it to have high variance. Hence, input data of large dimensions typically requires
+tuning the classifier to have low variance and high bias. In practice, if the engineer can manually
+remove irrelevant features from the input data, it will likely improve the accuracy of the learned
+function. In addition, there are many algorithms for feature selection that seek to identify the relevant
+features and discard the irrelevant ones. This is an instance of the more general strategy of
+dimensionality reduction, which seeks to map the input data into a lower-dimensional space prior to
+running the supervised learning algorithm.
+
+Bias-variance tradeoff
+
+Function complexity and amount of training data
+
+Dimensionality of the input space
+
+Noise in the output values
+
+https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization
+https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization
+https://en.wikipedia.org/wiki/Feature_selection
+https://en.wikipedia.org/wiki/Dimensionality_reduction
+
+
+4/9/24, 8:12 PM Supervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Supervised_learning 3/8
+
+A fourth issue is the degree of noise in the desired output values (the supervisory target variables). If
+the desired output values are often incorrect (because of human error or sensor errors), then the
+learning algorithm should not attempt to find a function that exactly matches the training examples.
+Attempting to fit the data too carefully leads to overfitting. You can overfit even when there are no
+measurement errors (stochastic noise) if the function you are trying to learn is too complex for your
+learning model. In such a situation, the part of the target function that cannot be modeled "corrupts"
+your training data - this phenomenon has been called deterministic noise. When either type of noise is
+present, it is better to go with a higher bias, lower variance estimator.
+
+In practice, there are several approaches to alleviate noise in the output values such as early stopping
+to prevent overfitting as well as detecting and removing the noisy training examples prior to training
+the supervised learning algorithm. There are several algorithms that identify noisy training examples
+and removing the suspected noisy training examples prior to training has decreased generalization
+error with statistical significance.[4][5]
+
+Other factors to consider when choosing and applying a learning algorithm include the following:
+
+Heterogeneity of the data. If the feature vectors include features of many different kinds (discrete,
+discrete ordered, counts, continuous values), some algorithms are easier to apply than others.
+Many algorithms, including support-vector machines, linear regression, logistic regression, neural
+networks, and nearest neighbor methods, require that the input features be numerical and scaled
+to similar ranges (e.g., to the [-1,1] interval). Methods that employ a distance function, such as
+nearest neighbor methods and support-vector machines with Gaussian kernels, are particularly
+sensitive to this. An advantage of decision trees is that they easily handle heterogeneous data.
+Redundancy in the data. If the input features contain redundant information (e.g., highly correlated
+features), some learning algorithms (e.g., linear regression, logistic regression, and distance
+based methods) will perform poorly because of numerical instabilities. These problems can often
+be solved by imposing some form of regularization.
+Presence of interactions and non-linearities. If each of the features makes an independent
+contribution to the output, then algorithms based on linear functions (e.g., linear regression,
+logistic regression, support-vector machines, naive Bayes) and distance functions (e.g., nearest
+neighbor methods, support-vector machines with Gaussian kernels) generally perform well.
+However, if there are complex interactions among features, then algorithms such as decision trees
+and neural networks work better, because they are specifically designed to discover these
+interactions. Linear methods can also be applied, but the engineer must manually specify the
+interactions when using them.
+
+When considering a new application, the engineer can compare multiple learning algorithms and
+experimentally determine which one works best on the problem at hand (see cross validation). Tuning
+the performance of a learning algorithm can be very time-consuming. Given fixed resources, it is often
+better to spend more time collecting additional training data and more informative features than it is
+to spend extra time tuning the learning algorithms.
+
+The most widely used learning algorithms are:
+
+Support-vector machines
+
+Other factors to consider
+
+Algorithms
+
+https://en.wikipedia.org/wiki/Target_variable
+https://en.wikipedia.org/wiki/Overfitting
+https://en.wikipedia.org/wiki/Deterministic_noise
+https://en.wikipedia.org/wiki/Early_stopping
+https://en.wikipedia.org/wiki/Overfitting
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Generalization_error
+https://en.wikipedia.org/wiki/Generalization_error
+https://en.wikipedia.org/wiki/Statistical_significance
+https://en.wikipedia.org/wiki/Support_Vector_Machines
+https://en.wikipedia.org/wiki/Linear_regression
+https://en.wikipedia.org/wiki/Logistic_regression
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/Support_Vector_Machines
+https://en.wikipedia.org/wiki/Decision_tree_learning
+https://en.wikipedia.org/wiki/Linear_regression
+https://en.wikipedia.org/wiki/Logistic_regression
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/Regularization_(mathematics)
+https://en.wikipedia.org/wiki/Linear_regression
+https://en.wikipedia.org/wiki/Logistic_regression
+https://en.wikipedia.org/wiki/Support-vector_machine
+https://en.wikipedia.org/wiki/Naive_Bayes_classifier
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm
+https://en.wikipedia.org/wiki/Support_Vector_Machines
+https://en.wikipedia.org/wiki/Decision_tree_learning
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Cross-validation_(statistics)
+https://en.wikipedia.org/wiki/Support-vector_machine
+
+
+4/9/24, 8:12 PM Supervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Supervised_learning 4/8
+
+Linear regression
+Logistic regression
+Naive Bayes
+Linear discriminant analysis
+Decision trees
+K-nearest neighbor algorithm
+Neural networks (Multilayer perceptron)
+Similarity learning
+
+Given a set of  training examples of the form  such that  is the feature
+vector of the -th example and  is its label (i.e., class), a learning algorithm seeks a function
+
+, where  is the input space and  is the output space. The function  is an element of
+some space of possible functions , usually called the hypothesis space. It is sometimes convenient to
+represent  using a scoring function  such that  is defined as returning the  value
+that gives the highest score: . Let  denote the space of scoring functions.
+
+Although  and  can be any space of functions, many learning algorithms are probabilistic models
+where  takes the form of a conditional probability model , or  takes the
+
+form of a joint probability model . For example, naive Bayes and linear discriminant
+analysis are joint probability models, whereas logistic regression is a conditional probability model.
+
+There are two basic approaches to choosing  or : empirical risk minimization and structural risk
+minimization.[6] Empirical risk minimization seeks the function that best fits the training data.
+Structural risk minimization includes a penalty function that controls the bias/variance tradeoff.
+
+In both cases, it is assumed that the training set consists of a sample of independent and identically
+distributed pairs, . In order to measure how well a function fits the training data, a loss
+function  is defined. For training example , the loss of predicting the value
+
+ is .
+
+The risk  of function  is defined as the expected loss of . This can be estimated from the
+training data as
+
+.
+
+In empirical risk minimization, the supervised learning algorithm seeks the function  that minimizes
+. Hence, a supervised learning algorithm can be constructed by applying an optimization
+
+algorithm to find .
+
+How supervised learning algorithms work
+
+Empirical risk minimization
+
+https://en.wikipedia.org/wiki/Linear_regression
+https://en.wikipedia.org/wiki/Logistic_
+
+##Your Answer:

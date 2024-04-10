@@ -36,6 +36,7 @@ def get_top_k_supplementary_material(embd, k = 3):
     return rv
 
 
+
 def generate_note(note_info_dict):
     q_prompt = """##Instructions:
 You will be given a student's course outline, along with the specific module the student is currently working on.
@@ -86,7 +87,7 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
         supplementary_material = note_info_dict['supplementary_material'],
     )
 
-    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/three'
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/ai_note_gen/five'
     tmp_fp = os.path.join(output_dir_fp, f"q_prompt.txt")
     f = open(tmp_fp, 'w')
     f.write(q_prompt)
@@ -103,11 +104,79 @@ Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
     response_message = chat_completion.choices[0].message.content
     # # print(f"Response: {response_message}")
 
-    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/stanford/ai_note_gen/three'
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/ai_note_gen/five'
     tmp_fp = os.path.join(output_dir_fp, f"course_notes_gpt_4.txt")
     f = open(tmp_fp, 'w')
     f.write(response_message)
     f.close()
+
+
+
+def generate_note_no_supplementary_info(note_info_dict):
+    q_prompt = """##Instructions:
+You will be given a student's course outline, along with the specific module the student is currently working on.
+Your goal is to generate course notes ONLY ON THE CURRENT MODULE the student is working on.
+The goal of the course notes will be to help the student develop a strong understanding of that topic.
+
+Your course notes must be generated such that it is specific for the student, given their goals and background.
+The notes should be generated such that, it is very engaging and easy for the student to understand the material.
+Please ensure your course notes for the module are as DETAILED AS POSSIBLE. The more detail, the better for the student.
+
+DO NOT GENERATE ANY NOTES FOR FUTURE MODULES. ONLY FOCUS ON THE CURRENT MODULE.
+
+DO NOT PROVIDE ANY REFERENCES OR CITATIONS FOR YOUR COURSE NOTES. Simply generate detailed, relevant notes for the student.
+
+Below, you will be given 3 critical pieces of information:
+- The student's goals, what they want to learn, and their background.
+- The outline of the course the student is currently taking.
+- The specific topic to focus your course notes on.
+
+Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
+- "course_notes"
+    - This will be the course notes IN MARKDOWN FORMAT, which will be presented to the student.
+    - Please ensure at the beginning of your markdown, you include the Current Module Name and SubTopics that will be covered, before you include your notes.
+
+##Student Goals/Background Information
+{student_info}
+
+##Course Outline
+{course_outline}
+
+##Current Week Topic Information
+{week_information}
+
+##Your Answer:
+"""
+
+    q_prompt = q_prompt.format(
+        student_info = note_info_dict['student_info'],
+        course_outline = note_info_dict['course_outline'],
+        week_information = note_info_dict['week_information'],
+    )
+
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/ai_note_gen/six'
+    tmp_fp = os.path.join(output_dir_fp, f"q_prompt.txt")
+    f = open(tmp_fp, 'w')
+    f.write(q_prompt)
+    f.close()
+
+    di = {"role": "user", "content": q_prompt}
+    messages_list = [di]
+    chat_completion = client.chat.completions.create(
+        messages = messages_list,
+        model = "gpt-4-0125-preview",
+        # model = "gpt-3.5-turbo-0125",
+    )    
+
+    response_message = chat_completion.choices[0].message.content
+    # # print(f"Response: {response_message}")
+
+    output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/ai_note_gen/six'
+    tmp_fp = os.path.join(output_dir_fp, f"course_notes_gpt_4.txt")
+    f = open(tmp_fp, 'w')
+    f.write(response_message)
+    f.close()
+
 
 
 
@@ -148,9 +217,8 @@ Module 6: Building AI Applications with GPT API
 - Implementing GPT API in projects
 - Developing a simple application using GPT API
 """
-    current_week_information = """Module 1: Introduction to Artificial Intelligence
-- Overview of AI applications"""
-
+    current_week_information = """Fundamentals of Machine Learning
+- Supervised, unsupervised, and reinforcement learning"""
 
     print(f"Opening all Pickle Files...")
 
@@ -174,18 +242,26 @@ Module 6: Building AI Applications with GPT API
 
     # supplementary_material_list = get_top_k_supplementary_material(
     #     embd = current_week_info_embedding,
-    #     k = 3
+    #     k = 4
     # )
 
     # supplementary_material_str = '\n'.join(supplementary_material_list)
     # print(f"Total length of supplementary material: {len(supplementary_material_str)}")
     
-    # note_dict = {
-    #     'student_info': student_background,
-    #     'course_outline': course_outline,
-    #     'week_information': current_week_information,
-    #     'supplementary_material': supplementary_material_str
-    # }
+    note_dict = {
+        'student_info': student_background,
+        'course_outline': course_outline,
+        'week_information': current_week_information,
+        # 'supplementary_material': supplementary_material_str
+    }
 
     # generate_note(note_dict)
+    generate_note_no_supplementary_info(note_dict)
+
+
+# TODO:
+    # notes seem reasonable for now
+        # determine how to expand the knowledge-base <-- wiki is solid source (a lot of data to embed though?)
+            # go from there
+
 

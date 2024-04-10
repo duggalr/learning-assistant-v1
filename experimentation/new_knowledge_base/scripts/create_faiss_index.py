@@ -39,24 +39,27 @@ def get_embedding(text, model="text-embedding-3-small"):
     
 #     for fn in text_files_list:
 #         txt_full_fp = os.path.join(txt_dir_fp, fn)
-#         txt_lines = open(txt_full_fp, 'r').read().strip()
 
-#         for idx in range(0, len(txt_lines), bsize):
-#             batch_txt = txt_lines[idx:idx+bsize].strip()
-#             num_tokens = get_num_tokens_from_string(
-#                 string = batch_txt,
-#                 encoding_name = 'cl100k_base'
-#             )
-#             print(f"File: {fn} | Length of Text File: {len(batch_txt)} | Number of Tokens: {num_tokens}")
+#         try:
+#             txt_lines = open(txt_full_fp, 'r').read().strip()
+#             for idx in range(0, len(txt_lines), bsize):
+#                 batch_txt = txt_lines[idx:idx+bsize].strip()
+#                 num_tokens = get_num_tokens_from_string(
+#                     string = batch_txt,
+#                     encoding_name = 'cl100k_base'
+#                 )
+#                 print(f"File: {fn} | Length of Text File: {len(batch_txt)} | Number of Tokens: {num_tokens}")
 
-#             txt_embd = get_embedding(batch_txt)
-#             final_file_list.append({
-#                 'file_path': txt_full_fp,
-#                 'batch_text': batch_txt,
-#                 'num_tokens': num_tokens,
-#                 'embedding': txt_embd
-#             })
-#             final_file_embedding_list.append(txt_embd)
+#                 txt_embd = get_embedding(batch_txt)
+#                 final_file_list.append({
+#                     'file_path': txt_full_fp,
+#                     'batch_text': batch_txt,
+#                     'num_tokens': num_tokens,
+#                     'embedding': txt_embd
+#                 })
+#                 final_file_embedding_list.append(txt_embd)
+#         except:
+#             pass
 
 
 # print(f"Total number of file batch text: {len(final_file_list)} | Total embeddings: {len(final_file_embedding_list)}")
@@ -68,7 +71,6 @@ def get_embedding(text, model="text-embedding-3-small"):
 
 # with open('final_file_list.pkl', 'wb') as f:
 #     pickle.dump(final_file_list, f)
-
 
 # print(f"Opening all Pickle Files...")
 

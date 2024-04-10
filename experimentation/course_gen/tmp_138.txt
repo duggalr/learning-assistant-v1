@@ -1,0 +1,353 @@
+/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files/Unsupervised learning - Wikipedia.txt
+
+ | y,
+asymmetric.
+
+3-layers:
+asymmetric
+weights. 2
+networks
+combined into
+1.
+
+3-layers. The input
+is considered a
+layer even though
+it has no inbound
+weights. recurrent
+layers for NLP.
+feedforward
+convolutions for
+vision. input &
+output have the
+same neuron
+counts.
+
+3-layers: input,
+encoder,
+distribution sampler
+decoder. the
+sampler is not
+considered a layer
+
+Inference &
+energy
+
+Energy is given by Gibbs
+probability measure :
+
+← same ← same minimize KL
+divergence
+
+inference is only
+feed-forward.
+previous UL
+networks ran
+forwards AND
+backwards
+
+minimize error =
+reconstruction error
+- KLD
+
+Training Δwij = si*sj, for +1/-1 neuron
+
+Δwij = e*(pij - p'ij).
+This is derived
+from minimizing
+KLD. e = learning
+rate, p' = predicted
+and p = actual
+distribution.
+
+Δwij = e*( < vi hj
+>data - < vi hj
+>equilibrium ).
+This is a form of
+contrastive
+divergence w/
+Gibbs Sampling.
+"<>" are
+expectations.
+
+← similar. train
+1-layer at a
+time.
+approximate
+equilibrium
+state with a 3-
+segment pass.
+no back
+propagation.
+
+wake-sleep 2
+phase
+training
+
+back propagate the
+reconstruction
+error
+
+reparameterize
+hidden state for
+backprop
+
+Strength resembles physical systems so it
+inherits their equations
+
+← same. hidden
+neurons act as
+internal
+representatation of
+the external world
+
+faster more
+practical training
+scheme than
+Boltzmann
+machines
+
+trains quickly.
+gives
+hierarchical
+layer of features
+
+mildly
+anatomical.
+analyzable w/
+information
+theory &
+statistical
+mechanics
+
+Weakness hard to train due to
+lateral connections
+
+equilibrium
+requires too
+many iterations
+
+integer & real-
+valued neurons
+are more
+complicated.
+
+The classical example of unsupervised learning in the study of neural networks is Donald Hebb's principle, that is, neurons that fire together wire
+together.[4] In Hebbian learning, the connection is reinforced irrespective of an error, but is exclusively a function of the coincidence between action
+potentials between the two neurons.[5] A similar version that modifies synaptic weights takes into account the time between the action potentials
+(spike-timing-dependent plasticity or STDP). Hebbian Learning has been hypothesized to underlie a range of cognitive functions, such as pattern
+recognition and experiential learning.
+
+Comparison of networks
+
+Hebbian Learning, ART, SOM
+
+https://en.wikipedia.org/wiki/Donald_Hebb
+https://en.wikipedia.org/wiki/Hebbian_learning
+https://en.wikipedia.org/wiki/Spike-timing-dependent_plasticity
+https://en.wikipedia.org/wiki/Pattern_recognition
+https://en.wikipedia.org/wiki/Pattern_recognition
+
+
+4/9/24, 8:12 PM Unsupervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Unsupervised_learning 5/6
+
+Among neural network models, the self-organizing map (SOM) and adaptive resonance theory (ART) are commonly used in unsupervised learning
+algorithms. The SOM is a topographic organization in which nearby locations in the map represent inputs with similar properties. The ART model
+allows the number of clusters to vary with problem size and lets the user control the degree of similarity between members of the same clusters by
+means of a user-defined constant called the vigilance parameter. ART networks are used for many pattern recognition tasks, such as automatic
+target recognition and seismic signal processing.[6]
+
+Two of the main methods used in unsupervised learning are principal component and cluster analysis. Cluster analysis is used in unsupervised
+learning to group, or segment, datasets with shared attributes in order to extrapolate algorithmic relationships.[7] Cluster analysis is a branch of
+machine learning that groups the data that has not been labelled, classified or categorized. Instead of responding to feedback, cluster analysis
+identifies commonalities in the data and reacts based on the presence or absence of such commonalities in each new piece of data. This approach
+helps detect anomalous data points that do not fit into either group.
+
+A central application of unsupervised learning is in the field of density estimation in statistics,[8] though unsupervised learning encompasses many
+other domains involving summarizing and explaining data features. It can be contrasted with supervised learning by saying that whereas supervised
+learning intends to infer a conditional probability distribution conditioned on the label of input data; unsupervised learning intends to infer an a
+priori probability distribution .
+
+Some of the most common algorithms used in unsupervised learning include: (1) Clustering, (2) Anomaly detection, (3) Approaches for learning
+latent variable models. Each approach uses several methods as follows:
+
+Clustering methods include: hierarchical clustering,[9] k-means,[10] mixture models, model-based clustering, DBSCAN, and OPTICS algorithm
+Anomaly detection methods include: Local Outlier Factor, and Isolation Forest
+Approaches for learning latent variable models such as Expectation–maximization algorithm (EM), Method of moments, and Blind signal
+separation techniques (Principal component analysis, Independent component analysis, Non-negative matrix factorization, Singular value
+decomposition)
+
+One of the statistical approaches for unsupervised learning is the method of moments. In the method of moments, the unknown parameters (of
+interest) in the model are related to the moments of one or more random variables, and thus, these unknown parameters can be estimated given the
+moments. The moments are usually estimated from samples empirically. The basic moments are first and second order moments. For a random
+vector, the first order moment is the mean vector, and the second order moment is the covariance matrix (when the mean is zero). Higher order
+moments are usually represented using tensors which are the generalization of matrices to higher orders as multi-dimensional arrays.
+
+In particular, the method of moments is shown to be effective in learning the parameters of latent variable models. Latent variable models are
+statistical models where in addition to the observed variables, a set of latent variables also exists which is not observed. A highly practical example
+of latent variable models in machine learning is the topic modeling which is a statistical model for generating the words (observed variables) in the
+document based on the topic (latent variable) of the document. In the topic modeling, the words in the document are generated according to
+different statistical parameters when the topic of the document is changed. It is shown that method of moments (tensor decomposition techniques)
+consistently recover the parameters of a large class of latent variable models under some assumptions.[11]
+
+The Expectation–maximization algorithm (EM) is also one of the most practical methods for learning latent variable models. However, it can get
+stuck in local optima, and it is not guaranteed that the algorithm will converge to the true unknown parameters of the model. In contrast, for the
+method of moments, the global convergence is guaranteed under some conditions.
+
+Automated machine learning
+Cluster analysis
+Model-based clustering
+Anomaly detection
+Expectation–maximization algorithm
+Generative topographic map
+Meta-learning (computer science)
+Multivariate analysis
+Radial basis function network
+
+Probabilistic methods
+
+Approaches
+
+Method of moments
+
+See also
+
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Self-organizing_map
+https://en.wikipedia.org/wiki/Adaptive_resonance_theory
+https://en.wikipedia.org/wiki/Automatic_target_recognition
+https://en.wikipedia.org/wiki/Automatic_target_recognition
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Machine_learning
+https://en.wikipedia.org/wiki/Labeled_data
+https://en.wikipedia.org/wiki/Density_estimation
+https://en.wikipedia.org/wiki/Statistics
+https://en.wikipedia.org/wiki/Conditional_probability_distribution
+https://en.wikipedia.org/wiki/A_priori_probability
+https://en.wikipedia.org/wiki/A_priori_probability
+https://en.wikipedia.org/wiki/Data_clustering
+https://en.wikipedia.org/wiki/Hierarchical_clustering
+https://en.wikipedia.org/wiki/K-means
+https://en.wikipedia.org/wiki/Mixture_models
+https://en.wikipedia.org/wiki/Model-based_clustering
+https://en.wikipedia.org/wiki/DBSCAN
+https://en.wikipedia.org/wiki/OPTICS_algorithm
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Local_Outlier_Factor
+https://en.wikipedia.org/wiki/Isolation_Forest
+https://en.wikipedia.org/wiki/Latent_variable_model
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Method_of_moments_(statistics)
+https://en.wikipedia.org/wiki/Blind_signal_separation
+https://en.wikipedia.org/wiki/Blind_signal_separation
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Independent_component_analysis
+https://en.wikipedia.org/wiki/Non-negative_matrix_factorization
+https://en.wikipedia.org/wiki/Singular_value_decomposition
+https://en.wikipedia.org/wiki/Singular_value_decomposition
+https://en.wikipedia.org/wiki/Method_of_moments_(statistics)
+https://en.wikipedia.org/wiki/Mean
+https://en.wikipedia.org/wiki/Covariance_matrix
+https://en.wikipedia.org/wiki/Tensors
+https://en.wikipedia.org/wiki/Latent_variable_model
+https://en.wikipedia.org/wiki/Topic_modeling
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Automated_machine_learning
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Model-based_clustering
+https://en.wikipedia.org/wiki/Anomaly_detection
+https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm
+https://en.wikipedia.org/wiki/Generative_topographic_map
+https://en.wikipedia.org/wiki/Meta-learning_(computer_science)
+https://en.wikipedia.org/wiki/Multivariate_analysis
+https://en.wikipedia.org/wiki/Radial_basis_function_network
+
+
+4/9/24, 8:12 PM Unsupervised learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Unsupervised_learning 6/6
+
+Weak supervision
+
+1. Hinton, G. (2012). "A Practical Guide to Training Restricted
+Boltzmann Machines" (http://www.cs.utoronto.ca/~hinton/absps/guid
+eTR.pdf) (PDF). Neural Networks: Tricks of the Trade. Lecture Notes
+in Computer Science. Vol. 7700. Springer. pp. 599–619.
+doi:10.1007/978-3-642-35289-8_32 (https://doi.org/10.1007%2F978-
+3-642-35289-8_32). ISBN 978-3-642-35289-8.
+
+2. Hinton, Geoffrey (September 2009). "Deep Belief Nets" (https://video
+lectures.net/mlss09uk_hinton_dbn) (video).
+
+3. Peter, Dayan; Hinton, Geoffrey E.; Neal, Radford M.; Zemel, Richard
+S. (1995). "The Helmholtz machine". Neural Computation. 7 (5):
+889–904. doi:10.1162/neco.1995.7.5.889 (https://doi.org/10.1162%2
+Fneco.1995.7.5.889). hdl:21.11116/0000-0002-D6D3-E (https://hdl.h
+andle.net/21.11116%2F0000-0002-D6D3-E). PMID 7584891 (https://
+pubmed.ncbi.nlm.nih.gov/7584891). S2CID 1890561 (https://api.sem
+anticscholar.org/CorpusID:1890561). 
+
+4. Buhmann, J.; Kuhnel, H. (1992). "Unsupervised and supervised data
+clustering with competitive neural networks". [Proceedings 1992]
+IJCNN International Joint Conference on Neural Networks. Vol. 4.
+IEEE. pp. 796–801. doi:10.1109/ijcnn.1992.227220 (https://doi.org/1
+0.1109%2Fijcnn.1992.227220). ISBN 0780305590. S2CID 62651220
+(https://api.semanticscholar.org/CorpusID:62651220).
+
+5. Comesaña-Campos, Alberto; Bouza-Rodríguez, José Benito (June
+2016). "An application of Hebbian learning in the design process
+decision-making". Journal of Intelligent Manufacturing. 27 (3): 487–
+506. doi:10.1007/s10845-014-0881-z (https://doi.org/10.1007%2Fs1
+0845-014-0881-z). ISSN 0956-5515 (https://www.worldcat.org/issn/0
+956-5515). S2CID 207171436 (https://api.semanticscholar.org/Corpu
+sID:207171436).
+
+6. Carpenter, G.A. & Grossberg, S. (1988). "The ART of adaptive
+pattern recognition by a self-organizing neural network" (https://web.
+archive.org/web/20180516131553/http://www.cns.bu.edu/Profiles/Gr
+ossberg/CarGro1988Computer.pdf) (PDF). Computer. 21 (3): 77–88.
+doi:10.1109/2.33 (https://doi.org/10.1109%2F2.33). S2CID 14625094
+(https://api.semanticscholar.org/CorpusID:14625094). Archived from
+the original (http://www.cns.bu.edu/Profiles/Grossberg/CarGro1988C
+omputer.pdf) (PDF) on 2018-05-16. Retrieved 2013-09-16.
+
+7. Roman, Victor (2019-04-21). "Unsupervised Machine Learning:
+Clustering Analysis" (https://towardsdatascience.com/unsupervised-
+machine-learning-clustering-analysis-d40f2b34ae7e). Medium.
+Retrieved 2019-10-01.
+
+8. Jordan, Michael I.; Bishop, Christopher M. (2004). "7. Intelligent
+Systems §Neural Networks". In Tucker, Allen B. (ed.). Computer
+Science Handbook (https://www.taylorfrancis.com/books/mono/10.12
+01/9780203494455/computer-science-handbook-allen-tucker)
+(2nd ed.). Chapman & Hall/CRC Press. doi:10.1201/9780203494455
+(https://doi.org/10.1201%2F9780203494455). ISBN 1-58488-360-X.
+
+9. Hastie, Tibshirani & Friedman 2009, pp. 485–586
+10. Garbade, Dr Michael J. (2018-09-12). "Understanding K-means
+
+Clustering in Machine Learning" (https://towardsdatascience.com/un
+derstanding-k-means-clustering-in-machine-learning-6a6e67336aa
+1). Medium. Retrieved 2019-10-31.
+
+11. Anandkumar, Animashree; Ge, Rong; Hsu, Daniel; Kakade, Sham;
+Telgarsky, Matus (2014). "Tensor Decompositions for Learning
+Latent Variable Models" (http://www.jmlr.org/papers/volume15/anand
+kumar14b/anandkumar14b.pdf) (PDF). Journal of Machine Learning
+Research. 15: 2773–2832. arXiv:1210.7559 (https://arxiv.org/abs/12
+10.7559). Bibcode:2012arXiv1210.7559A (https://ui.adsabs.harvard.
+edu/abs/2012arXiv1210.7559A).
+
+Bousquet, O.; von Luxburg, U.; Raetsch, G., eds. (2004). Advanced Lectures on Machine Learning (https://archive.org/details/springer_10.1007
+-b100712). Springer. ISBN 978-3540231226.
+Duda, Richard O.; Hart, Peter E.; Stork, David G. (2001). "Unsupervised Learning and Clustering". Pattern classification (2nd ed.). Wiley.
+ISBN 0-471-05669-3.
+Hastie, Trevor; Tibshirani, Robert; Friedman, Jerome (2009). "Unsupervised Learning" (https://link.springer.com/chapter/10.1007/978-0-387-848
+58-7_14). The Elements of Statistical Learning: Data mining, Inference, and Prediction. Springer. pp. 485–586. doi:10.1007/978-0-387-84858-
+7_14 (https://doi.org/10.1007%2F978-0-387-84858-7_14). ISBN 978-0-387-84857-0.
+Hinton, Geoffrey; Sejnowski, Terrence J., eds. (1999). Unsupervised Learning: Foundations of Neural Computation. MIT Press. ISBN 0-262-
+58168-X.

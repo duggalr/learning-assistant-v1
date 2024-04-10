@@ -1,0 +1,244 @@
+/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/new_knowledge_base/wiki/text_files/Machine learning - Wikipedia.txt
+
+ | based optimization, multi-agent systems, swarm
+intelligence, statistics and genetic algorithms. In reinforcement learning, the environment is typically
+represented as a Markov decision process (MDP). Many reinforcements learning algorithms use
+dynamic programming techniques.[54] Reinforcement learning algorithms do not assume knowledge
+of an exact mathematical model of the MDP and are used when exact models are infeasible.
+Reinforcement learning algorithms are used in autonomous vehicles or in learning to play a game
+against a human opponent.
+
+Dimensionality reduction is a process of reducing the number of random variables under
+consideration by obtaining a set of principal variables.[55] In other words, it is a process of reducing
+the dimension of the feature set, also called the "number of features". Most of the dimensionality
+reduction techniques can be considered as either feature elimination or extraction. One of the popular
+methods of dimensionality reduction is principal component analysis (PCA). PCA involves changing
+higher-dimensional data (e.g., 3D) to a smaller space (e.g., 2D). This results in a smaller dimension of
+data (2D instead of 3D), while keeping all original variables in the model without changing the
+data.[56] The manifold hypothesis proposes that high-dimensional data sets lie along low-dimensional
+manifolds, and many dimensionality reduction techniques make this assumption, leading to the area
+of manifold learning and manifold regularization.
+
+Other approaches have been developed which do not fit neatly into this three-fold categorization, and
+sometimes more than one is used by the same machine learning system. For example, topic modeling,
+meta-learning.[57]
+
+Self-learning, as a machine learning paradigm was introduced in 1982 along with a neural network
+capable of self-learning, named crossbar adaptive array (CAA).[58] It is learning with no external
+rewards and no external teacher advice. The CAA self-learning algorithm computes, in a crossbar
+fashion, both decisions about actions and emotions (feelings) about consequence situations. The
+system is driven by the interaction between cognition and emotion.[59] The self-learning algorithm
+updates a memory matrix W =||w(a,s)|| such that in each iteration executes the following machine
+learning routine:
+
+1. in situation s perform action a
+2. receive a consequence situation s'
+3. compute emotion of being in the consequence situation v(s')
+4. update crossbar memory w'(a,s) = w(a,s) + v(s')
+
+Dimensionality reduction
+
+Other types
+
+Self-learning
+
+https://en.wikipedia.org/wiki/Software_agent
+https://en.wikipedia.org/wiki/Action_selection
+https://en.wikipedia.org/wiki/Game_theory
+https://en.wikipedia.org/wiki/Control_theory
+https://en.wikipedia.org/wiki/Operations_research
+https://en.wikipedia.org/wiki/Information_theory
+https://en.wikipedia.org/wiki/Simulation-based_optimization
+https://en.wikipedia.org/wiki/Multi-agent_system
+https://en.wikipedia.org/wiki/Swarm_intelligence
+https://en.wikipedia.org/wiki/Swarm_intelligence
+https://en.wikipedia.org/wiki/Statistics
+https://en.wikipedia.org/wiki/Genetic_algorithm
+https://en.wikipedia.org/wiki/Markov_decision_process
+https://en.wikipedia.org/wiki/Dynamic_programming
+https://en.wikipedia.org/wiki/Dimensionality_reduction
+https://en.wikipedia.org/wiki/Feature_(machine_learning)
+https://en.wikipedia.org/wiki/Feature_extraction
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Manifold_hypothesis
+https://en.wikipedia.org/wiki/Manifold
+https://en.wikipedia.org/wiki/Manifold_learning
+https://en.wikipedia.org/wiki/Manifold_regularization
+https://en.wikipedia.org/wiki/Topic_modeling
+https://en.wikipedia.org/wiki/Meta-learning_(computer_science)
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 9/38
+
+It is a system with only one input, situation, and only one output, action (or behavior) a. There is
+neither a separate reinforcement input nor an advice input from the environment. The
+backpropagated value (secondary reinforcement) is the emotion toward the consequence situation.
+The CAA exists in two environments, one is the behavioral environment where it behaves, and the
+other is the genetic environment, wherefrom it initially and only once receives initial emotions about
+situations to be encountered in the behavioral environment. After receiving the genome (species)
+vector from the genetic environment, the CAA learns a goal-seeking behavior, in an environment that
+contains both desirable and undesirable situations.[60]
+
+Several learning algorithms aim at discovering better representations of the inputs provided during
+training.[61] Classic examples include principal component analysis and cluster analysis. Feature
+learning algorithms, also called representation learning algorithms, often attempt to preserve the
+information in their input but also transform it in a way that makes it useful, often as a pre-processing
+step before performing classification or predictions. This technique allows reconstruction of the inputs
+coming from the unknown data-generating distribution, while not being necessarily faithful to
+configurations that are implausible under that distribution. This replaces manual feature engineering,
+and allows a machine to both learn the features and use them to perform a specific task.
+
+Feature learning can be either supervised or unsupervised. In supervised feature learning, features are
+learned using labeled input data. Examples include artificial neural networks, multilayer perceptrons,
+and supervised dictionary learning. In unsupervised feature learning, features are learned with
+unlabeled input data. Examples include dictionary learning, independent component analysis,
+autoencoders, matrix factorization[62] and various forms of clustering.[63][64][65]
+
+Manifold learning algorithms attempt to do so under the constraint that the learned representation is
+low-dimensional. Sparse coding algorithms attempt to do so under the constraint that the learned
+representation is sparse, meaning that the mathematical model has many zeros. Multilinear subspace
+learning algorithms aim to learn low-dimensional representations directly from tensor
+representations for multidimensional data, without reshaping them into higher-dimensional
+vectors.[66] Deep learning algorithms discover multiple levels of representation, or a hierarchy of
+features, with higher-level, more abstract features defined in terms of (or generating) lower-level
+features. It has been argued that an intelligent machine is one that learns a representation that
+disentangles the underlying factors of variation that explain the observed data.[67]
+
+Feature learning is motivated by the fact that machine learning tasks such as classification often
+require input that is mathematically and computationally convenient to process. However, real-world
+data such as images, video, and sensory data has not yielded attempts to algorithmically define
+specific features. An alternative is to discover such features or representations through examination,
+without relying on explicit algorithms.
+
+Sparse dictionary learning is a feature learning method where a training example is represented as a
+linear combination of basis functions, and is assumed to be a sparse matrix. The method is strongly
+NP-hard and difficult to solve approximately.[68] A popular heuristic method for sparse dictionary
+
+Feature learning
+
+Sparse dictionary learning
+
+https://en.wikipedia.org/wiki/Principal_component_analysis
+https://en.wikipedia.org/wiki/Feature_engineering
+https://en.wikipedia.org/wiki/Artificial_neural_network
+https://en.wikipedia.org/wiki/Multilayer_perceptron
+https://en.wikipedia.org/wiki/Dictionary_learning
+https://en.wikipedia.org/wiki/Independent_component_analysis
+https://en.wikipedia.org/wiki/Autoencoder
+https://en.wikipedia.org/wiki/Matrix_decomposition
+https://en.wikipedia.org/wiki/Cluster_analysis
+https://en.wikipedia.org/wiki/Manifold_learning
+https://en.wikipedia.org/wiki/Sparse_coding
+https://en.wikipedia.org/wiki/Multilinear_subspace_learning
+https://en.wikipedia.org/wiki/Multilinear_subspace_learning
+https://en.wikipedia.org/wiki/Tensor
+https://en.wikipedia.org/wiki/Deep_learning
+https://en.wikipedia.org/wiki/Basis_function
+https://en.wikipedia.org/wiki/Sparse_matrix
+https://en.wikipedia.org/wiki/Strongly_NP-hard
+https://en.wikipedia.org/wiki/Strongly_NP-hard
+https://en.wikipedia.org/wiki/Heuristic
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 10/38
+
+learning is the K-SVD algorithm. Sparse dictionary learning has been applied in several contexts. In
+classification, the problem is to determine the class to which a previously unseen training example
+belongs. For a dictionary where each class has already been built, a new training example is associated
+with the class that is best sparsely represented by the corresponding dictionary. Sparse dictionary
+learning has also been applied in image de-noising. The key idea is that a clean image patch can be
+sparsely represented by an image dictionary, but the noise cannot.[69]
+
+In data mining, anomaly detection, also known as outlier detection, is the identification of rare items,
+events or observations which raise suspicions by differing significantly from the majority of the
+data.[70] Typically, the anomalous items represent an issue such as bank fraud, a structural defect,
+medical problems or errors in a text. Anomalies are referred to as outliers, novelties, noise, deviations
+and exceptions.[71]
+
+In particular, in the context of abuse and network intrusion detection, the interesting objects are often
+not rare objects, but unexpected bursts of inactivity. This pattern does not adhere to the common
+statistical definition of an outlier as a rare object. Many outlier detection methods (in particular,
+unsupervised algorithms) will fail on such data unless aggregated appropriately. Instead, a cluster
+analysis algorithm may be able to detect the micro-clusters formed by these patterns.[72]
+
+Three broad categories of anomaly detection techniques exist.[73] Unsupervised anomaly detection
+techniques detect anomalies in an unlabeled test data set under the assumption that the majority of
+the instances in the data set are normal, by looking for instances that seem to fit the least to the
+remainder of the data set. Supervised anomaly detection techniques require a data set that has been
+labeled as "normal" and "abnormal" and involves training a classifier (the key difference to many
+other statistical classification problems is the inherently unbalanced nature of outlier detection).
+Semi-supervised anomaly detection techniques construct a model representing normal behavior from
+a given normal training data set and then test the likelihood of a test instance to be generated by the
+model.
+
+Robot learning is inspired by a multitude of machine learning methods, starting from supervised
+learning, reinforcement learning,[74][75] and finally meta-learning (e.g. MAML).
+
+Association rule learning is a rule-based machine learning method for discovering relationships
+between variables in large databases. It is intended to identify strong rules discovered in databases
+using some measure of "interestingness".[76]
+
+Rule-based machine learning is a general term for any machine learning method that identifies,
+learns, or evolves "rules" to store, manipulate or apply knowledge. The defining characteristic of a
+rule-based machine learning algorithm is the identification and utilization of a set of relational rules
+that collectively represent the knowledge captured by the system. This is in contrast to other machine
+
+Anomaly detection
+
+Robot learning
+
+Association rules
+
+https://en.wikipedia.org/wiki/K-SVD
+https://en.wikipedia.org/wiki/Image_de-noising
+https://en.wikipedia.org/wiki/Data_mining
+https://en.wikipedia.org/wiki/Bank_fraud
+https://en.wikipedia.org/wiki/Outlier
+https://en.wikipedia.org/wiki/Robot_learning
+https://en.wikipedia.org/wiki/Meta-learning_(computer_science)
+https://en.wikipedia.org/wiki/Rule-based_machine_learning
+
+
+4/9/24, 8:12 PM Machine learning - Wikipedia
+
+https://en.wikipedia.org/wiki/Machine_learning 11/38
+
+learning algorithms that commonly identify a singular model that can be universally applied to any
+instance in order to make a prediction.[77] Rule-based machine learning approaches include learning
+classifier systems, association rule learning, and artificial immune systems.
+
+Based on the concept of strong rules, Rakesh Agrawal, Tomasz Imieliński and Arun Swami introduced
+association rules for discovering regularities between products in large-scale transaction data
+recorded by point-of-sale (POS) systems in supermarkets.[78] For example, the rule
+
+ found in the sales data of a supermarket would indicate that if a
+customer buys onions and potatoes together, they are likely to also buy hamburger meat. Such
+information can be used as the basis for decisions about marketing activities such as promotional
+pricing or product placements. In addition to market basket analysis, association rules are employed
+today in application areas including Web usage mining, intrusion detection, continuous production,
+and bioinformatics. In contrast with sequence mining, association rule learning typically does not
+consider the order of items either within a transaction or across transactions.
+
+Learning classifier systems (LCS) are a family of rule-based machine learning algorithms that
+combine a discovery component, typically a genetic algorithm, with a learning component, performing
+either supervised learning, reinforcement learning, or unsupervised learning. They seek to identify a
+set of context-dependent rules that collectively store and apply knowledge in a piecewise manner in
+order to make predictions.[79]
+
+Inductive logic programming (ILP) is an approach to rule learning using logic programming as a
+uniform representation for input examples, background knowledge, and hypotheses. Given an
+encoding of the known background knowledge and a set of examples represented as a logical database
+of facts, an ILP system will derive a hypothesized logic program that entails all positive and no
+negative examples. Inductive programming is a related field that considers any kind of programming
+language for representing hypotheses (and not only logic programming), such as functional programs.
+
+Inductive logic programming is particularly useful in bioinformatics and natural language processing.
+Gordon Plotkin and Ehud Shapiro laid the initial theoretical foundation for inductive machine
+learning in a logical setting.[80][81][82] Shapiro built their first implementation (Model Inference
+System) in 1981: a Prolog program that inductively inferred logic programs from positive and negative
+examples.[83] The term inductive here refers to philosophical induction, suggesting a theory to explain
+observed facts, rather than mathem

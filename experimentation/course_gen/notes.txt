@@ -77,3 +77,9 @@ TODO:
         - Generate notes
             - Version 1 --> No Supp-material
             - Version 2 --> Supp-material (<-- bing may be useful here initially to dynamically fetch and pass to prompt?)
+
+# TODO: 
+    # start with just 10 webpages as is for the course outline
+    # now, split the module notes by subtopic and go from there
+    # push my V1 usable version in local or prod
+        # use it for learning something and iterate from there

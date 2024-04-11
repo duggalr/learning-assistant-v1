@@ -54,13 +54,6 @@ def search_query(query, q_type, k = 3):
     f.close()
 
 
-
-# TODO: 
-    # start with just 10 webpages as is for the course outline
-    # now, split the module notes by subtopic and go from there
-    # push my V1 usable version in local or prod
-        # use it for learning something and iterate from there
-
 # search_query(
 #     query = "Exploring Lisp: The Path to Functional Programming" ,
 #     q_type = 'textbook',
@@ -117,3 +110,4 @@ def search_query(query, q_type, k = 3):
 #     f.write('\n')
 
 # f.close()
+

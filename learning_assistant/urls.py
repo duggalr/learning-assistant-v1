@@ -27,7 +27,8 @@ urlpatterns = [
 
     ## Personal Course Gen Stuff
     path("all_student_courses", views.all_student_courses, name="all_student_courses"),
-    path("personal_course_gen_sb_chat", views.personal_course_gen_sb_chat, name="personal_course_gen_sb_chat"),
+    path("course-gen/background", views.course_generation_student_background_chat, name="course_generation_student_background_chat"),
+
     path("handle_student_background_chat_message", views.handle_student_background_chat_message, name="handle_student_background_chat_message"),
     path("student_course_outline", views.student_course_outline, name="student_course_outline"),
     path("student_course_outline_handle_message", views.student_course_outline_handle_message, name="student_course_outline_handle_message"),

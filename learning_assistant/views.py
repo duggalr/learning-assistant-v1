@@ -14,8 +14,10 @@ from operator import itemgetter
 from authlib.integrations.django_client import OAuth
 
 from .models import *
-from . import main_utils
-from .scripts.personal_course_gen import bing_search_new, a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
+# from . import main_utils
+# from .scripts.personal_course_gen import bing_search_new, a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation
+from .scripts import utils
+
 
 
 if 'PRODUCTION' not in os.environ:
@@ -221,11 +223,19 @@ def logout(request):
     )
 
 
+
+
+
 ## Primary View Functions ##
 
 def landing(request):
     initial_user_session = request.session.get("user")
-    # return render(request, 'landing.html',  {
+    anon_user_id = request.session.get("anon_user_id", None)
+    
+    if initial_user_session is None and anon_user_id is None:
+        st = utils.generate_anon_user_string(N = 30)
+        request.session['anon_user_id'] = st
+
     return render(request, 'landing_new_one.html',  {        
         'user_session': initial_user_session,
     })
@@ -365,7 +375,7 @@ def handle_user_message(request):
 
         # print('form-data:', request.POST)
 
-        existing_anon_user_id = request.POST['existing_anon_user_id'].strip()
+        existing_anon_user_id = request.POST['existing_anon_user_id']
         user_question = request.POST['message'].strip()
         user_code = request.POST['user_code'].strip()     
         user_code = user_code.replace('`', '"').strip()
@@ -743,8 +753,7 @@ def handle_general_tutor_user_message(request):
 
 
 ## Personal Course Gen - Views ##
-def personal_course_gen_sb_chat(request):
-    
+def course_generation_student_background_chat(request):
     initial_user_session = request.session.get("user")
     pbg_id = request.GET.get('pgid', None)
     
@@ -793,7 +802,7 @@ def personal_course_gen_sb_chat(request):
                 chat_parent_object = current_cid_parent_conv_obj
             )
 
-    return render(request, 'personal_course_gen_sb_chat.html', {
+    return render(request, 'personal_course_gen/student_background_chat.html', {
         'user_session': initial_user_session,
         'current_user_email': current_user_email,
         'current_conversation_parent_object': current_cid_parent_conv_obj,
@@ -813,30 +822,52 @@ def handle_student_background_chat_message(request):
         initial_user_session = request.session.get('user')
         user_question = request.POST['message'].strip()
         user_background_parent_obj_id = request.POST['user_background_parent_obj_id']
+        existing_anon_user_id = request.POST['existing_anon_user_id']
 
-        if initial_user_session is None:
-            return JsonResponse({'success': False, 'message': 'Not Authenticated.'})
+        if initial_user_session is not None:
+            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
 
-        user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
         prev_conversation_st = ''
         if user_background_parent_obj_id == '':
-            ut_conv_parent_obj = UserBackgroundParent.objects.create(
-                user_auth_obj = user_oauth_obj
-            )
-            ut_conv_parent_obj.save()
+            if initial_user_session is None:
+                ut_conv_parent_obj = UserBackgroundParent.objects.create(
+                    unique_anon_user_id = existing_anon_user_id
+                )
+                ut_conv_parent_obj.save()
+            else:
+                ut_conv_parent_obj = UserBackgroundParent.objects.create(
+                    user_auth_obj = user_oauth_obj
+                )
+                ut_conv_parent_obj.save()
+
         else:
-            ut_conv_parent_objects = UserBackgroundParent.objects.filter(
-                id = user_background_parent_obj_id
-            )
+            if initial_user_session is None:
+                ut_conv_parent_objects = UserBackgroundParent.objects.filter(
+                    id = user_background_parent_obj_id,
+                    unique_anon_user_id = existing_anon_user_id
+                )
+            else:
+                ut_conv_parent_objects = UserBackgroundParent.objects.filter(
+                    id = user_background_parent_obj_id,
+                    user_auth_obj = user_oauth_obj
+                )
+
             if len(ut_conv_parent_objects) == 0:
                 return JsonResponse({'success': False, 'message': 'object not found.'})
             else:
                 ut_conv_parent_obj = ut_conv_parent_objects[0]
 
-            ug_tut_cv_objects = UserBackgroundConversation.objects.filter(
-                user_auth_obj = user_oauth_obj,
-                chat_parent_object = ut_conv_parent_obj
-            ).order_by('-created_at')
+
+            if initial_user_session is None:
+                ug_tut_cv_objects = UserBackgroundConversation.objects.filter(
+                    unique_anon_user_id = existing_anon_user_id,
+                    chat_parent_object = ut_conv_parent_obj
+                ).order_by('-created_at')
+            else:
+                ug_tut_cv_objects = UserBackgroundConversation.objects.filter(
+                    user_auth_obj = user_oauth_obj,
+                    chat_parent_object = ut_conv_parent_obj
+                ).order_by('-created_at')
 
             if len(ug_tut_cv_objects) > 0:
                 prev_conversation_history = []
@@ -861,16 +892,28 @@ def handle_student_background_chat_message(request):
         model_response_final_message = model_response_json['final_message']
         model_response_message_str = model_response_json['response'].strip()
 
-        uct_obj = UserBackgroundConversation.objects.create(
-            user_auth_obj = user_oauth_obj,
-            chat_parent_object = ut_conv_parent_obj,
-            question = model_response_dict['student_response'],
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response'],
-            model_response_is_final_message = model_response_final_message,
-            model_response_text = model_response_message_str
-        )
-        uct_obj.save()
+        if initial_user_session is None:
+            uct_obj = UserBackgroundConversation.objects.create(
+                unique_anon_user_id = existing_anon_user_id,
+                chat_parent_object = ut_conv_parent_obj,
+                question = model_response_dict['student_response'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+                model_response_is_final_message = model_response_final_message,
+                model_response_text = model_response_message_str
+            )
+            uct_obj.save()
+        else:
+            uct_obj = UserBackgroundConversation.objects.create(
+                user_auth_obj = user_oauth_obj,
+                chat_parent_object = ut_conv_parent_obj,
+                question = model_response_dict['student_response'],
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_dict['response'],
+                model_response_is_final_message = model_response_final_message,
+                model_response_text = model_response_message_str
+            )
+            uct_obj.save()
 
         if model_response_final_message is False:
             model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
@@ -895,12 +938,11 @@ def handle_student_background_chat_message(request):
             # initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
             print(f"Course Modules List: {initial_student_course_modules_list} | TYPE OF COURSE MODULES: {type(initial_student_course_modules_list)}")
 
-
-            # TODO: 
-
+            # Bing Results
             bing_course_outline_query = initial_student_course_name
             bing_results_rv = bing_search_new.get_bing_results(
-                query = bing_course_outline_query
+                query = bing_course_outline_query,
+                k = 8
             )
 
             ucourse_obj = UserCourse.objects.create(
@@ -927,7 +969,6 @@ def handle_student_background_chat_message(request):
                 )
                 md_obj.save()
 
-
             for bg_rs_dict in bing_results_rv:
                 cm_br_obj = UserCourseModulesBingResult.objects.create(
                     parent_course_object = ucourse_obj,
@@ -941,7 +982,7 @@ def handle_student_background_chat_message(request):
 
             # # TODO: need to pass associated created course-id (along with doing regular auth checks on the course-outline-page)
             # return redirect('student_course_outline')
-            
+
 
 # TODO: fetch and display the relevant information (initially for testing , will just be one)
 # def student_course_outline(request, cid):

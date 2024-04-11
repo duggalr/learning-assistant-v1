@@ -80,4 +80,15 @@
 
 </body>
 
+<script>
+
+
+var initial_user_session = '{{ request.session }}';
+var anon_user_id = '{{ anon_user_id }}';
+
+console.log('user-stuff:', initial_user_session, anon_user_id);
+
+
+</script>
+
 </html>

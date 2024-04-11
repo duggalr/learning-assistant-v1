@@ -224,3 +224,8 @@ if 'PRODUCTION' in os.environ:
 ## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
+
+#Auth0 Settings
+AUTH0_CALLBACK_SUCCESS_REDIRECT_VIEW = 'dashboard'
+AUTH0_LOGOUT_REDIRECT_VIEW = 'landing'
+

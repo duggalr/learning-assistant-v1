@@ -320,20 +320,19 @@
     });
 
 
-    // Global Vars
-    const initial_user_session = '{{ user_session }}';
-    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
+    // // Global Vars
+    // const initial_user_session = '{{ user_session }}';
+    // let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
-    if (initial_user_session == 'None'){
+    // if (initial_user_session == 'None'){
 
-        if (existing_anon_user_id === null){
-            // let unique_anon_user_id = generateUniqueUserID(30);
-            existing_anon_user_id = generateUniqueUserID(30);
-            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
-        };
+    //     if (existing_anon_user_id === null){
+    //         // let unique_anon_user_id = generateUniqueUserID(30);
+    //         existing_anon_user_id = generateUniqueUserID(30);
+    //         localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
+    //     };
 
-    };
-
+    // };
 
     document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";
 

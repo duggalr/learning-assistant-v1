@@ -102,14 +102,6 @@
                     </div>
                 </div>
 
-                <!-- &nbsp;
-                <div class="medium ui animated positive button disabled" tabindex="0" onclick="handleSolutionSubmit()">
-                    <div class="visible content">Save File</div>
-                    <div class="hidden content">
-                        <i class="check icon"></i>
-                    </div>
-                </div> -->
-
             </div>
 
             <div class="console_helper_text">
@@ -168,7 +160,7 @@
 
                 </div>
 
-                {% if user_session is not None %}
+                {% if not anon_user %}
 
                     <div class="input-container">
         
@@ -219,19 +211,35 @@
   
 <script>
 
-    // Global Vars
-    const initial_user_session = '{{ user_session }}';
+    $( document ).ready(function() {
+
+        document.body.style.background = "#f9f9f9";
+
+
+    });
+
+    const custom_user_obj = '{{ custom_user_obj }}';
+    const custom_user_obj_id = '{{ custom_user_obj_id }}';
+    const is_anon_user =  '{{ anon_user }}';
+
+    console.log('is_anon_user', is_anon_user);
+
+    // user_session = '{{ user_session }}';
+    let user_cid = null;
+    let user_code_obj = '{{ uc_obj }}';
+
     let anon_user_localstg_dict = {};
     let pcid_associated_dict = {};
     let pcid_user_messages = [];
     let anon_user_messages = [];
+    
     // Chat Functionality
     const chat = document.getElementById("chat");
     const chatInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("sendButton");
-    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
+    // let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
-    document.body.style.background = "#f9f9f9";
+    // document.body.style.background = "#f9f9f9";
     // document.body.style.background = "white";
 
     $('.tabular.menu .item').tab();
@@ -256,6 +264,7 @@
 
     });
 
+
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         mode: {
             name: "python",
@@ -274,22 +283,12 @@
     // editor.setSize(700, 720);
     // editor.setSize(500, 620)
     
-
-    user_session = '{{ user_session }}';
-    let pcqid = '{{ pclid }}';
-    let user_cid = null;
-    let user_code_obj = '{{ uc_obj }}';
     
     if (user_code_obj != 'None'){
 
         let user_code_st = `{{ uc_obj.user_code|safe }}`;
         editor.setValue(user_code_st);
         user_cid = '{{ uc_obj.id }}';
-
-    } else if (pcqid != 'None') {
-
-        let std_question = `{{ pc_question_obj.question_text|safe }}`;
-        editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n\n\n`);
 
     } else {
 
@@ -298,13 +297,7 @@
     }
 
 
-    if (initial_user_session == 'None'){
-        
-        if (existing_anon_user_id === null){
-            // let unique_anon_user_id = generateUniqueUserID(30);
-            existing_anon_user_id = generateUniqueUserID(30);
-            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
-        };
+    if (is_anon_user === true){
 
         let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
 
@@ -347,10 +340,8 @@
             editor.setValue(anon_user_code_st);
         }
 
-    }
+    };
 
-
-    
 
     async function main() {
         let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
@@ -363,6 +354,7 @@
         return pyodide;
     };
     
+
     let pyodideReadyPromise = main();
 
     function addToOutput(s) {
@@ -451,6 +443,7 @@ mystdout.getvalue()
     });
 
 
+
     function saveCode(){
 
         let cid = $('#code_obj_id').val();
@@ -462,7 +455,7 @@ mystdout.getvalue()
         };
 
         let d = {
-            'existing_anon_user_id': existing_anon_user_id,
+            'custom_user_obj_id': custom_user_obj_id,
             'cid': cid,
             'user_code': user_code,
             csrfmiddlewaretoken: '{{ csrf_token }}'

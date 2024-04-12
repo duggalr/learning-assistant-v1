@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'landing_navbar_two.html' %}
+
+<!-- <hr style="padding-top: 0px; margin-top: 0px; padding-bottom: 20px;"> -->
+
+<div class="ui grid container playground-parent-container">
+    
+    <div class="nine wide column code-editor-parent-column">
+
+        <div class="code_editor_helper_div">
+
+            <span class="code_file_name_text">
+                <!-- <span>&#128195;</span>
+                &nbsp; -->
+                Your Code
+            </span>
+
+        </div>
+
+        <div class="code_helper_span_div">
+            <span class="code_helper_login_text">
+                Make a <a href="{% url 'login' %}">free account</a>, to save all your code and conversations.
+            </span>
+        </div>
+
+        <div class="ui segment code-editor">
+            <textarea id="code"></textarea>
+        </div>
+
+    </div>
+    
+    <div class="seven wide column ai-console-tutor-parent-column">
+
+        <div class="ui tabular menu tab-menu-div">
+            <a class="active item console-tab">
+                <i class="bug icon"></i> Console
+            </a>
+            <a class="item tutor-tab">
+                <i class="comment icon"></i> AI Tutor
+            </a>
+        </div>
+
+        
+        <!-- Console Output -->
+        <div class="console_parent_div">
+
+            <div class="console_button_parent_div">
+
+                <div class="medium ui animated black button" tabindex="0" onclick="evaluatePython()">
+                    <div class="visible content">Run</div>
+                    <div class="hidden content">
+                        <i class="play icon"></i>
+                    </div>
+                </div>
+
+                &nbsp;
+
+                <div class="medium ui animated positive button" tabindex="0" onclick="handleSolutionSubmit()">
+                    <div class="visible content">Get Feedback</div>
+                    <div class="hidden content">
+                        <i class="check icon"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="console_helper_text">
+                <span>
+                    Ask the AI for advice for help by clicking the 'AI Tutor' tab above.
+                </span>
+            </div>
+
+            <div class="console_textarea_parent">
+
+                <h3 class="ui header">
+                    Console Output:
+                    <span id="clear_output_link">Clear</span>
+                </h3>
+    
+                <div class="ui segment output-code">
+                    <textarea rows="16" id="output" disabled></textarea>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI Tutor -->
+        <div class="ai_tutor_div" style="display: none;">
+
+            <!-- Programming Assistant Tab -->
+            <div id="programming_assistant_div">
+                
+                <div class="chat-container" id="chat">
+                    
+                    <div class="message">
+                        <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                        I'm Code Companion, your personal programming tutor.
+                        <br/><br/>
+                        If you are running into a problem such as a bug in your code, a LeetCode problem, or need help understanding a concept, ask me and I will be more than happy to help.
+                        <br/><br/>
+                        You can also use me to generate more practice questions for you, for specific concepts you want further review on.
+                        <br/><br/>
+                        I won't give you the answer, but will definitely point you in the right direction! &#128512;
+
+                    </div>
+
+                    <hr>
+
+                    <br/>
+                    {% for ucs_obj in user_conversation_objects %}
+                    
+                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                    {% endfor %}
+
+                </div>
+                
+
+                {% if user_session is not None %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% else %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+        
+</div>
+
+
+<script>
+
+    $('.tabular.menu .item').tab();
+
+    $('.console-tab').click(function(){
+        
+        $('.console-tab').addClass('active');
+        $('.tutor-tab').removeClass('active');
+
+        $('.console_parent_div').show();
+        $('.ai_tutor_div').hide();
+
+    });
+
+    $('.tutor-tab').click(function(){
+        
+        $('.tutor-tab').addClass('active');
+        $('.console-tab').removeClass('active');
+
+        $('.ai_tutor_div').show();
+        $('.console_parent_div').hide();
+
+    });
+
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: {
+            name: "python",
+            version: 3,
+            singleLineStringErrors: false
+        },
+        lineNumbers: true,
+        indentUnit: 4,
+        indentWithTabs: true,
+        matchBrackets: true,
+        theme: "default",
+        scrollbarStyle: "null",
+        lineWrapping: true,
+    });
+    editor.setSize(620, 700);
+
+    user_session = '{{ user_session }}';
+    let pcqid = '{{ pclid }}';
+    let user_cid = null;
+    let user_code_obj = '{{ uc_obj }}';
+    
+    if (user_code_obj != 'None'){
+
+        let user_code_st = `{{ uc_obj.user_code|safe }}`;
+        editor.setValue(user_code_st);
+        user_cid = '{{ uc_obj.id }}';
+
+    } else if (pcqid != 'None') {
+
+        let std_question = `{{ pc_question_obj.question_text|safe }}`;
+        editor.setValue(`# If you need any help, ask the AI to provide guidance\n\n# Programming Question:\n# ` + std_question + `\n\n# Write your code below:\n\n`);
+
+    } else {
+
+        editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\nprint('Hello Code Companion')\n\n`);
+
+    }
+
+</script>
+
+
+{% endblock %}
+

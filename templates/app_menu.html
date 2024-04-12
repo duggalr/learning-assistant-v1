@@ -2,7 +2,7 @@
 
 <div class="ui secondary pointing menu app-secondary-top-menu">
 
-    {% if user_session is not none %}
+    {% if not anon_user %}
         <a class="item app-navbar-logo" href="{% url 'dashboard' %}">
             <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
             <i class="code icon"></i>Companion
@@ -20,7 +20,7 @@
             Course Generation Home
         </a> -->
 
-        {% if user_session is not none %}
+        {% if not anon_user %}
             <a class="item" href="{% url 'dashboard' %}">
                 <i class="home icon"></i> Your Dashboard
             </a>
@@ -39,7 +39,7 @@
         </a>
         &nbsp;
         
-        {% if user_session is not none %}
+        {% if not user_session %}
             <div class="ui item">
                 <i class="user icon"></i>
                 <strong>{{ current_user_email }}</strong>

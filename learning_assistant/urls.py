@@ -1,40 +1,35 @@
 from django.urls import path
 
-from . import views
+from . import old_views_two
 
 
 urlpatterns = [
 
-    # Auth0
-    path("signup", views.signup, name="signup"),
-    path("login", views.login, name="login"),
-    path("logout", views.logout, name="logout"),
-    path("callback", views.callback, name="callback"),
-
     ## Primary Views
-    path("", views.landing, name="landing"),
-    path("about", views.about, name="about"),
-    # path("blog", views.blog, name="blog"),
-    path("dashboard", views.dashboard, name="dashboard"),
+    path("", old_views_two.landing, name="landing"),
+    path("about", old_views_two.about, name="about"),
 
-    path("cs-tutor", views.general_cs_tutor, name="general_cs_tutor"),
-    path("handle_general_tutor_user_message", views.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
+    ## Playground
+    path("playground", old_views_two.playground, name="playground"),
+    path("handle_user_message", old_views_two.handle_user_message, name="handle_user_message"),
+    path("save_user_code", old_views_two.save_user_code, name="save_user_code"),
+    path("handle_file_name_change", old_views_two.handle_file_name_change, name="handle_file_name_change"),
 
-    path("playground", views.playground, name="playground"),
-    path("handle_user_message", views.handle_user_message, name="handle_user_message"),
-    path("save_user_code", views.save_user_code, name="save_user_code"),
-    path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
+
+    # path("dashboard", old_views_two.dashboard, name="dashboard"),
+    path("cs-tutor", old_views_two.general_cs_tutor, name="general_cs_tutor"),
+    path("handle_general_tutor_user_message", old_views_two.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
 
     ## Personal Course Gen Stuff
-    path("all_student_courses", views.all_student_courses, name="all_student_courses"),
-    path("course-gen/background", views.course_generation_student_background_chat, name="course_generation_student_background_chat"),
+    path("all_student_courses", old_views_two.all_student_courses, name="all_student_courses"),
+    path("course-gen/background", old_views_two.course_generation_student_background_chat, name="course_generation_student_background_chat"),
 
-    path("handle_student_background_chat_message", views.handle_student_background_chat_message, name="handle_student_background_chat_message"),
-    path("student_course_outline", views.student_course_outline, name="student_course_outline"),
-    path("student_course_outline_handle_message", views.student_course_outline_handle_message, name="student_course_outline_handle_message"),
-    path("personal_course_homepage/<int:cid>", views.personal_course_homepage, name="personal_course_homepage"),
-    path("generate_module_notes", views.generate_module_notes, name="generate_module_notes"),
-    path("course_module_notes_view/<int:mid>", views.course_module_notes_view, name="course_module_notes_view"),
+    path("handle_student_background_chat_message", old_views_two.handle_student_background_chat_message, name="handle_student_background_chat_message"),
+    path("student_course_outline", old_views_two.student_course_outline, name="student_course_outline"),
+    path("student_course_outline_handle_message", old_views_two.student_course_outline_handle_message, name="student_course_outline_handle_message"),
+    path("personal_course_homepage/<int:cid>", old_views_two.personal_course_homepage, name="personal_course_homepage"),
+    path("generate_module_notes", old_views_two.generate_module_notes, name="generate_module_notes"),
+    path("course_module_notes_view/<int:mid>", old_views_two.course_module_notes_view, name="course_module_notes_view"),
 
     # ## Admin Views
     # path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),

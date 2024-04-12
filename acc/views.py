@@ -9,12 +9,8 @@ import time
 from urllib.parse import quote_plus, urlencode
 from authlib.integrations.django_client import OAuth
 
-from .models import UserOAuth
+from .models import UserOAuth, CustomUser
 
-
-# TODO:
-    # start here by implementing this new acc-functionality in our app
-        # go from there
 
 
 oauth = OAuth()
@@ -31,6 +27,7 @@ oauth.register(
 ## Auth0 Authentication Functions ##
 
 def callback(request):
+
     token = oauth.auth0.authorize_access_token(request)
     request.session["user"] = token
 
@@ -39,27 +36,47 @@ def callback(request):
     user_auth_type = user_info['sub']
     user_email_verified = user_info['email_verified']
     user_name = user_info['name']
-    # updated_date_ts = user_info['iat']
 
-    user_auth_objects = UserOAuth.objects.filter(email = user_email)
-    if len(user_auth_objects) > 0:
-        user_auth_obj = user_auth_objects[0]
+    custom_user_obj_id = request.session.get("custom_user_uuid", None)
+    custom_user_obj = None
+    if custom_user_obj_id is not None:
+        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
+        if len(custom_user_objects) > 0:
+            custom_user_obj = custom_user_objects[0]
+    
+    if custom_user_obj is not None and custom_user_obj.oauth_user is not None:
+        user_auth_obj = UserOAuth.objects.get(email = user_email)
         user_auth_obj.email_verified = user_email_verified
         user_auth_obj.auth_type = user_auth_type
         user_auth_obj.name = user_name
-        # user_auth_obj.updated_at = updated_date_ts
         user_auth_obj.save()
-    else:
-        # current_unix_ts = int(time.time())
+    
+    elif custom_user_obj is not None:
         user_auth_obj = UserOAuth.objects.create(
             auth_type = user_auth_type,
             email = user_email,
             email_verified = user_email_verified,
             name = user_name,
-            # created_at = current_unix_ts,
-            # updated_at = updated_date_ts
         )
         user_auth_obj.save()
+
+        custom_user_obj.oauth_user = user_auth_obj
+        custom_user_obj.save()
+    
+    else: # should be a very rare case
+        
+        user_auth_obj = UserOAuth.objects.create(
+            auth_type = user_auth_type,
+            email = user_email,
+            email_verified = user_email_verified,
+            name = user_name,
+        )
+        user_auth_obj.save()
+
+        cu_obj = CustomUser.objects.create(
+            oauth_user = user_auth_obj
+        )
+        cu_obj.save()
 
     return redirect(request.build_absolute_uri(reverse(settings.AUTH0_CALLBACK_SUCCESS_REDIRECT_VIEW)))
 

@@ -36,7 +36,7 @@
                 Signup or Login
             </button> -->
 
-            {% if user_session is not none %}
+            {% if not anon_user %}
                 <button id="user-dashboard-button" class="ui button gradient-button">Visit Your Dashboard</button>
                 <!-- <a class="item" href="{% url 'logout' %}">
                     🚪&nbsp;&nbsp;<span style="font-size: 16px;">logout</span>

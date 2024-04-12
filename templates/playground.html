@@ -792,6 +792,8 @@ mystdout.getvalue()
 
     });
 
+
+    
     $('#file_name_change_btn').click(function(){
 
         let new_file_name = $('#file_name_input').val();
@@ -799,6 +801,7 @@ mystdout.getvalue()
         let user_code = editor.getValue();
 
         let d = {
+            'custom_user_obj_id': custom_user_obj_id,
             'cid': cid, 
             'user_code': user_code,
             'new_file_name': new_file_name,

@@ -139,5 +139,3 @@ def handle_file_name_change(request):
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 
-
-

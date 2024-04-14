@@ -9,7 +9,7 @@ from acc.models import CustomUser
 class ChatConversation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
-    user_obj = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # user_obj = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()
@@ -27,13 +27,12 @@ class PlaygroundConversation(ChatConversation):
     code_obj = models.ForeignKey(PlaygroundCode, on_delete=models.CASCADE)
 
 class UserGeneralTutorParent(models.Model):
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_obj = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class UserGeneralTutorConversation(models.Model):
     chat_parent_object = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE, blank=True, null=True)
-    unique_anon_user_id = models.CharField(max_length=100, blank=True, null=True)
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()

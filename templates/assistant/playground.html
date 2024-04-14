@@ -45,7 +45,7 @@
         <!-- Console Output -->
         <div class="console_parent_div">
 
-            {% if uc_obj is not None %}
+            {% if not anon_user %}
 
                 <div class="file_name_parent_div">
                     <h3 id="file_name_header">
@@ -83,7 +83,7 @@
 
             <!-- <br/> -->
 
-            <div>
+            <!-- <div>
                 <label style="font-weight: bold;">Choose Language</label>
                 &nbsp;&nbsp;
                 <select class="ui dropdown" id="language_dropdown">
@@ -97,8 +97,7 @@
                 <div class="console_helper_text">
                     <span style="font-size: 10px;">Currently, only Python can be run in the browser. More language support coming.</span>
                 </div>
-
-            </div>
+            </div> -->
 
             <div class="console_button_parent_div">            
 
@@ -233,7 +232,6 @@
     $( document ).ready(function() {
 
         document.body.style.background = "#f9f9f9";
-        $('.ui.dropdown').dropdown();
         
     });
 
@@ -283,143 +281,23 @@
 
     });
 
-    // TODO: get-param
-    let language_choice_param = new URLSearchParams(window.location.search).get('lg')
-    console.log('lg-param:', language_choice_param)
-
-    if (language_choice_param == 'python' || language_choice_param === null){
-
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: language_choice_param,
-                version: 3,
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
-
-        $('.code_run_button').show();
-
-        $('#language_dropdown').dropdown('set selected', 'python');
-
-    }
-    else if (language_choice_param == 'clike') {
-
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: 'clike',
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
-
-        $('.code_run_button').hide();
-
-        $('#language_dropdown').dropdown('set selected', 'clike');
-
-    }
-    else if (language_choice_param == 'go') {
-
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: 'go',
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
-
-        $('.code_run_button').hide();
-
-        $('#language_dropdown').dropdown('set selected', 'go');
-
-    }
-
-    else if (language_choice_param == 'html-mixed') {
-
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: 'html-mixed',
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
-
-        $('.code_run_button').hide();
-
-        $('#language_dropdown').dropdown('set selected', 'html-mixed');
-
-    }
-    
-    else {
-
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: 'python',
-                version: 3,
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
-
-        $('.code_run_button').hide();
-
-        $('#language_dropdown').dropdown('set selected', 'python');
-
-    } 
-
-    // var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    //     mode: {
-    //         // name: "python",
-    //         // version: 3,
-    //         name: "htmlmixed",
-    //         singleLineStringErrors: false
-    //     },
-    //     lineNumbers: true,
-    //     indentUnit: 4,
-    //     indentWithTabs: true,
-    //     matchBrackets: true,
-    //     theme: "duotone-light",
-    //     // theme: "yeti",
-    //     scrollbarStyle: "null",
-    //     lineWrapping: true,
-    // });
-    // // editor.setSize(700, 720);
-    // // editor.setSize(500, 620)
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: {
+            name: "python",
+            version: 3,
+            singleLineStringErrors: false
+        },
+        lineNumbers: true,
+        indentUnit: 4,
+        indentWithTabs: true,
+        matchBrackets: true,
+        theme: "duotone-light",
+        // theme: "yeti",
+        scrollbarStyle: "null",
+        lineWrapping: true,
+    });
+    // editor.setSize(700, 720);
+    // editor.setSize(500, 620)
     
     
     if (user_code_obj != 'None'){
@@ -603,7 +481,7 @@ mystdout.getvalue()
 
         $.ajax({
             type: 'POST',
-            url: "{% url 'save_user_code' %}",
+            url: "{% url 'save_user_playground_code' %}",
             dataType: "json",
             data: d,
             success: function (response) {
@@ -684,7 +562,7 @@ mystdout.getvalue()
             
         //     $.ajax({
         //         type: 'POST',
-        //         url: "{% url 'save_user_code' %}",
+        //         url: "{% url 'save_user_playground_code' %}",
         //         dataType: "json",
         //         data: d,
         //         success: function (response) {
@@ -950,28 +828,28 @@ mystdout.getvalue()
     });
 
 
-    $('#language_dropdown').on('change', function() {
+    // $('#language_dropdown').on('change', function() {
         
-        let language_choice = this.value;
+    //     let language_choice = this.value;
 
-        if (language_choice == 'python'){
+    //     if (language_choice == 'python'){
             
-            $('.code_run_button').show();
+    //         $('.code_run_button').show();
 
-        } 
-        else {
+    //     } 
+    //     else {
 
-            // TODO: 
-            $('.code_run_button').hide();
+    //         // TODO: 
+    //         $('.code_run_button').hide();
 
-        }
+    //     }
         
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
-        var urlObj = new URL(new_url);
-        urlObj.searchParams.set('lg', language_choice);
-        window.location.replace(urlObj);
+    //     let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+    //     var urlObj = new URL(new_url);
+    //     urlObj.searchParams.set('lg', language_choice);
+    //     window.location.replace(urlObj);
 
-    });
+    // });
 
 </script>
 

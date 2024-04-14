@@ -275,18 +275,8 @@ def handle_general_tutor_user_message(request):
         print('cs-chat-data:', request.POST)
 
         custom_user_obj_id = request.POST['custom_user_obj_id']
-        user_question = request.POST['message'].strip()
-        user_code_obj_id = request.POST['cid']
-        user_code = request.POST['user_code'].strip()
-        user_code = user_code.replace('`', '"').strip()
-
-        # 'general_cs_chat_parent_obj_id': general_cs_chat_parent_obj_id,
-        #         'existing_anon_user_id': existing_anon_user_id,
-        #         'message': messageText,
-        #         'prev_conversation_history_st': prev_conversation_history_st,
-        #         'uc_parent_obj_id': uc_parent_obj_id,
-        #         'user_ct_obj_id': user_conversation_obj_id,
-        #         csrfmiddlewaretoken: '{{ csrf_token }}'
+        general_tutor_parent_obj_id = request.POST['general_tutor_parent_obj_id']
+        user_message = request.POST['message'].strip()
 
         # TODO: passing user-obj-id directly proposes security-vuln <-- **FIX**
         custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
@@ -295,52 +285,29 @@ def handle_general_tutor_user_message(request):
 
         custom_user_obj = custom_user_objects[0]
 
-
-
-
-
-        user_anon_unique_id = request.POST['existing_anon_user_id'].strip()
-        user_question = request.POST['message'].strip()
-        general_cs_chat_parent_obj_id = request.POST['general_cs_chat_parent_obj_id']
-
-        initial_user_session = request.session.get('user')
-
-        ut_conv_parent_obj = None
+        
         prev_conversation_st = ''
-        user_oauth_obj = None
-        if initial_user_session is None:
-            user_oauth_obj = None
-            prev_conversation_st = request.POST['prev_conversation_history_st']
-            ut_conv_parent_obj = UserGeneralTutorParent.objects.create(
-                unique_anon_user_id = user_anon_unique_id,
+        parent_chat_obj = None
+        if general_tutor_parent_obj_id == '':
+            parent_chat_obj = utils._create_general_tutor_parent_object(
+                custom_user_obj=custom_user_obj,
             )
-            ut_conv_parent_obj.save()
         else:
-            user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+            parent_chat_objects = UserGeneralTutorParent.objects.filter(
+                id = general_tutor_parent_obj_id
+            )
+            if len(parent_chat_objects) == 0:
+                return JsonResponse({'success': False, 'response': 'Object not found.'})
 
-            if general_cs_chat_parent_obj_id == '':
+            parent_chat_obj = parent_chat_objects[0]
 
-                # TODO: Names will just be "Conversation {count}" on frontend
-                ut_conv_parent_obj = UserGeneralTutorParent.objects.create(
-                    user_auth_obj = user_oauth_obj,
-                )
-                ut_conv_parent_obj.save()
-
-            else:
-                ut_conv_parent_objects = UserGeneralTutorParent.objects.filter(id = general_cs_chat_parent_obj_id)
-                if len(ut_conv_parent_objects) == 0:
-                    return JsonResponse({'success': False, 'message': 'object not found.'})
-                else:
-                    ut_conv_parent_obj = ut_conv_parent_objects[0]
-
-            ug_tut_cv_objects = UserGeneralTutorConversation.objects.filter(
-                user_auth_obj = user_oauth_obj,
-                chat_parent_object = ut_conv_parent_obj
+            past_conversation_objects = UserGeneralTutorConversation.objects.filter(
+                chat_parent_object = parent_chat_obj
             ).order_by('-created_at')
 
-            if len(ug_tut_cv_objects) > 0:
+            if len(past_conversation_objects) > 0:
                 prev_conversation_history = []
-                for uc_tut_obj in ug_tut_cv_objects[:3]:
+                for uc_tut_obj in past_conversation_objects:
                     uc_question = uc_tut_obj.question
                     uc_response = uc_tut_obj.response
                     prev_conversation_history.append(f"Question: { uc_question }")
@@ -349,39 +316,27 @@ def handle_general_tutor_user_message(request):
                 prev_conversation_st = '\n'.join(prev_conversation_history).strip()
         
 
-        print('PREVIOUS CONV:', prev_conversation_st)
-
-        model_response_dict = main_utils.general_tutor_handle_question(
-            question = user_question,
-            previous_chat_history_st = prev_conversation_st
+        op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+        model_response_dict = op_ai_wrapper.handle_general_tutor_message(
+            question = user_message,
+            previous_chat_history_str = prev_conversation_st
         )
 
-        if user_oauth_obj is not None:  ## regardless of if signed in or anon
-
-            # TODO: test and finalize to ensure this works
-            uct_obj = UserGeneralTutorConversation.objects.create(
-                user_auth_obj = user_oauth_obj,
-                chat_parent_object = ut_conv_parent_obj,
-                question = model_response_dict['question'],
-                question_prompt = model_response_dict['q_prompt'],
-                response = model_response_dict['response'],
-            )
-            uct_obj.save()
+        # TODO: test and finalize to ensure this works
+        uct_obj = UserGeneralTutorConversation.objects.create(
+            chat_parent_object = parent_chat_obj,
+            question = model_response_dict['student_response'],
+            question_prompt = model_response_dict['q_prompt'],
+            response = model_response_dict['response']
+        )
+        uct_obj.save()
         
-        else:
-            uct_obj = UserGeneralTutorConversation.objects.create(
-                unique_anon_user_id = user_anon_unique_id,
-                chat_parent_object = ut_conv_parent_obj,
-                question = model_response_dict['question'],
-                question_prompt = model_response_dict['q_prompt'],
-                response = model_response_dict['response'],
-            )
-            uct_obj.save()
-
         # model_response_dict['uct_parent_obj_id'] = ugt_parent_obj.id
-        model_response_dict['uct_parent_obj_id'] = ut_conv_parent_obj.id
+        model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
 
+
+ 
 
 
 # TODO:

@@ -15,13 +15,20 @@ class OpenAIWrapper(object):
         self.model_name = "gpt-4"
         # model = "gpt-3.5-turbo-0125"
 
-    def _generate_answer(self, prompt):
+    def _generate_answer(self, prompt, return_json = True):
         di = {"role": "user", "content": prompt}
         messages_list = [di]
-        chat_completion = self.client.chat.completions.create(
-            messages = messages_list,
-            model = self.model_name,
-        )
+        if return_json:
+            chat_completion = self.client.chat.completions.create(
+                messages = messages_list,
+                model = self.model_name,
+                response_format={ "type": "json_object" }
+            )
+        else:
+            chat_completion = self.client.chat.completions.create(
+                messages = messages_list,
+                model = self.model_name,
+            )
         response_message = chat_completion.choices[0].message.content
         return response_message
 
@@ -139,16 +146,17 @@ Below, you are given the current student response, along with any previous conve
 ##Your Answer:
 """
 
-        prev_chat_history = prev_chat_history.strip()
+        previous_chat_history = previous_chat_history.strip()
         student_response = student_response.strip()
 
         prompt = prompt.format(
-            previous_student_chat_history = prev_chat_history,
+            previous_student_chat_history = previous_chat_history,
             student_response = student_response,
         )
 
         response = self._generate_answer(
-            prompt = prompt
+            prompt = prompt,
+            return_json=True            
         )
         
         response_message_json_data = json.loads(response)
@@ -161,4 +169,68 @@ Below, you are given the current student response, along with any previous conve
         return final_dict_rv
 
 
+    def handle_general_tutor_message(self, question, previous_chat_history_str):
+        q_prompt = """##Instructions:
+You will be a personal tutor primarily for students or individuals who are learning new concepts and fields.
+Be as resourceful to them as possible and provide them with as much guidance and help. 
+Help the individual develop their own syllabus, lesson plan, questions, quizzes, so they can get a deep understanding of their material.
+
+No Direct Answers: Do not provide direct solutions to the students' questions or challenges. Instead, focus on providing hints, explanations, and guidance that help them understand and solve the problems on their own. For questions students ask, don't simply provide the answer. Instead, provide a hint and try to ask the student a follow-up question/suggestion. Under no circumstance should you provide the student a direct answer to their problem/question.
+Encourage Problem Solving: Always encourage the students to think through the problems themselves. Ask leading questions that guide them toward a solution, and provide feedback on their thought processes.
+
+##Example Student Question:
+list_one = [2,23,523,1231,32,9]
+total_product = 0
+for idx in list_one:
+    total_product = idx * idx
+
+I'm confused here. I am multiplying idx and setting it to total_product but getting the wrong answer. What is wrong?
+
+##Example Bad Answer (Avoid this type of answer):
+You are correct in iterating through the list with the for loop but at the moment, your total_product is incorrectly setup. Try this instead:
+list_one = [2,23,523,1231,32,9]
+total_product = 1
+for idx in list_one:
+    total_product = total_product * idx
+
+##Example Good Answer: (this is a good answer because it identifies the mistake the student is making but instead of correcting it for the student, it asks the student a follow-up question as a hint, forcing the student to think on their own)
+You are on the right track. Pay close attention to the operation you are performing in the loop. You're currently multiplying the number with itself, but you want to find the product of all numbers. What operation should you use instead to continuously update 'total_product'?
+
+Based on the conversation, try to always ask meaningful follow-up questions to the individual. 
+This is a great way to foster a more engaging conversation, and help the individual gain a more deeper understanding of the material they are trying to learn.
+However, if you feel the student has received the information they need and there is no meaningful follow-up question you can think of, please close out the conversation by thanking the student and telling them they can ask any other questions if they wish.
+
+##Previous Chat History with Student:
+{previous_chat_history_st}
+
+##Student Question:
+{question}
+
+##Your Answer:
+"""
+        
+        question = question.strip()
+        previous_chat_history_str = previous_chat_history_str.strip()
+
+        q_prompt = q_prompt.format(
+            question = question,
+            previous_chat_history_st = previous_chat_history_str
+        )
+        # print(q_prompt)
+        
+        response = self._generate_answer(
+            prompt = q_prompt,
+            return_json=False
+        )
+
+        print(response)
+
+        # response_message_json_data = json.loads(response)
+
+        final_dict_rv = {
+            'student_response': question,
+            'q_prompt': q_prompt,
+            'response': response,
+        }
+        return final_dict_rv
 

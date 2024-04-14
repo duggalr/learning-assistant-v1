@@ -629,13 +629,10 @@ mystdout.getvalue()
             chat.appendChild(message);
 
             chat.scrollTop = chat.scrollHeight;
-            
             chatInput.value = "";
 
             let user_code = editor.getValue();
-
             let cid = $('#code_obj_id').val();
-            // let lqid = $('#lesson_question_obj_id').val();
 
             let d = {};
             if (initial_user_session == 'None'){
@@ -675,6 +672,15 @@ mystdout.getvalue()
                 };
 
             }
+
+            // TODO: refactor and get this working (save old pg template first)
+
+        //     let d = {
+        //     'custom_user_obj_id': custom_user_obj_id,
+        //     'cid': cid,
+        //     'user_code': user_code,
+        //     csrfmiddlewaretoken: '{{ csrf_token }}'
+        // };
 
             // // console.log('user-message-dict:', d);
 
@@ -793,7 +799,7 @@ mystdout.getvalue()
     });
 
 
-    
+
     $('#file_name_change_btn').click(function(){
 
         let new_file_name = $('#file_name_input').val();

@@ -201,8 +201,12 @@
 
 <script>
 
-    // Global Vars
-    const initial_user_session = '{{ user_session }}';
+    // // Global Vars
+    // const initial_user_session = '{{ user_session }}';
+
+    const custom_user_obj = '{{ custom_user_obj }}';
+    const custom_user_obj_id = '{{ custom_user_obj_id }}';
+    const is_anon_user =  '{{ anon_user }}';
 
     // Chat Functionality
     const chat = document.getElementById("general-chat-div");
@@ -340,6 +344,11 @@
             let general_cs_chat_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
 
             let d = {
+                'custom_user_obj_id': custom_user_obj_id,
+                'cid': cid,
+                'user_code': user_code,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+
                 'general_cs_chat_parent_obj_id': general_cs_chat_parent_obj_id,
                 'existing_anon_user_id': existing_anon_user_id,
                 'message': messageText,

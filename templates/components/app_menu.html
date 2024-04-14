@@ -3,7 +3,7 @@
 <div class="ui secondary pointing menu app-secondary-top-menu">
 
     {% if not anon_user %}
-        <a class="item app-navbar-logo" href="{% url 'dashboard' %}">
+        <a class="item app-navbar-logo" >
             <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
             <i class="code icon"></i>Companion
         </a>
@@ -16,12 +16,12 @@
     
     <div class="right menu">
         
-        <!-- <a class="item" href="{% url 'all_student_courses' %}">
+        <!-- <a class="item" >
             Course Generation Home
         </a> -->
 
         {% if not anon_user %}
-            <a class="item" href="{% url 'dashboard' %}">
+            <a class="item" >
                 <i class="home icon"></i> Your Dashboard
             </a>
         {% else %}
@@ -34,12 +34,12 @@
             <i class="code icon"></i> IDE
         </a>
         &nbsp;
-        <a class="item" href="{% url 'general_cs_tutor' %}">
+        <!-- <a class="item">
             <i class="comment alternate icon"></i> Chat
         </a>
-        &nbsp;
+        &nbsp; -->
         
-        {% if not user_session %}
+        {% if not anon_user %}
             <div class="ui item">
                 <i class="user icon"></i>
                 <strong>{{ current_user_email }}</strong>

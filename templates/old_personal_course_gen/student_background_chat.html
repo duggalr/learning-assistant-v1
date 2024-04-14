@@ -6,6 +6,7 @@
 {% include 'app_menu.html' %}
 {% include 'left_side_bar.html' %}
 
+
 <div class="ui grid tutor_chat_parent_container" style="display: none;">
 
     <div class="three wide column"></div>
@@ -66,7 +67,7 @@
             <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
 
             {% if current_conversation_list|length > 0 %}
-                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id" value="{{ course_gen_bg_parent_obj.id }}">
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id" value="{{ current_conversation_parent_object.id }}">
             {% else %}
                 <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
             {% endif %}
@@ -83,15 +84,25 @@
 
 
 
+
 <script>
 
     // Global Vars
-    const custom_user_obj = '{{ custom_user_obj }}';
-    const custom_user_obj_id = '{{ custom_user_obj_id }}';
-    const is_anon_user =  '{{ anon_user }}';
-    
+    const initial_user_session = '{{ user_session }}';
+    let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
+
+    if (initial_user_session == 'None'){
+
+        if (existing_anon_user_id === null){
+            existing_anon_user_id = generateUniqueUserID(30);
+            localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
+        };
+
+    };
+
     // Chat Functionality
     const chat = document.getElementById("general-chat-div");
+    // const chat = document.getElementsByClassName('tutor-chat-container');
     const chatInput = document.getElementById("general_tutor_chatInput");
     const sendButton = document.getElementById("sendButton");
 
@@ -139,88 +150,91 @@
             
             chatInput.value = "";
 
-            let course_gen_bg_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
+            let uc_parent_obj_id = $('#uc_parent_obj_id').val();
+            let user_conversation_obj_id = $('#user_conversation_obj_id').val();
+
+            let general_cs_chat_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
 
             let d = {
-                'custom_user_object_id': custom_user_obj_id,
-                'message': message,
-                'bg_parent_obj_id': course_gen_bg_parent_obj_id,
+                'existing_anon_user_id': existing_anon_user_id,
+                'user_background_parent_obj_id': general_cs_chat_parent_obj_id,
+                'message': messageText,
+                'uc_parent_obj_id': uc_parent_obj_id,
+                'user_ct_obj_id': user_conversation_obj_id,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             };
 
             console.log('data:', d);
-            // TODO: 
-                // concentrate more and get this complete for anon
 
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'handle_course_generation_background_message' %}",
-                dataType: "json",
-                data: d,
-                success: function (response) {
+            // $.ajax({
+            //     type: 'POST',
+            //     url: "{% url 'handle_student_background_chat_message' %}",
+            //     dataType: "json",
+            //     data: d,
+            //     success: function (response) {
 
-                    console.log('sb-response:', response)
+            //         console.log('sb-response:', response)
 
-                    // if (response['final_message'] == true){
+            //         if (response['final_message'] == true){
 
-                    //     // TODO: add thew new-course-obj-id to the get-param
-                    //     let new_course_obj_id = response['new_course_object_id'];
-                    //     let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/student_course_outline';
-                    //     window.location.replace(new_url);
+            //             // TODO: add thew new-course-obj-id to the get-param
+            //             let new_course_obj_id = response['new_course_object_id'];
+            //             let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/student_course_outline';
+            //             window.location.replace(new_url);
 
-                    // } else {
+            //         } else {
 
-                    //     var model_response_dict = response['response'];
-                    //     console.log('Response Dict:', model_response_dict)
+            //             var model_response_dict = response['response'];
+            //             console.log('Response Dict:', model_response_dict)
 
-                    //     // var model_response_message = model_response_dict['response'];
-                    //     // model_response_message = model_response_message.replaceAll('\n', '<br/>');
-                    //     var model_response_message_text = model_response_dict['response']['response'];
-                    //     console.log('Response:', model_response_message_text)
+            //             // var model_response_message = model_response_dict['response'];
+            //             // model_response_message = model_response_message.replaceAll('\n', '<br/>');
+            //             var model_response_message_text = model_response_dict['response']['response'];
+            //             console.log('Response:', model_response_message_text)
 
-                    //     const responseMessage = document.createElement("div");
-                    //     responseMessage.className = "message";
-                    //     responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message_text;
-                    //     // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
-                    //     chat.appendChild(responseMessage);
+            //             const responseMessage = document.createElement("div");
+            //             responseMessage.className = "message";
+            //             responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message_text;
+            //             // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+            //             chat.appendChild(responseMessage);
                         
-                    //     chat.scrollTop = chat.scrollHeight;
+            //             chat.scrollTop = chat.scrollHeight;
 
-                    //     $('#general_tutor_chatInput').prop('disabled', false);
-                    //     $('#sendButton').show();
-                    //     $('#primary_loading_button').hide();
+            //             $('#general_tutor_chatInput').prop('disabled', false);
+            //             $('#sendButton').show();
+            //             $('#primary_loading_button').hide();
 
-                    //     let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
+            //             let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
 
-                    //     // var final_question_st = "Question: " + messageText
-                    //     // var final_response_st = "Response: " + model_response_message
+            //             // var final_question_st = "Question: " + messageText
+            //             // var final_response_st = "Response: " + model_response_message
 
-                    //     $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
+            //             $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
                                                 
-                    //     let urlParams = new URLSearchParams(window.location.search);
-                    //     let current_url_tchid_param = urlParams.get('pgid');
+            //             let urlParams = new URLSearchParams(window.location.search);
+            //             let current_url_tchid_param = urlParams.get('pgid');
                         
-                    //     if (current_url_tchid_param === null){
+            //             if (current_url_tchid_param === null){
                             
-                    //         let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
-                    //         console.log('current_cv_url:', current_cv_url);
+            //                 let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
+            //                 console.log('current_cv_url:', current_cv_url);
 
-                    //         let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
-                    //         $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
+            //                 let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
+            //                 $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
 
-                    //     };
+            //             };
 
-                    //     var url = new URL(window.location.href);
-                    //     url.searchParams.set('pgid', parent_chat_obj_id);
-                    //     window.history.replaceState(null, null, url);
+            //             var url = new URL(window.location.href);
+            //             url.searchParams.set('pgid', parent_chat_obj_id);
+            //             window.history.replaceState(null, null, url);
 
-                    // }
+            //         }
 
-                },
+            //     },
 
-                error: function (response) {}
+            //     error: function (response) {}
                 
-            });
+            // });
 
         }
 
@@ -228,7 +242,6 @@
 
 
 </script>
-
 
 {% endblock %}
 

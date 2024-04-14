@@ -1,3 +1,4 @@
+import ast
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 
@@ -5,6 +6,8 @@ from .models import *
 
 # from acc.models import CustomUser, AnonUser
 from .scripts import utils, open_ai_utils
+from .scripts.personal_course_gen import a_student_description_generation_new, b_student_course_outline_generation_new, bing_search_new
+
 
 
 def landing(request):
@@ -336,109 +339,319 @@ def handle_general_tutor_user_message(request):
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 
- 
-
-
-# TODO:
-    # tutor user message and playground user message should be abstracted
-
-
-
-
-
 ### Course Gen ###
 
-# def course_generation_background_chat(request):
-#     # TODO: 
-#         # for anon, fetch the user object and the conv-obj if any
-#         # pass as hidden input id and go from there
+def course_generation_background_chat(request):
+    # # TODO: 
+    #     # for anon, fetch the user object and the conv-obj if any
+    #     # pass as hidden input id and go from there
     
-#     custom_user_obj = utils._get_customer_user(request)
-#     anon_user = utils._check_if_anon_user(custom_user_obj)
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
 
-#     course_gen_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
-#         user_obj = custom_user_obj
-#     )
+    # course_gen_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
+    #     user_obj = custom_user_obj
+    # )
 
-#     # TODO: only using this for anno user
-#     course_gen_obj = None
-#     if len(course_gen_bg_parent_objects) > 0 and custom_user_obj.anon_user:
-#         course_gen_obj = course_gen_bg_parent_objects[0]
+    # # TODO: only using this for anno user
+    # course_gen_obj = None
+    # if len(course_gen_bg_parent_objects) > 0 and custom_user_obj.anon_user:
+    #     course_gen_obj = course_gen_bg_parent_objects[0]
 
-#     user_conversation_objects = CourseGenBackgroundConversation.objects.filter(
-#         bg_parent_obj = course_gen_obj
-#     ).order_by('created_at')
+    # user_conversation_objects = CourseGenBackgroundConversation.objects.filter(
+    #     bg_parent_obj = course_gen_obj
+    # ).order_by('created_at')
 
-#     return render(request, 'personal_course_gen/student_background_chat.html', {
-#         'anon_user': anon_user,
-#         'custom_user_obj': custom_user_obj,
-#         'custom_user_obj_id': custom_user_obj.id,
-#         'course_gen_bg_parent_obj': course_gen_obj,
-#         'current_conversation_list': user_conversation_objects
-#     })
+    return render(request, 'personal_course_gen/student_background_chat.html', {
+        'anon_user': anon_user,
+        'custom_user_obj': custom_user_obj,
+        'custom_user_obj_id': custom_user_obj.id,
+        # 'course_gen_bg_parent_obj': course_gen_obj,
+        # 'current_conversation_list': user_conversation_objects
+    })
 
 
-# # TODO:
-#     # need to handle both cases here
-# def handle_course_generation_background_message(request):
+def handle_course_generation_background_message(request):
         
-#         if request.method == 'POST':
+    if request.method == 'POST':
+        print('cs-chat-data:', request.POST)
 
-#             custom_user_obj_id = request.POST['custom_user_obj_id']
-#             user_question = request.POST['message'].strip()
-#             bg_chat_parent_obj_id = request.POST['bg_parent_obj_id']
+        custom_user_obj_id = request.POST['custom_user_object_id']
+        course_gen_bg_parent_object = request.POST['bg_parent_obj_id']
+        user_message = request.POST['message'].strip()
+        
+        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
+        if len(custom_user_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'User not found.'})
+        
+        custom_user_obj = custom_user_objects[0]
+        cg_bg_parent_obj = None
+        prev_conversation_st = ''
+        if course_gen_bg_parent_object == '':
+            cg_bg_parent_obj = CourseGenBackgroundParent.objects.create(
+                user_obj = custom_user_obj
+            )
+        else:
+            cg_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
+                user_obj = custom_user_obj,
+                id = course_gen_bg_parent_object
+            )
+            if len(cg_bg_parent_objects) > 0:
+                cg_bg_parent_obj = cg_bg_parent_objects[0]
+            else:
+                return JsonResponse({'success': False, 'response': 'Object not found.'})
 
-#             custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
-#             if len(custom_user_objects) == 0:
-#                 return JsonResponse({'success': False, 'response': 'User not found.'})
+            past_conv_objects = CourseGenBackgroundConversation.objects.filter(
+                bg_parent_obj = cg_bg_parent_obj
+            )
 
-#             custom_user_obj = custom_user_objects[0]
+            prev_conversation_history = []
+            for uc_tut_obj in past_conv_objects:
+                uc_question = uc_tut_obj.question
+                uc_response = uc_tut_obj.response
+                prev_conversation_history.append(f"Question: { uc_question }")
+                prev_conversation_history.append(f"Response: { uc_response }")
 
-#             cg_bg_parent_obj = None
-#             if bg_chat_parent_obj_id == 'None':
-#                 cg_bg_parent_obj = CourseGenBackgroundParent.objects.create(
-#                     custom_user_obj = custom_user_obj
-#                 )
-#             else:
-#                 cg_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
-#                     user_obj = custom_user_obj,
-#                     id = bg_chat_parent_obj_id
-#                 )
-#                 if len(cg_bg_parent_objects) > 0:
-#                     cg_bg_parent_obj = cg_bg_parent_objects[0]
-#                 else:
-#                     return JsonResponse({'success': False, 'response': 'Object not found.'})
+            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+            # print('PREVIOUS CONV:', prev_conversation_st)
 
-#             student_background_full_conversation_list = []
-#             past_conv_objects = CourseGenBackgroundConversation.objects.filter(
-#                 user_obj = custom_user_obj,
-#                 bg_parent_obj = cg_bg_parent_obj
-#             )
+        # op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+        # model_response_dict = op_ai_wrapper.handle_course_generation_message(
+        #     student_response = user_message,
+        #     previous_chat_history = prev_conversation_st,
+        # )
+
+        model_response_dict = a_student_description_generation_new.generate_answer(
+            student_response = user_message, 
+            prev_chat_history = prev_conversation_st
+        )
+
+        model_response_json = model_response_dict['response']
+        model_response_final_message = model_response_json['final_message']
+        model_response_message_str = model_response_json['response'].strip()
+
+        # TODO: continue the conversation
+        if model_response_final_message is False:
+            course_bg_conv_obj = CourseGenBackgroundConversation.objects.create(
+                bg_parent_obj = cg_bg_parent_obj,
+                question = user_message,
+                question_prompt = model_response_dict['q_prompt'],
+                response = model_response_message_str
+            )
+            course_bg_conv_obj.save()
+
+            model_response_dict['course_gen_parent_obj_id'] = cg_bg_parent_obj.id
+            return JsonResponse({'success': True, 'final_message': False, 'response': model_response_dict})
+
+        else:
             
-#             prev_conversation_history = []
-#             for uc_tut_obj in past_conv_objects:
-#                 uc_question = uc_tut_obj.question
-#                 uc_response = uc_tut_obj.response
-#                 prev_conversation_history.append(f"Question: { uc_question }")
-#                 prev_conversation_history.append(f"Response: { uc_response }")
+            cg_bg_parent_obj.final_response = model_response_message_str
+            cg_bg_parent_obj.save()
 
-#             prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+            print("GENERATING THE COURSE OUTLINE...")
 
-#             print('PREVIOUS CONV:', prev_conversation_st)
+            initial_student_course_outline_response_dict = b_student_course_outline_generation_new.generate_course_outline(
+                student_response = '',
+                student_info = model_response_message_str,
+                student_course_outline = '',
+                previous_student_chat_history = ''
+            )
 
-#             op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-#             model_response_dict = op_ai_wrapper.handle_course_generation_message(
-#                 student_response = user_question,
-#                 previous_chat_history = prev_conversation_st,
+            initial_student_course_outline_response_json = initial_student_course_outline_response_dict['response']
+            initial_student_course_name = initial_student_course_outline_response_json['name'].strip()
+            initial_student_course_description = initial_student_course_outline_response_json['description'].strip()
+            # initial_student_course_outline = initial_student_course_outline_response_json['outline'].strip()
+            initial_student_course_modules_list = initial_student_course_outline_response_json['modules']
+            # initial_student_course_modules_list = ast.literal_eval(initial_student_course_modules)
+            print(f"Course Modules List: {initial_student_course_modules_list} | TYPE OF COURSE MODULES: {type(initial_student_course_modules_list)}")
 
-#             )
+            # Bing Results
+            bing_course_outline_query = initial_student_course_name
+            bing_results_rv = bing_search_new.get_bing_results(
+                query = bing_course_outline_query,
+                k = 8
+            )
 
-#             course_bg_conv_obj = CourseGenBackgroundConversation.objects.create(
-#                 bg_parent_obj = bg_chat_parent_obj_id,
-#                 user_obj = custom_user_obj,
-#                 question = user_question,
-#                 question_prompt = model_response_dict['q_prompt'],
-#                 response = model_response_dict['response']
-#             )
-#             course_bg_conv_obj.save()
+            ucourse_obj = UserCourse.objects.create(
+                initial_background_object = cg_bg_parent_obj,
+                name = initial_student_course_name,
+                description = initial_student_course_description,
+                module_list = initial_student_course_modules_list
+            )
+            ucourse_obj.save()
+
+            for module_dict in initial_student_course_modules_list:
+
+                md_num = module_dict['module_number']
+                md_topic = module_dict['module_topic']
+                md_description = module_dict['module_description']
+                print('md-desc:', md_description)
+                # md_description_str = '\n'.join(md_description)
+
+                md_obj = UserCourseModules.objects.create(
+                    parent_course_object = ucourse_obj,
+                    module_number = md_num,
+                    module_topic = md_topic,
+                    module_description = md_description,
+                )
+                md_obj.save()
+
+            for bg_rs_dict in bing_results_rv:
+                cm_br_obj = UserCourseModulesBingResult.objects.create(
+                    parent_course_object = ucourse_obj,
+                    name = bg_rs_dict['name'],
+                    url = bg_rs_dict['url'],
+                    snippet = bg_rs_dict['snippet'],
+                )
+                cm_br_obj.save()
+
+            return JsonResponse({'success': True, 'response': model_response_dict, 'final_message': True, 'new_course_object_id': ucourse_obj.id})
+
+
+
+def student_course_outline(request, cid):
+    
+    # all_course_objects = UserCourse.objects.all().order_by('-created_at')
+    # course_object = all_course_objects[0]
+
+    course_object = get_object_or_404(UserCourse, id = cid)
+ 
+    course_module_list = UserCourseModules.objects.filter(
+        parent_course_object = course_object
+    ).order_by('module_number')
+
+    course_module_list_rv = []
+    for md_obj in course_module_list:
+        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description)])
+
+    course_user_conversation_objects = UserCourseOutlineConversation.objects.filter(
+        course_parent_object = course_object
+    )
+    print(f"User Conversation Objects: {course_user_conversation_objects}")
+
+    user_conversation_rv = []
+    for cv_obj in course_user_conversation_objects:
+        # print(cv_obj.response['message_to_student'])
+        cv_di = ast.literal_eval(cv_obj.response)
+        user_conversation_rv.append([cv_obj.question, cv_di['message_to_student']])
+        # user_conversation_rv.append(cv_di['message_to_student'])
+
+    bing_result_objects = UserCourseModulesBingResult.objects.filter(parent_course_object = course_object)
+
+    # TODO: 
+    return render(request, 'personal_course_gen/student_course_outline.html', {
+        'course_object': course_object,
+        'course_module_list': course_module_list_rv,
+        'user_conversation_objects': user_conversation_rv,
+        'bing_result_objects': bing_result_objects
+    })
+
+
+def student_course_homepage(request, cid):
+    # TODO:
+        # pass in the course id and display the course along with generate notes/exercise button
+        # handle all functionality here
+
+    course_object = get_object_or_404(UserCourse, id = cid)
+    # all_course_objects = UserCourse.objects.all().order_by('-created_at')
+    # course_object = all_course_objects[0]
+
+    course_module_list = UserCourseModules.objects.filter(
+        parent_course_object = course_object
+    ).order_by('module_number')
+
+    course_module_list_rv = []
+    for md_obj in course_module_list:
+        c_md_note_objects = UserCourseModuleNote.objects.filter(
+            course_module_object = md_obj
+        )
+        c_md_note_obj = None
+        if len(c_md_note_objects) > 0:
+            c_md_note_obj = c_md_note_objects[0]
+        
+        course_module_list_rv.append([md_obj, ast.literal_eval(md_obj.module_description), c_md_note_obj])
+    
+    bing_result_objects = UserCourseModulesBingResult.objects.filter(parent_course_object = course_object)
+
+    return render(request, 'personal_course_gen/course_homepage.html', {
+        'course_object': course_object,
+        'course_module_list': course_module_list_rv,
+        'bing_result_objects': bing_result_objects
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    # if request.method == 'POST':
+
+    #     custom_user_obj_id = request.POST['custom_user_obj_id']
+    #     user_question = request.POST['message'].strip()
+    #     bg_chat_parent_obj_id = request.POST['bg_parent_obj_id']
+
+    #     custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
+    #     if len(custom_user_objects) == 0:
+    #         return JsonResponse({'success': False, 'response': 'User not found.'})
+
+    #     custom_user_obj = custom_user_objects[0]
+
+    #     cg_bg_parent_obj = None
+    #     if bg_chat_parent_obj_id == 'None':
+    #         cg_bg_parent_obj = CourseGenBackgroundParent.objects.create(
+    #             custom_user_obj = custom_user_obj
+    #         )
+    #     else:
+    #         cg_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
+    #             user_obj = custom_user_obj,
+    #             id = bg_chat_parent_obj_id
+    #         )
+    #         if len(cg_bg_parent_objects) > 0:
+    #             cg_bg_parent_obj = cg_bg_parent_objects[0]
+    #         else:
+    #             return JsonResponse({'success': False, 'response': 'Object not found.'})
+
+    #     student_background_full_conversation_list = []
+    #     past_conv_objects = CourseGenBackgroundConversation.objects.filter(
+    #         user_obj = custom_user_obj,
+    #         bg_parent_obj = cg_bg_parent_obj
+    #     )
+        
+    #     prev_conversation_history = []
+    #     for uc_tut_obj in past_conv_objects:
+    #         uc_question = uc_tut_obj.question
+    #         uc_response = uc_tut_obj.response
+    #         prev_conversation_history.append(f"Question: { uc_question }")
+    #         prev_conversation_history.append(f"Response: { uc_response }")
+
+    #     prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+    #     print('PREVIOUS CONV:', prev_conversation_st)
+
+    #     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    #     model_response_dict = op_ai_wrapper.handle_course_generation_message(
+    #         student_response = user_question,
+    #         previous_chat_history = prev_conversation_st,
+
+    #     )
+
+    #     course_bg_conv_obj = CourseGenBackgroundConversation.objects.create(
+    #         bg_parent_obj = bg_chat_parent_obj_id,
+    #         user_obj = custom_user_obj,
+    #         question = user_question,
+    #         question_prompt = model_response_dict['q_prompt'],
+    #         response = model_response_dict['response']
+    #     )
+    #     course_bg_conv_obj.save()
+
+
+
+
 

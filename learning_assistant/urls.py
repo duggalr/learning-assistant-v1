@@ -19,7 +19,12 @@ urlpatterns = [
     path("chat/tutor", views.general_cs_tutor, name="general_cs_tutor"),
     path("chat/handle_user_message", views.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
     
+    ## Course Gen
+    path("course-gen/background-chat", views.course_generation_background_chat, name="course_gen_bg_chat"),
+    path("course-gen/handle-background-message", views.handle_course_generation_background_message, name="handle_course_generation_background_message"),
     
-    # ## Course Gen
-    # path("course-gen/background-chat", views.course_generation_background_chat, name="course_gen_bg_chat"),
+    path("course-gen/course-outline/<int:cid>", views.student_course_outline, name="student_course_outline"),
+
+    path("course-gen/course-home/<int:cid>", views.student_course_homepage, name="student_course_homepage"),
+    
 ]

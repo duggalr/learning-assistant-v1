@@ -16,11 +16,15 @@
     
     <div class="right menu">
         
-        <!-- <a class="item" >
-            Course Generation Home
-        </a> -->
+        <a class="item">
+            Dashboard (TODO: )
+        </a>
 
-        {% if not anon_user %}
+        <a class="item" href="{% url 'course_gen_bg_chat' %}">
+            Generate A Course
+        </a>
+
+        <!-- {% if not anon_user %}
             <a class="item" >
                 <i class="home icon"></i> Your Dashboard
             </a>
@@ -29,11 +33,18 @@
                 Your Dashboard (signup..)
             </a>
         {% endif %}
-        &nbsp;
+        &nbsp; -->
         <a class="item" href="{% url 'playground' %}">
             <i class="code icon"></i> IDE
         </a>
         &nbsp;
+
+        &nbsp;
+        <a class="item" href="{% url 'general_cs_tutor' %}">
+            <i class="code icon"></i> Chat with Tutor
+        </a>
+        &nbsp;
+
         <!-- <a class="item">
             <i class="comment alternate icon"></i> Chat
         </a>

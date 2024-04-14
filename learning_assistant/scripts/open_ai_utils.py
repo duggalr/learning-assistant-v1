@@ -145,17 +145,16 @@ Below, you are given the current student response, along with any previous conve
 
 ##Your Answer:
 """
-
         previous_chat_history = previous_chat_history.strip()
         student_response = student_response.strip()
 
-        prompt = prompt.format(
+        q_prompt = q_prompt.format(
             previous_student_chat_history = previous_chat_history,
             student_response = student_response,
         )
 
         response = self._generate_answer(
-            prompt = prompt,
+            prompt = q_prompt,
             return_json=True            
         )
         
@@ -167,6 +166,8 @@ Below, you are given the current student response, along with any previous conve
             'response': response_message_json_data,
         }
         return final_dict_rv
+
+
 
 
     def handle_general_tutor_message(self, question, previous_chat_history_str):
@@ -233,4 +234,7 @@ However, if you feel the student has received the information they need and ther
             'response': response,
         }
         return final_dict_rv
+
+
+
 

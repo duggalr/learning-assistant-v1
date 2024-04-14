@@ -1,0 +1,132 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/app_menu.html' %}
+
+<div class="ui grid container dashboard-parent-container">
+        
+    <div class="one wide column"></div>
+
+    <div class="fourteen wide column">
+
+        <div style="padding-top: 25px;">
+            <h3 class="ui header" id="dashboard_header">
+                &#128216; {{ course_object.name }}
+            </h3>
+            <p>
+                {{ course_object.description }}
+            </p>
+        </div>
+
+        {% for br_obj in bing_result_objects %}
+
+            <li>
+                <a href="{{ br_obj.url }}">{{ br_obj.name }}</a>
+            </li>
+
+        {% endfor %}
+
+        <div class="ui tabular menu" style="padding-top: 12px;">
+
+            <!-- <a class="active item tab_header" id="course_questions_tab">
+                <i class="code icon" style="font-size: 13px;"></i>
+                Course Progress
+            </a> -->
+
+            <a class="active item tab_header" id="questions_tab">
+                <i class="code branch icon" style="font-size: 13px;"></i>
+                Your Code Files
+            </a>
+
+            <a class="item tab_header" >
+                Home
+            </a>
+
+        </div>
+
+        <!-- Main Code Div -->
+        <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+
+            <ul class="ui list course-module-list" style="padding-top: 10px;">
+                {% for md_obj in course_module_list %}
+                    <li style="padding-bottom: 25px;">
+                        
+                        <strong>
+                            Module {{ md_obj.0.module_number }}: {{ md_obj.0.module_topic }}
+                        </strong>
+
+                        {% if md_obj.2 is none %}
+                            <button class="tiny ui button module-note-quiz-generation" style="float: right;">Generate Notes/Quiz/Exercises</button>
+                        {% else %}
+                            <a href="{% url 'course_module_notes_view' md_obj.2.id %}" style="float: right;">
+                                View Notes
+                            </a>
+                        {% endif %}
+
+                        <input type="hidden" value="{{ md_obj.0.id }}" id="course_module_object_id">
+                        <ul class="ui list module-sub-topic-list">
+                            {% for d in md_obj.1 %}
+                            <li>
+                                {{ d }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+
+    </div>
+
+    <div class="one wide column"></div>
+
+</div>
+
+
+<script>
+
+
+    $('.module-note-quiz-generation').click(function(){
+
+        let module_obj_id = $(this).parent().find('input').val();
+
+        let d = {
+            'module_object_id': module_obj_id,
+            "student_response": '',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+
+        // generate_module_notes
+        $.ajax({
+            type: 'POST',
+            url: "",
+            dataType: "json",
+            data: d,
+            success: function (response) {
+
+                console.log('model-response:', response);
+                if (response['success'] == true){
+
+                    let module_note_object_id = response['module_note_obj_id'];
+                    let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/course_module_notes_view/' + module_note_object_id;
+                    window.location.replace(new_url);
+
+                }
+
+            },
+            error: function (response) {}
+        });
+
+    });
+
+
+</script>
+
+
+{% endblock %}
+

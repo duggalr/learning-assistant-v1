@@ -6,7 +6,7 @@ from .models import *
 
 # from acc.models import CustomUser, AnonUser
 from .scripts import utils, open_ai_utils
-from .scripts.personal_course_gen import a_student_description_generation_new, b_student_course_outline_generation_new, bing_search_new
+from .scripts.personal_course_gen import a_student_description_generation_new, b_student_course_outline_generation_new, c_student_course_note_generation_new, d_student_course_note_quiz_generation, bing_search_new
 
 
 
@@ -552,6 +552,9 @@ def student_course_homepage(request, cid):
         # pass in the course id and display the course along with generate notes/exercise button
         # handle all functionality here
 
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
     course_object = get_object_or_404(UserCourse, id = cid)
     # all_course_objects = UserCourse.objects.all().order_by('-created_at')
     # course_object = all_course_objects[0]
@@ -574,10 +577,273 @@ def student_course_homepage(request, cid):
     bing_result_objects = UserCourseModulesBingResult.objects.filter(parent_course_object = course_object)
 
     return render(request, 'personal_course_gen/course_homepage.html', {
+        'custom_user_obj': custom_user_obj,
+        'custom_user_obj_id': custom_user_obj.id,
         'course_object': course_object,
         'course_module_list': course_module_list_rv,
         'bing_result_objects': bing_result_objects
     })
+
+
+def all_student_courses(request):
+    # initial_user_session = request.session.get("user")    
+    # user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+    
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    user_course_objects = UserCourse.objects.filter(
+        initial_background_object__user_obj = custom_user_obj
+    ).order_by('-updated_at')
+
+    return render(request, 'personal_course_gen/new_course_all_list.html', {
+        'user_course_objects': user_course_objects,
+    })
+
+
+# TODO: complete this and finalize/test from there; when rafctoring and furhter changes, make new branch 
+def generate_module_notes(request):
+
+    if request.method == 'POST':
+        print('cs-chat-data:', request.POST)
+
+        custom_user_obj_id = request.POST['custom_user_object_id']
+        # course_gen_bg_parent_object = request.POST['bg_parent_obj_id']
+        course_module_object_id = request.POST['module_object_id']
+        # student_response = request.POST['student_response'].strip()
+
+        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
+        if len(custom_user_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'User not found.'})
+        
+        custom_user_obj = custom_user_objects[0]
+
+        c_module_objects = UserCourseModules.objects.filter(
+            id = course_module_object_id
+        )
+        if len(c_module_objects) == 0:
+            return JsonResponse({'success': False, 'message': "Module not found."})
+
+        c_module_obj = c_module_objects[0]
+        student_background_info = c_module_obj.parent_course_object.initial_background_object.final_response
+
+        course_outline_str = c_module_obj.parent_course_object.module_list
+        course_outline_dict = ast.literal_eval(course_outline_str)
+        course_outline_final_str = ""
+        for mdi in course_outline_dict:
+            md_full_name = f"Module #{mdi['module_number']}: {mdi['module_topic']}\n"
+            md_description_str = '\n'.join(mdi['module_description'])
+            mstr = md_full_name + '\n' + md_description_str + '\n'
+            course_outline_final_str += mstr
+        
+        
+        module_course_note_objects = UserCourseModuleNote.objects.filter(
+            course_module_object = course_module_object_id
+        )
+        if len(module_course_note_objects) == 0:
+            course_module_notes_str = ""
+        else:
+            course_module_notes_str = module_course_note_objects[0].notes_md
+        current_module_info = f"Module #{c_module_obj.module_number}: {c_module_obj.module_topic}\n{'\n'.join(c_module_obj.module_description)}"
+
+        current_module_note_response_dict = c_student_course_note_generation_new.generate_course_notes(
+            student_info = student_background_info,
+            course_outline = course_outline_final_str,
+            current_module_information = current_module_info,
+            current_week_course_notes = course_module_notes_str,
+            student_response = '',
+            previous_conversation_history = '',
+        )
+
+        current_module_note_response_json = current_module_note_response_dict['response']
+        cn_generation = current_module_note_response_json['course_note_generation']
+
+        if cn_generation:
+
+            UserCourseModuleNote.objects.filter(course_module_object = course_module_object_id).delete()
+
+            course_notes_text = current_module_note_response_json['course_notes'].strip()
+            uc_md_note_obj = UserCourseModuleNote.objects.create(
+                course_module_object = c_module_obj,
+                notes_md = course_notes_text
+            )
+            uc_md_note_obj.save()
+
+            quiz_note_response_dict = d_student_course_note_quiz_generation.generate_quiz(
+                student_info = student_background_info,
+                course_notes = course_notes_text,
+            )
+
+            quiz_response_json_list = quiz_note_response_dict['response']['quiz']
+            for qdi in quiz_response_json_list:
+                md_question_obj = UserCourseModuleNoteQuestion.objects.create(
+                    course_note_object = uc_md_note_obj,
+                    question_number = qdi['question_number'],
+                    question = qdi['question'],
+                    multiple_choice_options = qdi['multiple_choice_options'],
+                    answer = qdi['answer'],
+                )
+                md_question_obj.save()
+
+        else:
+            uc_md_note_obj = UserCourseModuleNote.objects.get(course_module_object = c_module_obj)
+
+
+        uc_md_cv_obj = UserCourseModuleConversation.objects.create(
+            course_module_object = c_module_obj,
+            question = '',
+            question_prompt = current_module_note_response_dict['q_prompt'],
+            response = current_module_note_response_dict['response']['model_response']
+        )
+        uc_md_cv_obj.save()
+        
+        return JsonResponse({'success': True, 'module_note_obj_id': uc_md_note_obj.id})
+
+
+def course_module_notes_view(request, mid):
+
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    course_module_obj = get_object_or_404(UserCourseModuleNote, id = mid)
+
+    note_quiz_question_objects = UserCourseModuleNoteQuestion.objects.filter(
+        course_note_object = course_module_obj
+    ).order_by('question_number')
+
+    note_quiz_objects_list = []
+    for qz_obj in note_quiz_question_objects:
+        mc_option_list = ast.literal_eval(qz_obj.multiple_choice_options)
+        note_quiz_objects_list.append([qz_obj, mc_option_list])
+
+    return render(request, 'personal_course_gen/course_module_note_view.html', {        
+        'anon_user': anon_user,
+        'custom_user_obj': custom_user_obj,
+        'custom_user_obj_id': custom_user_obj.id,
+
+        'course_obj': course_module_obj.course_module_object.parent_course_object,
+        'module_note_obj': course_module_obj,
+        # 'quiz_questions': note_quiz_question_objects
+        'quiz_questions': note_quiz_objects_list
+    })
+
+
+
+
+
+
+
+
+
+
+
+    #     initial_user_session = request.session.get('user')
+    #     user_oauth_obj = UserOAuth.objects.get(email = initial_user_session['userinfo']['email'])
+        
+    #     course_module_object_id = request.POST['module_object_id']
+    #     student_response = request.POST['student_response']
+
+    #     prev_conversation_history = ''
+    #     past_user_conversation_objects = UserCourseModuleConversation.objects.filter(course_module_object = course_module_object_id)
+    #     prev_conversation_history = []
+    #     for uc_obj in past_user_conversation_objects[:3]:
+    #         uc_question = uc_obj.question
+    #         uc_response = uc_obj.response
+    #         prev_conversation_history.append(f"Question: { uc_question }")
+    #         prev_conversation_history.append(f"Response: { uc_response }")
+
+    #     prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+
+    #     c_module_objects = UserCourseModules.objects.filter(
+    #         id = course_module_object_id
+    #     )
+    #     if len(c_module_objects) == 0:
+    #         return JsonResponse({'success': False, 'message': "Module not found."})
+        
+    #     c_module_obj = c_module_objects[0]
+
+    #     module_name = f"Module #{c_module_obj.module_number}: {c_module_obj.module_topic}"
+    #     module_desc_list = ast.literal_eval(c_module_obj.module_description)
+    #     module_desc_full_str = '\n'.join(module_desc_list)
+        
+    #     # UserCourseModuleNote
+    #     # UserCourseModuleConversation
+
+    #     student_background_info = c_module_obj.parent_course_object.initial_background_object.final_response
+        
+    #     course_outline_str = c_module_obj.parent_course_object.module_list
+    #     course_outline_dict = ast.literal_eval(course_outline_str)
+    #     course_outline_final_str = ""
+    #     for mdi in course_outline_dict:
+    #         md_full_name = f"Module #{mdi['module_number']}: {mdi['module_topic']}\n"
+    #         md_description_str = '\n'.join(mdi['module_description'])
+    #         mstr = md_full_name + '\n' + md_description_str + '\n'
+    #         course_outline_final_str += mstr
+        
+        
+    #     module_course_note_objects = UserCourseModuleNote.objects.filter(
+    #         course_module_object = course_module_object_id
+    #     )
+    #     if len(module_course_note_objects) == 0:
+    #         course_module_notes_str = ""
+    #     else:
+    #         course_module_notes_str = module_course_note_objects[0].notes_md
+
+    #     current_module_info = f"Module #{c_module_obj.module_number}: {c_module_obj.module_topic}\n{'\n'.join(c_module_obj.module_description)}"
+        
+    #     current_module_note_response_dict = c_student_course_note_generation_new.generate_course_notes(
+    #         student_info = student_background_info,
+    #         course_outline = course_outline_final_str,
+    #         current_module_information = current_module_info,
+    #         current_week_course_notes = course_module_notes_str,
+    #         student_response = student_response,
+    #         previous_conversation_history = prev_conversation_st,
+    #     )
+
+    #     current_module_note_response_json = current_module_note_response_dict['response']
+        
+    #     cn_generation = current_module_note_response_json['course_note_generation']
+    #     if cn_generation:
+
+    #         UserCourseModuleNote.objects.filter(course_module_object = course_module_object_id).delete()
+
+    #         course_notes_text = current_module_note_response_json['course_notes'].strip()
+    #         uc_md_note_obj = UserCourseModuleNote.objects.create(
+    #             course_module_object = c_module_obj,
+    #             notes_md = course_notes_text
+    #         )
+    #         uc_md_note_obj.save()
+
+    #         quiz_note_response_dict = d_student_course_note_quiz_generation.generate_quiz(
+    #             student_info = student_background_info,
+    #             course_notes = course_notes_text,
+    #         )
+
+    #         quiz_response_json_list = quiz_note_response_dict['response']['quiz']
+    #         for qdi in quiz_response_json_list:
+    #             md_question_obj = UserCourseModuleNoteQuestion.objects.create(
+    #                 course_note_object = uc_md_note_obj,
+    #                 question_number = qdi['question_number'],
+    #                 question = qdi['question'],
+    #                 multiple_choice_options = qdi['multiple_choice_options'],
+    #                 answer = qdi['answer'],
+    #             )
+    #             md_question_obj.save()
+
+    #     else:
+    #         uc_md_note_obj = UserCourseModuleNote.objects.get(course_module_object = c_module_obj)
+
+    #     uc_md_cv_obj = UserCourseModuleConversation.objects.create(
+    #         user_auth_obj = user_oauth_obj,
+    #         course_module_object = c_module_obj,
+    #         question = student_response,
+    #         question_prompt = current_module_note_response_dict['q_prompt'],
+    #         response = current_module_note_response_dict['response']['model_response']
+    #     )
+    #     uc_md_cv_obj.save()
+        
+    #     return JsonResponse({'success': True, 'module_note_obj_id': uc_md_note_obj.id})
+
 
 
 
@@ -591,65 +857,65 @@ def student_course_homepage(request, cid):
 
 
     
-    # if request.method == 'POST':
+    # # if request.method == 'POST':
 
-    #     custom_user_obj_id = request.POST['custom_user_obj_id']
-    #     user_question = request.POST['message'].strip()
-    #     bg_chat_parent_obj_id = request.POST['bg_parent_obj_id']
+    # #     custom_user_obj_id = request.POST['custom_user_obj_id']
+    # #     user_question = request.POST['message'].strip()
+    # #     bg_chat_parent_obj_id = request.POST['bg_parent_obj_id']
 
-    #     custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
-    #     if len(custom_user_objects) == 0:
-    #         return JsonResponse({'success': False, 'response': 'User not found.'})
+    # #     custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
+    # #     if len(custom_user_objects) == 0:
+    # #         return JsonResponse({'success': False, 'response': 'User not found.'})
 
-    #     custom_user_obj = custom_user_objects[0]
+    # #     custom_user_obj = custom_user_objects[0]
 
-    #     cg_bg_parent_obj = None
-    #     if bg_chat_parent_obj_id == 'None':
-    #         cg_bg_parent_obj = CourseGenBackgroundParent.objects.create(
-    #             custom_user_obj = custom_user_obj
-    #         )
-    #     else:
-    #         cg_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
-    #             user_obj = custom_user_obj,
-    #             id = bg_chat_parent_obj_id
-    #         )
-    #         if len(cg_bg_parent_objects) > 0:
-    #             cg_bg_parent_obj = cg_bg_parent_objects[0]
-    #         else:
-    #             return JsonResponse({'success': False, 'response': 'Object not found.'})
+    # #     cg_bg_parent_obj = None
+    # #     if bg_chat_parent_obj_id == 'None':
+    # #         cg_bg_parent_obj = CourseGenBackgroundParent.objects.create(
+    # #             custom_user_obj = custom_user_obj
+    # #         )
+    # #     else:
+    # #         cg_bg_parent_objects = CourseGenBackgroundParent.objects.filter(
+    # #             user_obj = custom_user_obj,
+    # #             id = bg_chat_parent_obj_id
+    # #         )
+    # #         if len(cg_bg_parent_objects) > 0:
+    # #             cg_bg_parent_obj = cg_bg_parent_objects[0]
+    # #         else:
+    # #             return JsonResponse({'success': False, 'response': 'Object not found.'})
 
-    #     student_background_full_conversation_list = []
-    #     past_conv_objects = CourseGenBackgroundConversation.objects.filter(
-    #         user_obj = custom_user_obj,
-    #         bg_parent_obj = cg_bg_parent_obj
-    #     )
+    # #     student_background_full_conversation_list = []
+    # #     past_conv_objects = CourseGenBackgroundConversation.objects.filter(
+    # #         user_obj = custom_user_obj,
+    # #         bg_parent_obj = cg_bg_parent_obj
+    # #     )
         
-    #     prev_conversation_history = []
-    #     for uc_tut_obj in past_conv_objects:
-    #         uc_question = uc_tut_obj.question
-    #         uc_response = uc_tut_obj.response
-    #         prev_conversation_history.append(f"Question: { uc_question }")
-    #         prev_conversation_history.append(f"Response: { uc_response }")
+    # #     prev_conversation_history = []
+    # #     for uc_tut_obj in past_conv_objects:
+    # #         uc_question = uc_tut_obj.question
+    # #         uc_response = uc_tut_obj.response
+    # #         prev_conversation_history.append(f"Question: { uc_question }")
+    # #         prev_conversation_history.append(f"Response: { uc_response }")
 
-    #     prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+    # #     prev_conversation_st = '\n'.join(prev_conversation_history).strip()
 
-    #     print('PREVIOUS CONV:', prev_conversation_st)
+    # #     print('PREVIOUS CONV:', prev_conversation_st)
 
-    #     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-    #     model_response_dict = op_ai_wrapper.handle_course_generation_message(
-    #         student_response = user_question,
-    #         previous_chat_history = prev_conversation_st,
+    # #     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    # #     model_response_dict = op_ai_wrapper.handle_course_generation_message(
+    # #         student_response = user_question,
+    # #         previous_chat_history = prev_conversation_st,
 
-    #     )
+    # #     )
 
-    #     course_bg_conv_obj = CourseGenBackgroundConversation.objects.create(
-    #         bg_parent_obj = bg_chat_parent_obj_id,
-    #         user_obj = custom_user_obj,
-    #         question = user_question,
-    #         question_prompt = model_response_dict['q_prompt'],
-    #         response = model_response_dict['response']
-    #     )
-    #     course_bg_conv_obj.save()
+    # #     course_bg_conv_obj = CourseGenBackgroundConversation.objects.create(
+    # #         bg_parent_obj = bg_chat_parent_obj_id,
+    # #         user_obj = custom_user_obj,
+    # #         question = user_question,
+    # #         question_prompt = model_response_dict['q_prompt'],
+    # #         response = model_response_dict['response']
+    # #     )
+    # #     course_bg_conv_obj.save()
 
 
 

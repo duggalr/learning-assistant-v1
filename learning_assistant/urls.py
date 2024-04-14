@@ -26,5 +26,11 @@ urlpatterns = [
     path("course-gen/course-outline/<int:cid>", views.student_course_outline, name="student_course_outline"),
 
     path("course-gen/course-home/<int:cid>", views.student_course_homepage, name="student_course_homepage"),
+
+    path("course-gen/list", views.all_student_courses, name="all_student_courses"),
+
+    path("course-gen/generate-module-notes", views.generate_module_notes, name="generate_module_notes"),
+
+    path("course-gen/notes/<int:mid>", views.course_module_notes_view, name="course_module_notes_view"),
     
 ]

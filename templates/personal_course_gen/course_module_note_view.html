@@ -5,10 +5,10 @@
 
 {% include 'components/app_menu.html' %}
 
-<div class="ui grid course-outline-parent-container">
+<div class="ui centered grid course-outline-parent-container">
 
     <!-- Course Notes Column -->
-    <div class="eight wide column course-outline-parent-column" style="padding-left: 35px;">
+    <div class="thirteen wide column course-outline-parent-column" style="padding-left: 35px;">
 
         <div class="ui tabular menu" style="padding-top: 12px;">
 
@@ -28,7 +28,7 @@
             </a>
 
             <a class="item tab_header" href="{% url 'student_course_homepage' course_obj.id %}">
-                Home
+                Course Home
             </a>
 
         </div>
@@ -62,9 +62,8 @@
     </div>
 
     <!-- AI Chat -->
-    <div class="seven wide column ai-chat-course-outline-parent-column" style="margin-left: 40px;">
+    <!-- <div class="seven wide column ai-chat-course-outline-parent-column" style="margin-left: 40px;">
 
-        <!-- Programming Assistant Tab -->
         <div id="programming_assistant_div">
             
             <div class="chat-container" id="chat">
@@ -133,7 +132,7 @@
 
         </div>        
 
-    </div>
+    </div> -->
 
 </div>
 

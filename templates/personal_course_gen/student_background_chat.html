@@ -163,9 +163,8 @@
 
                     if (response['final_message'] == true){
 
-                        // TODO: add thew new-course-obj-id to the get-param
                         let new_course_obj_id = response['new_course_object_id'];
-                        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/student_course_outline';
+                        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/course-gen/course-outline/' + new_course_obj_id;
                         window.location.replace(new_url);
 
                     } else {

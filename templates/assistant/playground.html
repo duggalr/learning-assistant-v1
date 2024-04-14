@@ -308,7 +308,8 @@
 
     } else {
 
-        editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\nhello_world()\n\n\n`);
+        // editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\nhello_world()\n\n\n`);
+        editor.setValue(`# Write your Python code here and run.\n\n`)
 
     }
 
@@ -466,9 +467,9 @@ mystdout.getvalue()
 
         let user_code = editor.getValue();
 
-        if (initial_user_session == 'None'){
-            localStorage.setItem('anon_playground_user_code', user_code);
-        };
+        // if (initial_user_session == 'None'){
+        //     localStorage.setItem('anon_playground_user_code', user_code);
+        // };
 
         let d = {
             'custom_user_obj_id': custom_user_obj_id,
@@ -492,7 +493,7 @@ mystdout.getvalue()
 
                     if (cid == 'None'){
 
-                        if (initial_user_session == 'None'){}
+                        if (is_anon_user == 'True'){}
                         else {
                             var url = new URL(window.location.href);
                             url.searchParams.set('cid', response['cid']);
@@ -510,7 +511,7 @@ mystdout.getvalue()
                         let saved_cid = response['cid'];
                         $("#code_obj_id").val(saved_cid);
                         
-                        if (initial_user_session != 'None'){
+                        if (is_anon_user != 'True'){
                             let code_file_name = response['code_file_name'];
                             $("#code_file_name").text(code_file_name);
                             $("#file_name_input").val(code_file_name);
@@ -690,33 +691,34 @@ mystdout.getvalue()
 
                     let saved_cid = model_response_dict['cid'];
 
-                    if (initial_user_session == 'None'){
+                    // // if (initial_user_session == 'None'){
+                    // if (is_anon_user == 'True'){
 
-                        var final_question_st = messageText
-                        var final_response_st = model_response_message
-                        anon_user_messages.push(final_question_st)
-                        anon_user_messages.push(final_response_st)
+                    //     var final_question_st = messageText
+                    //     var final_response_st = model_response_message
+                    //     anon_user_messages.push(final_question_st)
+                    //     anon_user_messages.push(final_response_st)
                         
-                        localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
-                        localStorage.setItem('anon_playground_user_code', user_code);
+                    //     localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+                    //     localStorage.setItem('anon_playground_user_code', user_code);
 
-                        $('#code_obj_id').val(saved_cid);
+                    //     $('#code_obj_id').val(saved_cid);
 
-                    } else {
+                    // } else {
 
-                        var url = new URL(window.location.href);
-                        url.searchParams.set('cid', saved_cid);
-                        window.history.replaceState(null, null, url);
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('cid', saved_cid);
+                    window.history.replaceState(null, null, url);
 
-                        $('#code_obj_id').val(saved_cid);
+                    $('#code_obj_id').val(saved_cid);
 
-                        let code_file_name = response['code_file_name'];
-                        $("#code_file_name").text(code_file_name);
+                    let code_file_name = response['code_file_name'];
+                    $("#code_file_name").text(code_file_name);
 
-                        $("#file_name_input").val(code_file_name);
-                        $(".file_name_parent_div").show();
+                    $("#file_name_input").val(code_file_name);
+                    $(".file_name_parent_div").show();
 
-                    }
+                    // }
 
                     $('#solution_submit_button').removeClass("disabled");
 

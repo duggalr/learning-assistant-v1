@@ -109,27 +109,27 @@
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
 
-        // // generate_module_notes
-        // $.ajax({
-        //     type: 'POST',
-        //     url: "{% url 'generate_module_notes' %}",
+        // generate_module_notes
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'generate_module_notes' %}",
  
-        //     dataType: "json",
-        //     data: d,
-        //     success: function (response) {
+            dataType: "json",
+            data: d,
+            success: function (response) {
 
-        //         console.log('model-response:', response);
-        //         if (response['success'] == true){
+                console.log('model-response:', response);
+                if (response['success'] == true){
 
-        //             let module_note_object_id = response['module_note_obj_id'];
-        //             let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/course-gen/notes/' + module_note_object_id;
-        //             window.location.replace(new_url);
+                    let module_note_object_id = response['module_note_obj_id'];
+                    let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/course-gen/notes/' + module_note_object_id;
+                    window.location.replace(new_url);
 
-        //         }
+                }
 
-        //     },
-        //     error: function (response) {}
-        // });
+            },
+            error: function (response) {}
+        });
 
     });
 

@@ -12,7 +12,8 @@ class OpenAIWrapper(object):
         self.client = OpenAI(
             api_key = self.api_key
         )
-        self.model_name = "gpt-4"
+        self.model_name = "gpt-4-0125-preview"
+        # self.model_name = "gpt-4"
         # model = "gpt-3.5-turbo-0125"
 
     def _generate_answer(self, prompt, return_json = True):
@@ -31,6 +32,7 @@ class OpenAIWrapper(object):
             )
         response_message = chat_completion.choices[0].message.content
         return response_message
+
 
     def handle_playground_code_question(self, question, student_code, previous_chat_history):
         prompt = """##Instructions:
@@ -82,7 +84,8 @@ You are on the right track. Pay close attention to the operation you are perform
         )
 
         response = self._generate_answer(
-            prompt = prompt
+            prompt = prompt,
+            return_json = False
         )
 
         final_dict_rv = {
@@ -93,7 +96,6 @@ You are on the right track. Pay close attention to the operation you are perform
         return final_dict_rv
 
 
-# TODO: start here
     def handle_course_generation_message(self, student_response, previous_chat_history):
         q_prompt = """##Instructions:
 A student will approach you wanting to learn about a specific field/concept.

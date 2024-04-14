@@ -601,7 +601,6 @@ def all_student_courses(request):
     })
 
 
-# TODO: complete this and finalize/test from there; when rafctoring and furhter changes, make new branch 
 def generate_module_notes(request):
 
     if request.method == 'POST':

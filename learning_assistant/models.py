@@ -5,7 +5,6 @@ from django.db import models
 from acc.models import CustomUser
 
 
-
 class ChatConversation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # user_auth_obj = models.ForeignKey(UserOAuth, on_delete=models.CASCADE, blank=True, null=True)
@@ -27,17 +26,20 @@ class PlaygroundConversation(ChatConversation):
     code_obj = models.ForeignKey(PlaygroundCode, on_delete=models.CASCADE)
 
 class UserGeneralTutorParent(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_obj = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
-class UserGeneralTutorConversation(models.Model):
-    chat_parent_object = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE, blank=True, null=True)
-    question = models.CharField(max_length=3000)
-    question_prompt = models.TextField()
-    response = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+class UserGeneralTutorConversation(ChatConversation):
+    parent_obj = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE, blank=True, null=True)
 
+    
+# class UserGeneralTutorConversation(models.Model):
+#     chat_parent_object = models.ForeignKey(UserGeneralTutorParent, on_delete=models.CASCADE, blank=True, null=True)
+#     question = models.CharField(max_length=3000)
+#     question_prompt = models.TextField()
+#     response = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
 
 
 ### Course Generation ###

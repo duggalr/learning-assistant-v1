@@ -7,12 +7,15 @@
 
 <div class="ui grid playground-parent-container">
 
-    <!-- TODO: add dropdown here to language-mode-switch -->
-
     <div class="eight wide column code-editor-parent-column">
 
         <textarea id="code" class="code-editor-textarea"></textarea>
-        <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+
+        {% if code_id is defined %}
+            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+        {% else %}
+            <input id="code_obj_id" type="hidden" />
+        {% endif %}
 
     </div>
 
@@ -235,11 +238,9 @@
         
     });
 
-    const custom_user_obj = '{{ custom_user_obj }}';
-    const custom_user_obj_id = '{{ custom_user_obj_id }}';
+    // const custom_user_obj = '{{ custom_user_obj }}';
+    // const custom_user_obj_id = '{{ custom_user_obj_id }}';
     const is_anon_user =  '{{ anon_user }}';
-
-    console.log('is_anon_user', is_anon_user);
 
     // user_session = '{{ user_session }}';
     let user_cid = null;
@@ -464,21 +465,16 @@ mystdout.getvalue()
     function saveCode(){
 
         let cid = $('#code_obj_id').val();
-
         let user_code = editor.getValue();
 
-        // if (initial_user_session == 'None'){
-        //     localStorage.setItem('anon_playground_user_code', user_code);
-        // };
-
         let d = {
-            'custom_user_obj_id': custom_user_obj_id,
+            // 'custom_user_obj_id': custom_user_obj_id,
             'cid': cid,
             'user_code': user_code,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         };
 
-        // console.log("cid-dict:", d);
+        console.log('user-cid:', cid)
 
         $.ajax({
             type: 'POST',
@@ -487,11 +483,9 @@ mystdout.getvalue()
             data: d,
             success: function (response) {
 
-                // console.log('response:', response);
-
                 if (response['success'] == true){
 
-                    if (cid == 'None'){
+                    if (cid == ''){
 
                         if (is_anon_user == 'True'){}
                         else {
@@ -500,14 +494,6 @@ mystdout.getvalue()
                             window.history.replaceState(null, null, url);
                         }
 
-                        // // window.location.reload();
-                        // // window.location.href = ''
-                        // var url = new URL(window.location.href);
-                        // url.searchParams.set('cid', response['cid']);
-                        // window.history.replaceState(null, null, url);
-                        // // window.location.href = url;
-                        
-                        // console.log('cid:', response['cid']);
                         let saved_cid = response['cid'];
                         $("#code_obj_id").val(saved_cid);
                         
@@ -522,14 +508,6 @@ mystdout.getvalue()
 
                         let saved_cid = response['cid'];
                         $('#code_obj_id').val(saved_cid);
-                        
-                        // $('#save_code_button').hide().promise().done(function(){
-
-                        //     $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
-                        //         $('#save_code_button').show();
-                        //     });
-
-                        // });
 
                     }
 
@@ -539,75 +517,6 @@ mystdout.getvalue()
             error: function (response) {}
             
         });
-
-        // if (initial_user_session == 'None'){
-
-        //     let user_code = editor.getValue();
-        //     // console.log('new-user-code-save:', user_code)
-        //     localStorage.setItem('anon_playground_user_code', user_code);
-
-        // } else {
-
-        //     let cid = $('#code_obj_id').val();
-        //     // let lqid = $('#lesson_question_obj_id').val();
-
-        //     let user_code = editor.getValue();
-        //     let d = {
-        //         'cid': cid,
-        //         // 'lqid': lqid,
-        //         'user_code': user_code,
-        //         csrfmiddlewaretoken: '{{ csrf_token }}'
-        //     };
-
-        //     console.log("cid-dict:", d);
-            
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: "{% url 'save_user_playground_code' %}",
-        //         dataType: "json",
-        //         data: d,
-        //         success: function (response) {
-
-        //             // console.log('response:', response);
-
-        //             if (response['success'] == true){
-
-        //                 if (cid == 'None'){
-
-        //                     // window.location.reload();
-        //                     // window.location.href = ''
-        //                     var url = new URL(window.location.href);
-        //                     url.searchParams.set('cid', response['cid']);
-        //                     window.history.replaceState(null, null, url);
-        //                     // window.location.href = url;
-                            
-        //                     // console.log('cid:', response['cid']);
-        //                     let saved_cid = response['cid'];
-        //                     $("#code_obj_id").val(saved_cid);
-
-        //                 } else {
-
-        //                     let saved_cid = response['cid'];
-        //                     $('#code_obj_id').val(saved_cid);
-                            
-        //                     $('#save_code_button').hide().promise().done(function(){
-
-        //                         $('#save_code_success_text').show().delay(2000).fadeOut(500).promise().done(function() {
-        //                             $('#save_code_button').show();
-        //                         });
-
-        //                     });
-
-        //                 }
-
-        //             }
-
-        //         },
-        //         error: function (response) {}
-                
-        //     });
-
-        // }
 
     };
 
@@ -652,7 +561,7 @@ mystdout.getvalue()
             let cid = $('#code_obj_id').val();
 
             let d = {
-                'custom_user_obj_id': custom_user_obj_id,
+                // 'custom_user_obj_id': custom_user_obj_id,
                 'cid': cid,
                 'user_code': user_code,
                 'message': messageText,

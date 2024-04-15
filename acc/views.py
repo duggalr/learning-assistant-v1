@@ -12,7 +12,6 @@ from authlib.integrations.django_client import OAuth
 from .models import UserOAuth, CustomUser
 
 
-
 oauth = OAuth()
 oauth.register(
     "auth0",
@@ -73,11 +72,12 @@ def callback(request):
         )
         user_auth_obj.save()
 
-        cu_obj = CustomUser.objects.create(
+        custom_user_obj = CustomUser.objects.create(
             oauth_user = user_auth_obj
         )
-        cu_obj.save()
+        custom_user_obj.save()
 
+    request.session['custom_user_uuid'] = str(custom_user_obj.id)
     return redirect(request.build_absolute_uri(reverse(settings.AUTH0_CALLBACK_SUCCESS_REDIRECT_VIEW)))
 
 
@@ -105,5 +105,4 @@ def logout(request):
             quote_via=quote_plus,
         ),
     )
-
 

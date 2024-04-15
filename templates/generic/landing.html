@@ -26,9 +26,9 @@
                 </p>
     
                 <p id="landing_page_description">
-                    <!-- Companion is an AI-based programming tutor, offering real-time help or feedback, 100% free! -->
-                    With Companion, you can leverage our AI-based programming tutor, to get real-time help or feedback,
-                    along with using the AI assistant to generate your own course.
+                    Companion is an AI-based programming tutor, offering real-time help or feedback, 100% free!
+                    <!-- With Companion, you can leverage our AI-based programming tutor, to get real-time help or feedback,
+                    along with using the AI assistant to generate your own course. -->
                     
                     <!-- Companion is an AI-based programming tutor, offering real-time help or feedback. -->
                     <div>
@@ -38,9 +38,9 @@
                         <ul class="ui list landing_helper_list">
                             <li>&nbsp;&nbsp;&nbsp;Personalized support with your programming challenges or homework</li>
                             <li>&nbsp;&nbsp;&nbsp;Guidance on tackling LeetCode or Project Euler problems</li>
-                            <li>&nbsp;&nbsp;&nbsp;Personalized Course Generation</li>
-                            <!-- <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li> -->
-                            <li>&nbsp;&nbsp;&nbsp;Tailored exercises and projects to reinforce your learning journey</li>
+                            <!-- <li>&nbsp;&nbsp;&nbsp;Personalized Course Generation</li> -->
+                            <li>&nbsp;&nbsp;&nbsp;Step-by-step roadmaps for mastering new concepts, ie. web development</li>
+                            <li>&nbsp;&nbsp;&nbsp;Generating personal exercises and projects to reinforce your learning journey</li>
                             <li>&nbsp;&nbsp;&nbsp;Deep discussions on learning various Computer Science concepts</li>
                         </ul>
                     </div>
@@ -321,23 +321,8 @@
     });
 
     $('.tutor_chat_button').click(function(){
-        window.location.href = 'cs-tutor';
+        window.location.href = 'chat/tutor';
     });
-
-
-    // // Global Vars
-    // const initial_user_session = '{{ user_session }}';
-    // let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
-
-    // if (initial_user_session == 'None'){
-
-    //     if (existing_anon_user_id === null){
-    //         // let unique_anon_user_id = generateUniqueUserID(30);
-    //         existing_anon_user_id = generateUniqueUserID(30);
-    //         localStorage.setItem('unique_anon_identifier', existing_anon_user_id);
-    //     };
-
-    // };
 
     document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";
 

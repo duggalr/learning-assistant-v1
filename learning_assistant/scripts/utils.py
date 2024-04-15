@@ -50,7 +50,6 @@ def _create_playground_code_object(custom_user_obj, user_code):
     uc_obj.save()
     return uc_obj
 
-
 def _create_general_tutor_parent_object(custom_user_obj):
     ug_parent_obj = UserGeneralTutorParent.objects.create(
         user_obj = custom_user_obj

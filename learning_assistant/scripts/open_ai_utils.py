@@ -3,6 +3,8 @@ import json
 from openai import OpenAI
 
 
+MAX_CONVERSATION_HISTORY_LENGTH = 5
+
 class OpenAIWrapper(object):
     """
     """

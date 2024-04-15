@@ -53,7 +53,7 @@ def playground(request):
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
     }
-    if code_id is not None:
+    if code_id is not None and not anon_user:
         rv['code_id'] = code_id
 
     return render(request, 'assistant/playground.html', rv)
@@ -87,7 +87,7 @@ def general_cs_tutor(request):
 
     current_cid_parent_conv_obj = None
     current_cid_past_messages = []
-    if tchid is not None:
+    if tchid is not None and not anon_user:
         parent_conv_objects = UserGeneralTutorParent.objects.filter(
             id = tchid
         )
@@ -110,31 +110,12 @@ def general_cs_tutor(request):
 
 
 
-
-
-def _is_bad_user_session(session_data):
-    custom_user_obj_id = session_data.get('custom_user_uuid', None)
-
-    err_message = 'User not found'
-    if custom_user_obj_id is not None:
-        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
-        if len(custom_user_objects) == 0:
-            return True, "User not found."
-        else:
-            return False, ""
-    else:
-        return True, "User not found."
-
-
-
 def save_user_playground_code(request):
-
-    custom_user_obj = utils._get_customer_user(request)
 
     if request.method == 'POST':
         
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
-        user_err, user_err_message = _is_bad_user_session(session_data = request.session)
+        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
         if user_err:
             return JsonResponse({'success': user_err, 'response': user_err_message})
         else:
@@ -176,7 +157,7 @@ def handle_playground_user_message(request):
     if request.method == 'POST':
         
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
-        user_err, user_err_message = _is_bad_user_session(session_data = request.session)
+        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
         if user_err:
             return JsonResponse({'success': user_err, 'response': user_err_message})
         else:
@@ -204,7 +185,6 @@ def handle_playground_user_message(request):
                 code_obj = uc_obj
             )
 
-            # TODO: setting some sort of limit on past message history?
             prev_cv_list = []
             for pg_conv_obj in pg_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
                 uc_question = pg_conv_obj.question
@@ -275,23 +255,21 @@ def handle_playground_file_name_change(request):
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 
 
+
+
 def handle_general_tutor_user_message(request):
-    # initial_user_session = request.session.get("user")
 
     if request.method == 'POST':
-        print('cs-chat-data:', request.POST)
 
-        custom_user_obj_id = request.POST['custom_user_obj_id']
+        custom_user_obj_id = request.session.get('custom_user_uuid', None)
+        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+        if user_err:
+            return JsonResponse({'success': user_err, 'response': user_err_message})
+        else:
+            custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
+
         general_tutor_parent_obj_id = request.POST['general_tutor_parent_obj_id']
         user_message = request.POST['message'].strip()
-
-        # TODO: passing user-obj-id directly proposes security-vuln <-- **FIX**
-        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)
-        if len(custom_user_objects) == 0:
-            return JsonResponse({'success': False, 'response': 'User not found.'})
-
-        custom_user_obj = custom_user_objects[0]
-
         
         prev_conversation_st = ''
         parent_chat_obj = None
@@ -321,14 +299,12 @@ def handle_general_tutor_user_message(request):
 
             prev_conversation_st = '\n'.join(prev_conversation_history).strip()
         
-
         op_ai_wrapper = open_ai_utils.OpenAIWrapper()
         model_response_dict = op_ai_wrapper.handle_general_tutor_message(
             question = user_message,
             previous_chat_history_str = prev_conversation_st
         )
 
-        # TODO: test and finalize to ensure this works
         uct_obj = UserGeneralTutorConversation.objects.create(
             chat_parent_object = parent_chat_obj,
             question = model_response_dict['student_response'],
@@ -336,11 +312,9 @@ def handle_general_tutor_user_message(request):
             response = model_response_dict['response']
         )
         uct_obj.save()
-        
-        # model_response_dict['uct_parent_obj_id'] = ugt_parent_obj.id
+
         model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
-
 
 
 
@@ -1008,8 +982,5 @@ def course_module_notes_view(request, mid):
     # #         response = model_response_dict['response']
     # #     )
     # #     course_bg_conv_obj.save()
-
-
-
 
 

@@ -5,7 +5,6 @@ from .models import *
 from .scripts import utils, open_ai_utils
 
 
-
 ### Generic Views ###
 
 def landing(request):

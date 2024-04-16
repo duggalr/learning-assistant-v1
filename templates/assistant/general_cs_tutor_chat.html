@@ -31,10 +31,18 @@
                     I'm your personal learning assistant. 
                 </strong>
                 <br/><br/>
-                My goal is to help you on your learning journey, whether you need help with homework or want to explore a CS topic.
-                <br/><br/>
+                <span style="font-weight: bold;">
+                    My goal is to help you on your learning journey. You can use me for:
+                </span>
+                <ul class="ui list">
+                    <li>Exploring a new Computer Science Topic</li>
+                    <li>Developing an outline or learning plan on a new subject you are trying to learn</li>
+                    <li>Getting help on your homework questions.</li>
+                </ul>
+                
+                <!-- <br/><br/>
                 If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
-                learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
+                learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts. -->
             </div>
 
             <hr>
@@ -286,7 +294,8 @@
                     let urlParams = new URLSearchParams(window.location.search);
                     let current_url_tchid_param = urlParams.get('tchid');
 
-                    if (current_url_tchid_param === null){
+                    // if (is_anon_user == 'True'){}
+                    if (current_url_tchid_param === null && is_anon_user == 'False'){
                             
                         let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
                         console.log('current_cv_url:', current_cv_url);
@@ -294,15 +303,13 @@
                         let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
                         $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
 
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('tchid', parent_chat_obj_id);
+                        window.history.replaceState(null, null, url);
+
                     };
 
-                    var url = new URL(window.location.href);
-                    url.searchParams.set('tchid', parent_chat_obj_id);
-                    window.history.replaceState(null, null, url);
-
-
-
-
+                    
                     // if (initial_user_session == 'None'){
                     //     // var final_question_st = "Question: " + messageText
                     //     // var final_response_st = "Response: " + model_response_message
@@ -348,9 +355,6 @@
 
     };
 
-    
 </script>
 
-
 {% endblock %}
-

@@ -62,6 +62,7 @@ def playground(request):
 
 
 def general_cs_tutor(request):
+# http://127.0.0.1:8000/chat/tutor?tchid=87976ac7-da97-4624-a50d-2430f514732d
 
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
@@ -76,7 +77,7 @@ def general_cs_tutor(request):
     cv_count = 1
     for pc_obj in parent_conv_objects:
         past_conv_messages = UserGeneralTutorConversation.objects.filter(
-            chat_parent_object = pc_obj
+            parent_obj = pc_obj
         )
         user_full_conversation_list.append([
             f"Conversation #{cv_count}",
@@ -98,7 +99,7 @@ def general_cs_tutor(request):
         else:
             current_cid_parent_conv_obj = parent_conv_objects[0]
             current_cid_past_messages = UserGeneralTutorConversation.objects.filter(
-                chat_parent_object = current_cid_parent_conv_obj
+                parent_obj = current_cid_parent_conv_obj
             )
 
     return render(request, 'assistant/general_cs_tutor_chat.html', {
@@ -116,7 +117,7 @@ def general_cs_tutor(request):
 
 def save_user_playground_code(request):
 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
         user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
@@ -157,7 +158,7 @@ def save_user_playground_code(request):
 
 def handle_playground_user_message(request):
 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
         user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
@@ -222,7 +223,7 @@ def handle_playground_file_name_change(request):
 
     custom_user_obj = utils._get_customer_user(request)
 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         
         cid = request.POST['cid']
         custom_user_obj_id = request.POST['custom_user_obj_id']
@@ -257,7 +258,7 @@ def handle_playground_file_name_change(request):
 
 def handle_general_tutor_user_message(request):
 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
 
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
         user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
@@ -285,7 +286,7 @@ def handle_general_tutor_user_message(request):
             parent_chat_obj = parent_chat_objects[0]
 
             past_conversation_objects = UserGeneralTutorConversation.objects.filter(
-                chat_parent_object = parent_chat_obj
+                parent_obj = parent_chat_obj
             ).order_by('-created_at')
 
             prev_conversation_history = []
@@ -304,7 +305,7 @@ def handle_general_tutor_user_message(request):
         )
 
         uct_obj = UserGeneralTutorConversation.objects.create(
-            chat_parent_object = parent_chat_obj,
+            parent_obj = parent_chat_obj,
             question = model_response_dict['student_response'],
             question_prompt = model_response_dict['q_prompt'],
             response = model_response_dict['response']
@@ -313,4 +314,3 @@ def handle_general_tutor_user_message(request):
 
         model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
-

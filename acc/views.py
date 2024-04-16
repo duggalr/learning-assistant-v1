@@ -105,4 +105,3 @@ def logout(request):
             quote_via=quote_plus,
         ),
     )
-

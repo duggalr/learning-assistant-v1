@@ -85,7 +85,7 @@
             {% endif %}
 
             <div style="padding-bottom: 0px;">
-                <label style="font-weight: bold;">Choose Editor Language</label>
+                <label style="font-weight: bold; font-size: 16px;">Choose Editor Language</label>
                 &nbsp;&nbsp;
                 <div class="ui selection dropdown" id="programming_language_dropdown">
                     <input type="hidden" name="language_choice">
@@ -123,7 +123,6 @@
                         {% else %}
                         <div class="item" data-value="html-mixed">HTML Mixed</div>
                         {% endif %}
-                        
                     </div>
                 </div>
 
@@ -166,7 +165,7 @@
 
             <div class="console_textarea_parent">
 
-                <h3 class="ui header">
+                <h3 class="ui header" style="font-size: 16px;">
                     Console Output:
                     <span id="clear_output_link">clear</span>
                 </h3>
@@ -427,7 +426,7 @@
     } else {
 
         // editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\nhello_world()\n\n\n`);
-        editor.setValue(`# Write your Python code here and run.\n\n`)
+        editor.setValue(`# Write your code here...\n\n`)
 
     }
 

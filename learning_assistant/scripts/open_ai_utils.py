@@ -239,6 +239,3 @@ However, if you feel the student has received the information they need and ther
         }
         return final_dict_rv
 
-
-
-

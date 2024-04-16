@@ -9,6 +9,8 @@ from .scripts.personal_course_gen import a_student_description_generation_new, b
 
 
 
+### Generic Views ###
+
 def landing(request):
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
@@ -27,11 +29,15 @@ def about(request):
     })
 
 
+
+### Playground General CS Tutor Views ###
+
 def playground(request):
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     code_id = request.GET.get('cid', None)
+    user_language_choice = request.GET.get('lg', None)
 
     uc_obj = None
     user_conversation_objects = []
@@ -52,6 +58,7 @@ def playground(request):
         'current_user_email': current_user_email,
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
+        'user_language_choice': user_language_choice
     }
     if code_id is not None and not anon_user:
         rv['code_id'] = code_id
@@ -110,6 +117,8 @@ def general_cs_tutor(request):
 
 
 
+### Ajax Functions ###
+
 def save_user_playground_code(request):
 
     if request.method == 'POST':
@@ -149,7 +158,6 @@ def save_user_playground_code(request):
             uc_obj.user_code = user_code
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id})
-
 
 
 def handle_playground_user_message(request):
@@ -215,9 +223,6 @@ def handle_playground_user_message(request):
         return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-
-
-
 def handle_playground_file_name_change(request):
 
     custom_user_obj = utils._get_customer_user(request)
@@ -253,8 +258,6 @@ def handle_playground_file_name_change(request):
             uc_obj.save()
 
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
-
-
 
 
 def handle_general_tutor_user_message(request):
@@ -315,9 +318,6 @@ def handle_general_tutor_user_message(request):
 
         model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
         return JsonResponse({'success': True, 'response': model_response_dict})
-
-
-
 
 
 

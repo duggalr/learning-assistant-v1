@@ -71,7 +71,8 @@
 .console_button_parent_div{
     text-align: left;
     width: 110%;
-    margin-top: 30px;
+    /* margin-top: 30px; */
+    margin-top: 20px;
 }
 
 .console_button_parent_div>.button{
@@ -80,7 +81,7 @@
 
 .console_textarea_parent{
     /* padding-top: 6.5%; */
-    padding-top: 6%;
+    padding-top: 3%;
 }
 
 .console_helper_text{
@@ -89,8 +90,15 @@
 
 .console_helper_text>span{
     color: gray; 
-    font-size: 13.5px;
+    font-size: 11.5px;
 }
+
+.dropdown_helper_text{
+    padding-top: 5px;
+    color: gray;
+    font-size: 11.5px;
+}
+
 
 #clear_output_link{
     color: #1e70bf;
@@ -151,7 +159,9 @@
     cursor: pointer;
 }
 
-
+#programming_language_dropdown{
+    background: #f9f9f9 !important;
+}
 
 
 

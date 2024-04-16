@@ -84,36 +84,68 @@
 
             {% endif %}
 
-            <!-- <br/> -->
-
-            <!-- <div>
-                <label style="font-weight: bold;">Choose Language</label>
+            <div style="padding-bottom: 0px;">
+                <label style="font-weight: bold;">Choose Editor Language</label>
                 &nbsp;&nbsp;
-                <select class="ui dropdown" id="language_dropdown">
-                    <option value="">Choose</option>
-                    <option value="python" selected>Python</option>
-                    <option value="clike">C, C++, C#</option>
-                    <option value="go">Go</option>
-                    <option value="html-mixed">HTML Mixed</option>
-                </select>
+                <div class="ui selection dropdown" id="programming_language_dropdown">
+                    <input type="hidden" name="language_choice">
+                    <i class="dropdown icon"></i>
+                    {% if user_language_choice == 'python' or user_language_choice is None %}
+                        <div class="text">Python</div>
+                    {% elif user_language_choice == 'clike' %}
+                        <div class="text">C</div>
+                    {% elif user_language_choice == 'go' %}
+                        <div class="text">Go</div>
+                    {% elif user_language_choice == 'html-mixed' %}
+                        <div class="text">HTML Mixed</div>
+                    {% endif %}
+                    <div class="menu">
+                        {% if user_language_choice == 'python' or user_language_choice is None %}
+                            <div class="item active" data-value="python">Python</div>
+                        {% else %}
+                            <div class="item" data-value="python">Python</div>
+                        {% endif %}
 
-                <div class="console_helper_text">
-                    <span style="font-size: 10px;">Currently, only Python can be run in the browser. More language support coming.</span>
-                </div>
-            </div> -->
+                        {% if user_language_choice == 'clike' %}
+                            <div class="item active" data-value="clike">C</div>
+                        {% else %}
+                            <div class="item" data-value="clike">C, C++, C#</div>
+                        {% endif %}
+                        
+                        {% if user_language_choice == 'go' %}
+                        <div class="item active" data-value="go">Go</div>
+                        {% else %}
+                        <div class="item" data-value="go">Go</div>
+                        {% endif %}
 
-            <div class="console_button_parent_div">            
-
-                <!-- <div class="medium ui animated secondary button code_run_button" tabindex="0" onclick="evaluatePython()"> -->
-
-                <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
-                    <div class="visible content">Run</div>
-                    <div class="hidden content">
-                        <i class="play icon"></i>
+                        {% if user_language_choice == 'html-mixed' %}
+                        <div class="item active" data-value="html-mixed">HTML Mixed</div>
+                        {% else %}
+                        <div class="item" data-value="html-mixed">HTML Mixed</div>
+                        {% endif %}
+                        
                     </div>
                 </div>
 
-                &nbsp;&nbsp;
+                <div class="dropdown_helper_text">
+                    <span>Currently, only Python can be run in the app. More language support coming soon...</span>
+                </div>
+            </div>
+
+            <div class="ui divider" style="margin-top: 20px;"></div>
+    
+            <div class="console_button_parent_div">            
+
+                {% if user_language_choice == 'python' or user_language_choice is None %}
+                    <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
+                        <div class="visible content">Run</div>
+                        <div class="hidden content">
+                            <i class="play icon"></i>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- &nbsp;&nbsp; -->
 
                 <div class="medium ui animated blue button code_feedback_button" tabindex="0" onclick="handleSolutionSubmit()">
                     <div class="visible content">Get Feedback</div>
@@ -159,7 +191,7 @@
                     
                     <div class="message">
                         <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                        I'm Code Companion, your personal programming tutor.
+                        I'm Companion, your personal programming tutor.
                         <br/><br/>
                         If you are running into a problem such as a bug in your code, a LeetCode problem, or need help understanding a concept, ask me and I will be more than happy to help.
                         <br/><br/>
@@ -233,16 +265,34 @@
 <script>
 
     $( document ).ready(function() {
-
         document.body.style.background = "#f9f9f9";
+        // document.body.style.background = "#f9f9f9";
+        // document.body.style.background = "white";
         
+        // $('#programming_language_dropdown').dropdown();
+
+        $('#programming_language_dropdown').dropdown({
+            onChange: function(value, text, $selectedItem) {
+                // console.log("Selected value:", value);
+
+                if (value == 'python'){
+                    $('.code_run_button').show();
+                } 
+                else {
+                    $('.code_run_button').hide();
+                }
+                     
+                let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+                var urlObj = new URL(new_url);
+                urlObj.searchParams.set('lg', value);
+                window.location.replace(urlObj);
+                
+            }
+        });
+
     });
 
-    // const custom_user_obj = '{{ custom_user_obj }}';
-    // const custom_user_obj_id = '{{ custom_user_obj_id }}';
     const is_anon_user =  '{{ anon_user }}';
-
-    // user_session = '{{ user_session }}';
     let user_cid = null;
     let user_code_obj = '{{ uc_obj }}';
 
@@ -255,10 +305,7 @@
     const chat = document.getElementById("chat");
     const chatInput = document.getElementById("chatInput");
     const sendButton = document.getElementById("sendButton");
-    // let existing_anon_user_id = localStorage.getItem("unique_anon_identifier");
 
-    // document.body.style.background = "#f9f9f9";
-    // document.body.style.background = "white";
 
     $('.tabular.menu .item').tab();
 
@@ -282,21 +329,91 @@
 
     });
 
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        mode: {
-            name: "python",
-            version: 3,
-            singleLineStringErrors: false
-        },
-        lineNumbers: true,
-        indentUnit: 4,
-        indentWithTabs: true,
-        matchBrackets: true,
-        theme: "duotone-light",
-        // theme: "yeti",
-        scrollbarStyle: "null",
-        lineWrapping: true,
-    });
+
+    let editor_mode_dict;
+    
+    var url = new URL(window.location.href);
+    let lg_val = url.searchParams.get('lg');
+
+    console.log('lg_val:', lg_val)
+    
+    let mode_dict;
+    if (lg_val === null || lg_val == 'python'){
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "python",
+                version: 3,
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "duotone-light",
+            // theme: "yeti",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+
+    }
+    else if (lg_val == 'clike'){
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "text/x-csrc",
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "duotone-light",
+            // theme: "yeti",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+
+
+    }
+    else if (lg_val == 'go'){
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "go",
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "duotone-light",
+            // theme: "yeti",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+
+    }
+    else if (lg_val == 'html-mixed'){
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: {
+                name: "htmlmixed",
+                singleLineStringErrors: false
+            },
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            matchBrackets: true,
+            theme: "duotone-light",
+            // theme: "yeti",
+            scrollbarStyle: "null",
+            lineWrapping: true,
+        });
+
+    }
+
+    
     // editor.setSize(700, 720);
     // editor.setSize(500, 620)
     
@@ -468,7 +585,6 @@ mystdout.getvalue()
         let user_code = editor.getValue();
 
         let d = {
-            // 'custom_user_obj_id': custom_user_obj_id,
             'cid': cid,
             'user_code': user_code,
             csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -561,7 +677,6 @@ mystdout.getvalue()
             let cid = $('#code_obj_id').val();
 
             let d = {
-                // 'custom_user_obj_id': custom_user_obj_id,
                 'cid': cid,
                 'user_code': user_code,
                 'message': messageText,
@@ -693,6 +808,7 @@ mystdout.getvalue()
         let cid = $('#code_obj_id').val();
         let user_code = editor.getValue();
 
+        // TODO: modify when this is implemented
         let d = {
             'custom_user_obj_id': custom_user_obj_id,
             'cid': cid, 
@@ -737,6 +853,8 @@ mystdout.getvalue()
         });
 
     });
+
+
 
 
     // $('#language_dropdown').on('change', function() {

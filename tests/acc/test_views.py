@@ -145,7 +145,15 @@ class PlaygroundViewTest(TestCase):
         })
         self.assertEqual(response_dict['success'], True)
 
-    # TODO: not testing since GPT's API will be called
+    # TODO: not testing since GPT's API will be called and unnecessary charges.. way to bypass?
     def test_view_playground_message(self):
         pass
+
+
+class GeneralTutorViewTest(TestCase):
+    """
+    """
+    
+    pass
+
 

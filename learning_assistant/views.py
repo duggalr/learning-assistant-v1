@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from django.views.decorators.http import require_GET, require_POST
 
 from .models import *
 from .scripts import utils, open_ai_utils
@@ -112,204 +113,198 @@ def general_cs_tutor(request):
     })
 
 
-
 ### Ajax Functions ###
 
+@require_POST
 def save_user_playground_code(request):
+    
+    custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    if user_err:
+        return JsonResponse({'success': False, 'response': user_err_message})
+    else:
+        custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
 
-    if request.method == 'POST':
+    cid = request.POST['cid']
+    user_code = request.POST['user_code'].strip()
+    user_code = user_code.replace('`', '"').strip()    
+
+    if cid == '':
+        rnd_code_filename = utils._generate_random_string(k = 10)
+
+        uc_obj = PlaygroundCode.objects.create(
+            user_obj = custom_user_obj,
+            code_unique_name = rnd_code_filename,
+            user_code = user_code
+        )
+        uc_obj.save()
+        return JsonResponse({'success': True, 'cid': uc_obj.id, 'code_file_name': uc_obj.code_unique_name})
+
+    else:
+        uc_objects = PlaygroundCode.objects.filter(
+            id = cid,
+            user_obj = custom_user_obj
+        )
+        if len(uc_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'Object not found.'})
         
-        custom_user_obj_id = request.session.get('custom_user_uuid', None)
-        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
-        if user_err:
-            return JsonResponse({'success': False, 'response': user_err_message})
-        else:
-            custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
-
-        cid = request.POST['cid']
-        user_code = request.POST['user_code'].strip()
-        user_code = user_code.replace('`', '"').strip()    
-
-        if cid == '':
-            rnd_code_filename = utils._generate_random_string(k = 10)
-
-            uc_obj = PlaygroundCode.objects.create(
-                user_obj = custom_user_obj,
-                code_unique_name = rnd_code_filename,
-                user_code = user_code
-            )
-            uc_obj.save()
-            return JsonResponse({'success': True, 'cid': uc_obj.id, 'code_file_name': uc_obj.code_unique_name})
-
-        else:
-            uc_objects = PlaygroundCode.objects.filter(
-                id = cid,
-                user_obj = custom_user_obj
-            )
-            if len(uc_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'Object not found.'})
-            
-            uc_obj = uc_objects[0]
-            uc_obj.user_code = user_code
-            uc_obj.save()
-            return JsonResponse({'success': True, 'cid': uc_obj.id})
+        uc_obj = uc_objects[0]
+        uc_obj.user_code = user_code
+        uc_obj.save()
+        return JsonResponse({'success': True, 'cid': uc_obj.id})
 
 
+@require_POST
 def handle_playground_user_message(request):
+    
+    custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    if user_err:
+        return JsonResponse({'success': user_err, 'response': user_err_message})
+    else:
+        custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
 
-    if request.method == 'POST':
-        
-        custom_user_obj_id = request.session.get('custom_user_uuid', None)
-        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
-        if user_err:
-            return JsonResponse({'success': user_err, 'response': user_err_message})
+    user_question = request.POST['message'].strip()
+    user_code_obj_id = request.POST['cid']
+    user_code = request.POST['user_code'].strip()
+    user_code = user_code.replace('`', '"').strip()
+
+    prev_conversation_history_str = ''
+    if user_code_obj_id == '':
+        uc_obj = utils._create_playground_code_object(
+            custom_user_obj=custom_user_obj,
+            user_code=user_code,
+        )
+    else:
+        user_code_objects = PlaygroundCode.objects.filter(id = user_code_obj_id)
+        if len(user_code_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'Could not find associated code object.'})
         else:
-            custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
+            uc_obj = user_code_objects[0]
 
-        user_question = request.POST['message'].strip()
-        user_code_obj_id = request.POST['cid']
-        user_code = request.POST['user_code'].strip()
-        user_code = user_code.replace('`', '"').strip()
-
-        prev_conversation_history_str = ''
-        if user_code_obj_id == '':
-            uc_obj = utils._create_playground_code_object(
-                custom_user_obj=custom_user_obj,
-                user_code=user_code,
-            )
-        else:
-            user_code_objects = PlaygroundCode.objects.filter(id = user_code_obj_id)
-            if len(user_code_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'Could not find associated code object.'})
-            else:
-                uc_obj = user_code_objects[0]
-
-            pg_conversation_objects = PlaygroundConversation.objects.filter(
-                code_obj = uc_obj
-            )
-
-            prev_cv_list = []
-            for pg_conv_obj in pg_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
-                uc_question = pg_conv_obj.question
-                uc_response = pg_conv_obj.response
-                prev_cv_list.append(f"Question: { uc_question }")
-                prev_cv_list.append(f"Response: { uc_response }")
-
-            if len(prev_cv_list) > 0:
-                prev_conversation_history_str = '\n'.join(prev_cv_list)
-
-        op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-        model_response_dict = op_ai_wrapper.handle_playground_code_question(
-            question = user_question,
-            student_code = user_code, 
-            previous_chat_history = prev_conversation_history_str
+        pg_conversation_objects = PlaygroundConversation.objects.filter(
+            code_obj = uc_obj
         )
 
-        pg_new_cv_obj = PlaygroundConversation.objects.create(
-            code_obj = uc_obj,
-            question = model_response_dict['question'],
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response']
-        )
-        pg_new_cv_obj.save()
+        prev_cv_list = []
+        for pg_conv_obj in pg_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
+            uc_question = pg_conv_obj.question
+            uc_response = pg_conv_obj.response
+            prev_cv_list.append(f"Question: { uc_question }")
+            prev_cv_list.append(f"Response: { uc_response }")
 
-        model_response_dict['cid'] = uc_obj.id
-        model_response_dict['code_file_name'] = uc_obj.code_unique_name
-        return JsonResponse({'success': True, 'response': model_response_dict})
+        if len(prev_cv_list) > 0:
+            prev_conversation_history_str = '\n'.join(prev_cv_list)
+
+    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    model_response_dict = op_ai_wrapper.handle_playground_code_question(
+        question = user_question,
+        student_code = user_code, 
+        previous_chat_history = prev_conversation_history_str
+    )
+
+    pg_new_cv_obj = PlaygroundConversation.objects.create(
+        code_obj = uc_obj,
+        question = model_response_dict['question'],
+        question_prompt = model_response_dict['q_prompt'],
+        response = model_response_dict['response']
+    )
+    pg_new_cv_obj.save()
+
+    model_response_dict['cid'] = uc_obj.id
+    model_response_dict['code_file_name'] = uc_obj.code_unique_name
+    return JsonResponse({'success': True, 'response': model_response_dict})
 
 
+@require_POST
 def handle_playground_file_name_change(request):
 
-    custom_user_obj = utils._get_customer_user(request)
+    cid = request.POST['cid']
+    custom_user_obj_id = request.POST['custom_user_obj_id']
+    new_file_name = request.POST['new_file_name'].strip()
+    user_code = request.POST['user_code'].strip()
+    user_code = user_code.replace('`', '"').strip()
 
-    if request.method == 'POST':
-        
-        cid = request.POST['cid']
-        custom_user_obj_id = request.POST['custom_user_obj_id']
-        new_file_name = request.POST['new_file_name'].strip()
-        user_code = request.POST['user_code'].strip()
-        user_code = user_code.replace('`', '"').strip()
+    custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)        
+    if len(custom_user_objects) == 0:
+        return JsonResponse({'success': False, 'response': 'User not found.'})
 
-        custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)        
-        if len(custom_user_objects) == 0:
-            return JsonResponse({'success': False, 'response': 'User not found.'})
+    custom_user_obj = custom_user_objects[0]
 
-        custom_user_obj = custom_user_objects[0]
+    if cid == 'None':
+        uc_obj = PlaygroundCode.objects.create(
+            user_obj = custom_user_obj,
+            code_unique_name = new_file_name,
+            user_code = user_code
+        )
+        uc_obj.save()
 
-        if cid == 'None':
-            uc_obj = PlaygroundCode.objects.create(
-                user_obj = custom_user_obj,
-                code_unique_name = new_file_name,
-                user_code = user_code
-            )
-            uc_obj.save()
+    else:
+        uc_obj = PlaygroundCode.objects.get(
+            id = cid,
+            user_obj = custom_user_obj
+        )
+        uc_obj.code_unique_name = new_file_name
+        uc_obj.save()
 
-        else:
-            uc_obj = PlaygroundCode.objects.get(
-                id = cid,
-                user_obj = custom_user_obj
-            )
-            uc_obj.code_unique_name = new_file_name
-            uc_obj.save()
-
-        return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
+    return JsonResponse({'success': True, 'cid': uc_obj.id, 'new_file_name': new_file_name})
 
 
+@require_POST
 def handle_general_tutor_user_message(request):
 
-    if request.method == 'POST':
+    custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    if user_err:
+        return JsonResponse({'success': user_err, 'response': user_err_message})
+    else:
+        custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
 
-        custom_user_obj_id = request.session.get('custom_user_uuid', None)
-        user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
-        if user_err:
-            return JsonResponse({'success': user_err, 'response': user_err_message})
-        else:
-            custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
-
-        general_tutor_parent_obj_id = request.POST['general_tutor_parent_obj_id']
-        user_message = request.POST['message'].strip()
-        
-        prev_conversation_st = ''
-        parent_chat_obj = None
-        if general_tutor_parent_obj_id == '':
-            parent_chat_obj = utils._create_general_tutor_parent_object(
-                custom_user_obj=custom_user_obj,
-            )
-        else:
-            parent_chat_objects = UserGeneralTutorParent.objects.filter(
-                id = general_tutor_parent_obj_id
-            )
-            if len(parent_chat_objects) == 0:
-                return JsonResponse({'success': False, 'response': 'Object not found.'})
-
-            parent_chat_obj = parent_chat_objects[0]
-
-            past_conversation_objects = UserGeneralTutorConversation.objects.filter(
-                parent_obj = parent_chat_obj
-            ).order_by('-created_at')
-
-            prev_conversation_history = []
-            for uc_tut_obj in past_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
-                uc_question = uc_tut_obj.question
-                uc_response = uc_tut_obj.response
-                prev_conversation_history.append(f"Question: { uc_question }")
-                prev_conversation_history.append(f"Response: { uc_response }")
-
-            prev_conversation_st = '\n'.join(prev_conversation_history).strip()
-        
-        op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-        model_response_dict = op_ai_wrapper.handle_general_tutor_message(
-            question = user_message,
-            previous_chat_history_str = prev_conversation_st
+    general_tutor_parent_obj_id = request.POST['general_tutor_parent_obj_id']
+    user_message = request.POST['message'].strip()
+    
+    prev_conversation_st = ''
+    parent_chat_obj = None
+    if general_tutor_parent_obj_id == '':
+        parent_chat_obj = utils._create_general_tutor_parent_object(
+            custom_user_obj=custom_user_obj,
         )
-
-        uct_obj = UserGeneralTutorConversation.objects.create(
-            parent_obj = parent_chat_obj,
-            question = model_response_dict['student_response'],
-            question_prompt = model_response_dict['q_prompt'],
-            response = model_response_dict['response']
+    else:
+        parent_chat_objects = UserGeneralTutorParent.objects.filter(
+            id = general_tutor_parent_obj_id
         )
-        uct_obj.save()
+        if len(parent_chat_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'Object not found.'})
 
-        model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
-        return JsonResponse({'success': True, 'response': model_response_dict})
+        parent_chat_obj = parent_chat_objects[0]
+
+        past_conversation_objects = UserGeneralTutorConversation.objects.filter(
+            parent_obj = parent_chat_obj
+        ).order_by('-created_at')
+
+        prev_conversation_history = []
+        for uc_tut_obj in past_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
+            uc_question = uc_tut_obj.question
+            uc_response = uc_tut_obj.response
+            prev_conversation_history.append(f"Question: { uc_question }")
+            prev_conversation_history.append(f"Response: { uc_response }")
+
+        prev_conversation_st = '\n'.join(prev_conversation_history).strip()
+    
+    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    model_response_dict = op_ai_wrapper.handle_general_tutor_message(
+        question = user_message,
+        previous_chat_history_str = prev_conversation_st
+    )
+
+    uct_obj = UserGeneralTutorConversation.objects.create(
+        parent_obj = parent_chat_obj,
+        question = model_response_dict['student_response'],
+        question_prompt = model_response_dict['q_prompt'],
+        response = model_response_dict['response']
+    )
+    uct_obj.save()
+
+    model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
+    return JsonResponse({'success': True, 'response': model_response_dict})
+

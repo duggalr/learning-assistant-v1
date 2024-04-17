@@ -63,7 +63,6 @@ def playground(request):
 
 
 def general_cs_tutor(request):
-# http://127.0.0.1:8000/chat/tutor?tchid=87976ac7-da97-4624-a50d-2430f514732d
 
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)

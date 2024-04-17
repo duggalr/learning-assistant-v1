@@ -153,7 +153,21 @@ class PlaygroundViewTest(TestCase):
 class GeneralTutorViewTest(TestCase):
     """
     """
-    
-    pass
 
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/chat/tutor')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_accessible_by_name(self):
+        response = self.client.get(reverse('general_cs_tutor'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('general_cs_tutor'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'assistant/general_cs_tutor_chat.html')
+
+    # TODO: not testing since GPT's API will be called and unnecessary charges.. way to bypass?
+    def test_view_message(self):
+        pass
 

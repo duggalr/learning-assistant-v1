@@ -228,7 +228,7 @@ However, if you feel the student has received the information they need and ther
             return_json=False
         )
 
-        print(response)
+        # print(response)
 
         # response_message_json_data = json.loads(response)
 

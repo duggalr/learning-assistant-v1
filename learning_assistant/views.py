@@ -5,6 +5,8 @@ from django.views.decorators.http import require_GET, require_POST
 from .models import *
 from .scripts import utils, open_ai_utils
 
+import logging
+
 
 ### Generic Views ###
 

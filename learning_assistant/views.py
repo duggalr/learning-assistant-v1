@@ -122,11 +122,10 @@ def save_user_playground_code(request):
         custom_user_obj_id = request.session.get('custom_user_uuid', None)
         user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
         if user_err:
-            return JsonResponse({'success': user_err, 'response': user_err_message})
+            return JsonResponse({'success': False, 'response': user_err_message})
         else:
             custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
-        
-        
+
         cid = request.POST['cid']
         user_code = request.POST['user_code'].strip()
         user_code = user_code.replace('`', '"').strip()    
@@ -141,7 +140,7 @@ def save_user_playground_code(request):
             )
             uc_obj.save()
             return JsonResponse({'success': True, 'cid': uc_obj.id, 'code_file_name': uc_obj.code_unique_name})
-    
+
         else:
             uc_objects = PlaygroundCode.objects.filter(
                 id = cid,

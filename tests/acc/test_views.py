@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from acc.models import CustomUser, AnonUser, UserOAuth
-from learning_assistant.models import PlaygroundCode, PlaygroundConversation
+from learning_assistant.models import PlaygroundCode
 
 
 class LandingViewTest(TestCase):
@@ -152,6 +152,7 @@ class PlaygroundViewTest(TestCase):
 
 class GeneralTutorViewTest(TestCase):
     """
+    Testing core functions when user visits general tutor page
     """
 
     def test_view_url_exists_at_desired_location(self):

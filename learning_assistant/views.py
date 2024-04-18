@@ -8,6 +8,25 @@ from .scripts import utils, open_ai_utils
 import logging
 
 
+
+def user_authenticated_required(view_func):
+    """
+    Custom decorator to check if the user is authenticated.
+    """
+    def wrapper(request, *args, **kwargs):
+        custom_user_id = request.session.get('custom_user_uuid', None)
+        if custom_user_id is not None:
+            custom_user_obj = CustomUser.objects.get(id = custom_user_id)
+            if custom_user_obj.oauth_user is not None:
+                return view_func(request, *args, **kwargs)
+            else:
+                return redirect('landing')
+        else:
+            return redirect('landing')
+    return wrapper
+
+
+
 ### Generic Views ###
 
 def landing(request):
@@ -112,6 +131,31 @@ def general_cs_tutor(request):
         'current_conversation_parent_object': current_cid_parent_conv_obj,
         'current_conversation_list': current_cid_past_messages,
     })
+
+
+
+@user_authenticated_required
+def user_dashboard(request):
+    
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    user_code_objects = PlaygroundCode.objects.filter(
+        user_obj = custom_user_obj
+    ).order_by('-updated_at')
+
+    final_rv = []
+    for uc_obj in user_code_objects:
+        us_conv_objects_count = PlaygroundConversation.objects.filter(code_obj = uc_obj).count()
+        final_rv.append({'code_obj': uc_obj, 'user_conv_obj_count': us_conv_objects_count})
+
+    return render(request, 'assistant/dashboard.html', {
+        'anon_user': anon_user,
+        'custom_user_obj': custom_user_obj,
+        'custom_user_obj_id': custom_user_obj.id,
+        'user_code_list': final_rv
+    })
+
 
 
 ### Ajax Functions ###

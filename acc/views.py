@@ -62,7 +62,7 @@ def callback(request):
         custom_user_obj.oauth_user = user_auth_obj
         custom_user_obj.save()
     
-    else: # should be a very rare case
+    else: # should be a very rare case since custom user will already be created when user visits site
         
         user_auth_obj = UserOAuth.objects.create(
             auth_type = user_auth_type,

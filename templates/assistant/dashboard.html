@@ -1,0 +1,140 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/app_menu.html' %}
+
+
+<!-- TODO: 
+    - finalize dashboard UI
+    - ensure playground works for logged user
+        - implement file name change
+    - proceed to next core feature <-- personal-course-gen
+-->
+
+<div class="ui grid container dashboard-parent-container">
+        
+    <div class="one wide column"></div>
+
+    <div class="fourteen wide column">
+
+        <div style="padding-top: 25px;">
+            <h3 class="ui header" id="dashboard_header">
+                &#128216; Dashboard
+            </h3>
+        </div>
+
+        <div class="ui tabular menu" style="padding-top: 12px;">
+
+            <!-- <a class="active item tab_header" id="course_questions_tab">
+                <i class="code icon" style="font-size: 13px;"></i>
+                Course Progress
+            </a> -->
+
+            <a class="active item tab_header" id="questions_tab">
+                <i class="code branch icon" style="font-size: 13px;"></i>
+                Your Code Files
+            </a>
+
+            <!-- <a class="disabled item tab_header" id="files_tab">
+                <i class="file pdf icon" style="font-size: 13px;"></i>
+                Saved Files
+            </a> -->
+
+            <div class="right menu">
+                <div class="item">
+                    <a href="{% url 'playground' %}">
+                        <i class="plus icon"></i>
+                        Start a New Question in the IDE
+                    </a>
+                </div>
+
+                <div class="item">
+                    <a href="{% url 'general_cs_tutor' %}">
+                        <i class="comment icon"></i>
+                        Chat with the Tutor
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Code Div -->
+        <div id="main_code_div" class="ui middle aligned divided list" style="width: 100%; padding-top: 0px;">
+
+            {% if user_code_list|length > 0 %}
+
+                {% for cdi in user_code_list %}
+
+                    <div class="item">
+
+                        <div class="content" style="padding-top: 10px; padding-bottom: 28px;">
+
+                            <div class="header">
+                                <a style="font-size: 15.5px;" class="file_name_header" href="{% url 'playground' %}?cid={{ cdi.code_obj.id }}">
+                                    &#128220; {{ cdi.code_obj.code_unique_name }}
+                                </a>
+                            </div>
+
+                            <div style="padding-top: 14px;">
+                                <span style="font-size: 13px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>Last Updated: {{ cdi.code_obj.updated_at|date }}                                
+                                </span>
+                                
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">|&nbsp;&nbsp;</span>
+
+                                <span style="font-size: 13px; color: gray; float: left;">
+                                    <i class="clock outline icon"></i>Uploaded: {{ cdi.code_obj.created_at|date }}                                
+                                </span>
+
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">|</span>
+                                
+                                <span style="font-size: 13px; color: gray; float: left; padding-left: 8px;">
+                                    <i class="hashtag icon"></i>Messages: {{ cdi.user_conv_obj_count }}
+                                </span>
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <div class="ui placeholder segment">
+
+                    <div class="ui icon header" style="font-size: 18px; line-height: 1.3em; font-weight: 600;">
+                        <i class="code branch icon"></i>
+                        No Code Files Saved.
+                        <br/><br/>
+                        <p style="font-size: 17px;">
+                            You can run your code while asking Code Companion for help in our <a href="{% url 'playground' %}">playground</a>.
+                        </p>
+                    </div>
+
+                </div>
+            
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+    <div class="one wide column"></div>
+
+</div>
+
+
+<script>
+
+    document.body.style.background = "#f9f9f9";
+
+</script>
+
+
+{% endblock %}

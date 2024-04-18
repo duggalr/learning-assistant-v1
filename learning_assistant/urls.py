@@ -18,4 +18,7 @@ urlpatterns = [
     path("chat/tutor", views.general_cs_tutor, name="general_cs_tutor"),
     path("chat/handle_user_message", views.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
 
+    ## Authenticated User Dashboard
+    path("dashboard", views.user_dashboard, name="dashboard"),
+
 ]

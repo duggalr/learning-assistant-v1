@@ -108,12 +108,12 @@ footer>p{
         height: 100%; 
         margin-right: -10rem;
         /* padding-top: 40px; */
-        padding-top: 4%;
+        padding-top: 2.8%;
     }
 
     #landing_video_iframe{
         width: 80%;
-        height: 370px;
+        height: 380px;
     }
 
     #landing_page_button_div{

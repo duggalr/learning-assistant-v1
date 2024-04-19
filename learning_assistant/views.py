@@ -168,6 +168,9 @@ def user_dashboard(request):
     })
 
 
+def python_course_generation_main(request):
+    return render(request, 'python-course-gen/python_course_generation_main.html')
+
 
 ### Ajax Functions ###
 

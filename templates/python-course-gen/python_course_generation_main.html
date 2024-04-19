@@ -1,0 +1,272 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/app_menu.html' %}
+
+<div class="ui grid playground-parent-container">
+
+    <!-- <div class="eight wide column code-editor-parent-column">
+
+        <textarea id="code" class="code-editor-textarea"></textarea>
+
+        {% if code_id is not none %}
+            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
+        {% else %}
+            <input id="code_obj_id" type="hidden" />
+        {% endif %}
+
+    </div> -->
+    
+    <div class="eight wide column">
+
+        <div class="ui tabular menu">
+            <a class="active item">
+                IDE
+            </a>
+            <a class="item">
+                Notes
+            </a>
+            <a class="item">
+                Completed Exercises
+            </a>
+            <a class="item">
+                Student Goals
+            </a>
+        </div>
+
+    </div>
+
+    <div class="seven wide column ai-console-tutor-parent-column">
+
+        <div class="ui tabular menu tab-menu-div">
+            <a class="active item console-tab">
+                <i class="bug icon"></i> Console
+            </a>
+            <a class="item tutor-tab">
+                <i class="comment icon"></i> AI Tutor
+            </a>
+
+        </div>
+        
+        <!-- Console Output -->
+        <div class="console_parent_div">
+
+            {% if not anon_user and uc_obj is not none %}
+
+                <div class="file_name_parent_div">
+                        
+                        <h3 id="file_name_header">
+                            File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                            <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
+                        </h3>
+
+                        <div id="file_name_change_form" style="display: none;">
+                            <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                            &nbsp;
+                            <button id="file_name_change_btn">Submit</button>
+                        </div>                        
+
+                </div>
+
+            {% else %}
+
+                <div class="file_name_parent_div" style="display: none;">
+                    
+                    <h3 id="file_name_header">
+                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                        <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
+                    </h3>
+
+                    <div id="file_name_change_form" style="display: none;">
+                        <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                        &nbsp;
+                        <button id="file_name_change_btn">Submit</button>
+                    </div>
+                    
+                </div>
+
+            {% endif %}
+
+            <div style="padding-bottom: 0px;">
+                <label style="font-weight: bold; font-size: 16px;">Choose Editor Language</label>
+                &nbsp;&nbsp;
+                <div class="ui selection disabled dropdown" id="programming_language_dropdown">
+                    <input type="hidden" name="language_choice">
+                    <i class="dropdown icon"></i>
+                    {% if user_language_choice == 'python' or user_language_choice is None %}
+                        <div class="text">Python</div>
+                    {% elif user_language_choice == 'clike' %}
+                        <div class="text">C</div>
+                    {% elif user_language_choice == 'go' %}
+                        <div class="text">Go</div>
+                    {% elif user_language_choice == 'html-mixed' %}
+                        <div class="text">HTML Mixed</div>
+                    {% endif %}
+                    <div class="menu">
+                        {% if user_language_choice == 'python' or user_language_choice is None %}
+                            <div class="item active" data-value="python">Python</div>
+                        {% else %}
+                            <div class="item" data-value="python">Python</div>
+                        {% endif %}
+
+                        {% if user_language_choice == 'clike' %}
+                            <div class="item active" data-value="clike">C</div>
+                        {% else %}
+                            <div class="item" data-value="clike">C, C++, C#</div>
+                        {% endif %}
+                        
+                        {% if user_language_choice == 'go' %}
+                        <div class="item active" data-value="go">Go</div>
+                        {% else %}
+                        <div class="item" data-value="go">Go</div>
+                        {% endif %}
+
+                        {% if user_language_choice == 'html-mixed' %}
+                        <div class="item active" data-value="html-mixed">HTML Mixed</div>
+                        {% else %}
+                        <div class="item" data-value="html-mixed">HTML Mixed</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="dropdown_helper_text">
+                    <span>Currently, only Python can be run in the app. More language support coming soon...</span>
+                </div>
+            </div>
+
+            <div class="ui divider" style="margin-top: 20px;"></div>
+    
+            <div class="console_button_parent_div">            
+
+                {% if user_language_choice == 'python' or user_language_choice is None %}
+                    <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
+                        <div class="visible content">Run</div>
+                        <div class="hidden content">
+                            <i class="play icon"></i>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- &nbsp;&nbsp; -->
+
+                <div class="medium ui animated blue button code_feedback_button" tabindex="0" onclick="handleSolutionSubmit()">
+                    <div class="visible content">Get Feedback</div>
+                    <div class="hidden content">
+                        <!-- <i class="check icon"></i> -->
+                        <i class="hand point right icon"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="console_helper_text">
+                <span>
+                    &nbsp;
+                    Ask the AI for advice for help by clicking the 'AI Tutor' tab above.
+                </span>
+            </div>
+
+            <div class="console_textarea_parent">
+
+                <h3 class="ui header" style="font-size: 16px;">
+                    Console Output:
+                    <span id="clear_output_link">clear</span>
+                </h3>
+    
+                <!-- <div class="ui segment output-code"> -->
+                <div style="border: 1px solid #d4d4d5; border-radius: 5px; width: 95%;">
+                    <textarea rows="20" id="output" disabled></textarea>
+                </div>
+                <!-- </div> -->
+
+            </div>
+
+        </div>
+
+        <!-- AI Tutor -->
+        <div class="ai_tutor_div" style="display: none;">
+
+            <!-- Programming Assistant Tab -->
+            <div id="programming_assistant_div">
+                
+                <div class="chat-container" id="chat">
+                    
+                    <div class="message">
+                        <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
+                        I'm Companion, your personal programming tutor.
+                        <br/><br/>
+                        If you are running into a problem such as a bug in your code, a LeetCode problem, or need help understanding a concept, ask me and I will be more than happy to help.
+                        <br/><br/>
+                        You can also use me to generate more practice questions for you, for specific concepts you want further review on.
+                        <br/><br/>
+                        I won't give you the answer, but will definitely point you in the right direction! &#128512;
+
+                    </div>
+
+                    <hr>
+
+                    <br/>
+                    {% for ucs_obj in user_conversation_objects %}
+                    
+                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% if not anon_user %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% else %}
+
+                    <div class="input-container">
+        
+                        <div class="ui form" style="width: 100%;">
+                            <div class="field">
+                                <textarea rows="2" id="chatInput" class="input-box form-control" placeholder="ask any question..."></textarea>
+                            </div>                    
+                        </div>
+                        &nbsp;
+                        <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+                        <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+                    </div>
+
+                    <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+                        Answer Response usually takes 15-30 seconds. (this will get better soon...)
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+

@@ -121,7 +121,7 @@ footer>p{
         padding-top: 2%;
     }
 
-    .playground_button, .tutor_chat_button{
+    .playground_button, .tutor_chat_button, .learn_python_button{
         border-radius: 25px !important;
         font-size: 18px !important;
     }

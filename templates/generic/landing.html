@@ -5,6 +5,17 @@
 
 {% include 'components/landing_navbar.html' %}
 
+
+<div class="ui modal" id="student_background_chat_modal">
+    <div class="header">Header</div>
+    <div class="content">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a consectetur dolor, nec mattis dui. Suspendisse potenti. 
+            Nam velit nulla, convallis imperdiet mi non, accumsan maximus diam.
+        </p>
+    </div>
+</div>
+
 <!-- Section: Main Landing Container -->
 <section id="first_parent_section">
 
@@ -57,9 +68,18 @@
                     &nbsp;&nbsp;
 
                     <!-- <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" > -->
-                    <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0">
+                    <!-- <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0">
                         <div class="visible content">
                             Chat with the Tutor &#129302;
+                        </div>
+                        <div class="hidden content">
+                            <i class="hand point right outline icon"></i>
+                        </div>
+                    </div> -->
+
+                    <div class="ui animated primary basic medium button learn_python_button" tabindex="0" >
+                        <div class="visible content">
+                            Learn Python with an AI &#129302;
                         </div>
                         <div class="hidden content">
                             <i class="hand point right outline icon"></i>
@@ -271,13 +291,17 @@
 
 
     $('.learn_python_button').click(function(){
-        // TODO: change and start here
-        // window.location.href = '';
+        
+        // $('#student_background_chat_modal').modal('show');
+
     });
     
 
     // document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";
     document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";
+
+
+    
 
 </script>
 

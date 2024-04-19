@@ -21,4 +21,7 @@ urlpatterns = [
     ## Authenticated User Dashboard
     path("dashboard", views.user_dashboard, name="dashboard"),
 
+    ## Python Course Gen
+    path("course-gen/main", views.python_course_generation_main, name="python_course_generation_main"),
+
 ]

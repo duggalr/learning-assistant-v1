@@ -11,7 +11,7 @@
 
         <textarea id="code" class="code-editor-textarea"></textarea>
 
-        {% if code_id is defined %}
+        {% if code_id is not none %}
             <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
         {% else %}
             <input id="code_obj_id" type="hidden" />
@@ -48,33 +48,35 @@
         <!-- Console Output -->
         <div class="console_parent_div">
 
-            {% if not anon_user %}
+            {% if not anon_user and uc_obj is not none %}
 
                 <div class="file_name_parent_div">
-                    <h3 id="file_name_header">
-                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
-                        <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
-                    </h3>
+                        
+                        <h3 id="file_name_header">
+                            File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                            <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
+                        </h3>
 
-                    <div id="file_name_change_form" style="display: none;">
-                        <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
-                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
-                        &nbsp;
-                        <button id="file_name_change_btn">Submit</button>
-                    </div>
-                    
+                        <div id="file_name_change_form" style="display: none;">
+                            <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                            &nbsp;
+                            <button id="file_name_change_btn">Submit</button>
+                        </div>                        
+
                 </div>
 
             {% else %}
 
                 <div class="file_name_parent_div" style="display: none;">
+                    
                     <h3 id="file_name_header">
-                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
-                        <span id="edit_filename_span" style="color: blue; font-size: 14px;">change name</span>
+                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                        <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
                     </h3>
 
                     <div id="file_name_change_form" style="display: none;">
-                        <label for="file_name" style="font-size: 16px;"><strong>File Name:</strong></label>&nbsp;
+                        <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
                         <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
                         &nbsp;
                         <button id="file_name_change_btn">Submit</button>
@@ -281,7 +283,7 @@
                     $('.code_run_button').hide();
                 }
                      
-                let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+                let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground/ide';
                 var urlObj = new URL(new_url);
                 urlObj.searchParams.set('lg', value);
                 window.location.replace(urlObj);
@@ -617,6 +619,7 @@ mystdout.getvalue()
                             $("#code_file_name").text(code_file_name);
                             $("#file_name_input").val(code_file_name);
                             $(".file_name_parent_div").show();
+                            $('#file_name_header').show();
                         }
 
                     } else {
@@ -780,7 +783,7 @@ mystdout.getvalue()
 
     $('#new_file_link').click(function(){
 
-        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground';
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/playground/ide';
         window.location.replace(new_url);
 
     });
@@ -807,10 +810,8 @@ mystdout.getvalue()
         let cid = $('#code_obj_id').val();
         let user_code = editor.getValue();
 
-        // TODO: modify when this is implemented
         let d = {
-            'custom_user_obj_id': custom_user_obj_id,
-            'cid': cid, 
+            'cid': cid,
             'user_code': user_code,
             'new_file_name': new_file_name,
             csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -818,13 +819,12 @@ mystdout.getvalue()
 
         $.ajax({
             type: 'POST',
-            url: "",
+            url: "{% url 'handle_file_name_change' %}",
             dataType: "json",
             data: d,
             success: function (response) {
 
                 $('#code_file_name').text(new_file_name);
-
                 $('#file_name_change_form').hide();
                 $('#file_name_header').show();
 
@@ -882,4 +882,3 @@ mystdout.getvalue()
 </script>
 
 {% endblock %}
-

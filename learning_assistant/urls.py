@@ -12,7 +12,7 @@ urlpatterns = [
     path("playground/ide", views.playground, name="playground"),
     path("playground/handle_user_message", views.handle_playground_user_message, name="handle_playground_user_message"),
     path("playground/save_user_code", views.save_user_playground_code, name="save_user_playground_code"),
-    # path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
+    path("handle_file_name_change", views.handle_playground_file_name_change, name="handle_file_name_change"),
     
     ## General CS Tutor
     path("chat/tutor", views.general_cs_tutor, name="general_cs_tutor"),

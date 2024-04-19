@@ -75,7 +75,8 @@ def playground(request):
         'current_user_email': current_user_email,
         'uc_obj': uc_obj,
         'user_conversation_objects': user_conversation_objects,
-        'user_language_choice': user_language_choice
+        'user_language_choice': user_language_choice,
+        'code_id': None
     }
     if code_id is not None and not anon_user:
         rv['code_id'] = code_id
@@ -123,10 +124,15 @@ def general_cs_tutor(request):
                 parent_obj = current_cid_parent_conv_obj
             )
 
+    current_user_email = None
+    if custom_user_obj.oauth_user is not None:
+        current_user_email = custom_user_obj.oauth_user.email
+
     return render(request, 'assistant/general_cs_tutor_chat.html', {
         'anon_user': anon_user,
         'custom_user_obj': custom_user_obj,
         'custom_user_obj_id': custom_user_obj.id,
+        'current_user_email': current_user_email,
         'all_user_conversation_list': user_full_conversation_list,
         'current_conversation_parent_object': current_cid_parent_conv_obj,
         'current_conversation_list': current_cid_past_messages,
@@ -149,10 +155,15 @@ def user_dashboard(request):
         us_conv_objects_count = PlaygroundConversation.objects.filter(code_obj = uc_obj).count()
         final_rv.append({'code_obj': uc_obj, 'user_conv_obj_count': us_conv_objects_count})
 
+    current_user_email = None
+    if custom_user_obj.oauth_user is not None:
+        current_user_email = custom_user_obj.oauth_user.email
+
     return render(request, 'assistant/dashboard.html', {
         'anon_user': anon_user,
         'custom_user_obj': custom_user_obj,
         'custom_user_obj_id': custom_user_obj.id,
+        'current_user_email': current_user_email,
         'user_code_list': final_rv
     })
 
@@ -261,20 +272,33 @@ def handle_playground_user_message(request):
     return JsonResponse({'success': True, 'response': model_response_dict})
 
 
+# TODO: fix bug and go from there
 @require_POST
 def handle_playground_file_name_change(request):
 
+    # custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    # print(f"custom-user-obj-id: {custom_user_obj_id} | type: {type(custom_user_obj_id)}")
+    # user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    # if user_err:
+    #     return JsonResponse({'success': user_err, 'response': user_err_message})
+    # else:
+    #     custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
+
+    custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    if user_err:
+        return JsonResponse({'success': user_err, 'response': user_err_message})
+    else:
+        custom_user_obj_id = str(custom_user_obj_id)
+        custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
+
+    # custom_user_obj_id = request.POST['custom_user_obj_id']
     cid = request.POST['cid']
-    custom_user_obj_id = request.POST['custom_user_obj_id']
     new_file_name = request.POST['new_file_name'].strip()
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
 
-    custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)        
-    if len(custom_user_objects) == 0:
-        return JsonResponse({'success': False, 'response': 'User not found.'})
-
-    custom_user_obj = custom_user_objects[0]
+    print("CID IS: ", cid)
 
     if cid == 'None':
         uc_obj = PlaygroundCode.objects.create(
@@ -283,7 +307,6 @@ def handle_playground_file_name_change(request):
             user_code = user_code
         )
         uc_obj.save()
-
     else:
         uc_obj = PlaygroundCode.objects.get(
             id = cid,

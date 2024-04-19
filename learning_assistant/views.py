@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET, require_POST
+import logging
 
 from .models import *
 from .scripts import utils, open_ai_utils
 
-import logging
 
-
+### Decorators ###
 
 def user_authenticated_required(view_func):
     """
@@ -45,6 +45,7 @@ def about(request):
     return render(request, 'generic/about.html', {
         'anon_user': anon_user
     })
+
 
 
 ### Playground General CS Tutor Views ###
@@ -137,7 +138,6 @@ def general_cs_tutor(request):
         'current_conversation_parent_object': current_cid_parent_conv_obj,
         'current_conversation_list': current_cid_past_messages,
     })
-
 
 
 @user_authenticated_required
@@ -272,7 +272,6 @@ def handle_playground_user_message(request):
     return JsonResponse({'success': True, 'response': model_response_dict})
 
 
-# TODO: fix bug and go from there
 @require_POST
 def handle_playground_file_name_change(request):
 

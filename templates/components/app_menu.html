@@ -35,10 +35,12 @@
         {% endif %}
         &nbsp; -->
 
-        <a class="item" href="{% url 'dashboard' %}">
-            <i class="map pin icon"></i> Dashboard
-        </a>
-        &nbsp;
+        {% if not anon_user %}
+            <a class="item" href="{% url 'dashboard' %}">
+                <i class="map pin icon"></i> Dashboard
+            </a>
+            &nbsp;
+        {% endif %}
 
         <a class="item" href="{% url 'playground' %}">
             <i class="code icon"></i> IDE

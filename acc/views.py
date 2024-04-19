@@ -23,7 +23,7 @@ oauth.register(
     server_metadata_url=f"https://{os.environ['AUTH0_DOMAIN']}/.well-known/openid-configuration",
 )
 
-## Auth0 Authentication Functions ##
+### Auth0 Authentication Functions ###
 
 def callback(request):
 
@@ -99,7 +99,8 @@ def logout(request):
         f"https://{os.environ['AUTH0_DOMAIN']}/v2/logout?"
         + urlencode(
             {
-                "returnTo": request.build_absolute_uri(settings.AUTH0_LOGOUT_REDIRECT_VIEW),
+                # "returnTo": request.build_absolute_uri(settings.AUTH0_LOGOUT_REDIRECT_VIEW),
+                "returnTo": request.build_absolute_uri(reverse('landing')),
                 "client_id": os.environ['AUTH0_CLIENT_ID'],
             },
             quote_via=quote_plus,

@@ -9,4 +9,3 @@ urlpatterns = [
     path("logout", views.logout, name="logout"),
     path("callback", views.callback, name="callback"),
 ]
-

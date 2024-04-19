@@ -11,9 +11,9 @@
     <div class="item">
         <div class="menu" id="left_sub_menu" style="text-align: center;">
 
-            {% if user_session is not none %}
+            {% if not anon_user %}
 
-                <div class="ui animated button new_chat_button" tabindex="0" style="font-size: 1rem">
+                <div class="ui animated black button new_chat_button" tabindex="0" style="font-size: 1rem">
                     <div class="visible content"><i class="plus icon"></i> New Chat</div>
                     <div class="hidden content">
                         <i class="plus icon"></i>
@@ -38,22 +38,10 @@
 
         <h4 class="ui header">Your Past Conversations:</h4>
             
-            {% if user_session is not none %}
+            {% if not anon_user %}
 
                 {% if all_user_conversation_list|length > 0 %}
-
-                    {% if personal_course_student_background %}
-
-                    <ul class="ui list user_past_conversation_list">
-                        {% for li in all_user_conversation_list %}
-                            <li style="padding-top: 15px;">
-                                <a href="{% url 'personal_course_gen_sb_chat' %}?pgid={{ li.1.id }}">{{ li.0 }} <span style="color: gray;">({{ li.2|length }})</span></a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    {% else %}
-
+                   
                     <ul class="ui list user_past_conversation_list">
                         {% for li in all_user_conversation_list %}
                             <li style="padding-top: 15px;">
@@ -62,8 +50,6 @@
                         {% endfor %}
                     </ul>
 
-                    {% endif %}
-                
                 {% else %}
 
                     <p style="color: gray;">no past conversations...</p>
@@ -107,4 +93,12 @@
 
     });
 
+
+    $('.new_chat_button').click(function(){
+
+        let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/chat/tutor';
+        window.location.replace(new_url);       
+
+    });
+    
 </script>

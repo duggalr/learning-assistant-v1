@@ -229,6 +229,8 @@
             
             chatInput.value = "";
 
+            console.log('message:', messageText)
+
             // let uc_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
             // let user_conversation_obj_id = $('#user_conversation_obj_id').val();
             let general_tutor_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
@@ -254,7 +256,7 @@
                 'general_tutor_parent_obj_id': general_tutor_parent_obj_id,
                 'message': messageText,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
-            };l
+            };
             
             $.ajax({
                 type: 'POST',
@@ -309,42 +311,6 @@
 
                     };
 
-                    
-                    // if (initial_user_session == 'None'){
-                    //     // var final_question_st = "Question: " + messageText
-                    //     // var final_response_st = "Response: " + model_response_message
-
-                    //     var final_question_st = messageText
-                    //     var final_response_st = model_response_message
-                    //     anon_user_messages.push(final_question_st)
-                    //     anon_user_messages.push(final_response_st)
-                    //     localStorage.setItem('anon_user_messages', JSON.stringify(anon_user_messages));
-
-                    // } else {
-
-                    //     // TODO: 
-                    //     $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
-                                                
-                    //     // TODO: get current url-param; if null, add the new conversation to the side
-                    //     let urlParams = new URLSearchParams(window.location.search);
-                    //     let current_url_tchid_param = urlParams.get('tchid');
-                        
-                    //     if (current_url_tchid_param === null){
-                            
-                    //         let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
-                    //         console.log('current_cv_url:', current_cv_url);
-
-                    //         let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
-                    //         $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
-
-                    //     };
-
-                    //     var url = new URL(window.location.href);
-                    //     url.searchParams.set('tchid', parent_chat_obj_id);
-                    //     window.history.replaceState(null, null, url);
-
-                    // }
-
                 },
 
                 error: function (response) {}
@@ -358,3 +324,4 @@
 </script>
 
 {% endblock %}
+

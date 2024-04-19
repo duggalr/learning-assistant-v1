@@ -297,8 +297,6 @@ def handle_playground_file_name_change(request):
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
 
-    print("CID IS: ", cid)
-
     if cid == 'None':
         uc_obj = PlaygroundCode.objects.create(
             user_obj = custom_user_obj,

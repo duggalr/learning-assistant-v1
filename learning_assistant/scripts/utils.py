@@ -59,7 +59,6 @@ def _create_general_tutor_parent_object(custom_user_obj):
 
 def _is_bad_user_session(session_data):
     custom_user_obj_id = session_data.get('custom_user_uuid', None)
-    print('USER UUID IS:', custom_user_obj_id)
     err_message = 'User not found'
     if custom_user_obj_id is not None:
         custom_user_objects = CustomUser.objects.filter(id = custom_user_obj_id)

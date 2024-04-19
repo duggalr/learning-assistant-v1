@@ -88,9 +88,18 @@
 
                         <div class="column" id="btn_second_column">
                             
-                            <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
+                            <!-- <div class="ui animated primary basic medium button tutor_chat_button" tabindex="0" >
                                 <div class="visible content">
                                     Chat with the Tutor &#129302;
+                                </div>
+                                <div class="hidden content">
+                                    <i class="hand point right outline icon"></i>
+                                </div>
+                            </div> -->
+
+                            <div class="ui animated primary basic medium button learn_python_button" tabindex="0" >
+                                <div class="visible content">
+                                    Learn Python with an AI &#129302;
                                 </div>
                                 <div class="hidden content">
                                     <i class="hand point right outline icon"></i>
@@ -259,6 +268,13 @@
     $('.tutor_chat_button').click(function(){
         window.location.href = 'chat/tutor';
     });
+
+
+    $('.learn_python_button').click(function(){
+        // TODO: change and start here
+        // window.location.href = '';
+    });
+    
 
     // document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";
     document.body.style.background = "radial-gradient(ellipse at bottom left, #a6fcf8 0%, #f9f9f9 30%)";

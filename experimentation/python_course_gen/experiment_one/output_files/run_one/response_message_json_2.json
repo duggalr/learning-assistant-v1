@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "That's a great goal! Automating daily tasks can certainly make life easier and more efficient. Learning Python is a fantastic choice for this, as it's very versatile and user-friendly for beginners. Do you have any specific tasks in mind that you're hoping to automate, or is there a particular area of your daily routine where you feel automation could help the most?",
+    "student_goals": "The student wants to learn Python to build basic scripts to help automate some of their daily tasks."
+}

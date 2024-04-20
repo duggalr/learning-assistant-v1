@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "That's fantastic! Automating daily tasks is a great application of Python, and it can certainly make your life more efficient. Before we dive into the specifics, do you have any tasks in mind that you're hoping to automate? This will help me tailor our lessons towards your goals.",
+    "student_goals": "The student wants to learn Python to build basic scripts for automating daily tasks."
+}

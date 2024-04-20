@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "That's great to hear you're excited to learn Python! Could you tell me a bit more about what specifically interests you in Python? Are there any particular projects or areas, like web development, data analysis, or automation, that you're eager to explore?",
+    "student_goals": "The student is very enthusiastic about learning Python and wants to explore its potential applications."
+}

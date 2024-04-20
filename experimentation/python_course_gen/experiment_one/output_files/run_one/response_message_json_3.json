@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "That's great to hear you're interested in using Python to automate your daily tasks! Automation is a powerful use of Python that can significantly streamline repetitive tasks. Could you share a bit more about the types of tasks you're hoping to automate? This will help me tailor our lessons to fit your needs closely.",
+    "student_goals": "The student wants to learn Python to build basic scripts for automating daily tasks."
+}

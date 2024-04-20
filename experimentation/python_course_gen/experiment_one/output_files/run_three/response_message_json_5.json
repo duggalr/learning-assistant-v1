@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "Fantastic! Let's embark on this programming journey together. To begin with, we'll focus on understanding the basics - variables, data types, and simple operations. Knowing these will serve as the cornerstone of your programming skills. Once we have the basics down, we can gradually introduce more complex topics at a pace that suits you. How does starting with a simple exercise on variables sound to get your feet wet?",
+    "student_goals": "Student is interested in learning general programming and the basics of Python without any specific timeframe in mind. The plan is to start with understanding variables, data types, and simple operations to build a strong foundation."
+}

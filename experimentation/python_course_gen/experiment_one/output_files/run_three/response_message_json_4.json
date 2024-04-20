@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "Great! Starting with the basics is a wise choice. We'll begin by understanding variables, data types, and simple operations. This solid foundation will make it easier for you to grasp more complex topics later on. Is there a particular time frame you have in mind to achieve a basic understanding of programming in Python?",
+    "student_goals": "The student wishes to start with general programming and understand the basics of programming in Python, with no current specifics in mind."
+}

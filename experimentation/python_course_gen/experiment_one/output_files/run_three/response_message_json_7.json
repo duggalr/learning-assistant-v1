@@ -1,0 +1,5 @@
+{
+    "function_type": "save_new_note",
+    "message_response": "In Python, variables are used to store information that can be referenced and manipulated in a program. Think of a variable as a box where you store something, such as a number or text, with a label on it. To assign a value to a variable, you simply write the variable's name followed by an equal sign and the value you want to give it. For example, to store your name, you would write something like `name = 'Your Name'`, where `name` is the variable and `'Your Name'` is the value stored in that variable. Similarly, to store your age, you'd write `age = 20` where `age` is the variable, and `20` is the value. These values can then be used and manipulated throughout your program. Let's start with understanding this concept. Do you want an example to see how it works in a real Python program?",
+    "note": "A variable in Python is used to store information that a program can manipulate. Variables are assigned with the '=' operator, for example, `name = 'Your Name'` or `age = 20`. Understanding variables is fundamental in learning to program as it forms the basis of data manipulation and storage."
+}

@@ -1,28 +1,4 @@
-import os
-import json
-from dotenv import load_dotenv, find_dotenv
-from openai import OpenAI
-
-
-if 'PRODUCTION' not in os.environ:
-    dot_env_file = find_dotenv()
-    load_dotenv(dot_env_file)
-
-
-API_KEY = os.environ['OPENAI_API_KEY']
-client = OpenAI(
-    api_key = API_KEY,
-)
-
-# student_background_param_format = "{" + '"message_response: "' + 'This will be the response you will give back to the student in your chat conversation.' + ", " + '"student_goals: "' + 'This will be the text containing the students background and goals you generated, based on your converation.' + "}"
-# note_param_format = "{" + '"message_response: "' + '"This will be the response you will give back to the student in your chat conversation."' + '"note: "' + '"This will be the text containing the notes you generate for the student, based on your conversation."' + "}"
-
-# print(student_background_param_format)
-# print()
-# print(note_param_format)
-
-
-q_prompt_template = """##Instructions:
+##Instructions:
 You will be helping a student who wants to learn Python.
 The student will learn Python by having a conversation with you.
 
@@ -91,10 +67,10 @@ Here is context on what has been generated for the student thus far, along with 
 - Number of Exercises Completed by Student: 0
 
 Previous Chat History with Student:
-{previous_student_chat_history_str}
+
 
 Current Student Response:
-{current_student_response_str}
+I want to learn Python!! :D
 
 Your goal is to leverage the function types above, along with the student information above, to help the student learn Python.
 
@@ -109,8 +85,11 @@ Here are a few things to keep in mind:
 - You MUST only present ONE QUESTION OR TOPIC at a time to the student. This is very important.
     - Don't overwhelm the student with an abundance of information. This is counter-productive to learning.
 
-- Start with understanding the student's goals, why they want to learn Python, and their background knowledege.
-    - This is critical. Ask follow-up questions. Do not ask too many questions though. Keep it at a BALANCED amount as you can always get more information, later on.
+- Start with understanding the student's goals and why they want to learn Python. 
+    - This is critical. Ask follow-up questions. 
+    - Do not ask too many questions though. Keep it at a BALANCED amount.
+        - If you ask too little questions, you won't have enough information to generate a good outline.
+        - If you ask too many questions, you will annoy the student and they will likely not give good answers.
 
 - When generating notes, make them as detailed as possible, filled with examples, focused on a SINGLE OR FEW CONCEPTS.
     - Again, the student will be leveraging your notes to help them learn Python.
@@ -120,56 +99,3 @@ Here are a few things to keep in mind:
     - Make the exercises relevant for the student, the notes and the conversations you have currently had.
 
 ##Your Answer:
-"""
-
-output_dir_fp = '/Users/rahulduggal/Documents/personal_learnings/learning-assistant-v1/experimentation/python_course_gen/experiment_one/output_files/run_three'
-previous_student_chat_history = ""
-c = 1
-
-while True:
-
-    user_response = input("Question: ").strip()
-
-    q_prompt = q_prompt_template.format(
-        previous_student_chat_history_str = previous_student_chat_history,
-        current_student_response_str = user_response
-    )
-
-    di = {"role": "user", "content": q_prompt}
-
-    messages_list = [di]
-    chat_completion = client.chat.completions.create(
-        messages = messages_list,
-        model = "gpt-4-0125-preview",
-        response_format={ "type": "json_object" }
-    )
-
-    response_msg_json_str = chat_completion.choices[0].message.content
-    response_message_json_data = json.loads(response_msg_json_str)
-    
-    ## Save Information
-    tmp_fp = os.path.join(output_dir_fp, f"prompt-{c}.txt")
-    f = open(tmp_fp, 'w')
-    f.write(q_prompt)
-    f.close()
-
-    tmp_json_fp = os.path.join(output_dir_fp, f'response_message_json_{c}.json')
-    with open(tmp_json_fp, 'w', encoding='utf-8') as f:
-        json.dump(response_message_json_data, f, ensure_ascii=False, indent=4)
-
-    c += 1
-
-    ## Response Information
-    function_type = response_message_json_data['function_type']
-    model_response_str = response_message_json_data['message_response'].strip()
-    
-    tmp_past_st = f"Student Response: {user_response}\nYour Response: {model_response_str}\n"
-    previous_student_chat_history += tmp_past_st
-    
-    ## Display Info to User
-    print(f"Function-Type: {function_type} | Message: {model_response_str}")
-    print('\n')
-
-
-# TODO: 
-    # Implement V1 on site

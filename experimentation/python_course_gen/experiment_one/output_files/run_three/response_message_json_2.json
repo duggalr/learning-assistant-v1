@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "Absolutely, starting with Python is a great choice. It's not only beginner-friendly but also powerful enough for building a wide range of applications. What kind of projects interest you? Whether it's web development, data analysis, machine learning, or just general programming, Python can definitely help you achieve your goals. Let's narrow down a bit to tailor your learning path. Are there any specific areas you're keen to dive into?",
+    "student_goals": "Student expressed a desire to learn programming and sees Python as a good starting point. The student is unsure about specific areas of interest within Python."
+}

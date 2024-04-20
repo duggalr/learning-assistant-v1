@@ -1,0 +1,5 @@
+{
+    "function_type": "save_exercise",
+    "message_response": "Alright, let's kick things off with a simple exercise on variables. Here's your task: Create a Python program that defines two variables. One variable should hold your name as a string, and the other should hold your age as an integer. Then, print out a message that says 'My name is [Your Name], and I am [Your Age] years old.' This will give you a hands-on experience with variables and help you understand how to use them to store information. Feel free to ask for help if you need it!",
+    "exercise": "Create a Python program with two variables: one for your name (a string) and one for your age (an integer). Then, print a message that incorporates both of these variables to state your name and age. Example of expected output: 'My name is Alice, and I am 30 years old.'"
+}

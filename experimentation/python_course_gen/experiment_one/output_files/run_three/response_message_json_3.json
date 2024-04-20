@@ -1,0 +1,5 @@
+{
+    "function_type": "save_student_goals",
+    "message_response": "No worries at all! Starting with the basics and getting a solid understanding of general programming concepts in Python is the perfect beginning. It's important to build a strong foundation before diving into more specific areas. Let's start with understanding variables, data types, and simple operations. How does that sound for our first step?",
+    "student_goals": "The student wishes to focus on general programming and learning the basics of Python. They have no prior experience in programming and are looking for a starting point to build their knowledge."
+}

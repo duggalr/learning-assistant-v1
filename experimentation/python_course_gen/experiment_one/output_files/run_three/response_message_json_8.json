@@ -1,0 +1,5 @@
+{
+    "function_type": "save_new_note",
+    "message_response": "Alright, let's dive into an example to help clarify how variables work in Python. Here's a simple Python program that demonstrates the concept of variables by storing a name and an age, then printing them out. Once you've gone through the example, you can try creating your own version of this program.",
+    "note": "Variables in Python: Variables are placeholders or references for storing data values in a program. Here's a basic example:\n\n# Define variables\nname = 'Alice'\nage = 30\n\n# Print variables\nprint('My name is', name, 'and I am', age, 'years old.')\n\nThis program creates two variables: `name` and `age`. The `name` variable is assigned the string value 'Alice', and the `age` variable is assigned the integer value 30. The `print` function then uses these variables to print out a message stating the name and age. The output of this program would be: My name is Alice and I am 30 years old.\n\nTry creating a similar program, but use your own name and age. This exercise will help you get comfortable with defining variables and printing their values in Python."
+}

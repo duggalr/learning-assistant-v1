@@ -14,14 +14,6 @@ client = OpenAI(
     api_key = API_KEY,
 )
 
-# student_background_param_format = "{" + '"message_response: "' + 'This will be the response you will give back to the student in your chat conversation.' + ", " + '"student_goals: "' + 'This will be the text containing the students background and goals you generated, based on your converation.' + "}"
-# note_param_format = "{" + '"message_response: "' + '"This will be the response you will give back to the student in your chat conversation."' + '"note: "' + '"This will be the text containing the notes you generate for the student, based on your conversation."' + "}"
-
-# print(student_background_param_format)
-# print()
-# print(note_param_format)
-
-
 q_prompt_template = """##Instructions:
 You will be helping a student who wants to learn Python.
 The student will learn Python by having a conversation with you.
@@ -169,7 +161,3 @@ while True:
     ## Display Info to User
     print(f"Function-Type: {function_type} | Message: {model_response_str}")
     print('\n')
-
-
-# TODO: 
-    # Implement V1 on site

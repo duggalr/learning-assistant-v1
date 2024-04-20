@@ -168,8 +168,47 @@ def user_dashboard(request):
     })
 
 
+# TODO: will this be behind authentication?
+@user_authenticated_required
 def python_course_generation_main(request):
-    return render(request, 'python-course-gen/python_course_generation_main.html')
+
+    pcid = request.GET.get('pcid', None)
+    python_course_object = None
+    conversation_objects = []
+    student_background_object = None
+    course_notes_objects = []
+    exercise_objects = []
+
+    if pcid is not None:
+        python_course_object = get_object_or_404(PythonCourseParent, pcid)
+        
+        conversation_objects = PythonCourseConversation.objects.filter(
+            pg_obj = python_course_object
+        ).order_by('created_at')
+        
+        student_background_object = PythonCourseStudentBackground.objects.filter(
+            pg_obj = python_course_object,
+        ).order_by('created_at')[0]
+        
+        course_notes_objects = PythonCourseNote.objects.filter(
+            pg_obj = python_course_object,
+        ).order_by('created_at')
+        
+        exercise_objects = PythonCourseExercise.objects.filter(
+            pg_obj = python_course_object,
+        ).order_by('created_at')
+    
+    return render(
+        request, 'python-course-gen/python_course_generation_main.html', {
+            'course_obj': python_course_object,
+            'course_obj_id': python_course_object.id,
+            'conversation_objects': conversation_objects,
+            'student_background_object': student_background_object,
+            'course_notes_objects': course_notes_objects,
+            'exercise_objects': exercise_objects
+        }
+    )
+
 
 
 ### Ajax Functions ###
@@ -375,4 +414,135 @@ def handle_general_tutor_user_message(request):
 
     model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
     return JsonResponse({'success': True, 'response': model_response_dict})
+
+
+
+
+@require_POST
+def handle_python_course_gen_user_message(request):
+
+    custom_user_obj_id = request.session.get('custom_user_uuid', None)
+    user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
+    if user_err:
+        return JsonResponse({'success': user_err, 'response': user_err_message})
+    else:
+        custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
+
+    pgen_obj_id = request.POST['parent_pgen_obj_id']
+    user_code = request.POST['user_code'].strip()
+    user_code = user_code.replace('`', '"').strip()
+    user_message = request.POST['message'].strip()
+    prev_conversation_history_str = ''
+
+    if pgen_obj_id == '':
+        pgen_obj = PythonCourseParent.objects.create(
+            user_obj = custom_user_obj
+        )
+        pgen_obj.save()
+    else:
+        pgen_objects = PythonCourseParent.objects.filter(
+            user_obj = custom_user_obj
+        )
+        if len(pgen_objects) == 0:
+            return JsonResponse({'success': False, 'response': 'Could not find associated course object.'})
+
+        pgen_obj = pgen_objects[0]
+
+        pg_conversation_objects = PythonCourseConversation.objects.filter(
+            pg_obj = pgen_obj
+        )
+
+        prev_cv_list = []
+        for pg_conv_obj in pg_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
+            uc_question = pg_conv_obj.question
+            uc_response = pg_conv_obj.response
+            prev_cv_list.append(f"Question: { uc_question }")
+            prev_cv_list.append(f"Response: { uc_response }")
+
+        if len(prev_cv_list) > 0:
+            prev_conversation_history_str = '\n'.join(prev_cv_list)
+
+
+    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    model_response_dict = op_ai_wrapper.handle_python_course_gen_message(
+        current_student_response_str = user_message,
+        previous_student_chat_history_str = prev_conversation_history_str
+    )
+
+    json_model_response = model_response_dict['response']
+    model_text_reply = json_model_response['message_response']
+
+    # TODO:
+        # Having Notes and Goals generated in Markdown and shown in Markdown to the user
+
+    if json_model_response['function_type'] == 'save_student_goals':
+        student_goals = json_model_response['student_goals'].strip()
+        pg_sb_obj = PythonCourseStudentBackground.objects.create(
+            student_background = student_goals
+        )
+        pg_sb_obj.save()
+
+    elif json_model_response['function_type'] == 'save_new_note':
+        note = json_model_response['note'].strip()
+        pg_note_obj = PythonCourseNote.objects.create(
+            note = note
+        )
+        pg_note_obj.save()
+
+    elif json_model_response['function_type'] == 'update_existing_note':
+        note_id = json_model_response['note_id'].strip()
+        note_text = json_model_response['note_text'].strip()
+        
+        # TODO: SECURITY RISK --> should also filter for user object
+        course_note_objects = PythonCourseNote.objects.filter(
+            id = note_id
+        )
+        if len(course_note_objects) == 0:  # TODO: simply going to create new note
+            pg_note_obj = PythonCourseNote.objects.create(
+                note = note
+            )
+            pg_note_obj.save()
+        
+        else:
+            pg_note_obj = course_note_objects[0]
+            pg_note_obj.note = note_text
+            pg_note_obj.save()
+
+    elif json_model_response['function_type'] == 'save_exercise':
+        exercise = json_model_response['exercise'].strip()
+        exercise_obj = PythonCourseExercise.objects.create(
+            exercise = exercise,
+            complete = False
+        )
+        exercise_obj.save()
+
+    elif json_model_response['function_type'] == 'mark_exercise_complete':
+        exercise_id = json_model_response['exercise_id'].strip()
+        exercise_objects = PythonCourseExercise.objects.filter(id = exercise_id)
+        if len(exercise_objects) == 0:
+            # TODO: what should be done here?
+            logging.error(f"For user: {custom_user_obj_id}, the exercise id: {exercise_id} from GPT did not find any corresponding exercise object.")
+            pass
+        else:
+            exercise_obj = exercise_objects[0]
+            exercise_obj.complete = True
+            exercise_obj.save()
+
+    elif json_model_response['function_type'] == 'no_function_needed':
+        pass
+
+
+    json_string_representation = str(json_model_response)
+    pg_new_cv_obj = PythonCourseConversation.objects.create(
+        pg_obj = pgen_obj,
+        question = model_response_dict['question'],
+        question_prompt = model_response_dict['q_prompt'],
+        response = json_string_representation
+    )
+    pg_new_cv_obj.save()
+
+    model_response_dict['pcid'] = pg_new_cv_obj.id
+
+    return JsonResponse({'success': True, 'response': model_response_dict})
+
 

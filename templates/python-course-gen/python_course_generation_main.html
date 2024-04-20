@@ -7,188 +7,77 @@
 
 <div class="ui grid playground-parent-container">
 
-    <!-- <div class="eight wide column code-editor-parent-column">
-
-        <textarea id="code" class="code-editor-textarea"></textarea>
-
-        {% if code_id is not none %}
-            <input id="code_obj_id" type="hidden" value="{{ code_id }}" />
-        {% else %}
-            <input id="code_obj_id" type="hidden" />
-        {% endif %}
-
-    </div> -->
-    
     <div class="eight wide column">
 
+        {% if course_obj_id is not none %}
+            <input id="course_obj_id" type="hidden" value="{{ course_obj_id }}" />
+        {% else %}
+            <input id="course_obj_id" type="hidden" />
+        {% endif %}
+
+        <!-- Left Tab Menu -->
         <div class="ui tabular menu">
-            <a class="active item">
+            <a class="active item ide-tab">
                 IDE
             </a>
-            <a class="item">
+            <a class="item notes-tab">
                 Notes
             </a>
-            <a class="item">
-                Completed Exercises
+            <a class="item exercises-tab">
+                Exercises
             </a>
-            <a class="item">
+            <a class="item student-background-tab">
                 Student Goals
             </a>
         </div>
 
+        <!-- Programming IDE -->
+        <div class="programming_ide">
+            <textarea id="code" class="code-editor-textarea"></textarea>
+        </div>
+
+        <!-- Notes Markdown -->
+        <div class="notes_div" style="display: none;">
+            <p id="course-outline-description" style="padding-top: 10px;"></p>
+        </div>
+
+        <!-- Exercises -->
+        <div class="exercises_div" style="display: none;">
+            <div class="ui list" id="main-exercise-list">
+                {% for ex_obj in exercise_objects %}
+                    <div class="item">
+                        {{ ex_obj.exercise }}
+                        <br/>
+                        EXERCISE COMPLETE: {{ ex_obj.complete }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Student Background/Goals -->
+        <div class="student_background_div" style="display: none;">
+            <p id="student-background-notes"></p>
+            <!-- <h3 class="ui header">Student Background/Goals</h3> -->
+        </div>
+        
     </div>
+
 
     <div class="seven wide column ai-console-tutor-parent-column">
 
         <div class="ui tabular menu tab-menu-div">
-            <a class="active item console-tab">
-                <i class="bug icon"></i> Console
+
+            <a class="active item tutor-tab">
+                <i class="comment icon"></i> Companion
             </a>
-            <a class="item tutor-tab">
-                <i class="comment icon"></i> AI Tutor
+            <a class="item console-tab">
+                <i class="bug icon"></i> Console
             </a>
 
         </div>
         
-        <!-- Console Output -->
-        <div class="console_parent_div">
-
-            {% if not anon_user and uc_obj is not none %}
-
-                <div class="file_name_parent_div">
-                        
-                        <h3 id="file_name_header">
-                            File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
-                            <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
-                        </h3>
-
-                        <div id="file_name_change_form" style="display: none;">
-                            <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
-                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
-                            &nbsp;
-                            <button id="file_name_change_btn">Submit</button>
-                        </div>                        
-
-                </div>
-
-            {% else %}
-
-                <div class="file_name_parent_div" style="display: none;">
-                    
-                    <h3 id="file_name_header">
-                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
-                        <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
-                    </h3>
-
-                    <div id="file_name_change_form" style="display: none;">
-                        <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
-                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
-                        &nbsp;
-                        <button id="file_name_change_btn">Submit</button>
-                    </div>
-                    
-                </div>
-
-            {% endif %}
-
-            <div style="padding-bottom: 0px;">
-                <label style="font-weight: bold; font-size: 16px;">Choose Editor Language</label>
-                &nbsp;&nbsp;
-                <div class="ui selection disabled dropdown" id="programming_language_dropdown">
-                    <input type="hidden" name="language_choice">
-                    <i class="dropdown icon"></i>
-                    {% if user_language_choice == 'python' or user_language_choice is None %}
-                        <div class="text">Python</div>
-                    {% elif user_language_choice == 'clike' %}
-                        <div class="text">C</div>
-                    {% elif user_language_choice == 'go' %}
-                        <div class="text">Go</div>
-                    {% elif user_language_choice == 'html-mixed' %}
-                        <div class="text">HTML Mixed</div>
-                    {% endif %}
-                    <div class="menu">
-                        {% if user_language_choice == 'python' or user_language_choice is None %}
-                            <div class="item active" data-value="python">Python</div>
-                        {% else %}
-                            <div class="item" data-value="python">Python</div>
-                        {% endif %}
-
-                        {% if user_language_choice == 'clike' %}
-                            <div class="item active" data-value="clike">C</div>
-                        {% else %}
-                            <div class="item" data-value="clike">C, C++, C#</div>
-                        {% endif %}
-                        
-                        {% if user_language_choice == 'go' %}
-                        <div class="item active" data-value="go">Go</div>
-                        {% else %}
-                        <div class="item" data-value="go">Go</div>
-                        {% endif %}
-
-                        {% if user_language_choice == 'html-mixed' %}
-                        <div class="item active" data-value="html-mixed">HTML Mixed</div>
-                        {% else %}
-                        <div class="item" data-value="html-mixed">HTML Mixed</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="dropdown_helper_text">
-                    <span>Currently, only Python can be run in the app. More language support coming soon...</span>
-                </div>
-            </div>
-
-            <div class="ui divider" style="margin-top: 20px;"></div>
-    
-            <div class="console_button_parent_div">            
-
-                {% if user_language_choice == 'python' or user_language_choice is None %}
-                    <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
-                        <div class="visible content">Run</div>
-                        <div class="hidden content">
-                            <i class="play icon"></i>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <!-- &nbsp;&nbsp; -->
-
-                <div class="medium ui animated blue button code_feedback_button" tabindex="0" onclick="handleSolutionSubmit()">
-                    <div class="visible content">Get Feedback</div>
-                    <div class="hidden content">
-                        <!-- <i class="check icon"></i> -->
-                        <i class="hand point right icon"></i>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="console_helper_text">
-                <span>
-                    &nbsp;
-                    Ask the AI for advice for help by clicking the 'AI Tutor' tab above.
-                </span>
-            </div>
-
-            <div class="console_textarea_parent">
-
-                <h3 class="ui header" style="font-size: 16px;">
-                    Console Output:
-                    <span id="clear_output_link">clear</span>
-                </h3>
-    
-                <!-- <div class="ui segment output-code"> -->
-                <div style="border: 1px solid #d4d4d5; border-radius: 5px; width: 95%;">
-                    <textarea rows="20" id="output" disabled></textarea>
-                </div>
-                <!-- </div> -->
-
-            </div>
-
-        </div>
-
         <!-- AI Tutor -->
-        <div class="ai_tutor_div" style="display: none;">
+        <div class="ai_tutor_div">
 
             <!-- Programming Assistant Tab -->
             <div id="programming_assistant_div">
@@ -196,15 +85,11 @@
                 <div class="chat-container" id="chat">
                     
                     <div class="message">
-                        <strong>Welcome! &nbsp; &#128588</strong>&nbsp;
-                        I'm Companion, your personal programming tutor.
+                        So, you want to learn Python, huh? Good choice...
                         <br/><br/>
-                        If you are running into a problem such as a bug in your code, a LeetCode problem, or need help understanding a concept, ask me and I will be more than happy to help.
+                        Curious though, why? Want to build or learn something specific?
                         <br/><br/>
-                        You can also use me to generate more practice questions for you, for specific concepts you want further review on.
-                        <br/><br/>
-                        I won't give you the answer, but will definitely point you in the right direction! &#128512;
-
+                        Knowing so will help me teach you in the best way possible..
                     </div>
 
                     <hr>
@@ -263,10 +148,379 @@
 
         </div>
 
+        <!-- Console Output -->
+        <div class="console_parent_div" style="display: none;">
+
+            {% if not anon_user and uc_obj is not none %}
+
+                <div class="file_name_parent_div">
+                        
+                        <h3 id="file_name_header">
+                            File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                            <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
+                        </h3>
+
+                        <div id="file_name_change_form" style="display: none;">
+                            <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
+                            <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                            &nbsp;
+                            <button id="file_name_change_btn">Submit</button>
+                        </div>                        
+
+                </div>
+
+            {% else %}
+
+                <div class="file_name_parent_div" style="display: none;">
+                    
+                    <h3 id="file_name_header">
+                        File Name:&nbsp; <span id="code_file_name" style="font-size: 16px; font-weight: 500; color: gray;">{{ uc_obj.code_unique_name }}</span>&nbsp;&nbsp;
+                        <span id="edit_filename_span" style="color: blue; font-size: 14px; font-weight: 500;">change name</span>
+                    </h3>
+
+                    <div id="file_name_change_form" style="display: none;">
+                        <label for="file_name" style="font-size: 16px; font-weight: 500;"><strong>File Name:</strong></label>&nbsp;
+                        <input type="text" id="file_name_input" name="file_name_input" value="{{ uc_obj.code_unique_name }}">
+                        &nbsp;
+                        <button id="file_name_change_btn">Submit</button>
+                    </div>
+                    
+                </div>
+
+            {% endif %}
+
+            <div class="console_button_parent_div">            
+
+                <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
+                    <div class="visible content">Run</div>
+                    <div class="hidden content">
+                        <i class="play icon"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="console_helper_text">
+                <span>
+                    &nbsp;
+                    Ask the AI for advice for help by clicking the 'AI Tutor' tab above.
+                </span>
+            </div>
+
+            <div class="console_textarea_parent">
+
+                <h3 class="ui header" style="font-size: 16px;">
+                    Console Output:
+                    <span id="clear_output_link">clear</span>
+                </h3>
+    
+                <!-- <div class="ui segment output-code"> -->
+                <div style="border: 1px solid #d4d4d5; border-radius: 5px; width: 95%;">
+                    <textarea rows="20" id="output" disabled></textarea>
+                </div>
+                <!-- </div> -->
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
+
+<script>
+
+    $( document ).ready(function() {
+
+        $('.tabular.menu .item').tab();
+
+    });
+
+    /* Right Tab Menu Item Event Listeners */
+
+    $('.console-tab').click(function(){
+        
+        $('.console-tab').addClass('active');
+        $('.tutor-tab').removeClass('active');
+
+        $('.console_parent_div').show();
+        $('.ai_tutor_div').hide();
+
+    });
+
+    $('.tutor-tab').click(function(){
+        
+        $('.tutor-tab').addClass('active');
+        $('.console-tab').removeClass('active');
+
+        $('.ai_tutor_div').show();
+        $('.console_parent_div').hide();
+
+    });
+
+
+    /* Left Tab Menu Item Event Listeners */
+
+    $('.ide-tab').click(function(){ 
+
+        $('.ide-tab').addClass('active');
+        $('.notes-tab').removeClass('active');
+        $('.exercises-tab').removeClass('active');
+        $('.student-background-tab').removeClass('active');
+
+        $('.programming_ide').show();
+        $('.notes_div').hide();
+        $('.exercises_div').hide();
+        $('.student_background_div').hide();
+
+    });
+
+    $('.notes-tab').click(function(){ 
+
+        $('.notes-tab').addClass('active');
+        $('.ide-tab').removeClass('active');
+        $('.exercises-tab').removeClass('active');
+        $('.student-background-tab').removeClass('active');
+
+        $('.notes_div').show();
+        $('.programming_ide').hide();
+        $('.exercises_div').hide();
+        $('.student_background_div').hide();
+
+    });
+
+    $('.exercises-tab').click(function(){ 
+
+        $('.exercises-tab').addClass('active');
+        $('.notes-tab').removeClass('active');
+        $('.ide-tab').removeClass('active');
+        $('.student-background-tab').removeClass('active');
+
+        $('.exercises_div').show();
+        $('.notes_div').hide();
+        $('.programming_ide').hide();
+        $('.student_background_div').hide();
+
+    });
+
+    $('.student-background-tab').click(function(){ 
+
+        $('.student-background-tab').addClass('active');
+        $('.exercises-tab').removeClass('active');
+        $('.notes-tab').removeClass('active');
+        $('.ide-tab').removeClass('active');
+
+        $('.student_background_div').show();
+        $('.exercises_div').hide();
+        $('.notes_div').hide();
+        $('.programming_ide').hide();
+
+    });
+
+
+    // Initial Vars
+    let parent_pgen_obj_id = '{{ course_obj_id }}';
+
+
+    // Code Editor
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: {
+            name: "python",
+            version: 3,
+            singleLineStringErrors: false
+        },
+        lineNumbers: true,
+        indentUnit: 4,
+        indentWithTabs: true,
+        matchBrackets: true,
+        theme: "duotone-light",
+        scrollbarStyle: "null",
+        lineWrapping: true,
+    });
+
+    editor.setValue(`# Write your code here...\n\n\n\n\n`)
+
+    // Notes Markdown
+    let course_note_md = '#HELLO\n';
+    document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
+
+
+    /* Run Python Code */
+
+    async function main() {
+        let pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/" });
+        // Pyodide ready
+        output.value += "Ready!\n";
+        return pyodide;
+    };
+
+    let pyodideReadyPromise = main();
+
+    function addToOutput(s) {
+
+        try {
+
+            let val_list = s.split("\n");
+            for (i=0; i <= val_list.length-2; i++){
+                let otv = val_list[i];
+                output.value += ">>> " + otv + "\n"; 
+            }
+
+            var textarea = document.getElementById('output');
+            textarea.scrollTop = textarea.scrollHeight;
+
+        } catch(err) {
+
+            output.value += ">>> " + s + "\n";
+
+        }
+
+    };
+
+    async function evaluatePython() {
+        let pyodide = await pyodideReadyPromise;
+        try {
+            let captureOutputCode = `
+import sys
+from io import StringIO
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+
+${editor.getValue()}
+
+sys.stdout = old_stdout
+mystdout.getvalue()
+`;
+
+            let output = pyodide.runPython(captureOutputCode);
+            addToOutput(output);
+
+        } catch (err) {
+            
+            addToOutput(err);
+
+        }
+    };
+
+
+    /* Handle Message Sending */
+
+    function sendMessage() {
+
+        const messageText = chatInput.value.trim();
+
+        if (messageText !== "") {
+
+            let user_code = editor.getValue();
+
+            $('#chatInput').prop('disabled', true);
+
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            chatInput.value = "";
+
+            let parent_pgen_obj_id = $('#code_obj_id').val();
+            let d = {
+                'parent_pgen_obj_id': parent_pgen_obj_id,
+                'user_code': user_code,
+                'message': messageText,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_python_course_gen_user_message' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    console.log('model-response:', response);
+                    
+                    let ep_response_dict = response['response'];
+                    let ai_model_response_dict = ep_response_dict['response'];
+                    
+                    let user_question_text = ep_response_dict['question'];
+                    let model_response_text = ai_model_response_dict['message_response'];
+                    model_response_text = model_response_text.replaceAll('\n', '<br/>');
+
+                    let function_type = ai_model_response_dict['function_type'];
+                    
+                    if (function_type == 'save_student_goals'){
+
+                        let student_goals_text = ai_model_response_dict['student_goals'];
+                        ('#student-background-notes').text(student_goals_text);
+                        ('.student-background-tab').click();
+
+                    }
+                    else if (function_type == 'save_new_note'){
+
+                        let note_text = ai_model_response_dict['note'];
+                        ('#student-background-notes').text(student_goals_text);
+                        ('.student-background-tab').click();
+
+                    }
+                    else if (function_type == 'update_existing_note'){
+
+                        let note_text = ai_model_response_dict['note'];
+                        ('#student-background-notes').text(note_text);
+                        ('.notes-tab').click();
+
+                    }
+                    else if (function_type == 'save_exercise'){
+
+                        let exercise_text = ai_model_response_dict['exercise'];
+                        ('#student-background-notes').text(note_text);
+                        ('.notes-tab').click();
+
+                        let current_exercise_list = $('#main-exercise-list');
+                        current_exercise_list.append('<div class="item">' + exercise_text + '</div>');
+
+                    }
+                    else if (function_type == 'mark_exercise_complete'){
+
+                        // TODO: implement this
+
+                    }
+
+
+                    // Append Message to Chat
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text;
+                    chat.appendChild(responseMessage);
+
+                    chat.scrollTop = chat.scrollHeight;
+
+                    $('#chatInput').prop('disabled', false);
+                    $('#sendButton').show();
+                    $('#primary_loading_button').hide();
+
+                    let new_pcid = ep_response_dict['pcid'];
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('pcid', new_pcid);
+                    window.history.replaceState(null, null, url);
+
+                    $('#course_obj_id').val(new_pcid);
+                    
+                },
+                error: function (response) {}
+                
+            });
+
+        };
+
+    };
+    
+</script>
 
 {% endblock %}
 

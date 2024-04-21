@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET, require_POST
 import logging
+import ast
 
 from .models import *
 from .scripts import utils, open_ai_utils
@@ -174,17 +175,24 @@ def python_course_generation_main(request):
 
     pcid = request.GET.get('pcid', None)
     python_course_object = None
-    conversation_objects = []
+    # conversation_objects = []
+    conversation_text_list = []
     student_background_object = None
     course_notes_objects = []
     exercise_objects = []
 
     if pcid is not None:
-        python_course_object = get_object_or_404(PythonCourseParent, pcid)
+        python_course_object = get_object_or_404(PythonCourseParent, id = pcid)
         
         conversation_objects = PythonCourseConversation.objects.filter(
             pg_obj = python_course_object
         ).order_by('created_at')
+        
+        for cobj in conversation_objects:
+            # model_text_response = json.loads(cobj.response)['message_response'].strip()
+            model_text_response_dict = ast.literal_eval(cobj.response)
+            model_text_response = model_text_response_dict['message_response'].strip()
+            conversation_text_list.append([cobj.question, model_text_response])
         
         student_background_object = PythonCourseStudentBackground.objects.filter(
             pg_obj = python_course_object,
@@ -201,8 +209,9 @@ def python_course_generation_main(request):
     return render(
         request, 'python-course-gen/python_course_generation_main.html', {
             'course_obj': python_course_object,
-            'course_obj_id': python_course_object.id,
-            'conversation_objects': conversation_objects,
+            'course_obj_id': python_course_object.id if python_course_object is not None else None,
+            # 'conversation_objects': conversation_objects,
+            'conversation_objects': conversation_text_list,
             'student_background_object': student_background_object,
             'course_notes_objects': course_notes_objects,
             'exercise_objects': exercise_objects
@@ -428,6 +437,8 @@ def handle_python_course_gen_user_message(request):
     else:
         custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
 
+    print('request-post:', request.POST)
+
     pgen_obj_id = request.POST['parent_pgen_obj_id']
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
@@ -439,7 +450,9 @@ def handle_python_course_gen_user_message(request):
             user_obj = custom_user_obj
         )
         pgen_obj.save()
+
     else:
+
         pgen_objects = PythonCourseParent.objects.filter(
             user_obj = custom_user_obj
         )
@@ -463,21 +476,31 @@ def handle_python_course_gen_user_message(request):
             prev_conversation_history_str = '\n'.join(prev_cv_list)
 
 
+    user_past_information_dict = utils._fetch_past_user_context_information(
+        pcp_obj = pgen_obj
+    )
+
+    # TODO:
+        # need to fix errors that are being generated with the prompt
+            # save_note being called unexpectedly when student-background-gen
+            # ai needs context that the IDE is present on the left side of the web-app
+            # ... 
+        # go from there
+
     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
     model_response_dict = op_ai_wrapper.handle_python_course_gen_message(
         current_student_response_str = user_message,
-        previous_student_chat_history_str = prev_conversation_history_str
+        previous_student_chat_history_str = prev_conversation_history_str,
+        user_past_information_dict = user_past_information_dict
     )
 
     json_model_response = model_response_dict['response']
-    model_text_reply = json_model_response['message_response']
-
-    # TODO:
-        # Having Notes and Goals generated in Markdown and shown in Markdown to the user
+    # model_text_reply = json_model_response['message_response']
 
     if json_model_response['function_type'] == 'save_student_goals':
         student_goals = json_model_response['student_goals'].strip()
         pg_sb_obj = PythonCourseStudentBackground.objects.create(
+            pg_obj = pgen_obj,
             student_background = student_goals
         )
         pg_sb_obj.save()
@@ -485,12 +508,13 @@ def handle_python_course_gen_user_message(request):
     elif json_model_response['function_type'] == 'save_new_note':
         note = json_model_response['note'].strip()
         pg_note_obj = PythonCourseNote.objects.create(
+            pg_obj = pgen_obj,
             note = note
         )
         pg_note_obj.save()
 
     elif json_model_response['function_type'] == 'update_existing_note':
-        note_id = json_model_response['note_id'].strip()
+        note_id = json_model_response['note_id']
         note_text = json_model_response['note_text'].strip()
         
         # TODO: SECURITY RISK --> should also filter for user object
@@ -499,6 +523,7 @@ def handle_python_course_gen_user_message(request):
         )
         if len(course_note_objects) == 0:  # TODO: simply going to create new note
             pg_note_obj = PythonCourseNote.objects.create(
+                pg_obj = pgen_obj,
                 note = note
             )
             pg_note_obj.save()
@@ -511,6 +536,7 @@ def handle_python_course_gen_user_message(request):
     elif json_model_response['function_type'] == 'save_exercise':
         exercise = json_model_response['exercise'].strip()
         exercise_obj = PythonCourseExercise.objects.create(
+            pg_obj = pgen_obj,
             exercise = exercise,
             complete = False
         )
@@ -531,7 +557,6 @@ def handle_python_course_gen_user_message(request):
     elif json_model_response['function_type'] == 'no_function_needed':
         pass
 
-
     json_string_representation = str(json_model_response)
     pg_new_cv_obj = PythonCourseConversation.objects.create(
         pg_obj = pgen_obj,
@@ -541,8 +566,6 @@ def handle_python_course_gen_user_message(request):
     )
     pg_new_cv_obj.save()
 
-    model_response_dict['pcid'] = pg_new_cv_obj.id
-
+    model_response_dict['pcid'] = pgen_obj.id
     return JsonResponse({'success': True, 'response': model_response_dict})
-
 

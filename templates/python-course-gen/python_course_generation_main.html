@@ -24,7 +24,7 @@
                 Notes
             </a>
             <a class="item exercises-tab">
-                Exercises
+                Your Exercises
             </a>
             <a class="item student-background-tab">
                 Student Goals
@@ -95,10 +95,10 @@
                     <hr>
 
                     <br/>
-                    {% for ucs_obj in user_conversation_objects %}
+                    {% for ucs_obj in conversation_objects %}
                     
-                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
-                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.0 | safe }}</div>
+                        <div class="message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.1 | safe }}</div>
 
                     {% endfor %}
 
@@ -320,7 +320,35 @@
 
 
     // Initial Vars
-    let parent_pgen_obj_id = '{{ course_obj_id }}';
+    // let parent_pgen_obj_id = '{{ course_obj_id }}';
+    let chat = document.getElementById("chat");
+    let chatInput = document.getElementById("chatInput");
+    let sendButton = document.getElementById("sendButton");
+
+    sendButton.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keydown", (event) => {
+    
+        if (event.keyCode == 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+
+    });
+
+    $("#chatInput").on('keyup', function(event) {
+        
+        var currentString = $("#chatInput").val()
+
+        if (currentString.length > 0){
+
+            $('#sendButton').removeClass('disabled');
+            
+        } else {
+            $('#sendButton').addClass('disabled');
+        }
+        
+    });
+
 
 
     // Code Editor
@@ -428,7 +456,7 @@ mystdout.getvalue()
             chat.scrollTop = chat.scrollHeight;
             chatInput.value = "";
 
-            let parent_pgen_obj_id = $('#code_obj_id').val();
+            let parent_pgen_obj_id = $('#course_obj_id').val();
             let d = {
                 'parent_pgen_obj_id': parent_pgen_obj_id,
                 'user_code': user_code,
@@ -457,29 +485,29 @@ mystdout.getvalue()
                     if (function_type == 'save_student_goals'){
 
                         let student_goals_text = ai_model_response_dict['student_goals'];
-                        ('#student-background-notes').text(student_goals_text);
-                        ('.student-background-tab').click();
+                        $('#student-background-notes').text(student_goals_text);
+                        $('.student-background-tab').click();
 
                     }
                     else if (function_type == 'save_new_note'){
 
                         let note_text = ai_model_response_dict['note'];
-                        ('#student-background-notes').text(student_goals_text);
-                        ('.student-background-tab').click();
+                        $('#student-background-notes').text(note_text);
+                        $('.student-background-tab').click();
 
                     }
                     else if (function_type == 'update_existing_note'){
 
                         let note_text = ai_model_response_dict['note'];
-                        ('#student-background-notes').text(note_text);
-                        ('.notes-tab').click();
+                        $('#student-background-notes').text(note_text);
+                        $('.notes-tab').click();
 
                     }
                     else if (function_type == 'save_exercise'){
 
                         let exercise_text = ai_model_response_dict['exercise'];
-                        ('#student-background-notes').text(note_text);
-                        ('.notes-tab').click();
+                        $('#student-background-notes').text(exercise_text);
+                        $('.notes-tab').click();
 
                         let current_exercise_list = $('#main-exercise-list');
                         current_exercise_list.append('<div class="item">' + exercise_text + '</div>');
@@ -490,7 +518,6 @@ mystdout.getvalue()
                         // TODO: implement this
 
                     }
-
 
                     // Append Message to Chat
                     const responseMessage = document.createElement("div");
@@ -510,7 +537,7 @@ mystdout.getvalue()
                     window.history.replaceState(null, null, url);
 
                     $('#course_obj_id').val(new_pcid);
-                    
+
                 },
                 error: function (response) {}
                 

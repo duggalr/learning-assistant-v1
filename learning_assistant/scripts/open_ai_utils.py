@@ -231,7 +231,13 @@ However, if you feel the student has received the information they need and ther
         return final_dict_rv
 
 
-    def handle_python_course_gen_message(self, current_student_response_str, previous_student_chat_history_str):
+    def handle_python_course_gen_message(self, current_student_response_str, previous_student_chat_history_str, user_past_information_dict):
+
+# Here is context on what has been generated for the student thus far, along with past information on the student:
+# - Student Goals Information Generated: False
+# - Number of Notes Generated: 0
+# - Number of Exercises Generated: 0
+# - Number of Exercises Completed by Student: 0
 
         q_prompt_template = """##Instructions:
 You will be helping a student who wants to learn Python.
@@ -296,10 +302,20 @@ Function Type Details:
         - "message_response": This will be the response you will give back to the student in your chat conversation.
 
 Here is context on what has been generated for the student thus far, along with past information on the student:
-- Student Goals Information Generated: False
-- Number of Notes Generated: 0
-- Number of Exercises Generated: 0
-- Number of Exercises Completed by Student: 0
+
+Student Goals Information Generated:
+{student_information_str}
+
+Notes Generated:
+{notes_generated_str}
+
+Exercises Generated:
+{exercises_generated_str}
+
+Exercises Completed By Student:
+{exercises_completed_by_student_str}
+
+Here is the past conversation history with the student, along with their current response:
 
 Previous Chat History with Student:
 {previous_student_chat_history_str}
@@ -336,9 +352,25 @@ Here are a few things to keep in mind:
         current_student_response_str = current_student_response_str.strip()
         previous_student_chat_history_str = previous_student_chat_history_str.strip()
 
+# {student_information_str}
+# - Notes Generated:
+# {notes_generated_str}
+# - Exercises Generated:
+# {exercises_generated_str}
+# - Exercises Completed By Student:
+# {exercises_completed_by_student_str}
+
+        # TODO: 
+            # add completed exercises string for user
+
         q_prompt_template = q_prompt_template.format(
             previous_student_chat_history_str = previous_student_chat_history_str,
-            current_student_response_str = current_student_response_str
+            current_student_response_str = current_student_response_str,
+
+            student_information_str = user_past_information_dict['student_background_text'],
+            notes_generated_str = user_past_information_dict['course_note_text'],
+            exercises_generated_str = user_past_information_dict['course_exercise_text'],
+            exercises_completed_by_student_str = ''
         )
         
         response = self._generate_answer(

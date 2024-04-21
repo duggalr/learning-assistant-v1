@@ -137,11 +137,49 @@ Below, you will be given a conversation with a student, along with the topic to 
 
 
 
-
-
     def generate_new_exercise(self):
-        pass
-    
+        q_prompt = """##Instructions:
+Below, you will be given notes and recent student/teacher conversation history.
+Your goal is to generate extremely well-thought out exercises for the student, given the notes and conversation history.
+The exercises should be Python programming exercises, where the student will implement the solution by writing code in an IDE.
+- The student already has an IDE environment with Python setup.
+Ensure the exercises are as clear as possible for the student to understand.
+
+Your response MUST BE OUTPUTED IN JSON FORMAT, containing the following key:
+- "exercises"
+    - This value will be a list of dictionaries (in JSON FORMAT) containing exercises, where each dictionary will contain:
+        - "question": this will be the question the student will work on.
+
+Below, you will be given a conversation with a student, along with the notes you will generate your exercise on.
+
+##Note Generation Topic:
+{topic_str}
+
+##Conversation History with Student
+{conversation_history}
+
+##Your Answer:
+"""
+        topic_str = topic_str.strip()
+        conversation_history = conversation_history.strip()
+        q_prompt = q_prompt.format(
+            topic_str = topic_str,
+            conversation_history = conversation_history
+        )
+
+        response = self._generate_answer(
+            prompt = q_prompt,
+            return_json = True
+        )
+
+        final_dict_rv = {
+            'q_prompt': q_prompt,
+            'response': response,
+        }
+        return final_dict_rv
+
+
+
 
     def generate_router(self, previous_student_chat_history_str, current_student_response_str, generated_learning_plan_str = None):
         q_prompt_template = """##Instructions:

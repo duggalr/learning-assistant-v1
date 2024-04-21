@@ -24,5 +24,6 @@ urlpatterns = [
     ## Python Course Gen
     path("course-gen/main", views.python_course_generation_main, name="python_course_generation_main"),
     path("course-gen/handle_python_course_gen_user_message", views.handle_python_course_gen_user_message, name="handle_python_course_gen_user_message"),
+    path("course-gen/tmp_python_course_generated_list", views.tmp_python_course_generated_list, name="tmp_python_course_generated_list"),
     
 ]

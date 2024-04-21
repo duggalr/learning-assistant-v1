@@ -219,6 +219,18 @@ def python_course_generation_main(request):
     )
 
 
+@user_authenticated_required
+def tmp_python_course_generated_list(request):
+    custom_user_id = request.session['custom_user_uuid']
+    custom_user_obj = CustomUser.objects.get(id = custom_user_id)
+    course_objects = PythonCourseParent.objects.filter(
+        user_obj = custom_user_obj
+    ).order_by('created_at')
+    return render(request, 'python-course-gen/tmp_course_list.html', {
+        'course_objects': course_objects
+    })
+
+
 
 ### Ajax Functions ###
 
@@ -479,13 +491,6 @@ def handle_python_course_gen_user_message(request):
     user_past_information_dict = utils._fetch_past_user_context_information(
         pcp_obj = pgen_obj
     )
-
-    # TODO:
-        # need to fix errors that are being generated with the prompt
-            # save_note being called unexpectedly when student-background-gen
-            # ai needs context that the IDE is present on the left side of the web-app
-            # ... 
-        # go from there
 
     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
     model_response_dict = op_ai_wrapper.handle_python_course_gen_message(

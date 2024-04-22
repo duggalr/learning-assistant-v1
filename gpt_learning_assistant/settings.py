@@ -94,7 +94,6 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 if 'PRODUCTION' in os.environ:
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -105,9 +104,7 @@ if 'PRODUCTION' in os.environ:
             'PORT': '5432',
         }
     }
-
 else:
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',

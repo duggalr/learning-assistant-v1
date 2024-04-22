@@ -7,3 +7,5 @@
 // let the user know they can ask questions about the outline that was generated, etc.
 // once you reviewed the notes, i can generated some exrecsies (also have gen-exercise-btn on uI)
 
+// TODO: handling conversation history
+

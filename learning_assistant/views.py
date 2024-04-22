@@ -5,7 +5,7 @@ import logging
 import ast
 
 from .models import *
-from .scripts import utils, open_ai_utils
+from .scripts import utils, open_ai_utils, open_ai_course_gen_utils
 
 
 ### Decorators ###
@@ -180,6 +180,8 @@ def python_course_generation_main(request):
     student_background_object = None
     course_notes_objects = []
     exercise_objects = []
+    # student_outline_dict = None
+    student_outline_obj = None
 
     if pcid is not None:
         python_course_object = get_object_or_404(PythonCourseParent, id = pcid)
@@ -194,17 +196,25 @@ def python_course_generation_main(request):
             model_text_response = model_text_response_dict['message_response'].strip()
             conversation_text_list.append([cobj.question, model_text_response])
         
-        student_background_object = PythonCourseStudentBackground.objects.filter(
-            pg_obj = python_course_object,
-        ).order_by('created_at')[0]
+        # student_background_object = PythonCourseStudentBackground.objects.filter(
+        #     pg_obj = python_course_object,
+        # ).order_by('created_at')[0]
+
+        student_outline_objects = PythonCourseStudentOutline.objects.filter(
+            pg_obj = python_course_object
+        )
+        if len(student_outline_objects) > 0:
+            student_outline_obj = student_outline_objects[0]
+            # student_outline_dict = ast.literal_eval(student_outline_obj.json_response)
+            student_outline_module_list = ast.literal_eval(student_outline_obj.module_list)
         
-        course_notes_objects = PythonCourseNote.objects.filter(
-            pg_obj = python_course_object,
-        ).order_by('created_at')
+        # course_notes_objects = PythonCourseNote.objects.filter(
+        #     pg_obj = python_course_object,
+        # ).order_by('-created_at')
         
-        exercise_objects = PythonCourseExercise.objects.filter(
-            pg_obj = python_course_object,
-        ).order_by('created_at')
+        # exercise_objects = PythonCourseExercise.objects.filter(
+        #     pg_obj = python_course_object,
+        # ).order_by('created_at')
     
     return render(
         request, 'python-course-gen/python_course_generation_main.html', {
@@ -212,9 +222,12 @@ def python_course_generation_main(request):
             'course_obj_id': python_course_object.id if python_course_object is not None else None,
             # 'conversation_objects': conversation_objects,
             'conversation_objects': conversation_text_list,
-            'student_background_object': student_background_object,
+            # 'student_background_object': student_background_object,
             'course_notes_objects': course_notes_objects,
-            'exercise_objects': exercise_objects
+            'exercise_objects': exercise_objects,
+            'student_outline_object': student_outline_obj,
+            'student_outline_module_list': student_outline_module_list,
+            'recent_course_markdown': course_notes_objects[0].note if len(course_notes_objects) > 0 else None
         }
     )
 
@@ -438,6 +451,7 @@ def handle_general_tutor_user_message(request):
 
 
 
+import json
 
 @require_POST
 def handle_python_course_gen_user_message(request):
@@ -477,100 +491,222 @@ def handle_python_course_gen_user_message(request):
             pg_obj = pgen_obj
         )
 
+        # TODO: appending the json to the prompt chat history <-- fix this and go from there; start with finalizing the generation/view of the course-outline
         prev_cv_list = []
         for pg_conv_obj in pg_conversation_objects[:open_ai_utils.MAX_CONVERSATION_HISTORY_LENGTH]:
             uc_question = pg_conv_obj.question
             uc_response = pg_conv_obj.response
+            # uc_response_json = json.loads(uc_response)
+            uc_response_json = ast.literal_eval(uc_response)
+            uc_response_text_str = uc_response_json['message_response'].strip()
             prev_cv_list.append(f"Question: { uc_question }")
-            prev_cv_list.append(f"Response: { uc_response }")
+            # prev_cv_list.append(f"Response: { uc_response }")
+            prev_cv_list.append(f"Response: { uc_response_text_str }")
 
         if len(prev_cv_list) > 0:
             prev_conversation_history_str = '\n'.join(prev_cv_list)
 
+    # # user_past_information_dict = utils._fetch_past_user_context_information(
+    # #     pcp_obj = pgen_obj
+    # # )
 
-    user_past_information_dict = utils._fetch_past_user_context_information(
-        pcp_obj = pgen_obj
+    # student_background_full_str = ""
+    # sb_objects = PythonCourseStudentBackground.objects.filter(
+    #     pg_obj = pgen_obj
+    # )
+    # if len(sb_objects) > 0:
+    #     student_background_full_str = sb_objects[0].student_background
+
+    student_background_full_str = ""
+    sbg_objects = PythonCourseStudentOutline.objects.filter(
+        pg_obj = pgen_obj
     )
+    if len(sbg_objects) > 0:
+        student_background_full_str = sbg_objects[0].student_background
 
-    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-    model_response_dict = op_ai_wrapper.handle_python_course_gen_message(
-        current_student_response_str = user_message,
+    # op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    op_ai_wrapper = open_ai_course_gen_utils.OpenAIWrapper()
+    model_response_dict = op_ai_wrapper.generate_router(
         previous_student_chat_history_str = prev_conversation_history_str,
-        user_past_information_dict = user_past_information_dict
+        current_student_response_str = user_message,
+        generated_learning_plan_str = student_background_full_str
+
+        # current_student_response_str = user_message,
+        # previous_student_chat_history_str = prev_conversation_history_str,
+        # user_past_information_dict = user_past_information_dict
     )
 
-    json_model_response = model_response_dict['response']
-    # model_text_reply = json_model_response['message_response']
+    q_prompt = model_response_dict['q_prompt']
+    model_response = model_response_dict['response']
 
-    if json_model_response['function_type'] == 'save_student_goals':
-        student_goals = json_model_response['student_goals'].strip()
-        pg_sb_obj = PythonCourseStudentBackground.objects.create(
-            pg_obj = pgen_obj,
-            student_background = student_goals
+    response_message_json_data = json.loads(model_response)
+    function_type = response_message_json_data['function_type']
+    message_response = response_message_json_data['message_response']
+    
+    ## Append past chat history
+    tmp_past_st = f"Student Response: {user_message}\nYour Response: {message_response}\n"
+    prev_conversation_history_str += tmp_past_st
+
+    ## Save conversation chat history
+    chat_cv_obj = PythonCourseConversation.objects.create(
+        pg_obj = pgen_obj,
+        question = user_message,
+        question_prompt = q_prompt,
+        response = str(response_message_json_data),
+    )
+    chat_cv_obj.save()
+
+    ## Function Calls
+
+    if function_type == 'generate_learning_plan':
+
+        student_learning_outline_model_dict = op_ai_wrapper.generate_learning_outline(
+            conversation_history = prev_conversation_history_str
         )
-        pg_sb_obj.save()
+        student_learning_outline_model_json = json.loads(student_learning_outline_model_dict['response'])
+        # generated_learning_plan_str_dict = str(student_learning_outline_model_json)
 
-    elif json_model_response['function_type'] == 'save_new_note':
-        note = json_model_response['note'].strip()
+        pc_outline_obj = PythonCourseStudentOutline.objects.create(
+            pg_obj = pgen_obj,
+            student_background = student_learning_outline_model_json['student_background'],
+            course_name = student_learning_outline_model_json['name'],
+            course_description = student_learning_outline_model_json['description'],
+            module_list = student_learning_outline_model_json['modules'],
+        )
+        pc_outline_obj.save()
+
+        student_outline_modules_list = student_learning_outline_model_json['modules']
+        for md in student_outline_modules_list:
+            mc_obj = PythonCourseStudentModuleChild.objects.create(
+                std_outline_obj = pc_outline_obj,
+                module_number = md['module_number'],
+                module_topic = md['module_topic'],
+                module_description = md['module_description'],
+            )
+            mc_obj.save()
+
+    elif function_type == 'generate_note_with_examples':
+
+        note_topic = response_message_json_data['note_topic']
+        # TODO: need to add limit to the previous conversation history
+        
+        tmp_note_dict = op_ai_wrapper.generate_new_note(
+            topic_str = note_topic,
+            conversation_history = prev_conversation_history_str
+        )
+        tmp_note_dict_json = json.loads(tmp_note_dict['response'])
+        tmp_course_notes_text = tmp_note_dict_json['course_notes']
+        
         pg_note_obj = PythonCourseNote.objects.create(
             pg_obj = pgen_obj,
-            note = note
+            note = tmp_course_notes_text
         )
         pg_note_obj.save()
-
-    elif json_model_response['function_type'] == 'update_existing_note':
-        note_id = json_model_response['note_id']
-        note_text = json_model_response['note_text'].strip()
         
-        # TODO: SECURITY RISK --> should also filter for user object
-        course_note_objects = PythonCourseNote.objects.filter(
-            id = note_id
-        )
-        if len(course_note_objects) == 0:  # TODO: simply going to create new note
-            pg_note_obj = PythonCourseNote.objects.create(
-                pg_obj = pgen_obj,
-                note = note
-            )
-            pg_note_obj.save()
-        
-        else:
-            pg_note_obj = course_note_objects[0]
-            pg_note_obj.note = note_text
-            pg_note_obj.save()
+    elif function_type == 'generate_new_exercise_question':
+        # # TODO: need to fetch the notes that will be used to generate the exercise, along with passing recent convesation history
+        # op_ai_wrapper.generate_new_exercise(
+        #     topic_str = ,
+        #     conversation_history = ,
+        # )
 
-    elif json_model_response['function_type'] == 'save_exercise':
-        exercise = json_model_response['exercise'].strip()
-        exercise_obj = PythonCourseExercise.objects.create(
-            pg_obj = pgen_obj,
-            exercise = exercise,
-            complete = False
-        )
-        exercise_obj.save()
+        raise NotImplementedError
 
-    elif json_model_response['function_type'] == 'mark_exercise_complete':
-        exercise_id = json_model_response['exercise_id'].strip()
-        exercise_objects = PythonCourseExercise.objects.filter(id = exercise_id)
-        if len(exercise_objects) == 0:
-            # TODO: what should be done here?
-            logging.error(f"For user: {custom_user_obj_id}, the exercise id: {exercise_id} from GPT did not find any corresponding exercise object.")
-            pass
-        else:
-            exercise_obj = exercise_objects[0]
-            exercise_obj.complete = True
-            exercise_obj.save()
-
-    elif json_model_response['function_type'] == 'no_function_needed':
+    elif function_type == 'no_function_needed':
+        # TODO: 
         pass
 
-    json_string_representation = str(json_model_response)
-    pg_new_cv_obj = PythonCourseConversation.objects.create(
-        pg_obj = pgen_obj,
-        question = model_response_dict['question'],
-        question_prompt = model_response_dict['q_prompt'],
-        response = json_string_representation
-    )
-    pg_new_cv_obj.save()
+    
+    # model_response_dict['pcid'] = pgen_obj.id
+    # return JsonResponse({'success': True, 'response': model_response_dict})
+    return JsonResponse({
+        'success': True, 
+        'function_type': function_type,
+        'model_response_text': message_response,
+        'pcid': pgen_obj.id
+        # 'response': model_response_dict
+    })
 
-    model_response_dict['pcid'] = pgen_obj.id
-    return JsonResponse({'success': True, 'response': model_response_dict})
+    # model_response_dict = op_ai_wrapper.handle_python_course_gen_message(
+    #     current_student_response_str = user_message,
+    #     previous_student_chat_history_str = prev_conversation_history_str,
+    #     user_past_information_dict = user_past_information_dict
+    # )
+
+    # json_model_response = model_response_dict['response']
+    # # model_text_reply = json_model_response['message_response']
+
+    # if json_model_response['function_type'] == 'save_student_goals':
+    #     student_goals = json_model_response['student_goals'].strip()
+    #     pg_sb_obj = PythonCourseStudentBackground.objects.create(
+    #         pg_obj = pgen_obj,
+    #         student_background = student_goals
+    #     )
+    #     pg_sb_obj.save()
+
+    # elif json_model_response['function_type'] == 'save_new_note':
+    #     note = json_model_response['note'].strip()
+    #     pg_note_obj = PythonCourseNote.objects.create(
+    #         pg_obj = pgen_obj,
+    #         note = note
+    #     )
+    #     pg_note_obj.save()
+
+    # elif json_model_response['function_type'] == 'update_existing_note':
+    #     note_id = json_model_response['note_id']
+    #     note_text = json_model_response['note_text'].strip()
+        
+    #     # TODO: SECURITY RISK --> should also filter for user object
+    #     course_note_objects = PythonCourseNote.objects.filter(
+    #         id = note_id
+    #     )
+    #     if len(course_note_objects) == 0:  # TODO: simply going to create new note
+    #         pg_note_obj = PythonCourseNote.objects.create(
+    #             pg_obj = pgen_obj,
+    #             note = note
+    #         )
+    #         pg_note_obj.save()
+        
+    #     else:
+    #         pg_note_obj = course_note_objects[0]
+    #         pg_note_obj.note = note_text
+    #         pg_note_obj.save()
+
+    # elif json_model_response['function_type'] == 'save_exercise':
+    #     exercise = json_model_response['exercise'].strip()
+    #     exercise_obj = PythonCourseExercise.objects.create(
+    #         pg_obj = pgen_obj,
+    #         exercise = exercise,
+    #         complete = False
+    #     )
+    #     exercise_obj.save()
+
+    # elif json_model_response['function_type'] == 'mark_exercise_complete':
+    #     exercise_id = json_model_response['exercise_id'].strip()
+    #     exercise_objects = PythonCourseExercise.objects.filter(id = exercise_id)
+    #     if len(exercise_objects) == 0:
+    #         # TODO: what should be done here?
+    #         logging.error(f"For user: {custom_user_obj_id}, the exercise id: {exercise_id} from GPT did not find any corresponding exercise object.")
+    #         pass
+    #     else:
+    #         exercise_obj = exercise_objects[0]
+    #         exercise_obj.complete = True
+    #         exercise_obj.save()
+
+    # elif json_model_response['function_type'] == 'no_function_needed':
+    #     pass
+
+    # json_string_representation = str(json_model_response)
+    # pg_new_cv_obj = PythonCourseConversation.objects.create(
+    #     pg_obj = pgen_obj,
+    #     question = model_response_dict['question'],
+    #     question_prompt = model_response_dict['q_prompt'],
+    #     response = json_string_representation
+    # )
+    # pg_new_cv_obj.save()
+
+    # model_response_dict['pcid'] = pgen_obj.id
+    # return JsonResponse({'success': True, 'response': model_response_dict})
+
+
 

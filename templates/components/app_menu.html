@@ -36,6 +36,13 @@
         &nbsp; -->
 
         {% if not anon_user %}
+            <a class="item" href="{% url 'tmp_python_course_generated_list' %}">
+                <i class="book icon"></i> Course Generation List
+            </a>
+            &nbsp;
+        {% endif %}
+
+        {% if not anon_user %}
             <a class="item" href="{% url 'dashboard' %}">
                 <i class="map pin icon"></i> Dashboard
             </a>

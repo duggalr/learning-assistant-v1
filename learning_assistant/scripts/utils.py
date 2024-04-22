@@ -7,7 +7,7 @@ import secrets
 import string
 
 from acc.models import CustomUser, AnonUser
-from learning_assistant.models import PlaygroundCode, UserGeneralTutorParent, PythonCourseParent, PythonCourseStudentBackground, PythonCourseNote, PythonCourseExercise
+from learning_assistant.models import PlaygroundCode, UserGeneralTutorParent, PythonCourseParent, PythonCourseNote, PythonCourseExercise
 
 
 def _create_anon_custom_user():
@@ -70,32 +70,32 @@ def _is_bad_user_session(session_data):
         return True, err_message
 
 
-def _fetch_past_user_context_information(pcp_obj):
+# def _fetch_past_user_context_information(pcp_obj):
     
-    student_background_full_str = ""
-    sb_objects = PythonCourseStudentBackground.objects.filter(
-        pg_obj = pcp_obj
-    )
-    if len(sb_objects) > 0:
-        student_background_full_str = sb_objects[0].student_background
+#     student_background_full_str = ""
+#     sb_objects = PythonCourseStudentBackground.objects.filter(
+#         pg_obj = pcp_obj
+#     )
+#     if len(sb_objects) > 0:
+#         student_background_full_str = sb_objects[0].student_background
 
-    course_notes_full_str = ""
-    course_note_objects = PythonCourseNote.objects.filter(
-        pg_obj = pcp_obj
-    )
-    if len(course_note_objects) > 0:
-        course_notes_full_str = '\n'.join([f"Note ID: {cn_obj.id} | Note Text: {cn_obj.note}" for cn_obj in course_note_objects])
+#     course_notes_full_str = ""
+#     course_note_objects = PythonCourseNote.objects.filter(
+#         pg_obj = pcp_obj
+#     )
+#     if len(course_note_objects) > 0:
+#         course_notes_full_str = '\n'.join([f"Note ID: {cn_obj.id} | Note Text: {cn_obj.note}" for cn_obj in course_note_objects])
 
-    course_exercise_full_str = ""
-    course_exercise_objects = PythonCourseExercise.objects.filter(
-        pg_obj = pcp_obj
-    )
-    if len(course_exercise_objects) > 0:
-        course_exercise_full_str = '\n'.join([f"Note ID: {ce_obj.id} | Exercise Text: {ce_obj.exercise}" for ce_obj in course_exercise_objects])
+#     course_exercise_full_str = ""
+#     course_exercise_objects = PythonCourseExercise.objects.filter(
+#         pg_obj = pcp_obj
+#     )
+#     if len(course_exercise_objects) > 0:
+#         course_exercise_full_str = '\n'.join([f"Note ID: {ce_obj.id} | Exercise Text: {ce_obj.exercise}" for ce_obj in course_exercise_objects])
 
-    rv = {
-        'student_background_text': student_background_full_str,
-        'course_note_text': course_notes_full_str,
-        'course_exercise_text': course_exercise_full_str
-    }
-    return rv
+#     rv = {
+#         'student_background_text': student_background_full_str,
+#         'course_note_text': course_notes_full_str,
+#         'course_exercise_text': course_exercise_full_str
+#     }
+#     return rv

@@ -49,8 +49,8 @@ class PythonCourseModuleParent(models.Model):
 class PythonCourseConversation(ChatConversation):
     pg_obj = models.ForeignKey(PythonCourseParent, on_delete=models.CASCADE)
 
-class PythonCourseStudentBackground(PythonCourseModuleParent):
-    student_background = models.TextField()
+# class PythonCourseStudentBackground(PythonCourseModuleParent):  # TODO: delete this model
+#     student_background = models.TextField()
 
 class PythonCourseNote(PythonCourseModuleParent):
     note = models.TextField()
@@ -59,3 +59,16 @@ class PythonCourseExercise(PythonCourseModuleParent):
     exercise = models.TextField()
     complete = models.BooleanField(default=False)
     completed_at = models.DateTimeField(auto_now=True)
+
+class PythonCourseStudentOutline(PythonCourseModuleParent):
+    # json_response = models.TextField()
+    student_background = models.TextField(blank=True, null=True)
+    course_name = models.TextField(blank=True, null=True)
+    course_description = models.TextField(blank=True, null=True)
+    module_list = models.TextField(blank=True, null=True)
+
+class PythonCourseStudentModuleChild(models.Model):
+    std_outline_obj = models.ForeignKey(PythonCourseStudentOutline, on_delete=models.CASCADE)
+    module_number = models.IntegerField()
+    module_topic = models.TextField()
+    module_description = models.TextField()

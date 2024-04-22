@@ -7,7 +7,7 @@
 
 <div class="ui grid playground-parent-container">
 
-    <div class="eight wide column">
+    <div class="eight wide column" style="padding-left: 30px;">
 
         {% if course_obj_id is not none %}
             <input id="course_obj_id" type="hidden" value="{{ course_obj_id }}" />
@@ -38,7 +38,10 @@
 
         <!-- Notes Markdown -->
         <div class="notes_div" style="display: none;">
-            <p id="course-outline-description" style="padding-top: 10px;"></p>
+            <!-- <p>
+                {{ course_notes_objects.0.note }}
+            </p> -->
+            <p id="notes-full-text" style="padding-top: 10px;"></p>
         </div>
 
         <!-- Exercises -->
@@ -56,10 +59,50 @@
 
         <!-- Student Background/Goals -->
         <div class="student_background_div" style="display: none;">
-            <p id="student-background-notes"></p>
-            <!-- <h3 class="ui header">Student Background/Goals</h3> -->
+            
+            {% if student_outline_object is not none %}
+
+                <p>
+                    {{ student_outline_object.course_name }}
+                </p>
+
+                <p id="student-background-notes">
+                    {{ student_outline_object.student_background }}
+                </p>
+                
+                <p>
+                    {{ student_outline_object.description }}
+                </p>
+                
+                <ul class="ui list">
+                    {% for l in student_outline_module_list %}
+                    <li>
+                        <!-- <strong>
+                            Module #{{ l.module_number }}: {{ l.module_topic }}
+                        </strong> -->
+                        <strong>Module #{{ l.module_number }}: {{ l.module_topic }}</strong>
+                        <ul>
+                            {% for tm in l.module_description %}
+                                <li>{{ tm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            {% else %}
+
+                <div class="ui placeholder segment" >
+                    <div class="ui icon header">
+                        <i class="pdf file outline icon"></i>
+                        No Course Outline Generated.
+                    </div>
+                </div>
+
+            {% endif %}
+
         </div>
-        
+
     </div>
 
 
@@ -370,8 +413,10 @@
     editor.setValue(`# Write your code here...\n\n\n\n\n`)
 
     // Notes Markdown
-    let course_note_md = '#HELLO\n';
-    document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
+    // let course_note_md = '#HELLO\n';
+    // document.getElementById('course-outline-description').innerHTML = marked.parse(course_note_md);
+    let course_note_md = `{{ recent_course_markdown|escapejs }}`;
+    document.getElementById('notes-full-text').innerHTML = marked.parse(course_note_md);
 
 
     /* Run Python Code */
@@ -471,53 +516,21 @@ mystdout.getvalue()
                 data: d,
                 success: function (response) {
 
-                    console.log('model-response:', response);
+//                     "{
+//   "function_type": "no_function_needed",
+//   "message_response": "That's great to hear that you're interested in learning Python! It's a very versatile language. Do you have any experience with programming or is Python going to be your first language?"
+// }"
+
+                    console.log('model-response:', response);                    
+
+                    let response_success = response['success'];
+                    let function_type = response['function_type'];
+                    let model_response_text = response['model_response_text'];
+                    let new_pcid = response['pcid'];
                     
-                    let ep_response_dict = response['response'];
-                    let ai_model_response_dict = ep_response_dict['response'];
-                    
-                    let user_question_text = ep_response_dict['question'];
-                    let model_response_text = ai_model_response_dict['message_response'];
+                    console.log('model-function-call:', function_type);
+
                     model_response_text = model_response_text.replaceAll('\n', '<br/>');
-
-                    let function_type = ai_model_response_dict['function_type'];
-                    
-                    if (function_type == 'save_student_goals'){
-
-                        let student_goals_text = ai_model_response_dict['student_goals'];
-                        $('#student-background-notes').text(student_goals_text);
-                        $('.student-background-tab').click();
-
-                    }
-                    else if (function_type == 'save_new_note'){
-
-                        let note_text = ai_model_response_dict['note'];
-                        $('#student-background-notes').text(note_text);
-                        $('.student-background-tab').click();
-
-                    }
-                    else if (function_type == 'update_existing_note'){
-
-                        let note_text = ai_model_response_dict['note'];
-                        $('#student-background-notes').text(note_text);
-                        $('.notes-tab').click();
-
-                    }
-                    else if (function_type == 'save_exercise'){
-
-                        let exercise_text = ai_model_response_dict['exercise'];
-                        $('#student-background-notes').text(exercise_text);
-                        $('.notes-tab').click();
-
-                        let current_exercise_list = $('#main-exercise-list');
-                        current_exercise_list.append('<div class="item">' + exercise_text + '</div>');
-
-                    }
-                    else if (function_type == 'mark_exercise_complete'){
-
-                        // TODO: implement this
-
-                    }
 
                     // Append Message to Chat
                     const responseMessage = document.createElement("div");
@@ -530,13 +543,106 @@ mystdout.getvalue()
                     $('#chatInput').prop('disabled', false);
                     $('#sendButton').show();
                     $('#primary_loading_button').hide();
-
-                    let new_pcid = ep_response_dict['pcid'];
+                    
                     var url = new URL(window.location.href);
                     url.searchParams.set('pcid', new_pcid);
                     window.history.replaceState(null, null, url);
-
                     $('#course_obj_id').val(new_pcid);
+
+
+                    // let ep_response_dict = response['response'];
+                    // let ai_model_response_dict = ep_response_dict['response'];
+                    
+                    // let user_question_text = ep_response_dict['question'];
+                    // let model_response_text = ai_model_response_dict['message_response'];
+                    // model_response_text = model_response_text.replaceAll('\n', '<br/>');
+
+                    // // // Append Message to Chat
+                    // // const responseMessage = document.createElement("div");
+                    // // responseMessage.className = "message";
+                    // // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text;
+                    // // chat.appendChild(responseMessage);
+
+                    // // chat.scrollTop = chat.scrollHeight;
+
+                    // // $('#chatInput').prop('disabled', false);
+                    // // $('#sendButton').show();
+                    // // $('#primary_loading_button').hide();
+
+                    // // let new_pcid = ep_response_dict['pcid'];
+                    // // var url = new URL(window.location.href);
+                    // // url.searchParams.set('pcid', new_pcid);
+                    // // window.history.replaceState(null, null, url);
+                    // // $('#course_obj_id').val(new_pcid);
+
+
+
+                    // let function_type = ai_model_response_dict['function_type'];
+                    
+                    // if (function_type == 'generate_learning_plan'){
+
+                    //     let 
+
+                    // }
+                    // else if (function_type == 'generate_note_with_examples'){
+
+                    // }
+
+                    // if (function_type == 'save_student_goals'){
+
+                    //     let student_goals_text = ai_model_response_dict['student_goals'];
+                    //     $('#student-background-notes').text(student_goals_text);
+                    //     $('.student-background-tab').click();
+
+                    // }
+                    // else if (function_type == 'save_new_note'){
+
+                    //     let note_text = ai_model_response_dict['note'];
+                    //     $('#student-background-notes').text(note_text);
+                    //     $('.student-background-tab').click();
+
+                    // }
+                    // else if (function_type == 'update_existing_note'){
+
+                    //     let note_text = ai_model_response_dict['note'];
+                    //     $('#student-background-notes').text(note_text);
+                    //     $('.notes-tab').click();
+
+                    // }
+                    // else if (function_type == 'save_exercise'){
+
+                    //     let exercise_text = ai_model_response_dict['exercise'];
+                    //     $('#student-background-notes').text(exercise_text);
+                    //     $('.notes-tab').click();
+
+                    //     let current_exercise_list = $('#main-exercise-list');
+                    //     current_exercise_list.append('<div class="item">' + exercise_text + '</div>');
+
+                    // }
+                    // else if (function_type == 'mark_exercise_complete'){
+
+                    //     // TODO: implement this
+
+                    // }
+
+                    // // Append Message to Chat
+                    // const responseMessage = document.createElement("div");
+                    // responseMessage.className = "message";
+                    // responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_text;
+                    // chat.appendChild(responseMessage);
+
+                    // chat.scrollTop = chat.scrollHeight;
+
+                    // $('#chatInput').prop('disabled', false);
+                    // $('#sendButton').show();
+                    // $('#primary_loading_button').hide();
+
+                    // let new_pcid = ep_response_dict['pcid'];
+                    // var url = new URL(window.location.href);
+                    // url.searchParams.set('pcid', new_pcid);
+                    // window.history.replaceState(null, null, url);
+
+                    // $('#course_obj_id').val(new_pcid);
 
                 },
                 error: function (response) {}

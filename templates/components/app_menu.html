@@ -1,0 +1,78 @@
+{% load static %}
+
+<div class="ui secondary pointing menu app-secondary-top-menu">
+
+    {% if not anon_user %}
+        <a class="item app-navbar-logo" >
+            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
+            <i class="code icon"></i>Companion
+        </a>
+    {% else %}
+        <a class="item app-navbar-logo" href="{% url 'landing' %}">
+            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
+            <i class="code icon"></i>Companion
+        </a>
+    {% endif %}
+    
+    <div class="right menu">
+        
+        <!-- <a class="item">
+            Your Courses
+        </a>
+
+        <a class="item">
+            Generate A Course
+        </a> -->
+
+        <!-- {% if not anon_user %}
+            <a class="item" >
+                <i class="home icon"></i> Your Dashboard
+            </a>
+        {% else %}
+            <a class="disabled item">
+                Your Dashboard (signup..)
+            </a>
+        {% endif %}
+        &nbsp; -->
+
+        {% if not anon_user %}
+            <a class="item" href="{% url 'dashboard' %}">
+                <i class="map pin icon"></i> Dashboard
+            </a>
+            &nbsp;
+        {% endif %}
+
+        <a class="item" href="{% url 'playground' %}">
+            <i class="code icon"></i> IDE
+        </a>
+        &nbsp;
+
+        &nbsp;
+        <a class="item" href="{% url 'general_cs_tutor' %}">
+            <i class="code icon"></i> Chat with Tutor
+        </a>
+        &nbsp;
+
+        <!-- <a class="item">
+            <i class="comment alternate icon"></i> Chat
+        </a>
+        &nbsp; -->
+        
+        {% if not anon_user %}
+            <div class="ui item">
+                <i class="user icon"></i>
+                <strong>{{ current_user_email }}</strong>
+            </div>
+            &nbsp;
+            <a class="item" href="{% url 'logout' %}">
+                <i class="sign out alternate icon"></i> Logout
+            </a>
+
+        {% else %}
+        <a class="ui item" href="{% url 'login' %}">
+            <i class="user icon"></i> Signup / Login
+        </a>
+        {% endif %}
+
+    </div>
+</div>

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'acc',
     'learning_assistant',
     'storages'
 ]
@@ -93,7 +94,6 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 if 'PRODUCTION' in os.environ:
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -104,9 +104,7 @@ if 'PRODUCTION' in os.environ:
             'PORT': '5432',
         }
     }
-
 else:
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -224,3 +222,31 @@ if 'PRODUCTION' in os.environ:
 ## File Upload Settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MAX_FILE_SIZE = 5000000
+
+#Auth0 Settings
+AUTH0_CALLBACK_SUCCESS_REDIRECT_VIEW = 'dashboard'
+AUTH0_LOGOUT_REDIRECT_VIEW = 'landing'
+
+
+## sentry
+import sentry_sdk
+
+if 'PRODUCTION' in os.environ:
+    sentry_sdk.init(
+        dsn="https://265c2e6efaa83925b2263de237b5dc11@o4507099458174976.ingest.us.sentry.io/4507099459944448",
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        traces_sample_rate=1.0,
+        # Set profiles_sample_rate to 1.0 to profile 100%
+        # of sampled transactions.
+        # We recommend adjusting this value in production.
+        profiles_sample_rate=1.0,
+        environment='PRODUCTION'
+    )
+else:
+    sentry_sdk.init(
+        dsn="https://265c2e6efaa83925b2263de237b5dc11@o4507099458174976.ingest.us.sentry.io/4507099459944448",
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+        environment='LOCAL'
+    )

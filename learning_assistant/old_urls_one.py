@@ -1,40 +1,40 @@
 from django.urls import path
 
-from . import views
+from . import old_views_two
 
 
 urlpatterns = [
 
     # Auth0
-    path("login", views.login, name="login"),
-    path("logout", views.logout, name="logout"),
-    path("callback", views.callback, name="callback"),
+    path("login", old_views_two.login, name="login"),
+    path("logout", old_views_two.logout, name="logout"),
+    path("callback", old_views_two.callback, name="callback"),
 
     # # Primary Views
     # path("test_page", views.test_page, name="test_page"),
 
-    path("", views.landing, name="landing"),
-    path("about", views.about, name="about"),
-    path("dashboard", views.dashboard, name="dashboard"),
+    path("", old_views_two.landing, name="landing"),
+    path("about", old_views_two.about, name="about"),
+    path("dashboard", old_views_two.dashboard, name="dashboard"),
     
-    path("landing_email_subscribe_handle", views.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
+    path("landing_email_subscribe_handle", old_views_two.landing_email_subscribe_handle, name="landing_email_subscribe_handle"),
 
     # OLD:
     ### path("landing_teacher_email_input", views.landing_teacher_email_input, name="landing_teacher_email_input"),
 
     # path("practice-questions", views.practice_questions, name="practice_questions"),
 
-    path("general-tutor", views.general_cs_tutor, name="general_cs_tutor"),
-    path("handle_general_tutor_user_message", views.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
+    path("general-tutor", old_views_two.general_cs_tutor, name="general_cs_tutor"),
+    path("handle_general_tutor_user_message", old_views_two.handle_general_tutor_user_message, name="handle_general_tutor_user_message"),
 
     # path("lesson-plan", views.lesson_dashboard, name="lesson_dashboard"),
     # path("questions/<int:lid>", views.questions, name="questions"),
 
-    path("playground", views.playground, name="playground"),
-    path("handle_user_message", views.handle_user_message, name="handle_user_message"),
-    path("save_user_code", views.save_user_code, name="save_user_code"),
+    path("playground", old_views_two.playground, name="playground"),
+    path("handle_user_message", old_views_two.handle_user_message, name="handle_user_message"),
+    path("save_user_code", old_views_two.save_user_code, name="save_user_code"),
 
-    path("handle_file_name_change", views.handle_file_name_change, name="handle_file_name_change"),
+    path("handle_file_name_change", old_views_two.handle_file_name_change, name="handle_file_name_change"),
 
     # path("handle_code_submit", views.handle_code_submit, name="handle_code_submit"),
     
@@ -67,17 +67,17 @@ urlpatterns = [
     
 
     ## Files
-    path("handle_user_file_upload", views.handle_user_file_upload, name="handle_user_file_upload"),
-    path("file_view/<int:file_id>", views.user_file_viewer, name="user_file_view"),
-    path("handle_user_file_question", views.handle_user_file_question, name="handle_user_file_question"),
+    path("handle_user_file_upload", old_views_two.handle_user_file_upload, name="handle_user_file_upload"),
+    path("file_view/<int:file_id>", old_views_two.user_file_viewer, name="user_file_view"),
+    path("handle_user_file_question", old_views_two.handle_user_file_question, name="handle_user_file_question"),
 
     # # General New Views
     # path("new_landing", views.new_landing_main, name="new_landing_main"),
 
 
     ## Admin Views
-    path("admin-dashboard", views.super_user_admin_dashboard, name="super_user_admin_dashboard"),
-    path("admin-student-profile/<int:uid>", views.super_user_admin_student_page, name="super_user_admin_student_page"),
+    path("admin-dashboard", old_views_two.super_user_admin_dashboard, name="super_user_admin_dashboard"),
+    path("admin-student-profile/<int:uid>", old_views_two.super_user_admin_student_page, name="super_user_admin_student_page"),
 
 
     # ## Custom Learning Views
@@ -87,31 +87,31 @@ urlpatterns = [
 
 
     ## New Python Course Home
-    path("python-course", views.new_course_home, name="new_course_home"),
-    path("python-lesson/<int:lid>", views.new_course_lesson_page, name="new_course_lesson_page"),
+    path("python-course", old_views_two.new_course_home, name="new_course_home"),
+    path("python-lesson/<int:lid>", old_views_two.new_course_lesson_page, name="new_course_lesson_page"),
     
-    path("python-playground", views.new_course_playground, name="new_course_playground"),
-    path("new_course_handle_user_message", views.new_course_handle_user_message, name="new_course_handle_user_message"),
-    path("new_course_handle_solution_submit", views.new_course_handle_solution_submit, name="new_course_handle_solution_submit"),
-    path("new_course_save_user_code", views.new_course_save_user_code, name="new_course_save_user_code"),
+    path("python-playground", old_views_two.new_course_playground, name="new_course_playground"),
+    path("new_course_handle_user_message", old_views_two.new_course_handle_user_message, name="new_course_handle_user_message"),
+    path("new_course_handle_solution_submit", old_views_two.new_course_handle_solution_submit, name="new_course_handle_solution_submit"),
+    path("new_course_save_user_code", old_views_two.new_course_save_user_code, name="new_course_save_user_code"),
 
-    path("new_course_video_handle_message", views.new_course_video_handle_message, name="new_course_video_handle_message"),
+    path("new_course_video_handle_message", old_views_two.new_course_video_handle_message, name="new_course_video_handle_message"),
 
-    path("new_course_random_question", views.new_course_random_question, name="new_course_random_question"),
+    path("new_course_random_question", old_views_two.new_course_random_question, name="new_course_random_question"),
 
-    path("admin-python-lesson", views.admin_new_course_dashboard, name="admin_new_course_dashboard"),
-    path("admin-python-lesson-management", views.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
-    path("admin-python-lesson-question-management/<int:lid>", views.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),
+    path("admin-python-lesson", old_views_two.admin_new_course_dashboard, name="admin_new_course_dashboard"),
+    path("admin-python-lesson-management", old_views_two.admin_new_course_lesson_management, name="admin_new_course_lesson_management"),
+    path("admin-python-lesson-question-management/<int:lid>", old_views_two.admin_new_course_lesson_question_management, name="admin_new_course_lesson_question_management"),
 
-    path("admin-python-question-view/<int:qid>", views.admin_new_course_question_view, name="admin_new_course_question_view"),
-    path("admin-python-lesson-order-management", views.admin_new_course_lesson_order_management, name="admin_new_course_lesson_order_management"),
-    path("admin-python-lesson-delete", views.admin_new_course_lesson_delete, name="admin_new_course_lesson_delete"),
+    path("admin-python-question-view/<int:qid>", old_views_two.admin_new_course_question_view, name="admin_new_course_question_view"),
+    path("admin-python-lesson-order-management", old_views_two.admin_new_course_lesson_order_management, name="admin_new_course_lesson_order_management"),
+    path("admin-python-lesson-delete", old_views_two.admin_new_course_lesson_delete, name="admin_new_course_lesson_delete"),
 
-    path("admin-python-question_delete", views.admin_new_course_question_delete, name="admin_new_course_question_delete"),
+    path("admin-python-question_delete", old_views_two.admin_new_course_question_delete, name="admin_new_course_question_delete"),
     
-    path("admin-python-question-order-management", views.admin_new_course_question_order_management, name="admin_new_course_question_order_management"),
+    path("admin-python-question-order-management", old_views_two.admin_new_course_question_order_management, name="admin_new_course_question_order_management"),
 
-    path("admin-python-question-handle-feedback", views.new_course_handle_ai_feedback, name="new_course_handle_ai_feedback"),
+    path("admin-python-question-handle-feedback", old_views_two.new_course_handle_ai_feedback, name="new_course_handle_ai_feedback"),
 
 ]
 

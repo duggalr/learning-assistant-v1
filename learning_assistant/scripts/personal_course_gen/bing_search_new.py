@@ -9,12 +9,12 @@ if 'PRODUCTION' not in os.environ:
     load_dotenv(dot_env_file)
 
 
-def get_bing_results(query):
+def get_bing_results(query, k = 8):
     subscription_key = os.environ['BING_SEARCH_V7_SUBSCRIPTION_KEY']
     endpoint = os.environ['BING_SEARCH_V7_ENDPOINT'] + "/v7.0/search"
 
     mkt = 'en-US'
-    params = { 'q': query, 'mkt': mkt, 'answerCount': 10, 'responseFilter': 'Webpages'}
+    params = { 'q': query, 'mkt': mkt, 'answerCount': k, 'responseFilter': 'Webpages'}
     headers = { 'Ocp-Apim-Subscription-Key': subscription_key }
 
     response = requests.get(

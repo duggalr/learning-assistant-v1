@@ -1,0 +1,327 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/app_menu.html' %}
+{% include 'components/left_side_bar.html' %}
+
+<!-- Desktop Grid View -->
+<div class="ui grid tutor_chat_parent_container" style="display: none;">
+
+    <div class="three wide column"></div>
+
+    <div class="eleven wide column" style="margin-left: 5.5%; margin-top: 0.5%;">
+        
+        <h3 class="ui header tutor_chat_header">
+            <span>&#127922;</span>&nbsp;&nbsp;Chat
+        </h3>
+        
+        <span class="tutor_helper_span">
+            Visit our <a href="{% url 'playground' %}">code editor</a>, if you would like to run your code and get help from the AI, as needed.
+            <a href="{% url 'login' %}">Signup</a> to save your conversations.
+        </span>
+
+        <div class="desktop-tutor-chat-container" id="general-chat-div">
+
+            <div class="tutor-chat-message">
+
+                <strong>
+                    Welcome! &nbsp; &#128588&nbsp;
+                    I'm your personal learning assistant. 
+                </strong>
+                <br/><br/>
+                <span style="font-weight: bold;">
+                    My goal is to help you on your learning journey. You can use me for:
+                </span>
+                <ul class="ui list">
+                    <li>Exploring a new Computer Science Topic</li>
+                    <li>Developing an outline or learning plan on a new subject you are trying to learn</li>
+                    <li>Getting help on your homework questions.</li>
+                </ul>
+                
+                <!-- <br/><br/>
+                If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
+                learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts. -->
+            </div>
+
+            <hr>
+            <br/>
+
+            {% if current_conversation_list|length > 0 %}
+
+                {% for ucs_obj in current_conversation_list %}
+                            
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+        <div class="tutor-chat-input-container">
+
+            <div class="ui form" style="width: 100%;">
+                <div class="field">
+                    <textarea rows="2" id="general_tutor_chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
+                </div>                    
+            </div>
+            &nbsp;
+            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+            {% if current_conversation_list|length > 0 %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id" value="{{ current_conversation_parent_object.id }}">
+            {% else %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
+            {% endif %}
+
+        </div>
+
+        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+        </span>
+
+    </div>
+
+</div>    
+
+
+<!-- Tablet Grid View -->
+<div class="ui grid mobile_tutor_chat_parent_container" style="display: none;">
+
+    <div class="six wide column"></div>
+
+    <div class="nine wide column">
+
+        <h3 class="ui header tutor_chat_header">
+            <span>&#127922;</span>&nbsp;&nbsp;Chat
+        </h3>        
+
+        <span class="tutor_helper_span">
+            Visit our <a href="{% url 'playground' %}">code editor</a>, if you would like to run your code and get help from the AI, as needed.
+            <a href="{% url 'login' %}">Signup</a> to save your conversations.
+        </span>
+
+        <div class="mobile-tutor-chat-container" id="general-chat-div">
+
+            <div class="tutor-chat-message">
+
+                <strong>
+                    Welcome! &nbsp; &#128588&nbsp;
+                    I'm your personal learning assistant. 
+                </strong>
+                <br/><br/>
+                My goal is to help you on your learning journey, whether you need help with homework or want to explore a CS topic.
+                <br/><br/>
+                If you need help knowing where to start in a new field, feel free to ask me and I will help construct your
+                learning plan, along with questions or quizzes to ensure you have a deep understanding of the concepts.
+            </div>
+
+            <hr>
+            <br/>
+
+            {% if current_conversation_list|length > 0 %}
+
+                {% for ucs_obj in current_conversation_list %}
+                            
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>You: </b>{{ ucs_obj.question | safe }}</div>
+                    <div class="tutor-chat-message" style="white-space: pre-line;"><b>GPT-4: </b>{{ ucs_obj.response | safe }}</div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+        <div class="tutor-chat-input-container">
+
+            <div class="ui form" style="width: 100%;">
+                <div class="field">
+                    <textarea rows="2" id="general_tutor_chatInput" class="input-box form-control" placeholder="ask away..."></textarea>
+                </div>                    
+            </div>
+            &nbsp;
+            <button id="sendButton" class="ui primary button disabled send-button">Send</button>
+            <button class="ui primary loading button" id="primary_loading_button" style="display: none;">Loading</button>
+
+            {% if current_conversation_list|length > 0 %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id" value="{{ current_conversation_parent_object.id }}">
+            {% else %}
+                <input type="hidden" id="general_cs_chat_parent_obj_id" name="general_cs_chat_parent_obj_id">
+            {% endif %}
+
+        </div>
+
+        <span style="font-size: 12px; color: gray; padding-bottom: 20px;">
+            Answer Response usually takes 15-30 seconds. (this will get better soon...)
+        </span>
+        
+    </div>
+
+</div>
+
+
+
+<script>
+
+    const custom_user_obj = '{{ custom_user_obj }}';
+    const custom_user_obj_id = '{{ custom_user_obj_id }}';
+    const is_anon_user =  '{{ anon_user }}';
+
+    console.log('is_anon_user', is_anon_user);
+
+    // Chat Functionality
+    const chat = document.getElementById("general-chat-div");
+    // const chat = document.getElementsByClassName('tutor-chat-container');
+    const chatInput = document.getElementById("general_tutor_chatInput");
+    const sendButton = document.getElementById("sendButton");
+
+    sendButton.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keydown", (event) => {
+    
+        if (event.keyCode == 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+
+    });
+
+    // document.body.style.background = "#f9f9f9";
+    document.body.style.background = "white";
+
+    $("#general_tutor_chatInput").on('keyup', function(event) {
+        
+        var currentString = $("#general_tutor_chatInput").val()
+
+        if (currentString.length > 0){
+
+            $('#sendButton').removeClass('disabled');
+            
+        } else {
+            $('#sendButton').addClass('disabled');
+        }
+        
+    });
+
+
+
+    function sendMessage() {
+
+        const messageText = chatInput.value.trim();
+
+        if (messageText !== "") {
+
+            $('#general_tutor_chatInput').prop('disabled', true);
+
+            $('#sendButton').hide();
+            $('#primary_loading_button').show();
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.innerHTML = "<b>You:</b> " + messageText;
+            message.style.whiteSpace = 'pre-wrap'
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+            
+            chatInput.value = "";
+
+            console.log('message:', messageText)
+
+            // let uc_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
+            // let user_conversation_obj_id = $('#user_conversation_obj_id').val();
+            let general_tutor_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
+
+            // let prev_conversation_history = []
+            // if (initial_user_session == 'None'){
+            //     // anon user, fetch messages from localstorage
+            //     if (anon_user_messages.length > 0){
+            //         prev_conversation_history = anon_user_messages.slice( anon_user_messages.length-6, anon_user_messages.length )
+            //     }
+
+            // }
+
+            // let prev_conversation_history_st = ''
+            // if (prev_conversation_history.length > 0){
+            //     prev_conversation_history_st = prev_conversation_history.join('\n');
+            // }
+
+            // let general_cs_chat_parent_obj_id = $('#general_cs_chat_parent_obj_id').val();
+
+            let d = {
+                'custom_user_obj_id': custom_user_obj_id,
+                'general_tutor_parent_obj_id': general_tutor_parent_obj_id,
+                'message': messageText,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'handle_general_tutor_user_message' %}",
+                dataType: "json",
+                data: d,
+                success: function (response) {
+
+                    var model_response_dict = response['response'];
+                    console.log('Response Dict:', model_response_dict)
+
+                    var model_response_message = model_response_dict['response'];
+                    model_response_message = model_response_message.replaceAll('\n', '<br/>');
+
+                    console.log('Response:', model_response_message)
+
+                    var user_question = model_response_dict['student_response'];
+
+                    const responseMessage = document.createElement("div");
+                    responseMessage.className = "message";
+                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                    // responseMessage.innerText = "<b>GPT-4:</b> " + model_response_message;
+                    chat.appendChild(responseMessage);
+                    
+                    chat.scrollTop = chat.scrollHeight;
+
+                    $('#general_tutor_chatInput').prop('disabled', false);
+                    $('#sendButton').show();
+                    $('#primary_loading_button').hide();
+
+                    let parent_chat_obj_id = model_response_dict['uct_parent_obj_id'];
+
+                    // var final_question_st = "Question: " + messageText
+                    // var final_response_st = "Response: " + model_response_message
+
+                    $('#general_cs_chat_parent_obj_id').val(parent_chat_obj_id);
+                    let urlParams = new URLSearchParams(window.location.search);
+                    let current_url_tchid_param = urlParams.get('tchid');
+
+                    // if (is_anon_user == 'True'){}
+                    if (current_url_tchid_param === null && is_anon_user == 'False'){
+                            
+                        let current_cv_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/cs-tutor?tchid=' + parent_chat_obj_id;
+                        console.log('current_cv_url:', current_cv_url);
+
+                        let href_st = '<a href="' + current_cv_url + '">Current Conversation</a>';
+                        $('.user_past_conversation_list').prepend('<li>' + href_st + '</li>');
+
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('tchid', parent_chat_obj_id);
+                        window.history.replaceState(null, null, url);
+
+                    };
+
+                },
+
+                error: function (response) {}
+                
+            });
+            
+        }
+
+    };
+
+</script>
+
+{% endblock %}
+

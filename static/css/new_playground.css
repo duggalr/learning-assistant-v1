@@ -44,6 +44,8 @@
     /* margin-left: 55px; */
     margin-left: 10px;
     margin-top: 10px;
+    /* background-color: red !important; */
+    /* background-color: #afafaf !important; */
 }
 
 .ui.tabular.menu .active.item{
@@ -81,7 +83,7 @@
 
 .console_textarea_parent{
     /* padding-top: 6.5%; */
-    padding-top: 4%;
+    padding-top: 5%;
 }
 
 .console_helper_text{

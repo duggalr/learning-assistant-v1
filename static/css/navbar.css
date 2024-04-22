@@ -6,10 +6,13 @@
 
 .landing-navbar-parent{
     /* margin-top: 1% !important; */
+
     margin: 0;
     padding: 0;
-    padding-left: 7%;
-    margin-top: 1.2% !important;
+    padding-left: 30px;
+    padding-top: 10px;
+    /* padding-left: 7%; */
+    /* margin-top: 1.2% !important; */
 }
 
 /* .navbar-logo{
@@ -46,8 +49,8 @@
 }
 
 .nav-links-parent{
-    /* margin-right: 0%; */
-    padding-right: 130px;
+    /* padding-right: 130px; */
+    padding-right: 40px;
 }
 
 /* #landing_parent_div .item{ */

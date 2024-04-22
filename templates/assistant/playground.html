@@ -19,6 +19,7 @@
 
     </div>
 
+    <!-- #f9f9f9 !important -->
     <div class="seven wide column ai-console-tutor-parent-column">
 
         <div class="ui tabular menu tab-menu-div">
@@ -352,72 +353,70 @@
             indentWithTabs: true,
             matchBrackets: true,
             theme: "duotone-light",
+            // theme: "base16-dark",
             // theme: "yeti",
             scrollbarStyle: "null",
             lineWrapping: true,
         });
 
     }
-    else if (lg_val == 'clike'){
+    // else if (lg_val == 'clike'){
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: "text/x-csrc",
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
+    //     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    //         mode: {
+    //             name: "text/x-csrc",
+    //             singleLineStringErrors: false
+    //         },
+    //         lineNumbers: true,
+    //         indentUnit: 4,
+    //         indentWithTabs: true,
+    //         matchBrackets: true,
+    //         theme: "duotone-light",
+    //         // theme: "yeti",
+    //         scrollbarStyle: "null",
+    //         lineWrapping: true,
+    //     });
 
+    // }
+    // else if (lg_val == 'go'){
 
-    }
-    else if (lg_val == 'go'){
+    //     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    //         mode: {
+    //             name: "go",
+    //             singleLineStringErrors: false
+    //         },
+    //         lineNumbers: true,
+    //         indentUnit: 4,
+    //         indentWithTabs: true,
+    //         matchBrackets: true,
+    //         theme: "duotone-light",
+    //         // theme: "yeti",
+    //         scrollbarStyle: "null",
+    //         lineWrapping: true,
+    //     });
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: "go",
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
+    // }
+    // else if (lg_val == 'html-mixed'){
 
-    }
-    else if (lg_val == 'html-mixed'){
+    //     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    //         mode: {
+    //             name: "htmlmixed",
+    //             singleLineStringErrors: false
+    //         },
+    //         lineNumbers: true,
+    //         indentUnit: 4,
+    //         indentWithTabs: true,
+    //         matchBrackets: true,
+    //         theme: "duotone-light",
+    //         // theme: "yeti",
+    //         scrollbarStyle: "null",
+    //         lineWrapping: true,
+    //     });
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: {
-                name: "htmlmixed",
-                singleLineStringErrors: false
-            },
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            matchBrackets: true,
-            theme: "duotone-light",
-            // theme: "yeti",
-            scrollbarStyle: "null",
-            lineWrapping: true,
-        });
+    // }
 
-    }
-
-    
-    // editor.setSize(700, 720);
-    // editor.setSize(500, 620)
-    
+    // // editor.setSize(700, 720);
+    // // editor.setSize(500, 620)
     
     if (user_code_obj != 'None'){
 

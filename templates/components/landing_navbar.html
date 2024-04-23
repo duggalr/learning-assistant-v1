@@ -24,9 +24,6 @@
         <a class="item" href="{% url 'general_cs_tutor' %}">
             💬&nbsp;&nbsp;<span style="font-size: 16px;">Chat</span>
         </a>
-        <!-- <a class="item" href="{% url 'about' %}">
-            ℹ️&nbsp;&nbsp;<span style="font-size: 16px;">About</span>
-        </a> -->
         <a class="item" href="{% url 'blog' %}">
             ✍️&nbsp;&nbsp;<span style="font-size: 16px;">Blog</span>
         </a>
@@ -44,9 +41,6 @@
 
             {% if not anon_user %}
                 <button id="user-dashboard-button" class="ui button gradient-button">Visit Your Dashboard</button>
-                <!-- <a class="item" href="{% url 'logout' %}">
-                    🚪&nbsp;&nbsp;<span style="font-size: 16px;">logout</span>
-                </a> -->
             {% else %}
                 <button id="signup-login-button" class="ui button gradient-button">Signup or Login</button>
             {% endif %}

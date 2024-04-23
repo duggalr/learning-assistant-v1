@@ -37,7 +37,7 @@
     word-break: break-word;
 }
 
-.CodeMirror { height: 100% !important; }
+.CodeMirror { height: 100.5% !important; }
 
 .ai-console-tutor-parent-column{
     /* margin-left: 65px; */

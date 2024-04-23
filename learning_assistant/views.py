@@ -37,7 +37,6 @@ def landing(request):
         'anon_user': anon_user
     })
 
-
 def about(request):
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
@@ -45,6 +44,23 @@ def about(request):
     return render(request, 'generic/about.html', {
         'anon_user': anon_user
     })
+
+def blog(request):
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    return render(request, 'generic/blog.html', {
+        'anon_user': anon_user
+    })
+
+def faq(request):
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    return render(request, 'generic/faq.html', {
+        'anon_user': anon_user
+    })
+
 
 
 

@@ -1,0 +1,38 @@
+/* .faq-divided-list .item{
+    padding-top: 20px;
+    padding-bottom: 20px;
+} */
+
+/* .item .header{
+    font-size: ;
+} */
+
+/* .faq-parent-column-div{
+    width: 125%;
+} */
+
+/* .faq-segment-div{
+    width: 100%;
+} */
+
+.faq-header{
+    font-size: 22px !important;
+}
+
+.item{
+    padding-top: 20px !important;
+    padding-bottom: 25px !important;
+}
+
+
+.item .header{
+    font-size: 17px;
+    font-family: "Raleway", sans-serif !important;
+}
+
+.item .description{
+    font-size: 15.5px;
+    line-height: 1.6em;
+}
+
+

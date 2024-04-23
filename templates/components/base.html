@@ -90,15 +90,11 @@
     <!-- Heap Analytics -->
     <script type="text/javascript">
 
+        // Only Initialize Heap for Production Environment
         if (window.location.hostname == 'codecompanion.app'){
             
             window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
             heap.load("2744997142");
-
-        } else {
-
-            window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
-            heap.load("2622467177");
 
         }
 
@@ -123,7 +119,11 @@
     var initial_user_session = '{{ request.session }}';
     var anon_user_id = '{{ anon_user_id }}';
     var custom_user_object_id = '{{ custom_user_obj_id }}';
-    heap.identify(custom_user_object_id);
+    
+    // Only Initialize Heap for Production Environment
+    if (window.location.hostname == 'codecompanion.app'){
+        heap.identify(custom_user_object_id);
+    }
 
 </script>
 

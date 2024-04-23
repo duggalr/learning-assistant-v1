@@ -4,37 +4,16 @@
 
     {% if not anon_user %}
         <a class="item app-navbar-logo" >
-            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
             <i class="code icon"></i>Companion
         </a>
     {% else %}
         <a class="item app-navbar-logo" href="{% url 'landing' %}">
-            <!-- <img src="{% static 'icons/chat-text-dynamic-color.svg' %}" style="width: 3%;"> -->
             <i class="code icon"></i>Companion
         </a>
     {% endif %}
     
     <div class="right menu">
         
-        <!-- <a class="item">
-            Your Courses
-        </a>
-
-        <a class="item">
-            Generate A Course
-        </a> -->
-
-        <!-- {% if not anon_user %}
-            <a class="item" >
-                <i class="home icon"></i> Your Dashboard
-            </a>
-        {% else %}
-            <a class="disabled item">
-                Your Dashboard (signup..)
-            </a>
-        {% endif %}
-        &nbsp; -->
-
         {% if not anon_user %}
             <a class="item" href="{% url 'dashboard' %}">
                 <i class="map pin icon"></i> Dashboard
@@ -52,11 +31,6 @@
             <i class="code icon"></i> Chat with Tutor
         </a>
         &nbsp;
-
-        <!-- <a class="item">
-            <i class="comment alternate icon"></i> Chat
-        </a>
-        &nbsp; -->
         
         {% if not anon_user %}
             <div class="ui item">
@@ -75,4 +49,5 @@
         {% endif %}
 
     </div>
+    
 </div>

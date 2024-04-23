@@ -19,22 +19,19 @@
     font-size: 22px !important;
 }
 
-.item{
+.faq-div-item{
     padding-top: 20px !important;
     padding-bottom: 25px !important;
 }
 
-
-.item .header{
+.faq-div-item .header{
     font-size: 18px;
     font-family: "Raleway", sans-serif !important;
     font-weight: 600 !important;
     /* letter-spacing: 0.5px; */
 }
 
-.item .description{
+.faq-div-item .description{
     font-size: 15.5px;
     line-height: 1.6em;
 }
-
-

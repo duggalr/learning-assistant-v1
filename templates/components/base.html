@@ -111,6 +111,8 @@
 
     var initial_user_session = '{{ request.session }}';
     var anon_user_id = '{{ anon_user_id }}';
+    var custom_user_object_id = '{{ custom_user_obj_id }}';
+    heap.identify(custom_user_object_id);
 
 </script>
 

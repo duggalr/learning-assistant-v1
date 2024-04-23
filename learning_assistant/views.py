@@ -34,7 +34,8 @@ def landing(request):
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     return render(request, 'generic/landing.html',  {
-        'anon_user': anon_user
+        'anon_user': anon_user,
+        'custom_user_obj_id': custom_user_obj.id
     })
 
 def about(request):
@@ -42,7 +43,8 @@ def about(request):
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     return render(request, 'generic/about.html', {
-        'anon_user': anon_user
+        'anon_user': anon_user,
+        'custom_user_obj_id': custom_user_obj.id
     })
 
 def blog(request):
@@ -50,7 +52,8 @@ def blog(request):
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     return render(request, 'generic/blog.html', {
-        'anon_user': anon_user
+        'anon_user': anon_user,
+        'custom_user_obj_id': custom_user_obj.id
     })
 
 def blog_v1_release(request):
@@ -58,7 +61,8 @@ def blog_v1_release(request):
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     return render(request, 'generic/blog_v1_release.html', {
-        'anon_user': anon_user
+        'anon_user': anon_user,
+        'custom_user_obj_id': custom_user_obj.id
     })
 
 def faq(request):
@@ -66,7 +70,8 @@ def faq(request):
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
     return render(request, 'generic/faq.html', {
-        'anon_user': anon_user
+        'anon_user': anon_user,
+        'custom_user_obj_id': custom_user_obj.id
     })
 
 
@@ -398,4 +403,3 @@ def handle_general_tutor_user_message(request):
 
     model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
     return JsonResponse({'success': True, 'response': model_response_dict})
-

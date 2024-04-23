@@ -93,7 +93,21 @@ WSGI_APPLICATION = 'gpt_learning_assistant.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if 'PRODUCTION' in os.environ:
+if os.getenv('GITHUB_WORKFLOW'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'github-actions',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
+    }
+
+elif 'PRODUCTION' in os.environ:
+
+# if 'PRODUCTION' in os.environ:
 
     DATABASES = {
         'default': {

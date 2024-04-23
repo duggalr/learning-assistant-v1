@@ -28,7 +28,7 @@
     /* font-weight: 400; */
     font-style: normal;
     letter-spacing: 1.8px;
-    font-size: 27px;
+    font-size: 29px;
     color: black !important;
     font-weight: 500;
     /* padding-left: 10px; */
@@ -69,7 +69,7 @@
 
 .nav-links-parent a{
     /* font-family: 'Raleway', sans-serif; */
-    font-size: 15.5px;
+    font-size: 16.5px;
     color: black;
 }
 
@@ -78,14 +78,13 @@
     font-size: 16px !important;
 }
 
-
 .gradient-button {
     background-image: linear-gradient(to right, #9966CC, #20B2AA) !important;
     color: white !important;
     border: none !important;
     border-radius: 25px !important;
     padding: 12px 24px !important;
-    font-size: 16px !important;
+    font-size: 16.5px !important;
     transition: all 0.3s ease !important;
 }
   

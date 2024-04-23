@@ -53,6 +53,14 @@ def blog(request):
         'anon_user': anon_user
     })
 
+def blog_v1_release(request):
+    custom_user_obj = utils._get_customer_user(request)
+    anon_user = utils._check_if_anon_user(custom_user_obj)
+
+    return render(request, 'generic/blog_v1_release.html', {
+        'anon_user': anon_user
+    })
+
 def faq(request):
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)

@@ -7,9 +7,51 @@
 
 <section class="blog-parent-section">
 
-    <h2>Blog</h2>
-    <!-- TODO:  -->
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column blog-column-parent">
+
+            <h3 class="ui header blog-header">
+                Blog
+            </h3>
+
+            <div class="ui relaxed divided list">
+
+                <div class="item">
+                    <div class="content">
+                        <a class="header" href="{% url 'blog_v1_release' %}">
+                            V1 Release
+                        </a>
+                        <div style="margin-top: 12px;">
+                            <span style="color: gray; font-size: 12.5px;">
+                                April, 23, 2024
+                            </span>
+                        </div>
+                        <p class="description" style="padding-top: 14px;">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tortor massa, vestibulum ut dolor eget, vestibulum porta velit.
+                            Phasellus risus lectus, luctus hendrerit suscipit interdum, cursus id enim. Suspendisse semper metus at odio interdum, eget 
+                            scelerisque enim hendrerit. Pellentesque eget lectus nec lacus commodo congue at suscipit tortor. Nullam id hendrerit sapien...
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
 
 </section>
+
+
+<script>
+
+    document.body.style.background = "radial-gradient(ellipse at top left, #a6fcf8 -10%, #f9f9f9 35%)";
+
+</script>
 
 {% endblock %}

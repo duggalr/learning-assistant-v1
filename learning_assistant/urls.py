@@ -7,6 +7,9 @@ urlpatterns = [
     ## Generic Views
     path("", views.landing, name="landing"),
     path("about", views.about, name="about"),
+    path("blog", views.blog, name="blog"),
+    path("blog/v1-release", views.blog_v1_release, name="blog_v1_release"),
+    path("faq", views.faq, name="faq"),
 
     ## Playground
     path("playground/ide", views.playground, name="playground"),

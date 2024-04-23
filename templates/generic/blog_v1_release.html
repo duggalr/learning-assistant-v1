@@ -1,0 +1,76 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/landing_navbar.html' %}
+
+<section class="blog-parent-section">
+
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column blog-column-parent" style="margin-top: 10px;">
+
+            <h3 class="ui header blog-header">
+                V1 Release - AI Based Tutor for Computer Science
+                <!-- <span style="color: gray; font-size: 12.5px; float: right; font-weight: 400;">
+                    April, 23, 2024
+                </span> -->
+            </h3>
+
+            <span style="color: gray; font-size: 14px; font-weight: 400;">
+                <i class="clock icon" style="font-size: 13px;"></i> April, 23, 2024
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                &nbsp;&nbsp;
+                |
+                &nbsp;&nbsp;
+                <i class="user icon" style="font-size: 13px;"></i> Rahul Duggal
+            </span>
+            
+            <!-- <div class="ui divider"></div> -->
+
+            <div class="ui basic segment">
+
+                <p style="line-height: 1.8em; font-size: 16px;">
+                    Companion is an AI-based tutor, currently designed to help with computer science, programming problems. We have an online IDE, where you can run Python.
+                    You can leverage the IDE environment to write or copy/paste your code, and chat with the AI tutor on a question you may have or a bug you are facing. 
+                    You can also leverage the tutor to get hints on potentially making your code more efficient or optimal.
+
+                    <br/><br/>
+
+                    Look at this video (TODO:), where I demonstrate how I use Companion to help me with specific LeetCode problems.
+                    
+                    <br/><br/>
+
+                    Companion also has a traditional chat interface, where you can have a conversation with the tutor.
+                    Here, you can ask Companion to explain specific Computer Science questions, or develop a roadmap, to help you learn a new concept, such as web development with Python.
+
+                    <br/><br/>
+
+                    Companion is 100% free to use at the moment. I want this to be a useful tool for individual learners and students, starting with Computer Science journey. 
+                    Feel free to make an account, so you can save your conversations/code, and create multiple different files in our IDE.
+
+                    <br/><br/>
+
+                    Again, this is really just the beginning. Feel free to reach out to me if you want to help. The code powering this website is completely open-source, so feel free to contribute/fork, etc.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+    document.body.style.background = "radial-gradient(ellipse at top left, #a6fcf8 -10%, #f9f9f9 35%)";
+
+</script>
+
+{% endblock %}

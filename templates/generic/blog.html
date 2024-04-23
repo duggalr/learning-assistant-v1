@@ -1,0 +1,56 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/landing_navbar.html' %}
+
+<section class="blog-parent-section">
+
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column blog-column-parent">
+
+            <h3 class="ui header blog-header">
+                Blog
+            </h3>
+
+            <div class="ui relaxed divided list blog-list">
+
+                <div class="item blog-div-item">
+                    <div class="content">
+                        <a class="header" href="{% url 'blog_v1_release' %}">
+                            V1 Release
+                        </a>
+                        <div style="margin-top: 12px;">
+                            <span style="color: gray; font-size: 12.5px;">
+                                <i class="clock icon" style="font-size: 12px;"></i> April 23, 2024
+                            </span>
+                        </div>
+                        <p class="description" style="padding-top: 14px;">
+                            Companion is an AI-based tutor, currently designed to help with computer science, programming problems. We have an online IDE, where you can run Python.
+                            You can leverage the IDE environment to write or copy/paste your code, and chat with the AI tutor on a question you may have or a bug you are facing...
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+    document.body.style.background = "radial-gradient(ellipse at top left, #a6fcf8 -10%, #f9f9f9 35%)";
+
+</script>
+
+{% endblock %}

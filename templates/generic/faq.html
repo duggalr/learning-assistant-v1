@@ -1,0 +1,120 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'components/landing_navbar.html' %}
+
+<section class="faq-parent-section">
+
+    <div class="ui grid container">
+
+        <div class="two wide column"></div>
+
+        <div class="twelve wide column faq-column-parent">
+
+            <h3 class="ui header faq-header">
+                FAQ
+            </h3>
+
+            <div class="ui divided list faq-divided-list">
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            What is Companion?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            Companion is an AI-based tutor primarily focused on aiding users with computer science and programming problems. It offers an online Integrated Development Environment (IDE) where users can write, run, and debug Python code while simultaneously interacting with an AI tutor.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            How does Companion work?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            Users can utilize the IDE environment provided by Companion to write their code or copy/paste existing code. They can then chat with the AI tutor to seek assistance with specific programming challenges, debugging issues, or optimizing their code for efficiency.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Can I see Companion in action?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            Certainly! Check out this video demonstrating how Companion assists with solving specific LeetCode problems. [TODO: Link to video]
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Is Companion entirely free to use?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            Yes, Companion is currently 100% free to use. The aim is to provide a valuable tool for individual learners and students progressing through computer science concepts.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Do I need to create an account to use Companion?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            While it's not mandatory, creating an account allows you to save your conversations and code snippets, as well as manage multiple files in the IDE efficiently. It enhances your overall experience with Companion.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="item faq-div-item">
+                    <i class="right triangle icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Can I contribute to Companion's development?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            Absolutely! The code powering Companion is entirely <a href="https://github.com/duggalr/learning-assistant-v1" target="_blank" rel="noopener noreferrer">open source</a>. Also, feel free to reach out to me if you're interested in further discussing ideas.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="two wide column"></div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+    document.body.style.background = "radial-gradient(ellipse at top left, #a6fcf8 -10%, #f9f9f9 35%)";
+
+</script>
+
+{% endblock %}

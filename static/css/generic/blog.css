@@ -1,0 +1,24 @@
+.blog-column-parent{
+    margin-top: 10px;
+}
+
+.blog-header{
+    font-size: 22px !important;
+}
+
+.blog-div-item{
+    padding-top: 20px !important;
+    padding-bottom: 25px !important;
+}
+
+.blog-div-item .header{
+    font-size: 18px;
+    font-family: "Raleway", sans-serif !important;
+    font-weight: 600 !important;
+    /* letter-spacing: 0.5px; */
+}
+
+.blog-div-item .description{
+    font-size: 15.5px;
+    line-height: 1.6em;
+}

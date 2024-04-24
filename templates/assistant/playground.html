@@ -433,6 +433,12 @@
 
     }
 
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     if (is_anon_user === true){
 
         let tmp_usr_messages = JSON.parse(localStorage.getItem("anon_playround_user_messages"));
@@ -454,6 +460,7 @@
 
                     const message = document.createElement("div");
                     message.className = "message";
+                    // message.innerHTML = "<b>You:</b> " + messageText;
                     message.innerHTML = "<b>You:</b> " + escapeHtml(messageText);
                     message.style.whiteSpace = 'pre-wrap'
                     chat.appendChild(message);
@@ -668,6 +675,7 @@ mystdout.getvalue()
 
             const message = document.createElement("div");
             message.className = "message";
+            // message.innerHTML = "<b>You:</b> " + messageText;
             message.innerHTML = "<b>You:</b> " + escapeHtml(messageText);
             message.style.whiteSpace = 'pre-wrap'
             chat.appendChild(message);

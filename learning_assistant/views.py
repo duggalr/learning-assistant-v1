@@ -26,7 +26,6 @@ def user_authenticated_required(view_func):
     return wrapper
 
 
-
 ### Generic Views ###
 
 def landing(request):
@@ -75,8 +74,6 @@ def faq(request):
     })
 
 
-
-
 ### Playground General CS Tutor Views ###
 
 def playground(request):
@@ -115,7 +112,6 @@ def playground(request):
 
 
 def general_cs_tutor(request):
-
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
@@ -171,7 +167,6 @@ def general_cs_tutor(request):
 
 @user_authenticated_required
 def user_dashboard(request):
-    
     custom_user_obj = utils._get_customer_user(request)
     anon_user = utils._check_if_anon_user(custom_user_obj)
 
@@ -197,12 +192,10 @@ def user_dashboard(request):
     })
 
 
-
 ### Ajax Functions ###
 
 @require_POST
 def save_user_playground_code(request):
-    
     custom_user_obj_id = request.session.get('custom_user_uuid', None)
     user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
     if user_err:
@@ -241,7 +234,6 @@ def save_user_playground_code(request):
 
 @require_POST
 def handle_playground_user_message(request):
-    
     custom_user_obj_id = request.session.get('custom_user_uuid', None)
     user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
     if user_err:
@@ -303,15 +295,6 @@ def handle_playground_user_message(request):
 
 @require_POST
 def handle_playground_file_name_change(request):
-
-    # custom_user_obj_id = request.session.get('custom_user_uuid', None)
-    # print(f"custom-user-obj-id: {custom_user_obj_id} | type: {type(custom_user_obj_id)}")
-    # user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
-    # if user_err:
-    #     return JsonResponse({'success': user_err, 'response': user_err_message})
-    # else:
-    #     custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
-
     custom_user_obj_id = request.session.get('custom_user_uuid', None)
     user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
     if user_err:
@@ -348,7 +331,6 @@ def handle_playground_file_name_change(request):
 
 @require_POST
 def handle_general_tutor_user_message(request):
-
     custom_user_obj_id = request.session.get('custom_user_uuid', None)
     user_err, user_err_message = utils._is_bad_user_session(session_data = request.session)
     if user_err:

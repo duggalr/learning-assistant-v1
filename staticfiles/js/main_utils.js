@@ -17,3 +17,11 @@ function generateUniqueUserID(length) {
 //     window.location.replace(new_url);
 
 // });
+
+
+// const initial_user_session = '{{ request.session }}';
+// const anon_user_id = '{{ anon_user_id }}';
+
+// console.log('user-stuff:', initial_user_session, anon_user_id);
+
+

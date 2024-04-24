@@ -1,0 +1,284 @@
+.github-fork-ribbon:before{
+    background-color: #333 !important;
+}
+
+#landing_header{
+    font-size: 34px;
+    /* font-family: "Space Grotesk", sans-serif; */
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+}
+
+#landing-text {
+    /* font-size: 36px; */
+    /* color: #333; */
+    font-size: 34px;
+    font-family: "Raleway", sans-serif;
+    transition: opacity 0.5s ease;
+    background-image: linear-gradient(to right, #9966CC, #20B2AA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+}
+
+#landing_helper_text{
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+    font-size: 21.5px;
+    letter-spacing: 0.8px;
+    padding-top: 0%;
+    /* line-height: 1.9em; */
+    color: #36454F;
+}
+
+
+#landing_page_list_header{
+    color: gray;
+    font-size: 18.5px;
+    font-weight: 600;
+    line-height: 1.8em;
+    width: 90%;
+}
+
+/* .landing_helper_list{
+    margin-top: 20px;
+} */
+
+.landing_helper_list li::before {
+    content: "💎 " !important;
+    font-size: 19px;
+}
+
+.landing_helper_list li{
+    list-style-position: outside !important;
+    font-size: 17px;
+    /* font-family: "Raleway", sans-serif; */
+    /* color: gray; */
+    margin: 12px 0;
+    color: #707070;
+    /* color: gray; */
+}
+
+#landing_second_helper_text{
+    font-size: 15px;
+    color: #36454F;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500; 
+}
+
+#landing_page_description{
+    /* color: #36454F; */
+    color: gray;
+    font-size: 17px;
+    line-height: 1.8em;
+    width: 90%;
+    /* padding-top: 0.05px; */
+}
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /* background-color: #333; */
+    /* color: white; */
+    color: black;
+    text-align: center;
+    /* padding: 10px 0; */
+    padding: 0.3% 0;
+}
+
+footer>p{
+    font-size: 15px;
+}
+
+
+@media only screen and (min-width: 1200px){
+
+    .landing-parent-grid{
+        /* display: block; */
+    }
+
+    .landing-parent-row{
+        /* margin-top: 5%; */
+        right: 50%;
+        bottom: 22%;
+        transform: translate(50%, 22%);
+        position: absolute;
+    }
+
+    /* .landing-first-column{
+        margin-left: 2%;
+    } */
+
+    .landing-second-column{
+        height: 100%; 
+        margin-right: -10rem;
+        /* padding-top: 40px; */
+        /* padding-top: 2.8%; */
+        padding-top: 2%;
+    }
+
+    #landing_video_iframe{
+        width: 80%;
+        height: 380px;
+    }
+
+    #landing_page_button_div{
+        /* padding-top: 10px; */
+        padding-top: 3%;
+    }
+
+    .playground_button, .tutor_chat_button{
+        border-radius: 25px !important;
+        font-size: 19px !important;
+    }
+
+    #btn_first_column{
+        width: 55%;
+    }
+
+    #btn_second_column{
+        width: 45%;
+        padding-left: 0px;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+
+    .landing-parent-row{
+        margin-top: 4%;
+    }
+
+    .landing-first-column{
+        margin-left: -3rem;
+    }
+
+    .landing-second-column{
+        height: 90%;
+        margin-right: -10rem;
+        padding-top: 4%;
+    }
+
+    #landing_video_iframe{
+        width: 85%;
+        height: 340px;
+    }
+
+    #landing_page_button_div{
+        /* padding-top: 10px; */
+        display: none;
+    }
+
+    #landing_page_stacked_button_div{
+        display: block !important;
+    }
+
+    .playground_button, .tutor_chat_button{
+        border-radius: 25px !important;
+        font-size: 17.5px !important;
+    }
+
+    #btn_first_column{
+        width: 55%;
+    }
+
+    #btn_second_column{
+        width: 45%;
+        padding-left: 0px;
+    }
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+    .landing-parent-grid{
+        display: block !important;
+    }
+
+    #signup-login-button{
+        font-size: 12.5px !important;
+    }
+
+    .landing-parent-row{
+        display: none !important;
+    }
+
+    .small-mobile-landing-parent{
+        display: none;
+    }
+
+    #landing_parent_container{
+        display: none;
+    }
+
+    #mobile_container_grid{
+        display: block !important;
+        /* padding-top: 10px; */
+        padding-top: 2%;
+    }
+
+    #mobile_first_landing_column{
+        display: block !important;
+        width: 100%;
+        margin-left: 5%;
+        text-align: center;
+    }
+
+    #mobile_second_landing_column{
+        width: 100%;
+        text-align: center;
+        margin-left: 3%;
+    }
+
+    #landing_video_iframe{
+        width: 80%;
+        height: 400px !important;
+    }
+
+    #landing_page_button_div{
+        padding-top: 15px;
+    }
+
+    .playground_button, .tutor_chat_button{
+        border-radius: 25px !important;
+        font-size: 17.5px !important;
+    }
+
+    footer{
+        display: none;
+    }
+
+}
+
+
+@media only screen and (max-width: 575px){
+    
+    .landing-parent-grid{
+        display: none !important;
+    }
+
+    .landing-navbar-parent{
+        display: none !important;
+    }
+
+    #landing_parent_container{
+        display: none;
+    }
+
+    footer{
+        display: none;
+    }
+
+    .small-mobile-landing-parent{
+        display: block !important;
+    }
+
+}
+

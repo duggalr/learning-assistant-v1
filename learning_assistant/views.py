@@ -1,7 +1,7 @@
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET, require_POST
-import logging
 
 from .models import *
 from .scripts import utils, open_ai_utils

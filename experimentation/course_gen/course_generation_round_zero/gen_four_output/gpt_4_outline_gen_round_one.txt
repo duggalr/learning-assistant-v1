@@ -1,9 +1,0 @@
-["Week 1: Introduction to Cryptography and Symmetric Cryptography - Introduction to basic concepts of cryptography, Importance and use cases of cryptography, Understanding symmetric cryptography, advantages & disadvantages, principles of symmetric cryptography, and understanding ciphers.", 
-
-"Week 2: Implementing Symmetric Ciphers in Python - Understanding and developing basic symmetric ciphers like Caesar Cipher and Transposition Cipher in Python. The focus will be on building these from scratch using Python.", 
-
-"Week 3: Advanced Symmetric Ciphers - Understanding and implementing an advanced symmetric cipher like DES (Data Encryption Standard) using Python. This will supplement the understanding of more complex ciphers and how they can be programmatically implemented.", 
-
-"Week 4: Introduction to Cryptographic Hash Functions - Understanding what cryptographic hash functions are, their properties, uses and differences from symmetric cryptography, and common hash functions like MD5 and SHA.", 
-
-"Week 5: Implementing Cryptographic Hash Functions in Python - Learning to programmatically implement an MD5 hashing function from scratch in Python. Recap and revisitation of all topics covered, resolution of doubts, and a stepping stone to more advanced topics in Cryptography."]

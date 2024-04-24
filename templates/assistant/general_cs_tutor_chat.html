@@ -218,7 +218,7 @@
 
             const message = document.createElement("div");
             message.className = "message";
-            message.innerHTML = "<b>You:</b> " + messageText;
+            message.innerHTML = "<b>You:</b> " + escapeHtml(messageText);
             message.style.whiteSpace = 'pre-wrap'
             chat.appendChild(message);
 

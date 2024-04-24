@@ -10,18 +10,8 @@ function generateUniqueUserID(length) {
     return result;
 };
 
-
-// $('#signup-login-button').click(function(){
-
-//     let new_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/login';
-//     window.location.replace(new_url);
-
-// });
-
-
-// const initial_user_session = '{{ request.session }}';
-// const anon_user_id = '{{ anon_user_id }}';
-
-// console.log('user-stuff:', initial_user_session, anon_user_id);
-
-
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+};

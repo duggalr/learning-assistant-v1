@@ -284,16 +284,16 @@ WHEN EXPLAINING CONCEPTS OR DEMONSTRATING A FLAW IN THE STUDENT'S CODE, PROVIDE 
             student_code = student_code,
             student_code_output = student_code_output
         )
+        # print(prompt)
 
-        # response = self._generate_answer(
-        #     prompt = prompt,
-        #     return_json = False
-        # )
+        response = self._generate_answer(
+            prompt = prompt,
+            return_json = False
+        )
 
-        # final_dict_rv = {
-        #     'question': question,
-        #     'q_prompt': prompt,
-        #     'response': response,
-        # }
-        # return final_dict_rv
-
+        final_dict_rv = {
+            'question': question,
+            'q_prompt': prompt,
+            'response': response,
+        }
+        return final_dict_rv

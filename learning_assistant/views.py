@@ -205,8 +205,9 @@ def save_user_playground_code(request):
         custom_user_obj = CustomUser.objects.get(id = custom_user_obj_id)
 
     cid = request.POST['cid']
-    user_code = request.POST['user_code'].strip()
-    user_code = user_code.replace('`', '"').strip()    
+    # user_code = request.POST['user_code'].strip()
+    # user_code = user_code.replace('`', '"').strip()
+    user_code = request.POST['user_code'].replace('`', '"')
     user_code_output = request.POST['user_code_output']
 
     if cid == '':
@@ -245,7 +246,7 @@ def handle_playground_user_message(request):
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
     user_code_output = request.POST['user_code_output']
-    # print('user_code_output', user_code_output)
+    print('user_code_output', user_code_output)
 
     prev_conversation_history_str = ''
     if user_code_obj_id == '':
@@ -276,10 +277,12 @@ def handle_playground_user_message(request):
             prev_conversation_history_str = '\n'.join(prev_cv_list)
 
     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-    model_response_dict = op_ai_wrapper.handle_playground_code_question(
+    # model_response_dict = op_ai_wrapper.handle_playground_code_question(
+    model_response_dict = op_ai_wrapper.handle_playground_new_code_question(
         question = user_question,
         student_code = user_code, 
-        previous_chat_history = prev_conversation_history_str
+        previous_chat_history = prev_conversation_history_str,
+        student_code_output = user_code_output
     )
 
     pg_new_cv_obj = PlaygroundConversation.objects.create(

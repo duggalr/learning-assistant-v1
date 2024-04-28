@@ -140,7 +140,7 @@
             <div class="console_button_parent_div">            
 
                 {% if user_language_choice == 'python' or user_language_choice is None %}
-                    <div class="medium ui animated green button code_run_button" tabindex="0" onclick="evaluatePython()">                    
+                    <div class="medium ui animated green button code_run_button" tabindex="0" onclick="">                    
                         <div class="visible content">Run</div>
                         <div class="hidden content">
                             <i class="play icon"></i>
@@ -337,8 +337,7 @@
     
     var url = new URL(window.location.href);
     let lg_val = url.searchParams.get('lg');
-
-    console.log('lg_val:', lg_val)
+    // console.log('lg_val:', lg_val)
     
     let mode_dict;
     if (lg_val === null || lg_val == 'python'){
@@ -426,13 +425,15 @@
         editor.setValue(user_code_st);
         user_cid = '{{ uc_obj.id }}';
 
-    } else {
+    } 
+    else {
 
         // editor.setValue(`# Run the code by clicking the button to the right\n# If you need any help, ask the AI to provide guidance\n\n# Write your code below:\n\ndef hello_world():\n    print("Hello World from Companion!")\n\nhello_world()\n\n\n`);
         editor.setValue(`# Write your code here...\n\n\n\n\n\n\n\n\n`)
 
     }
 
+    
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -501,6 +502,8 @@
 
     function addToOutput(s) {
 
+        $('#output').val('');
+
         try {
 
             let val_list = s.split("\n");
@@ -520,9 +523,13 @@
 
     };
 
-    async function evaluatePython() {
+
+    async function evaluatePython(save){
+
         let pyodide = await pyodideReadyPromise;
+
         try {
+
             let captureOutputCode = `
 import sys
 from io import StringIO
@@ -537,30 +544,37 @@ mystdout.getvalue()
 
             let output = pyodide.runPython(captureOutputCode);
 
-            // console.log('User Code:', editor.getValue())
-            // console.log('CODE OUTPUT:', output);
+            if (save === false){
+                
+                return output
 
-            addToOutput(output);
+            } else {
 
-            saveCode();
-            // if (user_session != 'None'){
-            //     saveCode();
-            // }
+                addToOutput(output);
+                saveCode(output);
+
+            }
 
         } catch (err) {
             
-            addToOutput(err);
+            if (save === false){
 
-            saveCode();
-            // if (user_session != 'None'){
-            //     saveCode();
-            // }
+                return err
+
+            } else {
+
+                addToOutput(err);
+                saveCode(output);
+
+            }
 
         }
+
     }
 
 
     sendButton.addEventListener("click", sendMessage);
+
     chatInput.addEventListener("keydown", (event) => {
     
         if (event.keyCode == 13 && !event.shiftKey) {
@@ -585,19 +599,16 @@ mystdout.getvalue()
     });
 
 
-
-    function saveCode(){
+    function saveCode(user_code_output){
 
         let cid = $('#code_obj_id').val();
         let user_code = editor.getValue();
-
         let d = {
             'cid': cid,
             'user_code': user_code,
+            'user_code_output': user_code_output,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         };
-
-        console.log('user-cid:', cid)
 
         $.ajax({
             type: 'POST',
@@ -645,6 +656,12 @@ mystdout.getvalue()
     };
 
 
+    function handleRunButtonClick(){
+
+        evaluatePython(true);
+
+    };
+
 
     function handleSolutionSubmit(){
 
@@ -685,79 +702,88 @@ mystdout.getvalue()
             let user_code = editor.getValue();
             let cid = $('#code_obj_id').val();
 
-            let d = {
-                'cid': cid,
-                'user_code': user_code,
-                'message': messageText,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            };
+            // var textarea = document.getElementById('output');
+            // textarea.scrollTop = textarea.scrollHeight;
 
-            // console.log('user-message-dict:', d);
+            // let user_code_output = $('#output').val();
 
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'handle_playground_user_message' %}",
-                dataType: "json",
-                data: d,
-                success: function (response) {
+            evaluatePython(false).then(function(user_code_output){
 
-                    var model_response_dict = response['response'];
-                    
-                    // // TODO: fixing undefined bug
-                    // console.log('model-res-dict:', model_response_dict);
+                let d = {
+                    'cid': cid,
+                    'user_code': user_code,
+                    'message': messageText,
+                    'user_code_output': user_code_output,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
 
-                    var model_response_message = model_response_dict['response'];
-                    model_response_message = model_response_message.replaceAll('\n', '<br/>');
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'handle_playground_user_message' %}",
+                    dataType: "json",
+                    data: d,
+                    success: function (response) {
 
-                    var user_question = model_response_dict['question'];
-
-                    const responseMessage = document.createElement("div");
-                    responseMessage.className = "message";
-                    responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
-                    chat.appendChild(responseMessage);
-                    
-                    chat.scrollTop = chat.scrollHeight;
-
-                    $('#chatInput').prop('disabled', false);
-                    $('#sendButton').show();
-                    $('#primary_loading_button').hide();
-
-                    let saved_cid = model_response_dict['cid'];
-
-                    // // if (initial_user_session == 'None'){
-                    // if (is_anon_user == 'True'){
-
-                    //     var final_question_st = messageText
-                    //     var final_response_st = model_response_message
-                    //     anon_user_messages.push(final_question_st)
-                    //     anon_user_messages.push(final_response_st)
+                        var model_response_dict = response['response'];
                         
-                    //     localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
-                    //     localStorage.setItem('anon_playground_user_code', user_code);
+                        // // TODO: fixing undefined bug
+                        // console.log('model-res-dict:', model_response_dict);
 
-                    //     $('#code_obj_id').val(saved_cid);
+                        var model_response_message = model_response_dict['response'];
+                        model_response_message = model_response_message.replaceAll('\n', '<br/>');
 
-                    // } else {
+                        var user_question = model_response_dict['question'];
 
-                    var url = new URL(window.location.href);
-                    url.searchParams.set('cid', saved_cid);
-                    window.history.replaceState(null, null, url);
+                        const responseMessage = document.createElement("div");
+                        responseMessage.className = "message";
+                        responseMessage.innerHTML = "<b>GPT-4:</b> " + model_response_message;
+                        chat.appendChild(responseMessage);
+                        
+                        chat.scrollTop = chat.scrollHeight;
 
-                    $('#code_obj_id').val(saved_cid);
+                        $('#chatInput').prop('disabled', false);
+                        $('#sendButton').show();
+                        $('#primary_loading_button').hide();
 
-                    let code_file_name = response['code_file_name'];
-                    $("#code_file_name").text(code_file_name);
+                        let saved_cid = model_response_dict['cid'];
 
-                    $("#file_name_input").val(code_file_name);
-                    $(".file_name_parent_div").show();
+                        // // if (initial_user_session == 'None'){
+                        // if (is_anon_user == 'True'){
 
-                    // }
+                        //     var final_question_st = messageText
+                        //     var final_response_st = model_response_message
+                        //     anon_user_messages.push(final_question_st)
+                        //     anon_user_messages.push(final_response_st)
+                            
+                        //     localStorage.setItem('anon_playround_user_messages', JSON.stringify(anon_user_messages));
+                        //     localStorage.setItem('anon_playground_user_code', user_code);
 
-                    $('#solution_submit_button').removeClass("disabled");
+                        //     $('#code_obj_id').val(saved_cid);
 
-                },
-                error: function (response) {}
-                
+                        // } else {
+
+                        var url = new URL(window.location.href);
+                        url.searchParams.set('cid', saved_cid);
+                        window.history.replaceState(null, null, url);
+
+                        $('#code_obj_id').val(saved_cid);
+
+                        let code_file_name = response['code_file_name'];
+                        $("#code_file_name").text(code_file_name);
+
+                        $("#file_name_input").val(code_file_name);
+                        $(".file_name_parent_div").show();
+
+                        // }
+
+                        $('#solution_submit_button').removeClass("disabled");
+
+                    },
+                    error: function (response) {}
+                    
+                });
+
+
             });
 
         }
@@ -780,7 +806,13 @@ mystdout.getvalue()
         if((event.ctrlKey || event.metaKey) && event.which == 83) {
             // Save Function
             event.preventDefault();
-            saveCode();
+
+            evaluatePython(false).then(function(user_code_output){
+
+                saveCode(user_code_output);
+
+            });
+
             return false;
         };
 
@@ -859,8 +891,6 @@ mystdout.getvalue()
         });
 
     });
-
-
 
 
     // $('#language_dropdown').on('change', function() {

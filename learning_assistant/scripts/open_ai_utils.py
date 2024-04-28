@@ -5,6 +5,7 @@ from openai import OpenAI
 
 MAX_CONVERSATION_HISTORY_LENGTH = 5
 
+
 class OpenAIWrapper(object):
     """
     """
@@ -34,7 +35,6 @@ class OpenAIWrapper(object):
             )
         response_message = chat_completion.choices[0].message.content
         return response_message
-
 
     def handle_playground_code_question(self, question, student_code, previous_chat_history):
         prompt = """##Instructions:
@@ -96,7 +96,6 @@ You are on the right track. Pay close attention to the operation you are perform
             'response': response,
         }
         return final_dict_rv
-
 
     def handle_course_generation_message(self, student_response, previous_chat_history):
         q_prompt = """##Instructions:
@@ -171,9 +170,6 @@ Below, you are given the current student response, along with any previous conve
         }
         return final_dict_rv
 
-
-
-
     def handle_general_tutor_message(self, question, previous_chat_history_str):
         q_prompt = """##Instructions:
 You will be a personal tutor primarily for students or individuals who are learning new concepts and fields.
@@ -238,4 +234,66 @@ However, if you feel the student has received the information they need and ther
             'response': response,
         }
         return final_dict_rv
+
+
+
+    def handle_playground_new_code_question(self, question, student_code, previous_chat_history, student_code_output):
+        prompt = """##Instructions:
+You will be a personal tutor for students, who are learning new concepts.
+The student will provide you with a question, along with their code from the IDE and the problem they are working.
+You will also be given the output from the execution of the code the student wrote.
+
+Your goal is to help the student solve their question and problem they are working are.
+You must NOT GIVE DIRECT ANSWERS.
+- Focus on providing meaningful hints, explanations, and guidance that will help the student understand and solve the problem on their own.
+- Your goal is to be that resource that will provide an additional insight/guidance that the student is overlooking or may not know about.
+- Do not provide direct solutions to the students' questions or challenges.
+- UNDER NO CIRCUMSTANCE should you provide the student with a direct answer to their problem/question.
+- ONLY PROVIDE 1 PIECE OF INFORMATION OR QUESTION AT A TIME. This will make it easier for the student to understand.
+
+WHEN EXPLAINING CONCEPTS OR DEMONSTRATING A FLAW IN THE STUDENT'S CODE, PROVIDE EXAMPLES.
+- If you notice the student is struggling to understand a particular concept, PROVIDE A LITERAL EXAMPLE DEMONSTRATING THE CONCEPT.
+    - This will make it much easier for the student to understand the concept.
+- If you notice the student's code is potentially wrong for a certain case, PROVIDE A COUNTEREXAMPLE DEMONSTRATING AN INPUT WHERE THE STUDENT'S CODE WILL FAIL TO RUN.
+    - This is critical as it will then help the student create a more robust solution.
+
+- If the student has achieved the correct answer and has solved the problem, INFORM THE STUDENT THEY HAVE SUCCESSFULLY SOLVED THE PROBLEM.
+- If you feel the student has received the information they need and there is no meaningful follow-up question you can think of, please close out the conversation by thanking the student and telling them they can ask any other questions if they wish.
+
+##Previous Chat History with Student:
+{previous_chat_history_st}
+
+##Current Student Question:
+{question}
+
+##Student Code:
+{student_code}
+
+##Student Code Output:
+{student_code_output}
+
+##Your Answer:
+"""
+# question, student_code, previous_chat_history, student_code_output
+        question = question.strip()
+        student_code = student_code.strip()
+        student_code_output = student_code_output.strip()
+        prompt = prompt.format(
+            previous_chat_history_st = previous_chat_history,
+            question = question,
+            student_code = student_code,
+            student_code_output = student_code_output
+        )
+
+        # response = self._generate_answer(
+        #     prompt = prompt,
+        #     return_json = False
+        # )
+
+        # final_dict_rv = {
+        #     'question': question,
+        #     'q_prompt': prompt,
+        #     'response': response,
+        # }
+        # return final_dict_rv
 

@@ -16,6 +16,7 @@ class PlaygroundCode(models.Model):
     user_obj = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     code_unique_name = models.CharField(max_length=2000)
     user_code = models.TextField()
+    user_code_output = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

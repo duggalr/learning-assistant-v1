@@ -15,3 +15,4 @@ experimentation/new_knowledge_base/stanford
 *.index
 companion_experimentation_venv
 experimentation/new_knowledge_base/wiki
+experimentation_scripts/tutor_prompt/companion-exp-venv

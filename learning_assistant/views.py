@@ -7,6 +7,7 @@ from .models import *
 from .scripts import utils, open_ai_utils
 
 
+
 ### Decorators ###
 
 def user_authenticated_required(view_func):
@@ -206,16 +207,14 @@ def save_user_playground_code(request):
     cid = request.POST['cid']
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()    
+    user_code_output = request.POST['user_code_output']
 
     if cid == '':
-        rnd_code_filename = utils._generate_random_string(k = 10)
-
-        uc_obj = PlaygroundCode.objects.create(
-            user_obj = custom_user_obj,
-            code_unique_name = rnd_code_filename,
-            user_code = user_code
+        uc_obj = utils._create_playground_code_object(
+            custom_user_obj = custom_user_obj,
+            user_code = user_code,
+            user_code_output = user_code_output
         )
-        uc_obj.save()
         return JsonResponse({'success': True, 'cid': uc_obj.id, 'code_file_name': uc_obj.code_unique_name})
 
     else:
@@ -245,12 +244,15 @@ def handle_playground_user_message(request):
     user_code_obj_id = request.POST['cid']
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
+    user_code_output = request.POST['user_code_output']
+    # print('user_code_output', user_code_output)
 
     prev_conversation_history_str = ''
     if user_code_obj_id == '':
         uc_obj = utils._create_playground_code_object(
-            custom_user_obj=custom_user_obj,
-            user_code=user_code,
+            custom_user_obj = custom_user_obj,
+            user_code = user_code,
+            user_code_output = user_code_output
         )
     else:
         user_code_objects = PlaygroundCode.objects.filter(id = user_code_obj_id)
@@ -340,7 +342,7 @@ def handle_general_tutor_user_message(request):
 
     general_tutor_parent_obj_id = request.POST['general_tutor_parent_obj_id']
     user_message = request.POST['message'].strip()
-    
+
     prev_conversation_st = ''
     parent_chat_obj = None
     if general_tutor_parent_obj_id == '':

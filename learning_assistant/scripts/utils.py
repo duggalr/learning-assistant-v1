@@ -40,12 +40,13 @@ def _check_if_anon_user(user_obj):
 def _generate_random_string(k = 10):
     return ''.join([secrets.choice(string.ascii_lowercase) for idx in range(k)])
 
-def _create_playground_code_object(custom_user_obj, user_code):
+def _create_playground_code_object(custom_user_obj, user_code, user_code_output):
     rnd_code_filename = _generate_random_string(k = 10)
     uc_obj = PlaygroundCode.objects.create(
         user_obj = custom_user_obj,
         code_unique_name = rnd_code_filename,
-        user_code = user_code
+        user_code = user_code,
+        user_code_output = user_code_output
     )
     uc_obj.save()
     return uc_obj

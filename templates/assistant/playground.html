@@ -544,6 +544,8 @@ mystdout.getvalue()
 
             let output = pyodide.runPython(captureOutputCode);
 
+            console.log('OUTPUT:', output)
+
             if (save === false){
                 
                 return output

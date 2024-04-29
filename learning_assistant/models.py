@@ -9,6 +9,7 @@ class ChatConversation(models.Model):
     question = models.CharField(max_length=3000)
     question_prompt = models.TextField()
     response = models.TextField()
+    prompt_token_count = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class PlaygroundCode(models.Model):

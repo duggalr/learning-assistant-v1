@@ -246,7 +246,6 @@ def handle_playground_user_message(request):
     user_code = request.POST['user_code'].strip()
     user_code = user_code.replace('`', '"').strip()
     user_code_output = request.POST['user_code_output']
-    print('user_code_output', user_code_output)
 
     prev_conversation_history_str = ''
     if user_code_obj_id == '':
@@ -276,10 +275,10 @@ def handle_playground_user_message(request):
         if len(prev_cv_list) > 0:
             prev_conversation_history_str = '\n'.join(prev_cv_list)
 
-    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-    model_response_dict = op_ai_wrapper.handle_playground_new_code_question(
+    op_ai_wrapper = open_ai_utils.ModelCompletion()
+    model_response_dict = op_ai_wrapper.handle_playground_code_question(
         question = user_question,
-        student_code = user_code, 
+        student_code = user_code,
         previous_chat_history = prev_conversation_history_str,
         student_code_output = user_code_output
     )
@@ -288,13 +287,15 @@ def handle_playground_user_message(request):
         code_obj = uc_obj,
         question = model_response_dict['question'],
         question_prompt = model_response_dict['q_prompt'],
-        response = model_response_dict['response']
+        response = model_response_dict['response'],
+        prompt_token_count = model_response_dict['prompt_token_count']
     )
     pg_new_cv_obj.save()
 
     model_response_dict['cid'] = uc_obj.id
     model_response_dict['code_file_name'] = uc_obj.code_unique_name
     return JsonResponse({'success': True, 'response': model_response_dict})
+
 
 
 @require_POST
@@ -373,7 +374,7 @@ def handle_general_tutor_user_message(request):
 
         prev_conversation_st = '\n'.join(prev_conversation_history).strip()
     
-    op_ai_wrapper = open_ai_utils.OpenAIWrapper()
+    op_ai_wrapper = open_ai_utils.ModelCompletion()
     model_response_dict = op_ai_wrapper.handle_general_tutor_message(
         question = user_message,
         previous_chat_history_str = prev_conversation_st
@@ -383,9 +384,11 @@ def handle_general_tutor_user_message(request):
         parent_obj = parent_chat_obj,
         question = model_response_dict['student_response'],
         question_prompt = model_response_dict['q_prompt'],
-        response = model_response_dict['response']
+        response = model_response_dict['response'],
+        prompt_token_count = model_response_dict['prompt_token_count']
     )
     uct_obj.save()
 
     model_response_dict['uct_parent_obj_id'] = parent_chat_obj.id
     return JsonResponse({'success': True, 'response': model_response_dict})
+

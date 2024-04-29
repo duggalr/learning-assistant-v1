@@ -235,8 +235,6 @@ However, if you feel the student has received the information they need and ther
         }
         return final_dict_rv
 
-
-
     def handle_playground_new_code_question(self, question, student_code, previous_chat_history, student_code_output):
         prompt = """##Instructions:
 You will be a personal tutor for students, who are learning new concepts.

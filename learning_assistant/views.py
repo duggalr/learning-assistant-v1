@@ -277,7 +277,6 @@ def handle_playground_user_message(request):
             prev_conversation_history_str = '\n'.join(prev_cv_list)
 
     op_ai_wrapper = open_ai_utils.OpenAIWrapper()
-    # model_response_dict = op_ai_wrapper.handle_playground_code_question(
     model_response_dict = op_ai_wrapper.handle_playground_new_code_question(
         question = user_question,
         student_code = user_code, 

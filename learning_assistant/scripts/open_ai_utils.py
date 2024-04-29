@@ -263,14 +263,14 @@ WHEN EXPLAINING CONCEPTS OR DEMONSTRATING A FLAW IN THE STUDENT'S CODE, PROVIDE 
 ##Previous Chat History with Student:
 {previous_chat_history_st}
 
-##Current Student Question:
-{question}
-
 ##Student Code:
 {student_code}
 
 ##Student Code Output:
 {student_code_output}
+
+##Current Student Question:
+{question}
 
 ##Your Answer:
 """
